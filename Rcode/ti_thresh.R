@@ -1,8 +1,10 @@
-source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/wd_var.R")
+source("simulation_1d_g/threshold_var.R")
+source("simulation_1d_g/wd_var.R")
 library(wavethresh)
 require(ashr)
 require(Rcpp)
 require(inline)
+library(caTools)
 
 
 #interleave two vectors
@@ -413,112 +415,57 @@ cxxreverse.gvwave <- cxxfunction(signature(estimate="numeric",pmat="numeric",qma
 
 
 
-bayesmooth = function(x,sigma=NULL,v.est=FALSE,return.est=TRUE,basis="haar",prior="nullbiased",pointmass=TRUE,nullcheck=TRUE,gridmult=0,mixsd=NULL,VB=FALSE,weight=0.5){
-  n = length(x)
-  J = log2(n)
-  if(!isTRUE(all.equal(J,trunc(J)))){stop("Error: number of columns of x must be power of 2")}
-  if(length(sigma)==1){sigma=rep(sigma,n)}
 
-
-  tsum = sum(x)
-  y = cxxtitable(x)$difftable
-  if(basis=="symm8"){x.w.d = wd(x, filter.number=8, family="DaubLeAsymm", type = "station")}
-
-  wmean = matrix(0,J,n) 
-  wvar = matrix(0,J,n) 
-
-  if(is.null(sigma)){
-    var.est1.ini=(x-lshift(x))^2/2
-    var.est2.ini=(rshift(x)-x)^2/2
-    if(basis=="haar"){
-      vtable1=cxxtitable(var.est1.ini)$sumtable
-      vtable2=cxxtitable(var.est2.ini)$sumtable
-      vtable=(vtable1+vtable2)/2
-      for(j in 0:(J-1)){
-        ind.nnull=(y[j+2,]!=0)|(vtable[j+2,]!=0)
-        zdat.ash=fast.ash(y[j+2,ind.nnull],sqrt(vtable[j+2,ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-        wmean[j+1,ind.nnull]=zdat.ash$PosteriorMean/2
-        wmean[j+1,!ind.nnull]=0
+ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPhase",min.level=3,prior="nullbiased",pointmass=TRUE,nullcheck=TRUE,gridmult=0,mixsd=NULL,VB=FALSE,weight=0) 
+{
+    n=length(x)
+    J=log2(n)
+    if(length(sigma)==1) sigma=rep(sigma,n)
+    x.w=wd(x, filter.number, family, type = "station")
+    if(is.null(sigma)){
+      if(method=="bayesm"){
+        tsum=sum(x)
+        y=cxxtitable(x)$difftable
+        wmean=matrix(0,J,n) 
+        wvar=matrix(0,J,n)
+        var.est1.ini=(x-lshift(x))^2/2
+        var.est2.ini=(rshift(x)-x)^2/2
+        vtable1=cxxtitable(var.est1.ini)$sumtable
+        vtable2=cxxtitable(var.est2.ini)$sumtable
+        vtable=(vtable1+vtable2)/2
+        for(j in 0:(J-1)){
+          ind.nnull=(y[j+2,]!=0)|(vtable[j+2,]!=0)
+          zdat.ash=fast.ash(y[j+2,ind.nnull],sqrt(vtable[j+2,ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          wmean[j+1,ind.nnull]=zdat.ash$PosteriorMean/2
+          wmean[j+1,!ind.nnull]=0
+        }
+        wwmean=-wmean
+        mu.est=cxxreverse.gwave(tsum,wmean,wwmean)
+        var.est=(x-mu.est)^2
+        var.var.est=2/3*var.est^2
+        vtable=cxxtitable(var.var.est)$sumtable
+        vdtable=cxxtitable(var.est)$difftable
+        vrtable=cxxtirtable(var.est)
+        virtable=3*(abs(vrtable)>=log(25))+2*(abs(vrtable)>=log(3)&abs(vrtable)<log(25))+1*(abs(vrtable)<log(3))
+        for(j in 0:(J-1)){
+          zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable[j+2,])),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          wmean[j+1,] = zdat.ash$PosteriorMean/2
+        }
+        wwmean=-wmean
+        var.est=cxxreverse.gwave(weight*sum(var.est)+(1-weight)*sum((var.est1.ini+var.est2.ini)/2),wmean,wwmean)
+        var.est[var.est<=0]=1e-8
+        sigma=sqrt(var.est)
+      }else if(method=="rmad"){
+        win.size=round(n/10)
+        odd.boo=(win.size%%2==1)
+        win.size=win.size+(1-odd.boo)
+        sigma=runmad(accessD(x.w,J-1),win.size,endrule="func")
+      }else{
+        error("Method not recognized")
       }
-      wwmean=-wmean
-      mu.est=cxxreverse.gwave(tsum,wmean,wwmean)
-    }else if(basis=="symm8"){
-      x.w=x.w.d
-      x.w.v1 = wd.var(var.est1.ini, type = "station")
-      x.w.v2 = wd.var(var.est2.ini, type = "station")
-      for(j in 0:(J-1)){
-        zdat.ash=fast.ash(accessD(x.w,j),sqrt((accessC(x.w.v1,j)+accessC(x.w.v2,j))/2),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-        x.pm = zdat.ash$PosteriorMean
-        x.w = putD(x.w,j,x.pm)
-      }
-      mu.est=AvBasis(convert(x.w))
     }
-    var.est=(x-mu.est)^2
-    var.var.est=2/3*var.est^2
-    vtable=cxxtitable(var.var.est)$sumtable
-    vdtable=cxxtitable(var.est)$difftable
-    vrtable=cxxtirtable(var.est)
-    virtable=3*(abs(vrtable)>=log(25))+2*(abs(vrtable)>=log(3)&abs(vrtable)<log(25))+1*(abs(vrtable)<log(3))
-    for(j in 0:(J-1)){
-      zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable[j+2,])),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-      wmean[j+1,] = zdat.ash$PosteriorMean/2
-    }
-    wwmean=-wmean
-    var.est=cxxreverse.gwave(weight*sum(var.est)+(1-weight)*sum((var.est1.ini+var.est2.ini)/2),wmean,wwmean)
-    var.est[var.est<=0]=1e-8
-    sigma=sqrt(var.est)
-  }
-  if(basis=="haar"){
-    vtable=cxxtitable(sigma^2)$sumtable
-    for(j in 0:(J-1)){
-      ind.nnull=(y[j+2,]!=0)|(vtable[j+2,]!=0)
-      zdat.ash=fast.ash(y[j+2,ind.nnull],sqrt(vtable[j+2,ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-      wmean[j+1,ind.nnull]=zdat.ash$PosteriorMean/2
-      wmean[j+1,!ind.nnull]=0
-      wvar[j+1,ind.nnull]=zdat.ash$PosteriorSD^2/4
-      wvar[j+1,!ind.nnull]=0
-    }
-    wwmean=-wmean
-    wwvar=wvar
-    mu.est=cxxreverse.gwave(tsum,wmean,wwmean)
-    mu.est.var=cxxreverse.gvwave(0,wvar,wwvar)
-  }else if(basis=="symm8"){
-    x.w=x.w.d
-    x.w.v = wd.var(sigma^2, type = "station")
-    for(j in 0:(J-1)){
-      zdat.ash=fast.ash(accessD(x.w,j),sqrt(accessC(x.w.v,j)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-      x.pm = zdat.ash$PosteriorMean
-      x.w = putD(x.w,j,x.pm)
-    }
-    mu.est=AvBasis(convert(x.w))
-  }
-  if(v.est==FALSE){
-    if(return.est==TRUE){
-      return(mu.est)
-    }else{
-      if(basis=="symm8"){stop("Error: Posterior variance only returned with haar basis")}
-      return(list(mu.est=mu.est,mu.var=mu.est.var))
-    }
-  }else{
-    var.est=(x-mu.est)^2
-    vtable=cxxtitable(2/3*var.est^2)$sumtable
-    vdtable=cxxtitable(var.est)$difftable
-    vrtable=cxxtirtable(var.est)
-    virtable=3*(abs(vrtable)>=log(25))+2*(abs(vrtable)>=log(3)&abs(vrtable)<log(25))+1*(abs(vrtable)<log(3))
-    for(j in 0:(J-1)){
-      zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable[j+2,])),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-      wmean[j+1,] = zdat.ash$PosteriorMean/2
-      wvar[j+1,] = zdat.ash$PosteriorSD^2/4
-    }
-    wwmean=-wmean
-    wwvar=wvar
-    var.est=cxxreverse.gwave(sum(var.est),wmean,wwmean)
-    var.est.var=cxxreverse.gvwave(0,wvar,wwvar)
-    if(return.est==TRUE){
-      return(var.est)
-    }else{
-      return(list(var.est=var.est,var.var=var.est.var))
-    }
-  }
+    x.w.v=wd.var(sigma^2,filter.number,family,type='station')
+    x.w.t=threshold.wd.var(x.w, x.w.v,levels=(min.level):(J-1))
+    x.w.t.r=AvBasis(convert(x.w.t))
+    return(x.w.t.r)
 }
- 
