@@ -45,6 +45,8 @@ for(j in 1:length(pos)){
   mu.blk = mu.blk + (1 + sign(t-pos[j]))*(hgt[j]/2)
 }
 
+mu.cblk=mu.blk
+mu.cblk[mu.cblk<0]=0
 
 mu.blip=(0.32+0.6*t+0.3*exp(-100*(t-0.3)^2))*(t>=0&t<=0.8)+(-0.28+0.6*t+0.3*exp(-100*(t-1.3)^2))*(t>0.8&t<=1)
 
@@ -72,39 +74,29 @@ mise=function(x,y) 10000*mean(apply(x-rep(1,100)%o%y,1,l2norm)/l2norm(y))
 
 
 source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth.R"))
-source("simulation_1d_g/threshold_var.R")
-source("simulation_1d_g/wd_var.R")
+source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/ti_thresh.R"))
 library(wavethresh)
 library(EbayesThresh)
-library(caTools)
 
 
-waveti.var=function (x, sigma=NULL, filter.number = 8, family = "DaubLeAsymm", min.level = 3) 
-{
-    n <- length(x)
-    J <- log2(n)
-    if(length(sigma)==1) sigma <- rep(sigma,n)
+waveti.ebayes=function (x, filter.number = 10, family = "DaubLeAsymm", min.level = 3, noise.level){
+    n=length(x)
+    J=log2(n)
     x.w <- wd(x, filter.number, family, type = "station")
-    if(is.null(sigma)){
-      win.size <- round(n/10)
-      odd.boo <- (win.size%%2==1)
-      win.size <- win.size+(1-odd.boo)
-      sigma <- runmad(accessD(x.w,J-1),win.size,endrule="func")
+    for(j in min.level:(J-1)){
+      x.pm = ebayesthresh(accessD(x.w,j),sdev=noise.level)
+      x.w = putD(x.w,j,x.pm)
     }
-    x.w.v <- wd.var(sigma^2, filter.number, family,type='station')
-    x.w.t <- threshold.wd.var(x.w, x.w.v, levels = (min.level):(J-1))
-    x.w.t.r <- AvBasis(convert(x.w.t))
-    return(x.w.t.r)
+    mu.est=AvBasis(convert(x.w))
+    return(mu.est)
 }
-
-
 
 ##generate data
 var1=rep(1,n)
 var2=(0.0001+4*(exp(-550*(t-0.2)^2)+exp(-200*(t-0.5)^2)+exp(-950*(t-0.8)^2)))
 var3=(0.00001+2*mu.dop.var)
 var4=0.00001+mu.b
-var5=0.00001+1*(mu.blk-min(mu.blk))/max(mu.blk)
+var5=0.00001+1*(mu.cblk-min(mu.cblk))/max(mu.cblk)
 sigma.ini.v1=sqrt(var1)
 sigma.ini.v2=sqrt(var2)
 sigma.ini.v3=sqrt(var3)
@@ -514,6 +506,9 @@ plot(sigma.sp.3.v5^2,ylab="Intesnity",main="V5",type='l')
 dev.off()
 
 
+
+
+##############################
 mu.est.ash.haar.sp.1.v1=matrix(0,nrow=100,ncol=n)
 mu.est.ash.haar.sp.1.v2=matrix(0,nrow=100,ncol=n)
 mu.est.ash.haar.sp.1.v3=matrix(0,nrow=100,ncol=n)
@@ -1652,167 +1647,251 @@ mu.est.tieb.s8.cor.3.v4=matrix(0,nrow=100,ncol=n)
 mu.est.tieb.s8.cor.3.v5=matrix(0,nrow=100,ncol=n)
 
 
+mu.est.ebayes.sp.1.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.sp.1.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.sp.1.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.sp.1.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.sp.1.v5=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.sp.3.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.sp.3.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.sp.3.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.sp.3.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.sp.3.v5=matrix(0,nrow=100,ncol=n)
+
+
+mu.est.ebayes.bump.1.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.bump.1.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.bump.1.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.bump.1.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.bump.1.v5=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.bump.3.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.bump.3.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.bump.3.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.bump.3.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.bump.3.v5=matrix(0,nrow=100,ncol=n)
+
+
+mu.est.ebayes.blk.1.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blk.1.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blk.1.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blk.1.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blk.1.v5=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blk.3.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blk.3.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blk.3.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blk.3.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blk.3.v5=matrix(0,nrow=100,ncol=n)
+
+
+mu.est.ebayes.ang.1.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.ang.1.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.ang.1.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.ang.1.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.ang.1.v5=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.ang.3.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.ang.3.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.ang.3.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.ang.3.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.ang.3.v5=matrix(0,nrow=100,ncol=n)
+
+
+mu.est.ebayes.dop.1.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.dop.1.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.dop.1.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.dop.1.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.dop.1.v5=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.dop.3.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.dop.3.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.dop.3.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.dop.3.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.dop.3.v5=matrix(0,nrow=100,ncol=n)
+
+
+mu.est.ebayes.blip.1.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blip.1.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blip.1.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blip.1.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blip.1.v5=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blip.3.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blip.3.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blip.3.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blip.3.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.blip.3.v5=matrix(0,nrow=100,ncol=n)
+
+
+mu.est.ebayes.cor.1.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.cor.1.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.cor.1.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.cor.1.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.cor.1.v5=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.cor.3.v1=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.cor.3.v2=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.cor.3.v3=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.cor.3.v4=matrix(0,nrow=100,ncol=n)
+mu.est.ebayes.cor.3.v5=matrix(0,nrow=100,ncol=n)
+
+
 for(i in 1:100){
   sigma.sp.1.v1.est=sig.est.func(sim.m.sp.1.v1[i,],n)
   mu.est.ash.haar.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],sigma.sp.1.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],sigma.sp.1.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.1.v1[i,]=waveti.var(sim.m.sp.1.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.1.v1[i,]=waveti.var(sim.m.sp.1.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.1.v1[i,]=ti.thresh(sim.m.sp.1.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.1.v1[i,]=ti.thresh(sim.m.sp.1.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],sigma=sigma.sp.1.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],sigma=sigma.sp.1.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.1.v1[i,]=waveti.var(sim.m.sp.1.v1[i,],sigma=sigma.sp.1.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.1.v1[i,]=waveti.var(sim.m.sp.1.v1[i,],sigma=sigma.sp.1.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.1.v1[i,]=ti.thresh(sim.m.sp.1.v1[i,],sigma=sigma.sp.1.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.1.v1[i,]=ti.thresh(sim.m.sp.1.v1[i,],sigma=sigma.sp.1.v1,filter.number=8,family="DaubLeAsymm")
   sigma.sp.3.v1.est=sig.est.func(sim.m.sp.3.v1[i,],n)
   mu.est.ash.haar.sp.3.v1[i,]=bayesmooth(sim.m.sp.3.v1[i,],sigma.sp.3.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.sp.3.v1[i,]=bayesmooth(sim.m.sp.3.v1[i,],sigma.sp.3.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.3.v1[i,]=bayesmooth(sim.m.sp.3.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.3.v1[i,]=bayesmooth(sim.m.sp.3.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.3.v1[i,]=waveti.var(sim.m.sp.3.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.3.v1[i,]=waveti.var(sim.m.sp.3.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.3.v1[i,]=ti.thresh(sim.m.sp.3.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.3.v1[i,]=ti.thresh(sim.m.sp.3.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.3.v1[i,]=bayesmooth(sim.m.sp.3.v1[i,],sigma=sigma.sp.3.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.3.v1[i,]=bayesmooth(sim.m.sp.3.v1[i,],sigma=sigma.sp.3.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.3.v1[i,]=waveti.var(sim.m.sp.3.v1[i,],sigma=sigma.sp.3.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.3.v1[i,]=waveti.var(sim.m.sp.3.v1[i,],sigma=sigma.sp.3.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.3.v1[i,]=ti.thresh(sim.m.sp.3.v1[i,],sigma=sigma.sp.3.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.3.v1[i,]=ti.thresh(sim.m.sp.3.v1[i,],sigma=sigma.sp.3.v1,filter.number=8,family="DaubLeAsymm")
 
   sigma.bump.1.v1.est=sig.est.func(sim.m.bump.1.v1[i,],n)
   mu.est.ash.haar.bump.1.v1[i,]=bayesmooth(sim.m.bump.1.v1[i,],sigma.bump.1.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.1.v1[i,]=bayesmooth(sim.m.bump.1.v1[i,],sigma.bump.1.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.1.v1[i,]=bayesmooth(sim.m.bump.1.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.1.v1[i,]=bayesmooth(sim.m.bump.1.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.1.v1[i,]=waveti.var(sim.m.bump.1.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.1.v1[i,]=waveti.var(sim.m.bump.1.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.1.v1[i,]=ti.thresh(sim.m.bump.1.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.1.v1[i,]=ti.thresh(sim.m.bump.1.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.1.v1[i,]=bayesmooth(sim.m.bump.1.v1[i,],sigma=sigma.bump.1.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.1.v1[i,]=bayesmooth(sim.m.bump.1.v1[i,],sigma=sigma.bump.1.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.1.v1[i,]=waveti.var(sim.m.bump.1.v1[i,],sigma=sigma.bump.1.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.1.v1[i,]=waveti.var(sim.m.bump.1.v1[i,],sigma=sigma.bump.1.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.1.v1[i,]=ti.thresh(sim.m.bump.1.v1[i,],sigma=sigma.bump.1.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.1.v1[i,]=ti.thresh(sim.m.bump.1.v1[i,],sigma=sigma.bump.1.v1,filter.number=8,family="DaubLeAsymm")
   sigma.bump.3.v1.est=sig.est.func(sim.m.bump.3.v1[i,],n)
   mu.est.ash.haar.bump.3.v1[i,]=bayesmooth(sim.m.bump.3.v1[i,],sigma.bump.3.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.3.v1[i,]=bayesmooth(sim.m.bump.3.v1[i,],sigma.bump.3.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.3.v1[i,]=bayesmooth(sim.m.bump.3.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.3.v1[i,]=bayesmooth(sim.m.bump.3.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.3.v1[i,]=waveti.var(sim.m.bump.3.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.3.v1[i,]=waveti.var(sim.m.bump.3.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.3.v1[i,]=ti.thresh(sim.m.bump.3.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.3.v1[i,]=ti.thresh(sim.m.bump.3.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.3.v1[i,]=bayesmooth(sim.m.bump.3.v1[i,],sigma=sigma.bump.3.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.3.v1[i,]=bayesmooth(sim.m.bump.3.v1[i,],sigma=sigma.bump.3.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.3.v1[i,]=waveti.var(sim.m.bump.3.v1[i,],sigma=sigma.bump.3.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.3.v1[i,]=waveti.var(sim.m.bump.3.v1[i,],sigma=sigma.bump.3.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.3.v1[i,]=ti.thresh(sim.m.bump.3.v1[i,],sigma=sigma.bump.3.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.3.v1[i,]=ti.thresh(sim.m.bump.3.v1[i,],sigma=sigma.bump.3.v1,filter.number=8,family="DaubLeAsymm")
   
   sigma.blk.1.v1.est=sig.est.func(sim.m.blk.1.v1[i,],n)
   mu.est.ash.haar.blk.1.v1[i,]=bayesmooth(sim.m.blk.1.v1[i,],sigma.blk.1.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.1.v1[i,]=bayesmooth(sim.m.blk.1.v1[i,],sigma.blk.1.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.1.v1[i,]=bayesmooth(sim.m.blk.1.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.1.v1[i,]=bayesmooth(sim.m.blk.1.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.1.v1[i,]=waveti.var(sim.m.blk.1.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.1.v1[i,]=waveti.var(sim.m.blk.1.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.1.v1[i,]=ti.thresh(sim.m.blk.1.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.1.v1[i,]=ti.thresh(sim.m.blk.1.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.1.v1[i,]=bayesmooth(sim.m.blk.1.v1[i,],sigma=sigma.blk.1.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.1.v1[i,]=bayesmooth(sim.m.blk.1.v1[i,],sigma=sigma.blk.1.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.1.v1[i,]=waveti.var(sim.m.blk.1.v1[i,],sigma=sigma.blk.1.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.1.v1[i,]=waveti.var(sim.m.blk.1.v1[i,],sigma=sigma.blk.1.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.1.v1[i,]=ti.thresh(sim.m.blk.1.v1[i,],sigma=sigma.blk.1.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.1.v1[i,]=ti.thresh(sim.m.blk.1.v1[i,],sigma=sigma.blk.1.v1,filter.number=8,family="DaubLeAsymm")
   sigma.blk.3.v1.est=sig.est.func(sim.m.blk.3.v1[i,],n)
   mu.est.ash.haar.blk.3.v1[i,]=bayesmooth(sim.m.blk.3.v1[i,],sigma.blk.3.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.3.v1[i,]=bayesmooth(sim.m.blk.3.v1[i,],sigma.blk.3.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.3.v1[i,]=bayesmooth(sim.m.blk.3.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.3.v1[i,]=bayesmooth(sim.m.blk.3.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.3.v1[i,]=waveti.var(sim.m.blk.3.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.3.v1[i,]=waveti.var(sim.m.blk.3.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.3.v1[i,]=ti.thresh(sim.m.blk.3.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.3.v1[i,]=ti.thresh(sim.m.blk.3.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.3.v1[i,]=bayesmooth(sim.m.blk.3.v1[i,],sigma=sigma.blk.3.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.3.v1[i,]=bayesmooth(sim.m.blk.3.v1[i,],sigma=sigma.blk.3.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.3.v1[i,]=waveti.var(sim.m.blk.3.v1[i,],sigma=sigma.blk.3.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.3.v1[i,]=waveti.var(sim.m.blk.3.v1[i,],sigma=sigma.blk.3.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.3.v1[i,]=ti.thresh(sim.m.blk.3.v1[i,],sigma=sigma.blk.3.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.3.v1[i,]=ti.thresh(sim.m.blk.3.v1[i,],sigma=sigma.blk.3.v1,filter.number=8,family="DaubLeAsymm")
 
   sigma.ang.1.v1.est=sig.est.func(sim.m.ang.1.v1[i,],n)
   mu.est.ash.haar.ang.1.v1[i,]=bayesmooth(sim.m.ang.1.v1[i,],sigma.ang.1.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.1.v1[i,]=bayesmooth(sim.m.ang.1.v1[i,],sigma.ang.1.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.1.v1[i,]=bayesmooth(sim.m.ang.1.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.1.v1[i,]=bayesmooth(sim.m.ang.1.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.1.v1[i,]=waveti.var(sim.m.ang.1.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.1.v1[i,]=waveti.var(sim.m.ang.1.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.1.v1[i,]=ti.thresh(sim.m.ang.1.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.1.v1[i,]=ti.thresh(sim.m.ang.1.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.1.v1[i,]=bayesmooth(sim.m.ang.1.v1[i,],sigma=sigma.ang.1.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.1.v1[i,]=bayesmooth(sim.m.ang.1.v1[i,],sigma=sigma.ang.1.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.1.v1[i,]=waveti.var(sim.m.ang.1.v1[i,],sigma=sigma.ang.1.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.1.v1[i,]=waveti.var(sim.m.ang.1.v1[i,],sigma=sigma.ang.1.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.1.v1[i,]=ti.thresh(sim.m.ang.1.v1[i,],sigma=sigma.ang.1.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.1.v1[i,]=ti.thresh(sim.m.ang.1.v1[i,],sigma=sigma.ang.1.v1,filter.number=8,family="DaubLeAsymm")
   sigma.ang.3.v1.est=sig.est.func(sim.m.ang.3.v1[i,],n)
   mu.est.ash.haar.ang.3.v1[i,]=bayesmooth(sim.m.ang.3.v1[i,],sigma.ang.3.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.3.v1[i,]=bayesmooth(sim.m.ang.3.v1[i,],sigma.ang.3.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.3.v1[i,]=bayesmooth(sim.m.ang.3.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.3.v1[i,]=bayesmooth(sim.m.ang.3.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.3.v1[i,]=waveti.var(sim.m.ang.3.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.3.v1[i,]=waveti.var(sim.m.ang.3.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.3.v1[i,]=ti.thresh(sim.m.ang.3.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.3.v1[i,]=ti.thresh(sim.m.ang.3.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.3.v1[i,]=bayesmooth(sim.m.ang.3.v1[i,],sigma=sigma.ang.3.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.3.v1[i,]=bayesmooth(sim.m.ang.3.v1[i,],sigma=sigma.ang.3.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.3.v1[i,]=waveti.var(sim.m.ang.3.v1[i,],sigma=sigma.ang.3.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.3.v1[i,]=waveti.var(sim.m.ang.3.v1[i,],sigma=sigma.ang.3.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.3.v1[i,]=ti.thresh(sim.m.ang.3.v1[i,],sigma=sigma.ang.3.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.3.v1[i,]=ti.thresh(sim.m.ang.3.v1[i,],sigma=sigma.ang.3.v1,filter.number=8,family="DaubLeAsymm")
 
   sigma.dop.1.v1.est=sig.est.func(sim.m.dop.1.v1[i,],n)
   mu.est.ash.haar.dop.1.v1[i,]=bayesmooth(sim.m.dop.1.v1[i,],sigma.dop.1.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.1.v1[i,]=bayesmooth(sim.m.dop.1.v1[i,],sigma.dop.1.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.1.v1[i,]=bayesmooth(sim.m.dop.1.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.1.v1[i,]=bayesmooth(sim.m.dop.1.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.1.v1[i,]=waveti.var(sim.m.dop.1.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.1.v1[i,]=waveti.var(sim.m.dop.1.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.1.v1[i,]=ti.thresh(sim.m.dop.1.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.1.v1[i,]=ti.thresh(sim.m.dop.1.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.1.v1[i,]=bayesmooth(sim.m.dop.1.v1[i,],sigma=sigma.dop.1.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.1.v1[i,]=bayesmooth(sim.m.dop.1.v1[i,],sigma=sigma.dop.1.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.1.v1[i,]=waveti.var(sim.m.dop.1.v1[i,],sigma=sigma.dop.1.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.1.v1[i,]=waveti.var(sim.m.dop.1.v1[i,],sigma=sigma.dop.1.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.1.v1[i,]=ti.thresh(sim.m.dop.1.v1[i,],sigma=sigma.dop.1.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.1.v1[i,]=ti.thresh(sim.m.dop.1.v1[i,],sigma=sigma.dop.1.v1,filter.number=8,family="DaubLeAsymm")
   sigma.dop.3.v1.est=sig.est.func(sim.m.dop.3.v1[i,],n)
   mu.est.ash.haar.dop.3.v1[i,]=bayesmooth(sim.m.dop.3.v1[i,],sigma.dop.3.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.3.v1[i,]=bayesmooth(sim.m.dop.3.v1[i,],sigma.dop.3.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.3.v1[i,]=bayesmooth(sim.m.dop.3.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.3.v1[i,]=bayesmooth(sim.m.dop.3.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.3.v1[i,]=waveti.var(sim.m.dop.3.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.3.v1[i,]=waveti.var(sim.m.dop.3.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.3.v1[i,]=ti.thresh(sim.m.dop.3.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.3.v1[i,]=ti.thresh(sim.m.dop.3.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.3.v1[i,]=bayesmooth(sim.m.dop.3.v1[i,],sigma=sigma.dop.3.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.3.v1[i,]=bayesmooth(sim.m.dop.3.v1[i,],sigma=sigma.dop.3.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.3.v1[i,]=waveti.var(sim.m.dop.3.v1[i,],sigma=sigma.dop.3.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.3.v1[i,]=waveti.var(sim.m.dop.3.v1[i,],sigma=sigma.dop.3.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.3.v1[i,]=ti.thresh(sim.m.dop.3.v1[i,],sigma=sigma.dop.3.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.3.v1[i,]=ti.thresh(sim.m.dop.3.v1[i,],sigma=sigma.dop.3.v1,filter.number=8,family="DaubLeAsymm")
 
   sigma.blip.1.v1.est=sig.est.func(sim.m.blip.1.v1[i,],n)
   mu.est.ash.haar.blip.1.v1[i,]=bayesmooth(sim.m.blip.1.v1[i,],sigma.blip.1.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.1.v1[i,]=bayesmooth(sim.m.blip.1.v1[i,],sigma.blip.1.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.1.v1[i,]=bayesmooth(sim.m.blip.1.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.1.v1[i,]=bayesmooth(sim.m.blip.1.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.1.v1[i,]=waveti.var(sim.m.blip.1.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.1.v1[i,]=waveti.var(sim.m.blip.1.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.1.v1[i,]=ti.thresh(sim.m.blip.1.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.1.v1[i,]=ti.thresh(sim.m.blip.1.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.1.v1[i,]=bayesmooth(sim.m.blip.1.v1[i,],sigma=sigma.blip.1.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.1.v1[i,]=bayesmooth(sim.m.blip.1.v1[i,],sigma=sigma.blip.1.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.1.v1[i,]=waveti.var(sim.m.blip.1.v1[i,],sigma=sigma.blip.1.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.1.v1[i,]=waveti.var(sim.m.blip.1.v1[i,],sigma=sigma.blip.1.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.1.v1[i,]=ti.thresh(sim.m.blip.1.v1[i,],sigma=sigma.blip.1.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.1.v1[i,]=ti.thresh(sim.m.blip.1.v1[i,],sigma=sigma.blip.1.v1,filter.number=8,family="DaubLeAsymm")
   sigma.blip.3.v1.est=sig.est.func(sim.m.blip.3.v1[i,],n)
   mu.est.ash.haar.blip.3.v1[i,]=bayesmooth(sim.m.blip.3.v1[i,],sigma.blip.3.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.3.v1[i,]=bayesmooth(sim.m.blip.3.v1[i,],sigma.blip.3.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.3.v1[i,]=bayesmooth(sim.m.blip.3.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.3.v1[i,]=bayesmooth(sim.m.blip.3.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.3.v1[i,]=waveti.var(sim.m.blip.3.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.3.v1[i,]=waveti.var(sim.m.blip.3.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.3.v1[i,]=ti.thresh(sim.m.blip.3.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.3.v1[i,]=ti.thresh(sim.m.blip.3.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.3.v1[i,]=bayesmooth(sim.m.blip.3.v1[i,],sigma=sigma.blip.3.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.3.v1[i,]=bayesmooth(sim.m.blip.3.v1[i,],sigma=sigma.blip.3.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.3.v1[i,]=waveti.var(sim.m.blip.3.v1[i,],sigma=sigma.blip.3.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.3.v1[i,]=waveti.var(sim.m.blip.3.v1[i,],sigma=sigma.blip.3.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.3.v1[i,]=ti.thresh(sim.m.blip.3.v1[i,],sigma=sigma.blip.3.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.3.v1[i,]=ti.thresh(sim.m.blip.3.v1[i,],sigma=sigma.blip.3.v1,filter.number=8,family="DaubLeAsymm")
 
   sigma.cor.1.v1.est=sig.est.func(sim.m.cor.1.v1[i,],n)
   mu.est.ash.haar.cor.1.v1[i,]=bayesmooth(sim.m.cor.1.v1[i,],sigma.cor.1.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.1.v1[i,]=bayesmooth(sim.m.cor.1.v1[i,],sigma.cor.1.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.1.v1[i,]=bayesmooth(sim.m.cor.1.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.1.v1[i,]=bayesmooth(sim.m.cor.1.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.1.v1[i,]=waveti.var(sim.m.cor.1.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.1.v1[i,]=waveti.var(sim.m.cor.1.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.1.v1[i,]=ti.thresh(sim.m.cor.1.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.1.v1[i,]=ti.thresh(sim.m.cor.1.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.1.v1[i,]=bayesmooth(sim.m.cor.1.v1[i,],sigma=sigma.cor.1.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.1.v1[i,]=bayesmooth(sim.m.cor.1.v1[i,],sigma=sigma.cor.1.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.1.v1[i,]=waveti.var(sim.m.cor.1.v1[i,],sigma=sigma.cor.1.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.1.v1[i,]=waveti.var(sim.m.cor.1.v1[i,],sigma=sigma.cor.1.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.1.v1[i,]=ti.thresh(sim.m.cor.1.v1[i,],sigma=sigma.cor.1.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.1.v1[i,]=ti.thresh(sim.m.cor.1.v1[i,],sigma=sigma.cor.1.v1,filter.number=8,family="DaubLeAsymm")
   sigma.cor.3.v1.est=sig.est.func(sim.m.cor.3.v1[i,],n)
   mu.est.ash.haar.cor.3.v1[i,]=bayesmooth(sim.m.cor.3.v1[i,],sigma.cor.3.v1.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.3.v1[i,]=bayesmooth(sim.m.cor.3.v1[i,],sigma.cor.3.v1.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.3.v1[i,]=bayesmooth(sim.m.cor.3.v1[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.3.v1[i,]=bayesmooth(sim.m.cor.3.v1[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.3.v1[i,]=waveti.var(sim.m.cor.3.v1[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.3.v1[i,]=waveti.var(sim.m.cor.3.v1[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.3.v1[i,]=ti.thresh(sim.m.cor.3.v1[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.3.v1[i,]=ti.thresh(sim.m.cor.3.v1[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.3.v1[i,]=bayesmooth(sim.m.cor.3.v1[i,],sigma=sigma.cor.3.v1,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.3.v1[i,]=bayesmooth(sim.m.cor.3.v1[i,],sigma=sigma.cor.3.v1,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.3.v1[i,]=waveti.var(sim.m.cor.3.v1[i,],sigma=sigma.cor.3.v1,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.3.v1[i,]=waveti.var(sim.m.cor.3.v1[i,],sigma=sigma.cor.3.v1,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.3.v1[i,]=ti.thresh(sim.m.cor.3.v1[i,],sigma=sigma.cor.3.v1,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.3.v1[i,]=ti.thresh(sim.m.cor.3.v1[i,],sigma=sigma.cor.3.v1,filter.number=8,family="DaubLeAsymm")
 
 
 
@@ -1821,161 +1900,161 @@ for(i in 1:100){
   mu.est.ash.s8.sp.1.v2[i,]=bayesmooth(sim.m.sp.1.v2[i,],sigma.sp.1.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.1.v2[i,]=bayesmooth(sim.m.sp.1.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.1.v2[i,]=bayesmooth(sim.m.sp.1.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.1.v2[i,]=waveti.var(sim.m.sp.1.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.1.v2[i,]=waveti.var(sim.m.sp.1.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.1.v2[i,]=ti.thresh(sim.m.sp.1.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.1.v2[i,]=ti.thresh(sim.m.sp.1.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.1.v2[i,]=bayesmooth(sim.m.sp.1.v2[i,],sigma=sigma.sp.1.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.1.v2[i,]=bayesmooth(sim.m.sp.1.v2[i,],sigma=sigma.sp.1.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.1.v2[i,]=waveti.var(sim.m.sp.1.v2[i,],sigma=sigma.sp.1.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.1.v2[i,]=waveti.var(sim.m.sp.1.v2[i,],sigma=sigma.sp.1.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.1.v2[i,]=ti.thresh(sim.m.sp.1.v2[i,],sigma=sigma.sp.1.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.1.v2[i,]=ti.thresh(sim.m.sp.1.v2[i,],sigma=sigma.sp.1.v2,filter.number=8,family="DaubLeAsymm")
   sigma.sp.3.v2.est=sig.est.func(sim.m.sp.3.v2[i,],n)
   mu.est.ash.haar.sp.3.v2[i,]=bayesmooth(sim.m.sp.3.v2[i,],sigma.sp.3.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.sp.3.v2[i,]=bayesmooth(sim.m.sp.3.v2[i,],sigma.sp.3.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.3.v2[i,]=bayesmooth(sim.m.sp.3.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.3.v2[i,]=bayesmooth(sim.m.sp.3.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.3.v2[i,]=waveti.var(sim.m.sp.3.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.3.v2[i,]=waveti.var(sim.m.sp.3.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.3.v2[i,]=ti.thresh(sim.m.sp.3.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.3.v2[i,]=ti.thresh(sim.m.sp.3.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.3.v2[i,]=bayesmooth(sim.m.sp.3.v2[i,],sigma=sigma.sp.3.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.3.v2[i,]=bayesmooth(sim.m.sp.3.v2[i,],sigma=sigma.sp.3.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.3.v2[i,]=waveti.var(sim.m.sp.3.v2[i,],sigma=sigma.sp.3.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.3.v2[i,]=waveti.var(sim.m.sp.3.v2[i,],sigma=sigma.sp.3.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.3.v2[i,]=ti.thresh(sim.m.sp.3.v2[i,],sigma=sigma.sp.3.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.3.v2[i,]=ti.thresh(sim.m.sp.3.v2[i,],sigma=sigma.sp.3.v2,filter.number=8,family="DaubLeAsymm")
 
   sigma.bump.1.v2.est=sig.est.func(sim.m.bump.1.v2[i,],n)
   mu.est.ash.haar.bump.1.v2[i,]=bayesmooth(sim.m.bump.1.v2[i,],sigma.bump.1.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.1.v2[i,]=bayesmooth(sim.m.bump.1.v2[i,],sigma.bump.1.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.1.v2[i,]=bayesmooth(sim.m.bump.1.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.1.v2[i,]=bayesmooth(sim.m.bump.1.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.1.v2[i,]=waveti.var(sim.m.bump.1.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.1.v2[i,]=waveti.var(sim.m.bump.1.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.1.v2[i,]=ti.thresh(sim.m.bump.1.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.1.v2[i,]=ti.thresh(sim.m.bump.1.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.1.v2[i,]=bayesmooth(sim.m.bump.1.v2[i,],sigma=sigma.bump.1.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.1.v2[i,]=bayesmooth(sim.m.bump.1.v2[i,],sigma=sigma.bump.1.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.1.v2[i,]=waveti.var(sim.m.bump.1.v2[i,],sigma=sigma.bump.1.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.1.v2[i,]=waveti.var(sim.m.bump.1.v2[i,],sigma=sigma.bump.1.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.1.v2[i,]=ti.thresh(sim.m.bump.1.v2[i,],sigma=sigma.bump.1.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.1.v2[i,]=ti.thresh(sim.m.bump.1.v2[i,],sigma=sigma.bump.1.v2,filter.number=8,family="DaubLeAsymm")
   sigma.bump.3.v2.est=sig.est.func(sim.m.bump.3.v2[i,],n)
   mu.est.ash.haar.bump.3.v2[i,]=bayesmooth(sim.m.bump.3.v2[i,],sigma.bump.3.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.3.v2[i,]=bayesmooth(sim.m.bump.3.v2[i,],sigma.bump.3.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.3.v2[i,]=bayesmooth(sim.m.bump.3.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.3.v2[i,]=bayesmooth(sim.m.bump.3.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.3.v2[i,]=waveti.var(sim.m.bump.3.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.3.v2[i,]=waveti.var(sim.m.bump.3.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.3.v2[i,]=ti.thresh(sim.m.bump.3.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.3.v2[i,]=ti.thresh(sim.m.bump.3.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.3.v2[i,]=bayesmooth(sim.m.bump.3.v2[i,],sigma=sigma.bump.3.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.3.v2[i,]=bayesmooth(sim.m.bump.3.v2[i,],sigma=sigma.bump.3.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.3.v2[i,]=waveti.var(sim.m.bump.3.v2[i,],sigma=sigma.bump.3.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.3.v2[i,]=waveti.var(sim.m.bump.3.v2[i,],sigma=sigma.bump.3.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.3.v2[i,]=ti.thresh(sim.m.bump.3.v2[i,],sigma=sigma.bump.3.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.3.v2[i,]=ti.thresh(sim.m.bump.3.v2[i,],sigma=sigma.bump.3.v2,filter.number=8,family="DaubLeAsymm")
   
   sigma.blk.1.v2.est=sig.est.func(sim.m.blk.1.v2[i,],n)
   mu.est.ash.haar.blk.1.v2[i,]=bayesmooth(sim.m.blk.1.v2[i,],sigma.blk.1.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.1.v2[i,]=bayesmooth(sim.m.blk.1.v2[i,],sigma.blk.1.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.1.v2[i,]=bayesmooth(sim.m.blk.1.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.1.v2[i,]=bayesmooth(sim.m.blk.1.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.1.v2[i,]=waveti.var(sim.m.blk.1.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.1.v2[i,]=waveti.var(sim.m.blk.1.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.1.v2[i,]=ti.thresh(sim.m.blk.1.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.1.v2[i,]=ti.thresh(sim.m.blk.1.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.1.v2[i,]=bayesmooth(sim.m.blk.1.v2[i,],sigma=sigma.blk.1.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.1.v2[i,]=bayesmooth(sim.m.blk.1.v2[i,],sigma=sigma.blk.1.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.1.v2[i,]=waveti.var(sim.m.blk.1.v2[i,],sigma=sigma.blk.1.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.1.v2[i,]=waveti.var(sim.m.blk.1.v2[i,],sigma=sigma.blk.1.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.1.v2[i,]=ti.thresh(sim.m.blk.1.v2[i,],sigma=sigma.blk.1.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.1.v2[i,]=ti.thresh(sim.m.blk.1.v2[i,],sigma=sigma.blk.1.v2,filter.number=8,family="DaubLeAsymm")
   sigma.blk.3.v2.est=sig.est.func(sim.m.blk.3.v2[i,],n)
   mu.est.ash.haar.blk.3.v2[i,]=bayesmooth(sim.m.blk.3.v2[i,],sigma.blk.3.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.3.v2[i,]=bayesmooth(sim.m.blk.3.v2[i,],sigma.blk.3.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.3.v2[i,]=bayesmooth(sim.m.blk.3.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.3.v2[i,]=bayesmooth(sim.m.blk.3.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.3.v2[i,]=waveti.var(sim.m.blk.3.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.3.v2[i,]=waveti.var(sim.m.blk.3.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.3.v2[i,]=ti.thresh(sim.m.blk.3.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.3.v2[i,]=ti.thresh(sim.m.blk.3.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.3.v2[i,]=bayesmooth(sim.m.blk.3.v2[i,],sigma=sigma.blk.3.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.3.v2[i,]=bayesmooth(sim.m.blk.3.v2[i,],sigma=sigma.blk.3.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.3.v2[i,]=waveti.var(sim.m.blk.3.v2[i,],sigma=sigma.blk.3.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.3.v2[i,]=waveti.var(sim.m.blk.3.v2[i,],sigma=sigma.blk.3.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.3.v2[i,]=ti.thresh(sim.m.blk.3.v2[i,],sigma=sigma.blk.3.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.3.v2[i,]=ti.thresh(sim.m.blk.3.v2[i,],sigma=sigma.blk.3.v2,filter.number=8,family="DaubLeAsymm")
 
   sigma.ang.1.v2.est=sig.est.func(sim.m.ang.1.v2[i,],n)
   mu.est.ash.haar.ang.1.v2[i,]=bayesmooth(sim.m.ang.1.v2[i,],sigma.ang.1.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.1.v2[i,]=bayesmooth(sim.m.ang.1.v2[i,],sigma.ang.1.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.1.v2[i,]=bayesmooth(sim.m.ang.1.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.1.v2[i,]=bayesmooth(sim.m.ang.1.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.1.v2[i,]=waveti.var(sim.m.ang.1.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.1.v2[i,]=waveti.var(sim.m.ang.1.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.1.v2[i,]=ti.thresh(sim.m.ang.1.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.1.v2[i,]=ti.thresh(sim.m.ang.1.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.1.v2[i,]=bayesmooth(sim.m.ang.1.v2[i,],sigma=sigma.ang.1.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.1.v2[i,]=bayesmooth(sim.m.ang.1.v2[i,],sigma=sigma.ang.1.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.1.v2[i,]=waveti.var(sim.m.ang.1.v2[i,],sigma=sigma.ang.1.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.1.v2[i,]=waveti.var(sim.m.ang.1.v2[i,],sigma=sigma.ang.1.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.1.v2[i,]=ti.thresh(sim.m.ang.1.v2[i,],sigma=sigma.ang.1.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.1.v2[i,]=ti.thresh(sim.m.ang.1.v2[i,],sigma=sigma.ang.1.v2,filter.number=8,family="DaubLeAsymm")
   sigma.ang.3.v2.est=sig.est.func(sim.m.ang.3.v2[i,],n)
   mu.est.ash.haar.ang.3.v2[i,]=bayesmooth(sim.m.ang.3.v2[i,],sigma.ang.3.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.3.v2[i,]=bayesmooth(sim.m.ang.3.v2[i,],sigma.ang.3.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.3.v2[i,]=bayesmooth(sim.m.ang.3.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.3.v2[i,]=bayesmooth(sim.m.ang.3.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.3.v2[i,]=waveti.var(sim.m.ang.3.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.3.v2[i,]=waveti.var(sim.m.ang.3.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.3.v2[i,]=ti.thresh(sim.m.ang.3.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.3.v2[i,]=ti.thresh(sim.m.ang.3.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.3.v2[i,]=bayesmooth(sim.m.ang.3.v2[i,],sigma=sigma.ang.3.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.3.v2[i,]=bayesmooth(sim.m.ang.3.v2[i,],sigma=sigma.ang.3.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.3.v2[i,]=waveti.var(sim.m.ang.3.v2[i,],sigma=sigma.ang.3.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.3.v2[i,]=waveti.var(sim.m.ang.3.v2[i,],sigma=sigma.ang.3.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.3.v2[i,]=ti.thresh(sim.m.ang.3.v2[i,],sigma=sigma.ang.3.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.3.v2[i,]=ti.thresh(sim.m.ang.3.v2[i,],sigma=sigma.ang.3.v2,filter.number=8,family="DaubLeAsymm")
 
   sigma.dop.1.v2.est=sig.est.func(sim.m.dop.1.v2[i,],n)
   mu.est.ash.haar.dop.1.v2[i,]=bayesmooth(sim.m.dop.1.v2[i,],sigma.dop.1.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.1.v2[i,]=bayesmooth(sim.m.dop.1.v2[i,],sigma.dop.1.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.1.v2[i,]=bayesmooth(sim.m.dop.1.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.1.v2[i,]=bayesmooth(sim.m.dop.1.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.1.v2[i,]=waveti.var(sim.m.dop.1.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.1.v2[i,]=waveti.var(sim.m.dop.1.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.1.v2[i,]=ti.thresh(sim.m.dop.1.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.1.v2[i,]=ti.thresh(sim.m.dop.1.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.1.v2[i,]=bayesmooth(sim.m.dop.1.v2[i,],sigma=sigma.dop.1.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.1.v2[i,]=bayesmooth(sim.m.dop.1.v2[i,],sigma=sigma.dop.1.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.1.v2[i,]=waveti.var(sim.m.dop.1.v2[i,],sigma=sigma.dop.1.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.1.v2[i,]=waveti.var(sim.m.dop.1.v2[i,],sigma=sigma.dop.1.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.1.v2[i,]=ti.thresh(sim.m.dop.1.v2[i,],sigma=sigma.dop.1.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.1.v2[i,]=ti.thresh(sim.m.dop.1.v2[i,],sigma=sigma.dop.1.v2,filter.number=8,family="DaubLeAsymm")
   sigma.dop.3.v2.est=sig.est.func(sim.m.dop.3.v2[i,],n)
   mu.est.ash.haar.dop.3.v2[i,]=bayesmooth(sim.m.dop.3.v2[i,],sigma.dop.3.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.3.v2[i,]=bayesmooth(sim.m.dop.3.v2[i,],sigma.dop.3.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.3.v2[i,]=bayesmooth(sim.m.dop.3.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.3.v2[i,]=bayesmooth(sim.m.dop.3.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.3.v2[i,]=waveti.var(sim.m.dop.3.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.3.v2[i,]=waveti.var(sim.m.dop.3.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.3.v2[i,]=ti.thresh(sim.m.dop.3.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.3.v2[i,]=ti.thresh(sim.m.dop.3.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.3.v2[i,]=bayesmooth(sim.m.dop.3.v2[i,],sigma=sigma.dop.3.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.3.v2[i,]=bayesmooth(sim.m.dop.3.v2[i,],sigma=sigma.dop.3.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.3.v2[i,]=waveti.var(sim.m.dop.3.v2[i,],sigma=sigma.dop.3.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.3.v2[i,]=waveti.var(sim.m.dop.3.v2[i,],sigma=sigma.dop.3.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.3.v2[i,]=ti.thresh(sim.m.dop.3.v2[i,],sigma=sigma.dop.3.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.3.v2[i,]=ti.thresh(sim.m.dop.3.v2[i,],sigma=sigma.dop.3.v2,filter.number=8,family="DaubLeAsymm")
 
   sigma.blip.1.v2.est=sig.est.func(sim.m.blip.1.v2[i,],n)
   mu.est.ash.haar.blip.1.v2[i,]=bayesmooth(sim.m.blip.1.v2[i,],sigma.blip.1.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.1.v2[i,]=bayesmooth(sim.m.blip.1.v2[i,],sigma.blip.1.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.1.v2[i,]=bayesmooth(sim.m.blip.1.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.1.v2[i,]=bayesmooth(sim.m.blip.1.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.1.v2[i,]=waveti.var(sim.m.blip.1.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.1.v2[i,]=waveti.var(sim.m.blip.1.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.1.v2[i,]=ti.thresh(sim.m.blip.1.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.1.v2[i,]=ti.thresh(sim.m.blip.1.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.1.v2[i,]=bayesmooth(sim.m.blip.1.v2[i,],sigma=sigma.blip.1.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.1.v2[i,]=bayesmooth(sim.m.blip.1.v2[i,],sigma=sigma.blip.1.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.1.v2[i,]=waveti.var(sim.m.blip.1.v2[i,],sigma=sigma.blip.1.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.1.v2[i,]=waveti.var(sim.m.blip.1.v2[i,],sigma=sigma.blip.1.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.1.v2[i,]=ti.thresh(sim.m.blip.1.v2[i,],sigma=sigma.blip.1.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.1.v2[i,]=ti.thresh(sim.m.blip.1.v2[i,],sigma=sigma.blip.1.v2,filter.number=8,family="DaubLeAsymm")
   sigma.blip.3.v2.est=sig.est.func(sim.m.blip.3.v2[i,],n)
   mu.est.ash.haar.blip.3.v2[i,]=bayesmooth(sim.m.blip.3.v2[i,],sigma.blip.3.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.3.v2[i,]=bayesmooth(sim.m.blip.3.v2[i,],sigma.blip.3.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.3.v2[i,]=bayesmooth(sim.m.blip.3.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.3.v2[i,]=bayesmooth(sim.m.blip.3.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.3.v2[i,]=waveti.var(sim.m.blip.3.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.3.v2[i,]=waveti.var(sim.m.blip.3.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.3.v2[i,]=ti.thresh(sim.m.blip.3.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.3.v2[i,]=ti.thresh(sim.m.blip.3.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.3.v2[i,]=bayesmooth(sim.m.blip.3.v2[i,],sigma=sigma.blip.3.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.3.v2[i,]=bayesmooth(sim.m.blip.3.v2[i,],sigma=sigma.blip.3.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.3.v2[i,]=waveti.var(sim.m.blip.3.v2[i,],sigma=sigma.blip.3.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.3.v2[i,]=waveti.var(sim.m.blip.3.v2[i,],sigma=sigma.blip.3.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.3.v2[i,]=ti.thresh(sim.m.blip.3.v2[i,],sigma=sigma.blip.3.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.3.v2[i,]=ti.thresh(sim.m.blip.3.v2[i,],sigma=sigma.blip.3.v2,filter.number=8,family="DaubLeAsymm")
 
   sigma.cor.1.v2.est=sig.est.func(sim.m.cor.1.v2[i,],n)
   mu.est.ash.haar.cor.1.v2[i,]=bayesmooth(sim.m.cor.1.v2[i,],sigma.cor.1.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.1.v2[i,]=bayesmooth(sim.m.cor.1.v2[i,],sigma.cor.1.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.1.v2[i,]=bayesmooth(sim.m.cor.1.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.1.v2[i,]=bayesmooth(sim.m.cor.1.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.1.v2[i,]=waveti.var(sim.m.cor.1.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.1.v2[i,]=waveti.var(sim.m.cor.1.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.1.v2[i,]=ti.thresh(sim.m.cor.1.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.1.v2[i,]=ti.thresh(sim.m.cor.1.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.1.v2[i,]=bayesmooth(sim.m.cor.1.v2[i,],sigma=sigma.cor.1.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.1.v2[i,]=bayesmooth(sim.m.cor.1.v2[i,],sigma=sigma.cor.1.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.1.v2[i,]=waveti.var(sim.m.cor.1.v2[i,],sigma=sigma.cor.1.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.1.v2[i,]=waveti.var(sim.m.cor.1.v2[i,],sigma=sigma.cor.1.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.1.v2[i,]=ti.thresh(sim.m.cor.1.v2[i,],sigma=sigma.cor.1.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.1.v2[i,]=ti.thresh(sim.m.cor.1.v2[i,],sigma=sigma.cor.1.v2,filter.number=8,family="DaubLeAsymm")
   sigma.cor.3.v2.est=sig.est.func(sim.m.cor.3.v2[i,],n)
   mu.est.ash.haar.cor.3.v2[i,]=bayesmooth(sim.m.cor.3.v2[i,],sigma.cor.3.v2.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.3.v2[i,]=bayesmooth(sim.m.cor.3.v2[i,],sigma.cor.3.v2.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.3.v2[i,]=bayesmooth(sim.m.cor.3.v2[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.3.v2[i,]=bayesmooth(sim.m.cor.3.v2[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.3.v2[i,]=waveti.var(sim.m.cor.3.v2[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.3.v2[i,]=waveti.var(sim.m.cor.3.v2[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.3.v2[i,]=ti.thresh(sim.m.cor.3.v2[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.3.v2[i,]=ti.thresh(sim.m.cor.3.v2[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.3.v2[i,]=bayesmooth(sim.m.cor.3.v2[i,],sigma=sigma.cor.3.v2,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.3.v2[i,]=bayesmooth(sim.m.cor.3.v2[i,],sigma=sigma.cor.3.v2,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.3.v2[i,]=waveti.var(sim.m.cor.3.v2[i,],sigma=sigma.cor.3.v2,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.3.v2[i,]=waveti.var(sim.m.cor.3.v2[i,],sigma=sigma.cor.3.v2,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.3.v2[i,]=ti.thresh(sim.m.cor.3.v2[i,],sigma=sigma.cor.3.v2,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.3.v2[i,]=ti.thresh(sim.m.cor.3.v2[i,],sigma=sigma.cor.3.v2,filter.number=8,family="DaubLeAsymm")
 
 
 
@@ -1985,161 +2064,161 @@ for(i in 1:100){
   mu.est.ash.s8.sp.1.v3[i,]=bayesmooth(sim.m.sp.1.v3[i,],sigma.sp.1.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.1.v3[i,]=bayesmooth(sim.m.sp.1.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.1.v3[i,]=bayesmooth(sim.m.sp.1.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.1.v3[i,]=waveti.var(sim.m.sp.1.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.1.v3[i,]=waveti.var(sim.m.sp.1.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.1.v3[i,]=ti.thresh(sim.m.sp.1.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.1.v3[i,]=ti.thresh(sim.m.sp.1.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.1.v3[i,]=bayesmooth(sim.m.sp.1.v3[i,],sigma=sigma.sp.1.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.1.v3[i,]=bayesmooth(sim.m.sp.1.v3[i,],sigma=sigma.sp.1.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.1.v3[i,]=waveti.var(sim.m.sp.1.v3[i,],sigma=sigma.sp.1.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.1.v3[i,]=waveti.var(sim.m.sp.1.v3[i,],sigma=sigma.sp.1.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.1.v3[i,]=ti.thresh(sim.m.sp.1.v3[i,],sigma=sigma.sp.1.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.1.v3[i,]=ti.thresh(sim.m.sp.1.v3[i,],sigma=sigma.sp.1.v3,filter.number=8,family="DaubLeAsymm")
   sigma.sp.3.v3.est=sig.est.func(sim.m.sp.3.v3[i,],n)
   mu.est.ash.haar.sp.3.v3[i,]=bayesmooth(sim.m.sp.3.v3[i,],sigma.sp.3.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.sp.3.v3[i,]=bayesmooth(sim.m.sp.3.v3[i,],sigma.sp.3.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.3.v3[i,]=bayesmooth(sim.m.sp.3.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.3.v3[i,]=bayesmooth(sim.m.sp.3.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.3.v3[i,]=waveti.var(sim.m.sp.3.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.3.v3[i,]=waveti.var(sim.m.sp.3.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.3.v3[i,]=ti.thresh(sim.m.sp.3.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.3.v3[i,]=ti.thresh(sim.m.sp.3.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.3.v3[i,]=bayesmooth(sim.m.sp.3.v3[i,],sigma=sigma.sp.3.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.3.v3[i,]=bayesmooth(sim.m.sp.3.v3[i,],sigma=sigma.sp.3.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.3.v3[i,]=waveti.var(sim.m.sp.3.v3[i,],sigma=sigma.sp.3.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.3.v3[i,]=waveti.var(sim.m.sp.3.v3[i,],sigma=sigma.sp.3.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.3.v3[i,]=ti.thresh(sim.m.sp.3.v3[i,],sigma=sigma.sp.3.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.3.v3[i,]=ti.thresh(sim.m.sp.3.v3[i,],sigma=sigma.sp.3.v3,filter.number=8,family="DaubLeAsymm")
 
   sigma.bump.1.v3.est=sig.est.func(sim.m.bump.1.v3[i,],n)
   mu.est.ash.haar.bump.1.v3[i,]=bayesmooth(sim.m.bump.1.v3[i,],sigma.bump.1.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.1.v3[i,]=bayesmooth(sim.m.bump.1.v3[i,],sigma.bump.1.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.1.v3[i,]=bayesmooth(sim.m.bump.1.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.1.v3[i,]=bayesmooth(sim.m.bump.1.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.1.v3[i,]=waveti.var(sim.m.bump.1.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.1.v3[i,]=waveti.var(sim.m.bump.1.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.1.v3[i,]=ti.thresh(sim.m.bump.1.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.1.v3[i,]=ti.thresh(sim.m.bump.1.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.1.v3[i,]=bayesmooth(sim.m.bump.1.v3[i,],sigma=sigma.bump.1.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.1.v3[i,]=bayesmooth(sim.m.bump.1.v3[i,],sigma=sigma.bump.1.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.1.v3[i,]=waveti.var(sim.m.bump.1.v3[i,],sigma=sigma.bump.1.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.1.v3[i,]=waveti.var(sim.m.bump.1.v3[i,],sigma=sigma.bump.1.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.1.v3[i,]=ti.thresh(sim.m.bump.1.v3[i,],sigma=sigma.bump.1.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.1.v3[i,]=ti.thresh(sim.m.bump.1.v3[i,],sigma=sigma.bump.1.v3,filter.number=8,family="DaubLeAsymm")
   sigma.bump.3.v3.est=sig.est.func(sim.m.bump.3.v3[i,],n)
   mu.est.ash.haar.bump.3.v3[i,]=bayesmooth(sim.m.bump.3.v3[i,],sigma.bump.3.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.3.v3[i,]=bayesmooth(sim.m.bump.3.v3[i,],sigma.bump.3.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.3.v3[i,]=bayesmooth(sim.m.bump.3.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.3.v3[i,]=bayesmooth(sim.m.bump.3.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.3.v3[i,]=waveti.var(sim.m.bump.3.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.3.v3[i,]=waveti.var(sim.m.bump.3.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.3.v3[i,]=ti.thresh(sim.m.bump.3.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.3.v3[i,]=ti.thresh(sim.m.bump.3.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.3.v3[i,]=bayesmooth(sim.m.bump.3.v3[i,],sigma=sigma.bump.3.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.3.v3[i,]=bayesmooth(sim.m.bump.3.v3[i,],sigma=sigma.bump.3.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.3.v3[i,]=waveti.var(sim.m.bump.3.v3[i,],sigma=sigma.bump.3.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.3.v3[i,]=waveti.var(sim.m.bump.3.v3[i,],sigma=sigma.bump.3.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.3.v3[i,]=ti.thresh(sim.m.bump.3.v3[i,],sigma=sigma.bump.3.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.3.v3[i,]=ti.thresh(sim.m.bump.3.v3[i,],sigma=sigma.bump.3.v3,filter.number=8,family="DaubLeAsymm")
   
   sigma.blk.1.v3.est=sig.est.func(sim.m.blk.1.v3[i,],n)
   mu.est.ash.haar.blk.1.v3[i,]=bayesmooth(sim.m.blk.1.v3[i,],sigma.blk.1.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.1.v3[i,]=bayesmooth(sim.m.blk.1.v3[i,],sigma.blk.1.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.1.v3[i,]=bayesmooth(sim.m.blk.1.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.1.v3[i,]=bayesmooth(sim.m.blk.1.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.1.v3[i,]=waveti.var(sim.m.blk.1.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.1.v3[i,]=waveti.var(sim.m.blk.1.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.1.v3[i,]=ti.thresh(sim.m.blk.1.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.1.v3[i,]=ti.thresh(sim.m.blk.1.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.1.v3[i,]=bayesmooth(sim.m.blk.1.v3[i,],sigma=sigma.blk.1.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.1.v3[i,]=bayesmooth(sim.m.blk.1.v3[i,],sigma=sigma.blk.1.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.1.v3[i,]=waveti.var(sim.m.blk.1.v3[i,],sigma=sigma.blk.1.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.1.v3[i,]=waveti.var(sim.m.blk.1.v3[i,],sigma=sigma.blk.1.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.1.v3[i,]=ti.thresh(sim.m.blk.1.v3[i,],sigma=sigma.blk.1.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.1.v3[i,]=ti.thresh(sim.m.blk.1.v3[i,],sigma=sigma.blk.1.v3,filter.number=8,family="DaubLeAsymm")
   sigma.blk.3.v3.est=sig.est.func(sim.m.blk.3.v3[i,],n)
   mu.est.ash.haar.blk.3.v3[i,]=bayesmooth(sim.m.blk.3.v3[i,],sigma.blk.3.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.3.v3[i,]=bayesmooth(sim.m.blk.3.v3[i,],sigma.blk.3.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.3.v3[i,]=bayesmooth(sim.m.blk.3.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.3.v3[i,]=bayesmooth(sim.m.blk.3.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.3.v3[i,]=waveti.var(sim.m.blk.3.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.3.v3[i,]=waveti.var(sim.m.blk.3.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.3.v3[i,]=ti.thresh(sim.m.blk.3.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.3.v3[i,]=ti.thresh(sim.m.blk.3.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.3.v3[i,]=bayesmooth(sim.m.blk.3.v3[i,],sigma=sigma.blk.3.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.3.v3[i,]=bayesmooth(sim.m.blk.3.v3[i,],sigma=sigma.blk.3.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.3.v3[i,]=waveti.var(sim.m.blk.3.v3[i,],sigma=sigma.blk.3.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.3.v3[i,]=waveti.var(sim.m.blk.3.v3[i,],sigma=sigma.blk.3.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.3.v3[i,]=ti.thresh(sim.m.blk.3.v3[i,],sigma=sigma.blk.3.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.3.v3[i,]=ti.thresh(sim.m.blk.3.v3[i,],sigma=sigma.blk.3.v3,filter.number=8,family="DaubLeAsymm")
 
   sigma.ang.1.v3.est=sig.est.func(sim.m.ang.1.v3[i,],n)
   mu.est.ash.haar.ang.1.v3[i,]=bayesmooth(sim.m.ang.1.v3[i,],sigma.ang.1.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.1.v3[i,]=bayesmooth(sim.m.ang.1.v3[i,],sigma.ang.1.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.1.v3[i,]=bayesmooth(sim.m.ang.1.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.1.v3[i,]=bayesmooth(sim.m.ang.1.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.1.v3[i,]=waveti.var(sim.m.ang.1.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.1.v3[i,]=waveti.var(sim.m.ang.1.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.1.v3[i,]=ti.thresh(sim.m.ang.1.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.1.v3[i,]=ti.thresh(sim.m.ang.1.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.1.v3[i,]=bayesmooth(sim.m.ang.1.v3[i,],sigma=sigma.ang.1.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.1.v3[i,]=bayesmooth(sim.m.ang.1.v3[i,],sigma=sigma.ang.1.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.1.v3[i,]=waveti.var(sim.m.ang.1.v3[i,],sigma=sigma.ang.1.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.1.v3[i,]=waveti.var(sim.m.ang.1.v3[i,],sigma=sigma.ang.1.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.1.v3[i,]=ti.thresh(sim.m.ang.1.v3[i,],sigma=sigma.ang.1.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.1.v3[i,]=ti.thresh(sim.m.ang.1.v3[i,],sigma=sigma.ang.1.v3,filter.number=8,family="DaubLeAsymm")
   sigma.ang.3.v3.est=sig.est.func(sim.m.ang.3.v3[i,],n)
   mu.est.ash.haar.ang.3.v3[i,]=bayesmooth(sim.m.ang.3.v3[i,],sigma.ang.3.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.3.v3[i,]=bayesmooth(sim.m.ang.3.v3[i,],sigma.ang.3.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.3.v3[i,]=bayesmooth(sim.m.ang.3.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.3.v3[i,]=bayesmooth(sim.m.ang.3.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.3.v3[i,]=waveti.var(sim.m.ang.3.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.3.v3[i,]=waveti.var(sim.m.ang.3.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.3.v3[i,]=ti.thresh(sim.m.ang.3.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.3.v3[i,]=ti.thresh(sim.m.ang.3.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.3.v3[i,]=bayesmooth(sim.m.ang.3.v3[i,],sigma=sigma.ang.3.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.3.v3[i,]=bayesmooth(sim.m.ang.3.v3[i,],sigma=sigma.ang.3.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.3.v3[i,]=waveti.var(sim.m.ang.3.v3[i,],sigma=sigma.ang.3.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.3.v3[i,]=waveti.var(sim.m.ang.3.v3[i,],sigma=sigma.ang.3.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.3.v3[i,]=ti.thresh(sim.m.ang.3.v3[i,],sigma=sigma.ang.3.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.3.v3[i,]=ti.thresh(sim.m.ang.3.v3[i,],sigma=sigma.ang.3.v3,filter.number=8,family="DaubLeAsymm")
 
   sigma.dop.1.v3.est=sig.est.func(sim.m.dop.1.v3[i,],n)
   mu.est.ash.haar.dop.1.v3[i,]=bayesmooth(sim.m.dop.1.v3[i,],sigma.dop.1.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.1.v3[i,]=bayesmooth(sim.m.dop.1.v3[i,],sigma.dop.1.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.1.v3[i,]=bayesmooth(sim.m.dop.1.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.1.v3[i,]=bayesmooth(sim.m.dop.1.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.1.v3[i,]=waveti.var(sim.m.dop.1.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.1.v3[i,]=waveti.var(sim.m.dop.1.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.1.v3[i,]=ti.thresh(sim.m.dop.1.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.1.v3[i,]=ti.thresh(sim.m.dop.1.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.1.v3[i,]=bayesmooth(sim.m.dop.1.v3[i,],sigma=sigma.dop.1.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.1.v3[i,]=bayesmooth(sim.m.dop.1.v3[i,],sigma=sigma.dop.1.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.1.v3[i,]=waveti.var(sim.m.dop.1.v3[i,],sigma=sigma.dop.1.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.1.v3[i,]=waveti.var(sim.m.dop.1.v3[i,],sigma=sigma.dop.1.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.1.v3[i,]=ti.thresh(sim.m.dop.1.v3[i,],sigma=sigma.dop.1.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.1.v3[i,]=ti.thresh(sim.m.dop.1.v3[i,],sigma=sigma.dop.1.v3,filter.number=8,family="DaubLeAsymm")
   sigma.dop.3.v3.est=sig.est.func(sim.m.dop.3.v3[i,],n)
   mu.est.ash.haar.dop.3.v3[i,]=bayesmooth(sim.m.dop.3.v3[i,],sigma.dop.3.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.3.v3[i,]=bayesmooth(sim.m.dop.3.v3[i,],sigma.dop.3.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.3.v3[i,]=bayesmooth(sim.m.dop.3.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.3.v3[i,]=bayesmooth(sim.m.dop.3.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.3.v3[i,]=waveti.var(sim.m.dop.3.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.3.v3[i,]=waveti.var(sim.m.dop.3.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.3.v3[i,]=ti.thresh(sim.m.dop.3.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.3.v3[i,]=ti.thresh(sim.m.dop.3.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.3.v3[i,]=bayesmooth(sim.m.dop.3.v3[i,],sigma=sigma.dop.3.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.3.v3[i,]=bayesmooth(sim.m.dop.3.v3[i,],sigma=sigma.dop.3.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.3.v3[i,]=waveti.var(sim.m.dop.3.v3[i,],sigma=sigma.dop.3.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.3.v3[i,]=waveti.var(sim.m.dop.3.v3[i,],sigma=sigma.dop.3.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.3.v3[i,]=ti.thresh(sim.m.dop.3.v3[i,],sigma=sigma.dop.3.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.3.v3[i,]=ti.thresh(sim.m.dop.3.v3[i,],sigma=sigma.dop.3.v3,filter.number=8,family="DaubLeAsymm")
 
   sigma.blip.1.v3.est=sig.est.func(sim.m.blip.1.v3[i,],n)
   mu.est.ash.haar.blip.1.v3[i,]=bayesmooth(sim.m.blip.1.v3[i,],sigma.blip.1.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.1.v3[i,]=bayesmooth(sim.m.blip.1.v3[i,],sigma.blip.1.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.1.v3[i,]=bayesmooth(sim.m.blip.1.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.1.v3[i,]=bayesmooth(sim.m.blip.1.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.1.v3[i,]=waveti.var(sim.m.blip.1.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.1.v3[i,]=waveti.var(sim.m.blip.1.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.1.v3[i,]=ti.thresh(sim.m.blip.1.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.1.v3[i,]=ti.thresh(sim.m.blip.1.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.1.v3[i,]=bayesmooth(sim.m.blip.1.v3[i,],sigma=sigma.blip.1.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.1.v3[i,]=bayesmooth(sim.m.blip.1.v3[i,],sigma=sigma.blip.1.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.1.v3[i,]=waveti.var(sim.m.blip.1.v3[i,],sigma=sigma.blip.1.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.1.v3[i,]=waveti.var(sim.m.blip.1.v3[i,],sigma=sigma.blip.1.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.1.v3[i,]=ti.thresh(sim.m.blip.1.v3[i,],sigma=sigma.blip.1.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.1.v3[i,]=ti.thresh(sim.m.blip.1.v3[i,],sigma=sigma.blip.1.v3,filter.number=8,family="DaubLeAsymm")
   sigma.blip.3.v3.est=sig.est.func(sim.m.blip.3.v3[i,],n)
   mu.est.ash.haar.blip.3.v3[i,]=bayesmooth(sim.m.blip.3.v3[i,],sigma.blip.3.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.3.v3[i,]=bayesmooth(sim.m.blip.3.v3[i,],sigma.blip.3.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.3.v3[i,]=bayesmooth(sim.m.blip.3.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.3.v3[i,]=bayesmooth(sim.m.blip.3.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.3.v3[i,]=waveti.var(sim.m.blip.3.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.3.v3[i,]=waveti.var(sim.m.blip.3.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.3.v3[i,]=ti.thresh(sim.m.blip.3.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.3.v3[i,]=ti.thresh(sim.m.blip.3.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.3.v3[i,]=bayesmooth(sim.m.blip.3.v3[i,],sigma=sigma.blip.3.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.3.v3[i,]=bayesmooth(sim.m.blip.3.v3[i,],sigma=sigma.blip.3.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.3.v3[i,]=waveti.var(sim.m.blip.3.v3[i,],sigma=sigma.blip.3.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.3.v3[i,]=waveti.var(sim.m.blip.3.v3[i,],sigma=sigma.blip.3.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.3.v3[i,]=ti.thresh(sim.m.blip.3.v3[i,],sigma=sigma.blip.3.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.3.v3[i,]=ti.thresh(sim.m.blip.3.v3[i,],sigma=sigma.blip.3.v3,filter.number=8,family="DaubLeAsymm")
 
   sigma.cor.1.v3.est=sig.est.func(sim.m.cor.1.v3[i,],n)
   mu.est.ash.haar.cor.1.v3[i,]=bayesmooth(sim.m.cor.1.v3[i,],sigma.cor.1.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.1.v3[i,]=bayesmooth(sim.m.cor.1.v3[i,],sigma.cor.1.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.1.v3[i,]=bayesmooth(sim.m.cor.1.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.1.v3[i,]=bayesmooth(sim.m.cor.1.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.1.v3[i,]=waveti.var(sim.m.cor.1.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.1.v3[i,]=waveti.var(sim.m.cor.1.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.1.v3[i,]=ti.thresh(sim.m.cor.1.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.1.v3[i,]=ti.thresh(sim.m.cor.1.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.1.v3[i,]=bayesmooth(sim.m.cor.1.v3[i,],sigma=sigma.cor.1.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.1.v3[i,]=bayesmooth(sim.m.cor.1.v3[i,],sigma=sigma.cor.1.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.1.v3[i,]=waveti.var(sim.m.cor.1.v3[i,],sigma=sigma.cor.1.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.1.v3[i,]=waveti.var(sim.m.cor.1.v3[i,],sigma=sigma.cor.1.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.1.v3[i,]=ti.thresh(sim.m.cor.1.v3[i,],sigma=sigma.cor.1.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.1.v3[i,]=ti.thresh(sim.m.cor.1.v3[i,],sigma=sigma.cor.1.v3,filter.number=8,family="DaubLeAsymm")
   sigma.cor.3.v3.est=sig.est.func(sim.m.cor.3.v3[i,],n)
   mu.est.ash.haar.cor.3.v3[i,]=bayesmooth(sim.m.cor.3.v3[i,],sigma.cor.3.v3.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.3.v3[i,]=bayesmooth(sim.m.cor.3.v3[i,],sigma.cor.3.v3.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.3.v3[i,]=bayesmooth(sim.m.cor.3.v3[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.3.v3[i,]=bayesmooth(sim.m.cor.3.v3[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.3.v3[i,]=waveti.var(sim.m.cor.3.v3[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.3.v3[i,]=waveti.var(sim.m.cor.3.v3[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.3.v3[i,]=ti.thresh(sim.m.cor.3.v3[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.3.v3[i,]=ti.thresh(sim.m.cor.3.v3[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.3.v3[i,]=bayesmooth(sim.m.cor.3.v3[i,],sigma=sigma.cor.3.v3,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.3.v3[i,]=bayesmooth(sim.m.cor.3.v3[i,],sigma=sigma.cor.3.v3,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.3.v3[i,]=waveti.var(sim.m.cor.3.v3[i,],sigma=sigma.cor.3.v3,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.3.v3[i,]=waveti.var(sim.m.cor.3.v3[i,],sigma=sigma.cor.3.v3,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.3.v3[i,]=ti.thresh(sim.m.cor.3.v3[i,],sigma=sigma.cor.3.v3,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.3.v3[i,]=ti.thresh(sim.m.cor.3.v3[i,],sigma=sigma.cor.3.v3,filter.number=8,family="DaubLeAsymm")
 
 
   sigma.sp.1.v4.est=sig.est.func(sim.m.sp.1.v4[i,],n)
@@ -2147,161 +2226,161 @@ for(i in 1:100){
   mu.est.ash.s8.sp.1.v4[i,]=bayesmooth(sim.m.sp.1.v4[i,],sigma.sp.1.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.1.v4[i,]=bayesmooth(sim.m.sp.1.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.1.v4[i,]=bayesmooth(sim.m.sp.1.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.1.v4[i,]=waveti.var(sim.m.sp.1.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.1.v4[i,]=waveti.var(sim.m.sp.1.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.1.v4[i,]=ti.thresh(sim.m.sp.1.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.1.v4[i,]=ti.thresh(sim.m.sp.1.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.1.v4[i,]=bayesmooth(sim.m.sp.1.v4[i,],sigma=sigma.sp.1.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.1.v4[i,]=bayesmooth(sim.m.sp.1.v4[i,],sigma=sigma.sp.1.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.1.v4[i,]=waveti.var(sim.m.sp.1.v4[i,],sigma=sigma.sp.1.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.1.v4[i,]=waveti.var(sim.m.sp.1.v4[i,],sigma=sigma.sp.1.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.1.v4[i,]=ti.thresh(sim.m.sp.1.v4[i,],sigma=sigma.sp.1.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.1.v4[i,]=ti.thresh(sim.m.sp.1.v4[i,],sigma=sigma.sp.1.v4,filter.number=8,family="DaubLeAsymm")
   sigma.sp.3.v4.est=sig.est.func(sim.m.sp.3.v4[i,],n)
   mu.est.ash.haar.sp.3.v4[i,]=bayesmooth(sim.m.sp.3.v4[i,],sigma.sp.3.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.sp.3.v4[i,]=bayesmooth(sim.m.sp.3.v4[i,],sigma.sp.3.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.3.v4[i,]=bayesmooth(sim.m.sp.3.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.3.v4[i,]=bayesmooth(sim.m.sp.3.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.3.v4[i,]=waveti.var(sim.m.sp.3.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.3.v4[i,]=waveti.var(sim.m.sp.3.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.3.v4[i,]=ti.thresh(sim.m.sp.3.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.3.v4[i,]=ti.thresh(sim.m.sp.3.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.3.v4[i,]=bayesmooth(sim.m.sp.3.v4[i,],sigma=sigma.sp.3.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.3.v4[i,]=bayesmooth(sim.m.sp.3.v4[i,],sigma=sigma.sp.3.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.3.v4[i,]=waveti.var(sim.m.sp.3.v4[i,],sigma=sigma.sp.3.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.3.v4[i,]=waveti.var(sim.m.sp.3.v4[i,],sigma=sigma.sp.3.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.3.v4[i,]=ti.thresh(sim.m.sp.3.v4[i,],sigma=sigma.sp.3.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.3.v4[i,]=ti.thresh(sim.m.sp.3.v4[i,],sigma=sigma.sp.3.v4,filter.number=8,family="DaubLeAsymm")
 
   sigma.bump.1.v4.est=sig.est.func(sim.m.bump.1.v4[i,],n)
   mu.est.ash.haar.bump.1.v4[i,]=bayesmooth(sim.m.bump.1.v4[i,],sigma.bump.1.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.1.v4[i,]=bayesmooth(sim.m.bump.1.v4[i,],sigma.bump.1.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.1.v4[i,]=bayesmooth(sim.m.bump.1.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.1.v4[i,]=bayesmooth(sim.m.bump.1.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.1.v4[i,]=waveti.var(sim.m.bump.1.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.1.v4[i,]=waveti.var(sim.m.bump.1.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.1.v4[i,]=ti.thresh(sim.m.bump.1.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.1.v4[i,]=ti.thresh(sim.m.bump.1.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.1.v4[i,]=bayesmooth(sim.m.bump.1.v4[i,],sigma=sigma.bump.1.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.1.v4[i,]=bayesmooth(sim.m.bump.1.v4[i,],sigma=sigma.bump.1.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.1.v4[i,]=waveti.var(sim.m.bump.1.v4[i,],sigma=sigma.bump.1.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.1.v4[i,]=waveti.var(sim.m.bump.1.v4[i,],sigma=sigma.bump.1.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.1.v4[i,]=ti.thresh(sim.m.bump.1.v4[i,],sigma=sigma.bump.1.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.1.v4[i,]=ti.thresh(sim.m.bump.1.v4[i,],sigma=sigma.bump.1.v4,filter.number=8,family="DaubLeAsymm")
   sigma.bump.3.v4.est=sig.est.func(sim.m.bump.3.v4[i,],n)
   mu.est.ash.haar.bump.3.v4[i,]=bayesmooth(sim.m.bump.3.v4[i,],sigma.bump.3.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.3.v4[i,]=bayesmooth(sim.m.bump.3.v4[i,],sigma.bump.3.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.3.v4[i,]=bayesmooth(sim.m.bump.3.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.3.v4[i,]=bayesmooth(sim.m.bump.3.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.3.v4[i,]=waveti.var(sim.m.bump.3.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.3.v4[i,]=waveti.var(sim.m.bump.3.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.3.v4[i,]=ti.thresh(sim.m.bump.3.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.3.v4[i,]=ti.thresh(sim.m.bump.3.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.3.v4[i,]=bayesmooth(sim.m.bump.3.v4[i,],sigma=sigma.bump.3.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.3.v4[i,]=bayesmooth(sim.m.bump.3.v4[i,],sigma=sigma.bump.3.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.3.v4[i,]=waveti.var(sim.m.bump.3.v4[i,],sigma=sigma.bump.3.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.3.v4[i,]=waveti.var(sim.m.bump.3.v4[i,],sigma=sigma.bump.3.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.3.v4[i,]=ti.thresh(sim.m.bump.3.v4[i,],sigma=sigma.bump.3.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.3.v4[i,]=ti.thresh(sim.m.bump.3.v4[i,],sigma=sigma.bump.3.v4,filter.number=8,family="DaubLeAsymm")
   
   sigma.blk.1.v4.est=sig.est.func(sim.m.blk.1.v4[i,],n)
   mu.est.ash.haar.blk.1.v4[i,]=bayesmooth(sim.m.blk.1.v4[i,],sigma.blk.1.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.1.v4[i,]=bayesmooth(sim.m.blk.1.v4[i,],sigma.blk.1.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.1.v4[i,]=bayesmooth(sim.m.blk.1.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.1.v4[i,]=bayesmooth(sim.m.blk.1.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.1.v4[i,]=waveti.var(sim.m.blk.1.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.1.v4[i,]=waveti.var(sim.m.blk.1.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.1.v4[i,]=ti.thresh(sim.m.blk.1.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.1.v4[i,]=ti.thresh(sim.m.blk.1.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.1.v4[i,]=bayesmooth(sim.m.blk.1.v4[i,],sigma=sigma.blk.1.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.1.v4[i,]=bayesmooth(sim.m.blk.1.v4[i,],sigma=sigma.blk.1.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.1.v4[i,]=waveti.var(sim.m.blk.1.v4[i,],sigma=sigma.blk.1.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.1.v4[i,]=waveti.var(sim.m.blk.1.v4[i,],sigma=sigma.blk.1.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.1.v4[i,]=ti.thresh(sim.m.blk.1.v4[i,],sigma=sigma.blk.1.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.1.v4[i,]=ti.thresh(sim.m.blk.1.v4[i,],sigma=sigma.blk.1.v4,filter.number=8,family="DaubLeAsymm")
   sigma.blk.3.v4.est=sig.est.func(sim.m.blk.3.v4[i,],n)
   mu.est.ash.haar.blk.3.v4[i,]=bayesmooth(sim.m.blk.3.v4[i,],sigma.blk.3.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.3.v4[i,]=bayesmooth(sim.m.blk.3.v4[i,],sigma.blk.3.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.3.v4[i,]=bayesmooth(sim.m.blk.3.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.3.v4[i,]=bayesmooth(sim.m.blk.3.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.3.v4[i,]=waveti.var(sim.m.blk.3.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.3.v4[i,]=waveti.var(sim.m.blk.3.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.3.v4[i,]=ti.thresh(sim.m.blk.3.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.3.v4[i,]=ti.thresh(sim.m.blk.3.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.3.v4[i,]=bayesmooth(sim.m.blk.3.v4[i,],sigma=sigma.blk.3.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.3.v4[i,]=bayesmooth(sim.m.blk.3.v4[i,],sigma=sigma.blk.3.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.3.v4[i,]=waveti.var(sim.m.blk.3.v4[i,],sigma=sigma.blk.3.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.3.v4[i,]=waveti.var(sim.m.blk.3.v4[i,],sigma=sigma.blk.3.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.3.v4[i,]=ti.thresh(sim.m.blk.3.v4[i,],sigma=sigma.blk.3.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.3.v4[i,]=ti.thresh(sim.m.blk.3.v4[i,],sigma=sigma.blk.3.v4,filter.number=8,family="DaubLeAsymm")
 
   sigma.ang.1.v4.est=sig.est.func(sim.m.ang.1.v4[i,],n)
   mu.est.ash.haar.ang.1.v4[i,]=bayesmooth(sim.m.ang.1.v4[i,],sigma.ang.1.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.1.v4[i,]=bayesmooth(sim.m.ang.1.v4[i,],sigma.ang.1.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.1.v4[i,]=bayesmooth(sim.m.ang.1.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.1.v4[i,]=bayesmooth(sim.m.ang.1.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.1.v4[i,]=waveti.var(sim.m.ang.1.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.1.v4[i,]=waveti.var(sim.m.ang.1.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.1.v4[i,]=ti.thresh(sim.m.ang.1.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.1.v4[i,]=ti.thresh(sim.m.ang.1.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.1.v4[i,]=bayesmooth(sim.m.ang.1.v4[i,],sigma=sigma.ang.1.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.1.v4[i,]=bayesmooth(sim.m.ang.1.v4[i,],sigma=sigma.ang.1.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.1.v4[i,]=waveti.var(sim.m.ang.1.v4[i,],sigma=sigma.ang.1.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.1.v4[i,]=waveti.var(sim.m.ang.1.v4[i,],sigma=sigma.ang.1.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.1.v4[i,]=ti.thresh(sim.m.ang.1.v4[i,],sigma=sigma.ang.1.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.1.v4[i,]=ti.thresh(sim.m.ang.1.v4[i,],sigma=sigma.ang.1.v4,filter.number=8,family="DaubLeAsymm")
   sigma.ang.3.v4.est=sig.est.func(sim.m.ang.3.v4[i,],n)
   mu.est.ash.haar.ang.3.v4[i,]=bayesmooth(sim.m.ang.3.v4[i,],sigma.ang.3.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.3.v4[i,]=bayesmooth(sim.m.ang.3.v4[i,],sigma.ang.3.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.3.v4[i,]=bayesmooth(sim.m.ang.3.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.3.v4[i,]=bayesmooth(sim.m.ang.3.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.3.v4[i,]=waveti.var(sim.m.ang.3.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.3.v4[i,]=waveti.var(sim.m.ang.3.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.3.v4[i,]=ti.thresh(sim.m.ang.3.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.3.v4[i,]=ti.thresh(sim.m.ang.3.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.3.v4[i,]=bayesmooth(sim.m.ang.3.v4[i,],sigma=sigma.ang.3.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.3.v4[i,]=bayesmooth(sim.m.ang.3.v4[i,],sigma=sigma.ang.3.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.3.v4[i,]=waveti.var(sim.m.ang.3.v4[i,],sigma=sigma.ang.3.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.3.v4[i,]=waveti.var(sim.m.ang.3.v4[i,],sigma=sigma.ang.3.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.3.v4[i,]=ti.thresh(sim.m.ang.3.v4[i,],sigma=sigma.ang.3.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.3.v4[i,]=ti.thresh(sim.m.ang.3.v4[i,],sigma=sigma.ang.3.v4,filter.number=8,family="DaubLeAsymm")
 
   sigma.dop.1.v4.est=sig.est.func(sim.m.dop.1.v4[i,],n)
   mu.est.ash.haar.dop.1.v4[i,]=bayesmooth(sim.m.dop.1.v4[i,],sigma.dop.1.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.1.v4[i,]=bayesmooth(sim.m.dop.1.v4[i,],sigma.dop.1.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.1.v4[i,]=bayesmooth(sim.m.dop.1.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.1.v4[i,]=bayesmooth(sim.m.dop.1.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.1.v4[i,]=waveti.var(sim.m.dop.1.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.1.v4[i,]=waveti.var(sim.m.dop.1.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.1.v4[i,]=ti.thresh(sim.m.dop.1.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.1.v4[i,]=ti.thresh(sim.m.dop.1.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.1.v4[i,]=bayesmooth(sim.m.dop.1.v4[i,],sigma=sigma.dop.1.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.1.v4[i,]=bayesmooth(sim.m.dop.1.v4[i,],sigma=sigma.dop.1.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.1.v4[i,]=waveti.var(sim.m.dop.1.v4[i,],sigma=sigma.dop.1.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.1.v4[i,]=waveti.var(sim.m.dop.1.v4[i,],sigma=sigma.dop.1.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.1.v4[i,]=ti.thresh(sim.m.dop.1.v4[i,],sigma=sigma.dop.1.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.1.v4[i,]=ti.thresh(sim.m.dop.1.v4[i,],sigma=sigma.dop.1.v4,filter.number=8,family="DaubLeAsymm")
   sigma.dop.3.v4.est=sig.est.func(sim.m.dop.3.v4[i,],n)
   mu.est.ash.haar.dop.3.v4[i,]=bayesmooth(sim.m.dop.3.v4[i,],sigma.dop.3.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.3.v4[i,]=bayesmooth(sim.m.dop.3.v4[i,],sigma.dop.3.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.3.v4[i,]=bayesmooth(sim.m.dop.3.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.3.v4[i,]=bayesmooth(sim.m.dop.3.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.3.v4[i,]=waveti.var(sim.m.dop.3.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.3.v4[i,]=waveti.var(sim.m.dop.3.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.3.v4[i,]=ti.thresh(sim.m.dop.3.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.3.v4[i,]=ti.thresh(sim.m.dop.3.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.3.v4[i,]=bayesmooth(sim.m.dop.3.v4[i,],sigma=sigma.dop.3.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.3.v4[i,]=bayesmooth(sim.m.dop.3.v4[i,],sigma=sigma.dop.3.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.3.v4[i,]=waveti.var(sim.m.dop.3.v4[i,],sigma=sigma.dop.3.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.3.v4[i,]=waveti.var(sim.m.dop.3.v4[i,],sigma=sigma.dop.3.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.3.v4[i,]=ti.thresh(sim.m.dop.3.v4[i,],sigma=sigma.dop.3.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.3.v4[i,]=ti.thresh(sim.m.dop.3.v4[i,],sigma=sigma.dop.3.v4,filter.number=8,family="DaubLeAsymm")
 
   sigma.blip.1.v4.est=sig.est.func(sim.m.blip.1.v4[i,],n)
   mu.est.ash.haar.blip.1.v4[i,]=bayesmooth(sim.m.blip.1.v4[i,],sigma.blip.1.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.1.v4[i,]=bayesmooth(sim.m.blip.1.v4[i,],sigma.blip.1.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.1.v4[i,]=bayesmooth(sim.m.blip.1.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.1.v4[i,]=bayesmooth(sim.m.blip.1.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.1.v4[i,]=waveti.var(sim.m.blip.1.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.1.v4[i,]=waveti.var(sim.m.blip.1.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.1.v4[i,]=ti.thresh(sim.m.blip.1.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.1.v4[i,]=ti.thresh(sim.m.blip.1.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.1.v4[i,]=bayesmooth(sim.m.blip.1.v4[i,],sigma=sigma.blip.1.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.1.v4[i,]=bayesmooth(sim.m.blip.1.v4[i,],sigma=sigma.blip.1.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.1.v4[i,]=waveti.var(sim.m.blip.1.v4[i,],sigma=sigma.blip.1.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.1.v4[i,]=waveti.var(sim.m.blip.1.v4[i,],sigma=sigma.blip.1.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.1.v4[i,]=ti.thresh(sim.m.blip.1.v4[i,],sigma=sigma.blip.1.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.1.v4[i,]=ti.thresh(sim.m.blip.1.v4[i,],sigma=sigma.blip.1.v4,filter.number=8,family="DaubLeAsymm")
   sigma.blip.3.v4.est=sig.est.func(sim.m.blip.3.v4[i,],n)
   mu.est.ash.haar.blip.3.v4[i,]=bayesmooth(sim.m.blip.3.v4[i,],sigma.blip.3.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.3.v4[i,]=bayesmooth(sim.m.blip.3.v4[i,],sigma.blip.3.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.3.v4[i,]=bayesmooth(sim.m.blip.3.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.3.v4[i,]=bayesmooth(sim.m.blip.3.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.3.v4[i,]=waveti.var(sim.m.blip.3.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.3.v4[i,]=waveti.var(sim.m.blip.3.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.3.v4[i,]=ti.thresh(sim.m.blip.3.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.3.v4[i,]=ti.thresh(sim.m.blip.3.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.3.v4[i,]=bayesmooth(sim.m.blip.3.v4[i,],sigma=sigma.blip.3.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.3.v4[i,]=bayesmooth(sim.m.blip.3.v4[i,],sigma=sigma.blip.3.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.3.v4[i,]=waveti.var(sim.m.blip.3.v4[i,],sigma=sigma.blip.3.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.3.v4[i,]=waveti.var(sim.m.blip.3.v4[i,],sigma=sigma.blip.3.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.3.v4[i,]=ti.thresh(sim.m.blip.3.v4[i,],sigma=sigma.blip.3.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.3.v4[i,]=ti.thresh(sim.m.blip.3.v4[i,],sigma=sigma.blip.3.v4,filter.number=8,family="DaubLeAsymm")
 
   sigma.cor.1.v4.est=sig.est.func(sim.m.cor.1.v4[i,],n)
   mu.est.ash.haar.cor.1.v4[i,]=bayesmooth(sim.m.cor.1.v4[i,],sigma.cor.1.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.1.v4[i,]=bayesmooth(sim.m.cor.1.v4[i,],sigma.cor.1.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.1.v4[i,]=bayesmooth(sim.m.cor.1.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.1.v4[i,]=bayesmooth(sim.m.cor.1.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.1.v4[i,]=waveti.var(sim.m.cor.1.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.1.v4[i,]=waveti.var(sim.m.cor.1.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.1.v4[i,]=ti.thresh(sim.m.cor.1.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.1.v4[i,]=ti.thresh(sim.m.cor.1.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.1.v4[i,]=bayesmooth(sim.m.cor.1.v4[i,],sigma=sigma.cor.1.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.1.v4[i,]=bayesmooth(sim.m.cor.1.v4[i,],sigma=sigma.cor.1.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.1.v4[i,]=waveti.var(sim.m.cor.1.v4[i,],sigma=sigma.cor.1.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.1.v4[i,]=waveti.var(sim.m.cor.1.v4[i,],sigma=sigma.cor.1.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.1.v4[i,]=ti.thresh(sim.m.cor.1.v4[i,],sigma=sigma.cor.1.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.1.v4[i,]=ti.thresh(sim.m.cor.1.v4[i,],sigma=sigma.cor.1.v4,filter.number=8,family="DaubLeAsymm")
   sigma.cor.3.v4.est=sig.est.func(sim.m.cor.3.v4[i,],n)
   mu.est.ash.haar.cor.3.v4[i,]=bayesmooth(sim.m.cor.3.v4[i,],sigma.cor.3.v4.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.3.v4[i,]=bayesmooth(sim.m.cor.3.v4[i,],sigma.cor.3.v4.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.3.v4[i,]=bayesmooth(sim.m.cor.3.v4[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.3.v4[i,]=bayesmooth(sim.m.cor.3.v4[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.3.v4[i,]=waveti.var(sim.m.cor.3.v4[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.3.v4[i,]=waveti.var(sim.m.cor.3.v4[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.3.v4[i,]=ti.thresh(sim.m.cor.3.v4[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.3.v4[i,]=ti.thresh(sim.m.cor.3.v4[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.3.v4[i,]=bayesmooth(sim.m.cor.3.v4[i,],sigma=sigma.cor.3.v4,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.3.v4[i,]=bayesmooth(sim.m.cor.3.v4[i,],sigma=sigma.cor.3.v4,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.3.v4[i,]=waveti.var(sim.m.cor.3.v4[i,],sigma=sigma.cor.3.v4,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.3.v4[i,]=waveti.var(sim.m.cor.3.v4[i,],sigma=sigma.cor.3.v4,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.3.v4[i,]=ti.thresh(sim.m.cor.3.v4[i,],sigma=sigma.cor.3.v4,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.3.v4[i,]=ti.thresh(sim.m.cor.3.v4[i,],sigma=sigma.cor.3.v4,filter.number=8,family="DaubLeAsymm")
 
 
   sigma.sp.1.v5.est=sig.est.func(sim.m.sp.1.v5[i,],n)
@@ -2309,161 +2388,163 @@ for(i in 1:100){
   mu.est.ash.s8.sp.1.v5[i,]=bayesmooth(sim.m.sp.1.v5[i,],sigma.sp.1.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.1.v5[i,]=bayesmooth(sim.m.sp.1.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.1.v5[i,]=bayesmooth(sim.m.sp.1.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.1.v5[i,]=waveti.var(sim.m.sp.1.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.1.v5[i,]=waveti.var(sim.m.sp.1.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.1.v5[i,]=ti.thresh(sim.m.sp.1.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.1.v5[i,]=ti.thresh(sim.m.sp.1.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.1.v5[i,]=bayesmooth(sim.m.sp.1.v5[i,],sigma=sigma.sp.1.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.1.v5[i,]=bayesmooth(sim.m.sp.1.v5[i,],sigma=sigma.sp.1.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.1.v5[i,]=waveti.var(sim.m.sp.1.v5[i,],sigma=sigma.sp.1.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.1.v5[i,]=waveti.var(sim.m.sp.1.v5[i,],sigma=sigma.sp.1.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.1.v5[i,]=ti.thresh(sim.m.sp.1.v5[i,],sigma=sigma.sp.1.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.1.v5[i,]=ti.thresh(sim.m.sp.1.v5[i,],sigma=sigma.sp.1.v5,filter.number=8,family="DaubLeAsymm")
   sigma.sp.3.v5.est=sig.est.func(sim.m.sp.3.v5[i,],n)
   mu.est.ash.haar.sp.3.v5[i,]=bayesmooth(sim.m.sp.3.v5[i,],sigma.sp.3.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.sp.3.v5[i,]=bayesmooth(sim.m.sp.3.v5[i,],sigma.sp.3.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.sp.3.v5[i,]=bayesmooth(sim.m.sp.3.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.sp.3.v5[i,]=bayesmooth(sim.m.sp.3.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.sp.3.v5[i,]=waveti.var(sim.m.sp.3.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.sp.3.v5[i,]=waveti.var(sim.m.sp.3.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.sp.3.v5[i,]=ti.thresh(sim.m.sp.3.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.sp.3.v5[i,]=ti.thresh(sim.m.sp.3.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.sp.3.v5[i,]=bayesmooth(sim.m.sp.3.v5[i,],sigma=sigma.sp.3.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.sp.3.v5[i,]=bayesmooth(sim.m.sp.3.v5[i,],sigma=sigma.sp.3.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.sp.3.v5[i,]=waveti.var(sim.m.sp.3.v5[i,],sigma=sigma.sp.3.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.sp.3.v5[i,]=waveti.var(sim.m.sp.3.v5[i,],sigma=sigma.sp.3.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.sp.3.v5[i,]=ti.thresh(sim.m.sp.3.v5[i,],sigma=sigma.sp.3.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.sp.3.v5[i,]=ti.thresh(sim.m.sp.3.v5[i,],sigma=sigma.sp.3.v5,filter.number=8,family="DaubLeAsymm")
 
   sigma.bump.1.v5.est=sig.est.func(sim.m.bump.1.v5[i,],n)
   mu.est.ash.haar.bump.1.v5[i,]=bayesmooth(sim.m.bump.1.v5[i,],sigma.bump.1.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.1.v5[i,]=bayesmooth(sim.m.bump.1.v5[i,],sigma.bump.1.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.1.v5[i,]=bayesmooth(sim.m.bump.1.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.1.v5[i,]=bayesmooth(sim.m.bump.1.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.1.v5[i,]=waveti.var(sim.m.bump.1.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.1.v5[i,]=waveti.var(sim.m.bump.1.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.1.v5[i,]=ti.thresh(sim.m.bump.1.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.1.v5[i,]=ti.thresh(sim.m.bump.1.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.1.v5[i,]=bayesmooth(sim.m.bump.1.v5[i,],sigma=sigma.bump.1.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.1.v5[i,]=bayesmooth(sim.m.bump.1.v5[i,],sigma=sigma.bump.1.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.1.v5[i,]=waveti.var(sim.m.bump.1.v5[i,],sigma=sigma.bump.1.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.1.v5[i,]=waveti.var(sim.m.bump.1.v5[i,],sigma=sigma.bump.1.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.1.v5[i,]=ti.thresh(sim.m.bump.1.v5[i,],sigma=sigma.bump.1.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.1.v5[i,]=ti.thresh(sim.m.bump.1.v5[i,],sigma=sigma.bump.1.v5,filter.number=8,family="DaubLeAsymm")
   sigma.bump.3.v5.est=sig.est.func(sim.m.bump.3.v5[i,],n)
   mu.est.ash.haar.bump.3.v5[i,]=bayesmooth(sim.m.bump.3.v5[i,],sigma.bump.3.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.bump.3.v5[i,]=bayesmooth(sim.m.bump.3.v5[i,],sigma.bump.3.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.bump.3.v5[i,]=bayesmooth(sim.m.bump.3.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.bump.3.v5[i,]=bayesmooth(sim.m.bump.3.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.bump.3.v5[i,]=waveti.var(sim.m.bump.3.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.bump.3.v5[i,]=waveti.var(sim.m.bump.3.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.bump.3.v5[i,]=ti.thresh(sim.m.bump.3.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.bump.3.v5[i,]=ti.thresh(sim.m.bump.3.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.bump.3.v5[i,]=bayesmooth(sim.m.bump.3.v5[i,],sigma=sigma.bump.3.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.bump.3.v5[i,]=bayesmooth(sim.m.bump.3.v5[i,],sigma=sigma.bump.3.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.bump.3.v5[i,]=waveti.var(sim.m.bump.3.v5[i,],sigma=sigma.bump.3.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.bump.3.v5[i,]=waveti.var(sim.m.bump.3.v5[i,],sigma=sigma.bump.3.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.bump.3.v5[i,]=ti.thresh(sim.m.bump.3.v5[i,],sigma=sigma.bump.3.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.bump.3.v5[i,]=ti.thresh(sim.m.bump.3.v5[i,],sigma=sigma.bump.3.v5,filter.number=8,family="DaubLeAsymm")
   
   sigma.blk.1.v5.est=sig.est.func(sim.m.blk.1.v5[i,],n)
   mu.est.ash.haar.blk.1.v5[i,]=bayesmooth(sim.m.blk.1.v5[i,],sigma.blk.1.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.1.v5[i,]=bayesmooth(sim.m.blk.1.v5[i,],sigma.blk.1.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.1.v5[i,]=bayesmooth(sim.m.blk.1.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.1.v5[i,]=bayesmooth(sim.m.blk.1.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.1.v5[i,]=waveti.var(sim.m.blk.1.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.1.v5[i,]=waveti.var(sim.m.blk.1.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.1.v5[i,]=ti.thresh(sim.m.blk.1.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.1.v5[i,]=ti.thresh(sim.m.blk.1.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.1.v5[i,]=bayesmooth(sim.m.blk.1.v5[i,],sigma=sigma.blk.1.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.1.v5[i,]=bayesmooth(sim.m.blk.1.v5[i,],sigma=sigma.blk.1.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.1.v5[i,]=waveti.var(sim.m.blk.1.v5[i,],sigma=sigma.blk.1.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.1.v5[i,]=waveti.var(sim.m.blk.1.v5[i,],sigma=sigma.blk.1.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.1.v5[i,]=ti.thresh(sim.m.blk.1.v5[i,],sigma=sigma.blk.1.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.1.v5[i,]=ti.thresh(sim.m.blk.1.v5[i,],sigma=sigma.blk.1.v5,filter.number=8,family="DaubLeAsymm")
   sigma.blk.3.v5.est=sig.est.func(sim.m.blk.3.v5[i,],n)
   mu.est.ash.haar.blk.3.v5[i,]=bayesmooth(sim.m.blk.3.v5[i,],sigma.blk.3.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blk.3.v5[i,]=bayesmooth(sim.m.blk.3.v5[i,],sigma.blk.3.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blk.3.v5[i,]=bayesmooth(sim.m.blk.3.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blk.3.v5[i,]=bayesmooth(sim.m.blk.3.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blk.3.v5[i,]=waveti.var(sim.m.blk.3.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blk.3.v5[i,]=waveti.var(sim.m.blk.3.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blk.3.v5[i,]=ti.thresh(sim.m.blk.3.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blk.3.v5[i,]=ti.thresh(sim.m.blk.3.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blk.3.v5[i,]=bayesmooth(sim.m.blk.3.v5[i,],sigma=sigma.blk.3.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.blk.3.v5[i,]=bayesmooth(sim.m.blk.3.v5[i,],sigma=sigma.blk.3.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blk.3.v5[i,]=waveti.var(sim.m.blk.3.v5[i,],sigma=sigma.blk.3.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blk.3.v5[i,]=waveti.var(sim.m.blk.3.v5[i,],sigma=sigma.blk.3.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blk.3.v5[i,]=ti.thresh(sim.m.blk.3.v5[i,],sigma=sigma.blk.3.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blk.3.v5[i,]=ti.thresh(sim.m.blk.3.v5[i,],sigma=sigma.blk.3.v5,filter.number=8,family="DaubLeAsymm")
 
   sigma.ang.1.v5.est=sig.est.func(sim.m.ang.1.v5[i,],n)
   mu.est.ash.haar.ang.1.v5[i,]=bayesmooth(sim.m.ang.1.v5[i,],sigma.ang.1.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.1.v5[i,]=bayesmooth(sim.m.ang.1.v5[i,],sigma.ang.1.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.1.v5[i,]=bayesmooth(sim.m.ang.1.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.1.v5[i,]=bayesmooth(sim.m.ang.1.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.1.v5[i,]=waveti.var(sim.m.ang.1.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.1.v5[i,]=waveti.var(sim.m.ang.1.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.1.v5[i,]=ti.thresh(sim.m.ang.1.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.1.v5[i,]=ti.thresh(sim.m.ang.1.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.1.v5[i,]=bayesmooth(sim.m.ang.1.v5[i,],sigma=sigma.ang.1.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.1.v5[i,]=bayesmooth(sim.m.ang.1.v5[i,],sigma=sigma.ang.1.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.1.v5[i,]=waveti.var(sim.m.ang.1.v5[i,],sigma=sigma.ang.1.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.1.v5[i,]=waveti.var(sim.m.ang.1.v5[i,],sigma=sigma.ang.1.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.1.v5[i,]=ti.thresh(sim.m.ang.1.v5[i,],sigma=sigma.ang.1.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.1.v5[i,]=ti.thresh(sim.m.ang.1.v5[i,],sigma=sigma.ang.1.v5,filter.number=8,family="DaubLeAsymm")
   sigma.ang.3.v5.est=sig.est.func(sim.m.ang.3.v5[i,],n)
   mu.est.ash.haar.ang.3.v5[i,]=bayesmooth(sim.m.ang.3.v5[i,],sigma.ang.3.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.ang.3.v5[i,]=bayesmooth(sim.m.ang.3.v5[i,],sigma.ang.3.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.ang.3.v5[i,]=bayesmooth(sim.m.ang.3.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.ang.3.v5[i,]=bayesmooth(sim.m.ang.3.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.ang.3.v5[i,]=waveti.var(sim.m.ang.3.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.ang.3.v5[i,]=waveti.var(sim.m.ang.3.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.ang.3.v5[i,]=ti.thresh(sim.m.ang.3.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.ang.3.v5[i,]=ti.thresh(sim.m.ang.3.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.ang.3.v5[i,]=bayesmooth(sim.m.ang.3.v5[i,],sigma=sigma.ang.3.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.ang.3.v5[i,]=bayesmooth(sim.m.ang.3.v5[i,],sigma=sigma.ang.3.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.ang.3.v5[i,]=waveti.var(sim.m.ang.3.v5[i,],sigma=sigma.ang.3.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.ang.3.v5[i,]=waveti.var(sim.m.ang.3.v5[i,],sigma=sigma.ang.3.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.ang.3.v5[i,]=ti.thresh(sim.m.ang.3.v5[i,],sigma=sigma.ang.3.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.ang.3.v5[i,]=ti.thresh(sim.m.ang.3.v5[i,],sigma=sigma.ang.3.v5,filter.number=8,family="DaubLeAsymm")
 
   sigma.dop.1.v5.est=sig.est.func(sim.m.dop.1.v5[i,],n)
   mu.est.ash.haar.dop.1.v5[i,]=bayesmooth(sim.m.dop.1.v5[i,],sigma.dop.1.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.1.v5[i,]=bayesmooth(sim.m.dop.1.v5[i,],sigma.dop.1.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.1.v5[i,]=bayesmooth(sim.m.dop.1.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.1.v5[i,]=bayesmooth(sim.m.dop.1.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.1.v5[i,]=waveti.var(sim.m.dop.1.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.1.v5[i,]=waveti.var(sim.m.dop.1.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.1.v5[i,]=ti.thresh(sim.m.dop.1.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.1.v5[i,]=ti.thresh(sim.m.dop.1.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.1.v5[i,]=bayesmooth(sim.m.dop.1.v5[i,],sigma=sigma.dop.1.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.1.v5[i,]=bayesmooth(sim.m.dop.1.v5[i,],sigma=sigma.dop.1.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.1.v5[i,]=waveti.var(sim.m.dop.1.v5[i,],sigma=sigma.dop.1.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.1.v5[i,]=waveti.var(sim.m.dop.1.v5[i,],sigma=sigma.dop.1.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.1.v5[i,]=ti.thresh(sim.m.dop.1.v5[i,],sigma=sigma.dop.1.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.1.v5[i,]=ti.thresh(sim.m.dop.1.v5[i,],sigma=sigma.dop.1.v5,filter.number=8,family="DaubLeAsymm")
   sigma.dop.3.v5.est=sig.est.func(sim.m.dop.3.v5[i,],n)
   mu.est.ash.haar.dop.3.v5[i,]=bayesmooth(sim.m.dop.3.v5[i,],sigma.dop.3.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.dop.3.v5[i,]=bayesmooth(sim.m.dop.3.v5[i,],sigma.dop.3.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.dop.3.v5[i,]=bayesmooth(sim.m.dop.3.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.dop.3.v5[i,]=bayesmooth(sim.m.dop.3.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.dop.3.v5[i,]=waveti.var(sim.m.dop.3.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.dop.3.v5[i,]=waveti.var(sim.m.dop.3.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.dop.3.v5[i,]=ti.thresh(sim.m.dop.3.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.dop.3.v5[i,]=ti.thresh(sim.m.dop.3.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.dop.3.v5[i,]=bayesmooth(sim.m.dop.3.v5[i,],sigma=sigma.dop.3.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.dop.3.v5[i,]=bayesmooth(sim.m.dop.3.v5[i,],sigma=sigma.dop.3.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.dop.3.v5[i,]=waveti.var(sim.m.dop.3.v5[i,],sigma=sigma.dop.3.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.dop.3.v5[i,]=waveti.var(sim.m.dop.3.v5[i,],sigma=sigma.dop.3.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.dop.3.v5[i,]=ti.thresh(sim.m.dop.3.v5[i,],sigma=sigma.dop.3.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.dop.3.v5[i,]=ti.thresh(sim.m.dop.3.v5[i,],sigma=sigma.dop.3.v5,filter.number=8,family="DaubLeAsymm")
 
   sigma.blip.1.v5.est=sig.est.func(sim.m.blip.1.v5[i,],n)
   mu.est.ash.haar.blip.1.v5[i,]=bayesmooth(sim.m.blip.1.v5[i,],sigma.blip.1.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.1.v5[i,]=bayesmooth(sim.m.blip.1.v5[i,],sigma.blip.1.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.1.v5[i,]=bayesmooth(sim.m.blip.1.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.1.v5[i,]=bayesmooth(sim.m.blip.1.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.1.v5[i,]=waveti.var(sim.m.blip.1.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.1.v5[i,]=waveti.var(sim.m.blip.1.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.1.v5[i,]=ti.thresh(sim.m.blip.1.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.1.v5[i,]=ti.thresh(sim.m.blip.1.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.1.v5[i,]=bayesmooth(sim.m.blip.1.v5[i,],sigma=sigma.blip.1.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.1.v5[i,]=bayesmooth(sim.m.blip.1.v5[i,],sigma=sigma.blip.1.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.1.v5[i,]=waveti.var(sim.m.blip.1.v5[i,],sigma=sigma.blip.1.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.1.v5[i,]=waveti.var(sim.m.blip.1.v5[i,],sigma=sigma.blip.1.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.1.v5[i,]=ti.thresh(sim.m.blip.1.v5[i,],sigma=sigma.blip.1.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.1.v5[i,]=ti.thresh(sim.m.blip.1.v5[i,],sigma=sigma.blip.1.v5,filter.number=8,family="DaubLeAsymm")
   sigma.blip.3.v5.est=sig.est.func(sim.m.blip.3.v5[i,],n)
   mu.est.ash.haar.blip.3.v5[i,]=bayesmooth(sim.m.blip.3.v5[i,],sigma.blip.3.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.blip.3.v5[i,]=bayesmooth(sim.m.blip.3.v5[i,],sigma.blip.3.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.blip.3.v5[i,]=bayesmooth(sim.m.blip.3.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.blip.3.v5[i,]=bayesmooth(sim.m.blip.3.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.blip.3.v5[i,]=waveti.var(sim.m.blip.3.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.blip.3.v5[i,]=waveti.var(sim.m.blip.3.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.blip.3.v5[i,]=ti.thresh(sim.m.blip.3.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.blip.3.v5[i,]=ti.thresh(sim.m.blip.3.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.blip.3.v5[i,]=bayesmooth(sim.m.blip.3.v5[i,],sigma=sigma.blip.3.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.blip.3.v5[i,]=bayesmooth(sim.m.blip.3.v5[i,],sigma=sigma.blip.3.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.blip.3.v5[i,]=waveti.var(sim.m.blip.3.v5[i,],sigma=sigma.blip.3.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.blip.3.v5[i,]=waveti.var(sim.m.blip.3.v5[i,],sigma=sigma.blip.3.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.blip.3.v5[i,]=ti.thresh(sim.m.blip.3.v5[i,],sigma=sigma.blip.3.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.blip.3.v5[i,]=ti.thresh(sim.m.blip.3.v5[i,],sigma=sigma.blip.3.v5,filter.number=8,family="DaubLeAsymm")
 
   sigma.cor.1.v5.est=sig.est.func(sim.m.cor.1.v5[i,],n)
   mu.est.ash.haar.cor.1.v5[i,]=bayesmooth(sim.m.cor.1.v5[i,],sigma.cor.1.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.1.v5[i,]=bayesmooth(sim.m.cor.1.v5[i,],sigma.cor.1.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.1.v5[i,]=bayesmooth(sim.m.cor.1.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.1.v5[i,]=bayesmooth(sim.m.cor.1.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.1.v5[i,]=waveti.var(sim.m.cor.1.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.1.v5[i,]=waveti.var(sim.m.cor.1.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.1.v5[i,]=ti.thresh(sim.m.cor.1.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.1.v5[i,]=ti.thresh(sim.m.cor.1.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.1.v5[i,]=bayesmooth(sim.m.cor.1.v5[i,],sigma=sigma.cor.1.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.1.v5[i,]=bayesmooth(sim.m.cor.1.v5[i,],sigma=sigma.cor.1.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.1.v5[i,]=waveti.var(sim.m.cor.1.v5[i,],sigma=sigma.cor.1.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.1.v5[i,]=waveti.var(sim.m.cor.1.v5[i,],sigma=sigma.cor.1.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.1.v5[i,]=ti.thresh(sim.m.cor.1.v5[i,],sigma=sigma.cor.1.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.1.v5[i,]=ti.thresh(sim.m.cor.1.v5[i,],sigma=sigma.cor.1.v5,filter.number=8,family="DaubLeAsymm")
   sigma.cor.3.v5.est=sig.est.func(sim.m.cor.3.v5[i,],n)
   mu.est.ash.haar.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],sigma.cor.3.v5.est,basis="haar",gridmult=0)
   mu.est.ash.s8.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],sigma.cor.3.v5.est,basis="symm8",gridmult=0)
   mu.est.ashe.haar.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],basis="haar",gridmult=0)
   mu.est.ashe.s8.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],basis="symm8",gridmult=0)
-  mu.est.tie.haar.cor.3.v5[i,]=waveti.var(sim.m.cor.3.v5[i,],filter.number=1,family="DaubExPhase")
-  mu.est.tie.s8.cor.3.v5[i,]=waveti.var(sim.m.cor.3.v5[i,],filter.number=8,family="DaubLeAsymm")
+  mu.est.tie.haar.cor.3.v5[i,]=ti.thresh(sim.m.cor.3.v5[i,],method="rmad",filter.number=1,family="DaubExPhase")
+  mu.est.tie.s8.cor.3.v5[i,]=ti.thresh(sim.m.cor.3.v5[i,],method="rmad",filter.number=8,family="DaubLeAsymm")
   mu.est.asht.haar.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],sigma=sigma.cor.3.v5,basis="haar",gridmult=0)
   mu.est.asht.s8.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],sigma=sigma.cor.3.v5,basis="symm8",gridmult=0)
-  mu.est.tit.haar.cor.3.v5[i,]=waveti.var(sim.m.cor.3.v5[i,],sigma=sigma.cor.3.v5,filter.number=1,family="DaubExPhase")
-  mu.est.tit.s8.cor.3.v5[i,]=waveti.var(sim.m.cor.3.v5[i,],sigma=sigma.cor.3.v5,filter.number=8,family="DaubLeAsymm")
+  mu.est.tit.haar.cor.3.v5[i,]=ti.thresh(sim.m.cor.3.v5[i,],sigma=sigma.cor.3.v5,filter.number=1,family="DaubExPhase")
+  mu.est.tit.s8.cor.3.v5[i,]=ti.thresh(sim.m.cor.3.v5[i,],sigma=sigma.cor.3.v5,filter.number=8,family="DaubLeAsymm")
+
+
 
   mu.est.ashef.haar.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],basis="haar",gridmult=4)
   mu.est.ashef.s8.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],basis="symm8",gridmult=4)
@@ -2606,364 +2687,293 @@ for(i in 1:100){
   mu.est.ashef.haar.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],basis="haar",gridmult=4)
   mu.est.ashef.s8.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],basis="symm8",gridmult=4)
 
-  var.est=bayesmooth(sim.m.sp.1.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.1.v1[i,]=waveti.var(sim.m.sp.1.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.1.v1[i,]=waveti.var(sim.m.sp.1.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.sp.1.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.1.v2[i,]=waveti.var(sim.m.sp.1.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.1.v2[i,]=waveti.var(sim.m.sp.1.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.sp.1.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.1.v3[i,]=waveti.var(sim.m.sp.1.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.1.v3[i,]=waveti.var(sim.m.sp.1.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.sp.1.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.1.v4[i,]=waveti.var(sim.m.sp.1.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.1.v4[i,]=waveti.var(sim.m.sp.1.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.sp.1.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.1.v5[i,]=waveti.var(sim.m.sp.1.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.1.v5[i,]=waveti.var(sim.m.sp.1.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.sp.3.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.3.v1[i,]=waveti.var(sim.m.sp.3.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.3.v1[i,]=waveti.var(sim.m.sp.3.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.sp.3.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.3.v2[i,]=waveti.var(sim.m.sp.3.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.3.v2[i,]=waveti.var(sim.m.sp.3.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.sp.3.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.3.v3[i,]=waveti.var(sim.m.sp.3.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.3.v3[i,]=waveti.var(sim.m.sp.3.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.sp.3.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.3.v4[i,]=waveti.var(sim.m.sp.3.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.3.v4[i,]=waveti.var(sim.m.sp.3.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.sp.3.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.sp.3.v5[i,]=waveti.var(sim.m.sp.3.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.sp.3.v5[i,]=waveti.var(sim.m.sp.3.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
+  mu.est.ebayes.sp.1.v1[i,]=waveti.ebayes(sim.m.sp.1.v1[i,],noise.level=sigma.sp.1.v1.est)
+  mu.est.ebayes.sp.1.v2[i,]=waveti.ebayes(sim.m.sp.1.v2[i,],noise.level=sigma.sp.1.v2.est)
+  mu.est.ebayes.sp.1.v3[i,]=waveti.ebayes(sim.m.sp.1.v3[i,],noise.level=sigma.sp.1.v3.est)
+  mu.est.ebayes.sp.1.v4[i,]=waveti.ebayes(sim.m.sp.1.v4[i,],noise.level=sigma.sp.1.v4.est)
+  mu.est.ebayes.sp.1.v5[i,]=waveti.ebayes(sim.m.sp.1.v5[i,],noise.level=sigma.sp.1.v5.est)
+  mu.est.ebayes.sp.3.v1[i,]=waveti.ebayes(sim.m.sp.3.v1[i,],noise.level=sigma.sp.3.v1.est)
+  mu.est.ebayes.sp.3.v2[i,]=waveti.ebayes(sim.m.sp.3.v2[i,],noise.level=sigma.sp.3.v2.est)
+  mu.est.ebayes.sp.3.v3[i,]=waveti.ebayes(sim.m.sp.3.v3[i,],noise.level=sigma.sp.3.v3.est)
+  mu.est.ebayes.sp.3.v4[i,]=waveti.ebayes(sim.m.sp.3.v4[i,],noise.level=sigma.sp.3.v4.est)
+  mu.est.ebayes.sp.3.v5[i,]=waveti.ebayes(sim.m.sp.3.v5[i,],noise.level=sigma.sp.3.v5.est)
+  mu.est.ebayes.bump.1.v1[i,]=waveti.ebayes(sim.m.bump.1.v1[i,],noise.level=sigma.bump.1.v1.est)
+  mu.est.ebayes.bump.1.v2[i,]=waveti.ebayes(sim.m.bump.1.v2[i,],noise.level=sigma.bump.1.v2.est)
+  mu.est.ebayes.bump.1.v3[i,]=waveti.ebayes(sim.m.bump.1.v3[i,],noise.level=sigma.bump.1.v3.est)
+  mu.est.ebayes.bump.1.v4[i,]=waveti.ebayes(sim.m.bump.1.v4[i,],noise.level=sigma.bump.1.v4.est)
+  mu.est.ebayes.bump.1.v5[i,]=waveti.ebayes(sim.m.bump.1.v5[i,],noise.level=sigma.bump.1.v5.est)
+  mu.est.ebayes.bump.3.v1[i,]=waveti.ebayes(sim.m.bump.3.v1[i,],noise.level=sigma.bump.3.v1.est)
+  mu.est.ebayes.bump.3.v2[i,]=waveti.ebayes(sim.m.bump.3.v2[i,],noise.level=sigma.bump.3.v2.est)
+  mu.est.ebayes.bump.3.v3[i,]=waveti.ebayes(sim.m.bump.3.v3[i,],noise.level=sigma.bump.3.v3.est)
+  mu.est.ebayes.bump.3.v4[i,]=waveti.ebayes(sim.m.bump.3.v4[i,],noise.level=sigma.bump.3.v4.est)
+  mu.est.ebayes.bump.3.v5[i,]=waveti.ebayes(sim.m.bump.3.v5[i,],noise.level=sigma.bump.3.v5.est)
+  mu.est.ebayes.blk.1.v1[i,]=waveti.ebayes(sim.m.blk.1.v1[i,],noise.level=sigma.blk.1.v1.est)
+  mu.est.ebayes.blk.1.v2[i,]=waveti.ebayes(sim.m.blk.1.v2[i,],noise.level=sigma.blk.1.v2.est)
+  mu.est.ebayes.blk.1.v3[i,]=waveti.ebayes(sim.m.blk.1.v3[i,],noise.level=sigma.blk.1.v3.est)
+  mu.est.ebayes.blk.1.v4[i,]=waveti.ebayes(sim.m.blk.1.v4[i,],noise.level=sigma.blk.1.v4.est)
+  mu.est.ebayes.blk.1.v5[i,]=waveti.ebayes(sim.m.blk.1.v5[i,],noise.level=sigma.blk.1.v5.est)
+  mu.est.ebayes.blk.3.v1[i,]=waveti.ebayes(sim.m.blk.3.v1[i,],noise.level=sigma.blk.3.v1.est)
+  mu.est.ebayes.blk.3.v2[i,]=waveti.ebayes(sim.m.blk.3.v2[i,],noise.level=sigma.blk.3.v2.est)
+  mu.est.ebayes.blk.3.v3[i,]=waveti.ebayes(sim.m.blk.3.v3[i,],noise.level=sigma.blk.3.v3.est)
+  mu.est.ebayes.blk.3.v4[i,]=waveti.ebayes(sim.m.blk.3.v4[i,],noise.level=sigma.blk.3.v4.est)
+  mu.est.ebayes.blk.3.v5[i,]=waveti.ebayes(sim.m.blk.3.v5[i,],noise.level=sigma.blk.3.v5.est)
+  mu.est.ebayes.ang.1.v1[i,]=waveti.ebayes(sim.m.ang.1.v1[i,],noise.level=sigma.ang.1.v1.est)
+  mu.est.ebayes.ang.1.v2[i,]=waveti.ebayes(sim.m.ang.1.v2[i,],noise.level=sigma.ang.1.v2.est)
+  mu.est.ebayes.ang.1.v3[i,]=waveti.ebayes(sim.m.ang.1.v3[i,],noise.level=sigma.ang.1.v3.est)
+  mu.est.ebayes.ang.1.v4[i,]=waveti.ebayes(sim.m.ang.1.v4[i,],noise.level=sigma.ang.1.v4.est)
+  mu.est.ebayes.ang.1.v5[i,]=waveti.ebayes(sim.m.ang.1.v5[i,],noise.level=sigma.ang.1.v5.est)
+  mu.est.ebayes.ang.3.v1[i,]=waveti.ebayes(sim.m.ang.3.v1[i,],noise.level=sigma.ang.3.v1.est)
+  mu.est.ebayes.ang.3.v2[i,]=waveti.ebayes(sim.m.ang.3.v2[i,],noise.level=sigma.ang.3.v2.est)
+  mu.est.ebayes.ang.3.v3[i,]=waveti.ebayes(sim.m.ang.3.v3[i,],noise.level=sigma.ang.3.v3.est)
+  mu.est.ebayes.ang.3.v4[i,]=waveti.ebayes(sim.m.ang.3.v4[i,],noise.level=sigma.ang.3.v4.est)
+  mu.est.ebayes.ang.3.v5[i,]=waveti.ebayes(sim.m.ang.3.v5[i,],noise.level=sigma.ang.3.v5.est)
+  mu.est.ebayes.dop.1.v1[i,]=waveti.ebayes(sim.m.dop.1.v1[i,],noise.level=sigma.dop.1.v1.est)
+  mu.est.ebayes.dop.1.v2[i,]=waveti.ebayes(sim.m.dop.1.v2[i,],noise.level=sigma.dop.1.v2.est)
+  mu.est.ebayes.dop.1.v3[i,]=waveti.ebayes(sim.m.dop.1.v3[i,],noise.level=sigma.dop.1.v3.est)
+  mu.est.ebayes.dop.1.v4[i,]=waveti.ebayes(sim.m.dop.1.v4[i,],noise.level=sigma.dop.1.v4.est)
+  mu.est.ebayes.dop.1.v5[i,]=waveti.ebayes(sim.m.dop.1.v5[i,],noise.level=sigma.dop.1.v5.est)
+  mu.est.ebayes.dop.3.v1[i,]=waveti.ebayes(sim.m.dop.3.v1[i,],noise.level=sigma.dop.3.v1.est)
+  mu.est.ebayes.dop.3.v2[i,]=waveti.ebayes(sim.m.dop.3.v2[i,],noise.level=sigma.dop.3.v2.est)
+  mu.est.ebayes.dop.3.v3[i,]=waveti.ebayes(sim.m.dop.3.v3[i,],noise.level=sigma.dop.3.v3.est)
+  mu.est.ebayes.dop.3.v4[i,]=waveti.ebayes(sim.m.dop.3.v4[i,],noise.level=sigma.dop.3.v4.est)
+  mu.est.ebayes.dop.3.v5[i,]=waveti.ebayes(sim.m.dop.3.v5[i,],noise.level=sigma.dop.3.v5.est)
+  mu.est.ebayes.blip.1.v1[i,]=waveti.ebayes(sim.m.blip.1.v1[i,],noise.level=sigma.blip.1.v1.est)
+  mu.est.ebayes.blip.1.v2[i,]=waveti.ebayes(sim.m.blip.1.v2[i,],noise.level=sigma.blip.1.v2.est)
+  mu.est.ebayes.blip.1.v3[i,]=waveti.ebayes(sim.m.blip.1.v3[i,],noise.level=sigma.blip.1.v3.est)
+  mu.est.ebayes.blip.1.v4[i,]=waveti.ebayes(sim.m.blip.1.v4[i,],noise.level=sigma.blip.1.v4.est)
+  mu.est.ebayes.blip.1.v5[i,]=waveti.ebayes(sim.m.blip.1.v5[i,],noise.level=sigma.blip.1.v5.est)
+  mu.est.ebayes.blip.3.v1[i,]=waveti.ebayes(sim.m.blip.3.v1[i,],noise.level=sigma.blip.3.v1.est)
+  mu.est.ebayes.blip.3.v2[i,]=waveti.ebayes(sim.m.blip.3.v2[i,],noise.level=sigma.blip.3.v2.est)
+  mu.est.ebayes.blip.3.v3[i,]=waveti.ebayes(sim.m.blip.3.v3[i,],noise.level=sigma.blip.3.v3.est)
+  mu.est.ebayes.blip.3.v4[i,]=waveti.ebayes(sim.m.blip.3.v4[i,],noise.level=sigma.blip.3.v4.est)
+  mu.est.ebayes.blip.3.v5[i,]=waveti.ebayes(sim.m.blip.3.v5[i,],noise.level=sigma.blip.3.v5.est)
+  mu.est.ebayes.cor.1.v1[i,]=waveti.ebayes(sim.m.cor.1.v1[i,],noise.level=sigma.cor.1.v1.est)
+  mu.est.ebayes.cor.1.v2[i,]=waveti.ebayes(sim.m.cor.1.v2[i,],noise.level=sigma.cor.1.v2.est)
+  mu.est.ebayes.cor.1.v3[i,]=waveti.ebayes(sim.m.cor.1.v3[i,],noise.level=sigma.cor.1.v3.est)
+  mu.est.ebayes.cor.1.v4[i,]=waveti.ebayes(sim.m.cor.1.v4[i,],noise.level=sigma.cor.1.v4.est)
+  mu.est.ebayes.cor.1.v5[i,]=waveti.ebayes(sim.m.cor.1.v5[i,],noise.level=sigma.cor.1.v5.est)
+  mu.est.ebayes.cor.3.v1[i,]=waveti.ebayes(sim.m.cor.3.v1[i,],noise.level=sigma.cor.3.v1.est)
+  mu.est.ebayes.cor.3.v2[i,]=waveti.ebayes(sim.m.cor.3.v2[i,],noise.level=sigma.cor.3.v2.est)
+  mu.est.ebayes.cor.3.v3[i,]=waveti.ebayes(sim.m.cor.3.v3[i,],noise.level=sigma.cor.3.v3.est)
+  mu.est.ebayes.cor.3.v4[i,]=waveti.ebayes(sim.m.cor.3.v4[i,],noise.level=sigma.cor.3.v4.est)
+  mu.est.ebayes.cor.3.v5[i,]=waveti.ebayes(sim.m.cor.3.v5[i,],noise.level=sigma.cor.3.v5.est)
 
-  var.est=bayesmooth(sim.m.bump.1.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.1.v1[i,]=waveti.var(sim.m.bump.1.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.1.v1[i,]=waveti.var(sim.m.bump.1.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.bump.1.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.1.v2[i,]=waveti.var(sim.m.bump.1.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.1.v2[i,]=waveti.var(sim.m.bump.1.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.bump.1.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.1.v3[i,]=waveti.var(sim.m.bump.1.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.1.v3[i,]=waveti.var(sim.m.bump.1.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.bump.1.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.1.v4[i,]=waveti.var(sim.m.bump.1.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.1.v4[i,]=waveti.var(sim.m.bump.1.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.bump.1.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.1.v5[i,]=waveti.var(sim.m.bump.1.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.1.v5[i,]=waveti.var(sim.m.bump.1.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.bump.3.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.3.v1[i,]=waveti.var(sim.m.bump.3.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.3.v1[i,]=waveti.var(sim.m.bump.3.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.bump.3.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.3.v2[i,]=waveti.var(sim.m.bump.3.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.3.v2[i,]=waveti.var(sim.m.bump.3.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.bump.3.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.3.v3[i,]=waveti.var(sim.m.bump.3.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.3.v3[i,]=waveti.var(sim.m.bump.3.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.bump.3.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.3.v4[i,]=waveti.var(sim.m.bump.3.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.3.v4[i,]=waveti.var(sim.m.bump.3.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.bump.3.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.bump.3.v5[i,]=waveti.var(sim.m.bump.3.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.bump.3.v5[i,]=waveti.var(sim.m.bump.3.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
+  mu.est.tieb.haar.sp.1.v1[i,]=ti.thresh(sim.m.sp.1.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.1.v1[i,]=ti.thresh(sim.m.sp.1.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
 
+  mu.est.tieb.haar.sp.1.v2[i,]=ti.thresh(sim.m.sp.1.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.1.v2[i,]=ti.thresh(sim.m.sp.1.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
 
-  var.est=bayesmooth(sim.m.blk.1.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.1.v1[i,]=waveti.var(sim.m.blk.1.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.1.v1[i,]=waveti.var(sim.m.blk.1.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blk.1.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.1.v2[i,]=waveti.var(sim.m.blk.1.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.1.v2[i,]=waveti.var(sim.m.blk.1.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blk.1.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.1.v3[i,]=waveti.var(sim.m.blk.1.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.1.v3[i,]=waveti.var(sim.m.blk.1.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blk.1.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.1.v4[i,]=waveti.var(sim.m.blk.1.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.1.v4[i,]=waveti.var(sim.m.blk.1.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blk.1.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.1.v5[i,]=waveti.var(sim.m.blk.1.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.1.v5[i,]=waveti.var(sim.m.blk.1.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blk.3.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.3.v1[i,]=waveti.var(sim.m.blk.3.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.3.v1[i,]=waveti.var(sim.m.blk.3.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blk.3.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.3.v2[i,]=waveti.var(sim.m.blk.3.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.3.v2[i,]=waveti.var(sim.m.blk.3.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blk.3.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.3.v3[i,]=waveti.var(sim.m.blk.3.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.3.v3[i,]=waveti.var(sim.m.blk.3.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blk.3.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.3.v4[i,]=waveti.var(sim.m.blk.3.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.3.v4[i,]=waveti.var(sim.m.blk.3.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blk.3.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blk.3.v5[i,]=waveti.var(sim.m.blk.3.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blk.3.v5[i,]=waveti.var(sim.m.blk.3.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
+  mu.est.tieb.haar.sp.1.v3[i,]=ti.thresh(sim.m.sp.1.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.1.v3[i,]=ti.thresh(sim.m.sp.1.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
 
-  var.est=bayesmooth(sim.m.ang.1.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.1.v1[i,]=waveti.var(sim.m.ang.1.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.1.v1[i,]=waveti.var(sim.m.ang.1.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.ang.1.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.1.v2[i,]=waveti.var(sim.m.ang.1.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.1.v2[i,]=waveti.var(sim.m.ang.1.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.ang.1.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.1.v3[i,]=waveti.var(sim.m.ang.1.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.1.v3[i,]=waveti.var(sim.m.ang.1.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.ang.1.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.1.v4[i,]=waveti.var(sim.m.ang.1.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.1.v4[i,]=waveti.var(sim.m.ang.1.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.ang.1.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.1.v5[i,]=waveti.var(sim.m.ang.1.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.1.v5[i,]=waveti.var(sim.m.ang.1.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.ang.3.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.3.v1[i,]=waveti.var(sim.m.ang.3.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.3.v1[i,]=waveti.var(sim.m.ang.3.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.ang.3.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.3.v2[i,]=waveti.var(sim.m.ang.3.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.3.v2[i,]=waveti.var(sim.m.ang.3.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.ang.3.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.3.v3[i,]=waveti.var(sim.m.ang.3.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.3.v3[i,]=waveti.var(sim.m.ang.3.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.ang.3.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.3.v4[i,]=waveti.var(sim.m.ang.3.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.3.v4[i,]=waveti.var(sim.m.ang.3.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.ang.3.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.ang.3.v5[i,]=waveti.var(sim.m.ang.3.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.ang.3.v5[i,]=waveti.var(sim.m.ang.3.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
+  mu.est.tieb.haar.sp.1.v4[i,]=ti.thresh(sim.m.sp.1.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.1.v4[i,]=ti.thresh(sim.m.sp.1.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
 
-  var.est=bayesmooth(sim.m.dop.1.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.1.v1[i,]=waveti.var(sim.m.dop.1.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.1.v1[i,]=waveti.var(sim.m.dop.1.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.dop.1.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.1.v2[i,]=waveti.var(sim.m.dop.1.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.1.v2[i,]=waveti.var(sim.m.dop.1.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.dop.1.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.1.v3[i,]=waveti.var(sim.m.dop.1.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.1.v3[i,]=waveti.var(sim.m.dop.1.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.dop.1.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.1.v4[i,]=waveti.var(sim.m.dop.1.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.1.v4[i,]=waveti.var(sim.m.dop.1.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.dop.1.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.1.v5[i,]=waveti.var(sim.m.dop.1.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.1.v5[i,]=waveti.var(sim.m.dop.1.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.dop.3.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.3.v1[i,]=waveti.var(sim.m.dop.3.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.3.v1[i,]=waveti.var(sim.m.dop.3.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.dop.3.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.3.v2[i,]=waveti.var(sim.m.dop.3.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.3.v2[i,]=waveti.var(sim.m.dop.3.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.dop.3.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.3.v3[i,]=waveti.var(sim.m.dop.3.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.3.v3[i,]=waveti.var(sim.m.dop.3.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.dop.3.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.3.v4[i,]=waveti.var(sim.m.dop.3.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.3.v4[i,]=waveti.var(sim.m.dop.3.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.dop.3.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.dop.3.v5[i,]=waveti.var(sim.m.dop.3.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.dop.3.v5[i,]=waveti.var(sim.m.dop.3.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
+  mu.est.tieb.haar.sp.1.v5[i,]=ti.thresh(sim.m.sp.1.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.1.v5[i,]=ti.thresh(sim.m.sp.1.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
 
-  var.est=bayesmooth(sim.m.blip.1.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.1.v1[i,]=waveti.var(sim.m.blip.1.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.1.v1[i,]=waveti.var(sim.m.blip.1.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blip.1.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.1.v2[i,]=waveti.var(sim.m.blip.1.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.1.v2[i,]=waveti.var(sim.m.blip.1.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blip.1.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.1.v3[i,]=waveti.var(sim.m.blip.1.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.1.v3[i,]=waveti.var(sim.m.blip.1.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blip.1.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.1.v4[i,]=waveti.var(sim.m.blip.1.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.1.v4[i,]=waveti.var(sim.m.blip.1.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blip.1.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.1.v5[i,]=waveti.var(sim.m.blip.1.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.1.v5[i,]=waveti.var(sim.m.blip.1.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blip.3.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.3.v1[i,]=waveti.var(sim.m.blip.3.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.3.v1[i,]=waveti.var(sim.m.blip.3.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blip.3.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.3.v2[i,]=waveti.var(sim.m.blip.3.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.3.v2[i,]=waveti.var(sim.m.blip.3.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blip.3.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.3.v3[i,]=waveti.var(sim.m.blip.3.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.3.v3[i,]=waveti.var(sim.m.blip.3.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blip.3.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.3.v4[i,]=waveti.var(sim.m.blip.3.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.3.v4[i,]=waveti.var(sim.m.blip.3.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.blip.3.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.blip.3.v5[i,]=waveti.var(sim.m.blip.3.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.blip.3.v5[i,]=waveti.var(sim.m.blip.3.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
+  mu.est.tieb.haar.sp.3.v1[i,]=ti.thresh(sim.m.sp.3.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.3.v1[i,]=ti.thresh(sim.m.sp.3.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.sp.3.v2[i,]=ti.thresh(sim.m.sp.3.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.3.v2[i,]=ti.thresh(sim.m.sp.3.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.sp.3.v3[i,]=ti.thresh(sim.m.sp.3.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.3.v3[i,]=ti.thresh(sim.m.sp.3.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.sp.3.v4[i,]=ti.thresh(sim.m.sp.3.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.3.v4[i,]=ti.thresh(sim.m.sp.3.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.sp.3.v5[i,]=ti.thresh(sim.m.sp.3.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.sp.3.v5[i,]=ti.thresh(sim.m.sp.3.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
 
 
-  var.est=bayesmooth(sim.m.cor.1.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.1.v1[i,]=waveti.var(sim.m.cor.1.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.1.v1[i,]=waveti.var(sim.m.cor.1.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.cor.1.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.1.v2[i,]=waveti.var(sim.m.cor.1.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.1.v2[i,]=waveti.var(sim.m.cor.1.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.cor.1.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.1.v3[i,]=waveti.var(sim.m.cor.1.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.1.v3[i,]=waveti.var(sim.m.cor.1.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.cor.1.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.1.v4[i,]=waveti.var(sim.m.cor.1.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.1.v4[i,]=waveti.var(sim.m.cor.1.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.cor.1.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.1.v5[i,]=waveti.var(sim.m.cor.1.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.1.v5[i,]=waveti.var(sim.m.cor.1.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.cor.3.v1[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.3.v1[i,]=waveti.var(sim.m.cor.3.v1[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.3.v1[i,]=waveti.var(sim.m.cor.3.v1[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.cor.3.v2[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.3.v2[i,]=waveti.var(sim.m.cor.3.v2[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.3.v2[i,]=waveti.var(sim.m.cor.3.v2[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.cor.3.v3[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.3.v3[i,]=waveti.var(sim.m.cor.3.v3[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.3.v3[i,]=waveti.var(sim.m.cor.3.v3[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.cor.3.v4[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.3.v4[i,]=waveti.var(sim.m.cor.3.v4[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.3.v4[i,]=waveti.var(sim.m.cor.3.v4[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
-  var.est=bayesmooth(sim.m.cor.3.v5[i,],v.est=TRUE,basis="haar",gridmult=2)
-  var.est[var.est<0]=1e-6
-  sig.est=sqrt(var.est)
-  mu.est.tieb.haar.cor.3.v5[i,]=waveti.var(sim.m.cor.3.v5[i,],sigma=sig.est,filter.number=1,family="DaubExPhase")
-  mu.est.tieb.s8.cor.3.v5[i,]=waveti.var(sim.m.cor.3.v5[i,],sigma=sig.est,filter.number=8,family="DaubLeAsymm")
+  mu.est.tieb.haar.bump.1.v1[i,]=ti.thresh(sim.m.bump.1.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.1.v1[i,]=ti.thresh(sim.m.bump.1.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.bump.1.v2[i,]=ti.thresh(sim.m.bump.1.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.1.v2[i,]=ti.thresh(sim.m.bump.1.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.bump.1.v3[i,]=ti.thresh(sim.m.bump.1.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.1.v3[i,]=ti.thresh(sim.m.bump.1.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.bump.1.v4[i,]=ti.thresh(sim.m.bump.1.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.1.v4[i,]=ti.thresh(sim.m.bump.1.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.bump.1.v5[i,]=ti.thresh(sim.m.bump.1.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.1.v5[i,]=ti.thresh(sim.m.bump.1.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.bump.3.v1[i,]=ti.thresh(sim.m.bump.3.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.3.v1[i,]=ti.thresh(sim.m.bump.3.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.bump.3.v2[i,]=ti.thresh(sim.m.bump.3.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.3.v2[i,]=ti.thresh(sim.m.bump.3.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.bump.3.v3[i,]=ti.thresh(sim.m.bump.3.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.3.v3[i,]=ti.thresh(sim.m.bump.3.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.bump.3.v4[i,]=ti.thresh(sim.m.bump.3.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.3.v4[i,]=ti.thresh(sim.m.bump.3.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.bump.3.v5[i,]=ti.thresh(sim.m.bump.3.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.bump.3.v5[i,]=ti.thresh(sim.m.bump.3.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.1.v1[i,]=ti.thresh(sim.m.blk.1.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.1.v1[i,]=ti.thresh(sim.m.blk.1.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.1.v2[i,]=ti.thresh(sim.m.blk.1.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.1.v2[i,]=ti.thresh(sim.m.blk.1.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.1.v3[i,]=ti.thresh(sim.m.blk.1.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.1.v3[i,]=ti.thresh(sim.m.blk.1.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.1.v4[i,]=ti.thresh(sim.m.blk.1.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.1.v4[i,]=ti.thresh(sim.m.blk.1.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.1.v5[i,]=ti.thresh(sim.m.blk.1.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.1.v5[i,]=ti.thresh(sim.m.blk.1.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.3.v1[i,]=ti.thresh(sim.m.blk.3.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.3.v1[i,]=ti.thresh(sim.m.blk.3.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.3.v2[i,]=ti.thresh(sim.m.blk.3.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.3.v2[i,]=ti.thresh(sim.m.blk.3.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.3.v3[i,]=ti.thresh(sim.m.blk.3.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.3.v3[i,]=ti.thresh(sim.m.blk.3.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.3.v4[i,]=ti.thresh(sim.m.blk.3.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.3.v4[i,]=ti.thresh(sim.m.blk.3.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blk.3.v5[i,]=ti.thresh(sim.m.blk.3.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blk.3.v5[i,]=ti.thresh(sim.m.blk.3.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+
+  mu.est.tieb.haar.ang.1.v1[i,]=ti.thresh(sim.m.ang.1.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.1.v1[i,]=ti.thresh(sim.m.ang.1.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.ang.1.v2[i,]=ti.thresh(sim.m.ang.1.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.1.v2[i,]=ti.thresh(sim.m.ang.1.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.ang.1.v3[i,]=ti.thresh(sim.m.ang.1.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.1.v3[i,]=ti.thresh(sim.m.ang.1.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.ang.1.v4[i,]=ti.thresh(sim.m.ang.1.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.1.v4[i,]=ti.thresh(sim.m.ang.1.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.ang.1.v5[i,]=ti.thresh(sim.m.ang.1.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.1.v5[i,]=ti.thresh(sim.m.ang.1.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.ang.3.v1[i,]=ti.thresh(sim.m.ang.3.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.3.v1[i,]=ti.thresh(sim.m.ang.3.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.ang.3.v2[i,]=ti.thresh(sim.m.ang.3.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.3.v2[i,]=ti.thresh(sim.m.ang.3.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.ang.3.v3[i,]=ti.thresh(sim.m.ang.3.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.3.v3[i,]=ti.thresh(sim.m.ang.3.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.ang.3.v4[i,]=ti.thresh(sim.m.ang.3.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.3.v4[i,]=ti.thresh(sim.m.ang.3.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.ang.3.v5[i,]=ti.thresh(sim.m.ang.3.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.ang.3.v5[i,]=ti.thresh(sim.m.ang.3.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+
+  mu.est.tieb.haar.dop.1.v1[i,]=ti.thresh(sim.m.dop.1.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.1.v1[i,]=ti.thresh(sim.m.dop.1.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.dop.1.v2[i,]=ti.thresh(sim.m.dop.1.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.1.v2[i,]=ti.thresh(sim.m.dop.1.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.dop.1.v3[i,]=ti.thresh(sim.m.dop.1.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.1.v3[i,]=ti.thresh(sim.m.dop.1.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.dop.1.v4[i,]=ti.thresh(sim.m.dop.1.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.1.v4[i,]=ti.thresh(sim.m.dop.1.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.dop.1.v5[i,]=ti.thresh(sim.m.dop.1.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.1.v5[i,]=ti.thresh(sim.m.dop.1.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.dop.3.v1[i,]=ti.thresh(sim.m.dop.3.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.3.v1[i,]=ti.thresh(sim.m.dop.3.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.dop.3.v2[i,]=ti.thresh(sim.m.dop.3.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.3.v2[i,]=ti.thresh(sim.m.dop.3.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.dop.3.v3[i,]=ti.thresh(sim.m.dop.3.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.3.v3[i,]=ti.thresh(sim.m.dop.3.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.dop.3.v4[i,]=ti.thresh(sim.m.dop.3.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.3.v4[i,]=ti.thresh(sim.m.dop.3.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.dop.3.v5[i,]=ti.thresh(sim.m.dop.3.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.dop.3.v5[i,]=ti.thresh(sim.m.dop.3.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+
+  mu.est.tieb.haar.blip.1.v1[i,]=ti.thresh(sim.m.blip.1.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.1.v1[i,]=ti.thresh(sim.m.blip.1.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blip.1.v2[i,]=ti.thresh(sim.m.blip.1.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.1.v2[i,]=ti.thresh(sim.m.blip.1.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blip.1.v3[i,]=ti.thresh(sim.m.blip.1.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.1.v3[i,]=ti.thresh(sim.m.blip.1.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blip.1.v4[i,]=ti.thresh(sim.m.blip.1.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.1.v4[i,]=ti.thresh(sim.m.blip.1.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blip.1.v5[i,]=ti.thresh(sim.m.blip.1.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.1.v5[i,]=ti.thresh(sim.m.blip.1.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blip.3.v1[i,]=ti.thresh(sim.m.blip.3.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.3.v1[i,]=ti.thresh(sim.m.blip.3.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blip.3.v2[i,]=ti.thresh(sim.m.blip.3.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.3.v2[i,]=ti.thresh(sim.m.blip.3.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blip.3.v3[i,]=ti.thresh(sim.m.blip.3.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.3.v3[i,]=ti.thresh(sim.m.blip.3.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blip.3.v4[i,]=ti.thresh(sim.m.blip.3.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.3.v4[i,]=ti.thresh(sim.m.blip.3.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.blip.3.v5[i,]=ti.thresh(sim.m.blip.3.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.blip.3.v5[i,]=ti.thresh(sim.m.blip.3.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+
+
+  mu.est.tieb.haar.cor.1.v1[i,]=ti.thresh(sim.m.cor.1.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.1.v1[i,]=ti.thresh(sim.m.cor.1.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.cor.1.v2[i,]=ti.thresh(sim.m.cor.1.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.1.v2[i,]=ti.thresh(sim.m.cor.1.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.cor.1.v3[i,]=ti.thresh(sim.m.cor.1.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.1.v3[i,]=ti.thresh(sim.m.cor.1.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.cor.1.v4[i,]=ti.thresh(sim.m.cor.1.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.1.v4[i,]=ti.thresh(sim.m.cor.1.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.cor.1.v5[i,]=ti.thresh(sim.m.cor.1.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.1.v5[i,]=ti.thresh(sim.m.cor.1.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.cor.3.v1[i,]=ti.thresh(sim.m.cor.3.v1[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.3.v1[i,]=ti.thresh(sim.m.cor.3.v1[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.cor.3.v2[i,]=ti.thresh(sim.m.cor.3.v2[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.3.v2[i,]=ti.thresh(sim.m.cor.3.v2[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.cor.3.v3[i,]=ti.thresh(sim.m.cor.3.v3[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.3.v3[i,]=ti.thresh(sim.m.cor.3.v3[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.cor.3.v4[i,]=ti.thresh(sim.m.cor.3.v4[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.3.v4[i,]=ti.thresh(sim.m.cor.3.v4[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
+  mu.est.tieb.haar.cor.3.v5[i,]=ti.thresh(sim.m.cor.3.v5[i,],method="bayesm",filter.number=1,family="DaubExPhase")
+  mu.est.tieb.s8.cor.3.v5[i,]=ti.thresh(sim.m.cor.3.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
+
 
 
   print(i)
@@ -4860,9 +4870,84 @@ mise.tieb.s8.cor.3.v5=mise(mu.est.tieb.s8.cor.3.v5,mu.cor)
 
 
 
+mise.ebayes.sp.1.v1=mise(mu.est.ebayes.sp.1.v1,mu.sp)
+mise.ebayes.sp.1.v2=mise(mu.est.ebayes.sp.1.v2,mu.sp)
+mise.ebayes.sp.1.v3=mise(mu.est.ebayes.sp.1.v3,mu.sp)
+mise.ebayes.sp.1.v4=mise(mu.est.ebayes.sp.1.v4,mu.sp)
+mise.ebayes.sp.1.v5=mise(mu.est.ebayes.sp.1.v5,mu.sp)
+mise.ebayes.sp.3.v1=mise(mu.est.ebayes.sp.3.v1,mu.sp)
+mise.ebayes.sp.3.v2=mise(mu.est.ebayes.sp.3.v2,mu.sp)
+mise.ebayes.sp.3.v3=mise(mu.est.ebayes.sp.3.v3,mu.sp)
+mise.ebayes.sp.3.v4=mise(mu.est.ebayes.sp.3.v4,mu.sp)
+mise.ebayes.sp.3.v5=mise(mu.est.ebayes.sp.3.v5,mu.sp)
 
+mise.ebayes.bump.1.v1=mise(mu.est.ebayes.bump.1.v1,mu.bump)
+mise.ebayes.bump.1.v2=mise(mu.est.ebayes.bump.1.v2,mu.bump)
+mise.ebayes.bump.1.v3=mise(mu.est.ebayes.bump.1.v3,mu.bump)
+mise.ebayes.bump.1.v4=mise(mu.est.ebayes.bump.1.v4,mu.bump)
+mise.ebayes.bump.1.v5=mise(mu.est.ebayes.bump.1.v5,mu.bump)
+mise.ebayes.bump.3.v1=mise(mu.est.ebayes.bump.3.v1,mu.bump)
+mise.ebayes.bump.3.v2=mise(mu.est.ebayes.bump.3.v2,mu.bump)
+mise.ebayes.bump.3.v3=mise(mu.est.ebayes.bump.3.v3,mu.bump)
+mise.ebayes.bump.3.v4=mise(mu.est.ebayes.bump.3.v4,mu.bump)
+mise.ebayes.bump.3.v5=mise(mu.est.ebayes.bump.3.v5,mu.bump)
 
+mise.ebayes.blk.1.v1=mise(mu.est.ebayes.blk.1.v1,mu.blk)
+mise.ebayes.blk.1.v2=mise(mu.est.ebayes.blk.1.v2,mu.blk)
+mise.ebayes.blk.1.v3=mise(mu.est.ebayes.blk.1.v3,mu.blk)
+mise.ebayes.blk.1.v4=mise(mu.est.ebayes.blk.1.v4,mu.blk)
+mise.ebayes.blk.1.v5=mise(mu.est.ebayes.blk.1.v5,mu.blk)
+mise.ebayes.blk.3.v1=mise(mu.est.ebayes.blk.3.v1,mu.blk)
+mise.ebayes.blk.3.v2=mise(mu.est.ebayes.blk.3.v2,mu.blk)
+mise.ebayes.blk.3.v3=mise(mu.est.ebayes.blk.3.v3,mu.blk)
+mise.ebayes.blk.3.v4=mise(mu.est.ebayes.blk.3.v4,mu.blk)
+mise.ebayes.blk.3.v5=mise(mu.est.ebayes.blk.3.v5,mu.blk)
 
+mise.ebayes.ang.1.v1=mise(mu.est.ebayes.ang.1.v1,mu.ang)
+mise.ebayes.ang.1.v2=mise(mu.est.ebayes.ang.1.v2,mu.ang)
+mise.ebayes.ang.1.v3=mise(mu.est.ebayes.ang.1.v3,mu.ang)
+mise.ebayes.ang.1.v4=mise(mu.est.ebayes.ang.1.v4,mu.ang)
+mise.ebayes.ang.1.v5=mise(mu.est.ebayes.ang.1.v5,mu.ang)
+mise.ebayes.ang.3.v1=mise(mu.est.ebayes.ang.3.v1,mu.ang)
+mise.ebayes.ang.3.v2=mise(mu.est.ebayes.ang.3.v2,mu.ang)
+mise.ebayes.ang.3.v3=mise(mu.est.ebayes.ang.3.v3,mu.ang)
+mise.ebayes.ang.3.v4=mise(mu.est.ebayes.ang.3.v4,mu.ang)
+mise.ebayes.ang.3.v5=mise(mu.est.ebayes.ang.3.v5,mu.ang)
+
+mise.ebayes.dop.1.v1=mise(mu.est.ebayes.dop.1.v1,mu.dop)
+mise.ebayes.dop.1.v2=mise(mu.est.ebayes.dop.1.v2,mu.dop)
+mise.ebayes.dop.1.v3=mise(mu.est.ebayes.dop.1.v3,mu.dop)
+mise.ebayes.dop.1.v4=mise(mu.est.ebayes.dop.1.v4,mu.dop)
+mise.ebayes.dop.1.v5=mise(mu.est.ebayes.dop.1.v5,mu.dop)
+mise.ebayes.dop.3.v1=mise(mu.est.ebayes.dop.3.v1,mu.dop)
+mise.ebayes.dop.3.v2=mise(mu.est.ebayes.dop.3.v2,mu.dop)
+mise.ebayes.dop.3.v3=mise(mu.est.ebayes.dop.3.v3,mu.dop)
+mise.ebayes.dop.3.v4=mise(mu.est.ebayes.dop.3.v4,mu.dop)
+mise.ebayes.dop.3.v5=mise(mu.est.ebayes.dop.3.v5,mu.dop)
+
+mise.ebayes.blip.1.v1=mise(mu.est.ebayes.blip.1.v1,mu.blip)
+mise.ebayes.blip.1.v2=mise(mu.est.ebayes.blip.1.v2,mu.blip)
+mise.ebayes.blip.1.v3=mise(mu.est.ebayes.blip.1.v3,mu.blip)
+mise.ebayes.blip.1.v4=mise(mu.est.ebayes.blip.1.v4,mu.blip)
+mise.ebayes.blip.1.v5=mise(mu.est.ebayes.blip.1.v5,mu.blip)
+mise.ebayes.blip.3.v1=mise(mu.est.ebayes.blip.3.v1,mu.blip)
+mise.ebayes.blip.3.v2=mise(mu.est.ebayes.blip.3.v2,mu.blip)
+mise.ebayes.blip.3.v3=mise(mu.est.ebayes.blip.3.v3,mu.blip)
+mise.ebayes.blip.3.v4=mise(mu.est.ebayes.blip.3.v4,mu.blip)
+mise.ebayes.blip.3.v5=mise(mu.est.ebayes.blip.3.v5,mu.blip)
+
+mise.ebayes.cor.1.v1=mise(mu.est.ebayes.cor.1.v1,mu.cor)
+mise.ebayes.cor.1.v2=mise(mu.est.ebayes.cor.1.v2,mu.cor)
+mise.ebayes.cor.1.v3=mise(mu.est.ebayes.cor.1.v3,mu.cor)
+mise.ebayes.cor.1.v4=mise(mu.est.ebayes.cor.1.v4,mu.cor)
+mise.ebayes.cor.1.v5=mise(mu.est.ebayes.cor.1.v5,mu.cor)
+mise.ebayes.cor.3.v1=mise(mu.est.ebayes.cor.3.v1,mu.cor)
+mise.ebayes.cor.3.v2=mise(mu.est.ebayes.cor.3.v2,mu.cor)
+mise.ebayes.cor.3.v3=mise(mu.est.ebayes.cor.3.v3,mu.cor)
+mise.ebayes.cor.3.v4=mise(mu.est.ebayes.cor.3.v4,mu.cor)
+mise.ebayes.cor.3.v5=mise(mu.est.ebayes.cor.3.v5,mu.cor)
+
+################################################
 
 
 
@@ -4873,20 +4958,21 @@ mise.tieb.s8.cor.3.v5=mise(mu.est.tieb.s8.cor.3.v5,mu.cor)
 #3-bams,hoomo
 #4-nblk,homo
 #5-sure,homo
-#6-ash_haar,homo
-#7-ash_s8,homo
-#8-ash_haar,est
-#9-ash_s8_f,est
-#10-ash_haar_f,est
-#11-ash_s8,est
-#12-ti_haar,est
-#13-ti_s8,est
-#14-ti_haar,ash_est
-#15-ti_s8,ash_est
-#16-ash_haar,true
-#17-ash_s8,true
-#18-ti_haar,true
-#19-ti_s8,true
+#6-ebayes,homo
+#7-ash_haar,homo
+#8-ash_s8,homo
+#9-ash_haar,est
+#10-ash_s8_f,est
+#11-ash_haar_f,est
+#12-ash_s8,est
+#13-ti_haar,est
+#14-ti_s8,est
+#15-ti_haar,ash_est
+#16-ti_s8,ash_est
+#17-ash_haar,true
+#18-ash_s8,true
+#19-ti_haar,true
+#20-ti_s8,true
 
 
 
@@ -4895,6 +4981,7 @@ mise.js.sp.1.v1,
 mise.bams.sp.1.v1,
 mise.nblk.sp.1.v1,
 mise.sure.sp.1.v1,
+mise.ebayes.sp.1.v1,
 mise.ash.haar.sp.1.v1,
 mise.ash.s8.sp.1.v1,
 mise.ashe.haar.sp.1.v1,
@@ -4916,6 +5003,7 @@ names(mise.sp.1.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -4924,8 +5012,8 @@ names(mise.sp.1.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -4938,6 +5026,7 @@ mise.js.sp.1.v2,
 mise.bams.sp.1.v2,
 mise.nblk.sp.1.v2,
 mise.sure.sp.1.v2,
+mise.ebayes.sp.1.v2,
 mise.ash.haar.sp.1.v2,
 mise.ash.s8.sp.1.v2,
 mise.ashe.haar.sp.1.v2,
@@ -4959,6 +5048,7 @@ names(mise.sp.1.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -4967,21 +5057,20 @@ names(mise.sp.1.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.sp.1.v3=c(mise.ti.sp.1.v3,
 mise.js.sp.1.v3,
 mise.bams.sp.1.v3,
 mise.nblk.sp.1.v3,
 mise.sure.sp.1.v3,
+mise.ebayes.sp.1.v3,
 mise.ash.haar.sp.1.v3,
 mise.ash.s8.sp.1.v3,
 mise.ashe.haar.sp.1.v3,
@@ -5003,6 +5092,7 @@ names(mise.sp.1.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5011,23 +5101,20 @@ names(mise.sp.1.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.sp.1.v4=c(mise.ti.sp.1.v4,
 mise.js.sp.1.v4,
 mise.bams.sp.1.v4,
 mise.nblk.sp.1.v4,
 mise.sure.sp.1.v4,
+mise.ebayes.sp.1.v4,
 mise.ash.haar.sp.1.v4,
 mise.ash.s8.sp.1.v4,
 mise.ashe.haar.sp.1.v4,
@@ -5049,6 +5136,7 @@ names(mise.sp.1.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5057,21 +5145,20 @@ names(mise.sp.1.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.sp.1.v5=c(mise.ti.sp.1.v5,
 mise.js.sp.1.v5,
 mise.bams.sp.1.v5,
 mise.nblk.sp.1.v5,
 mise.sure.sp.1.v5,
+mise.ebayes.sp.1.v5,
 mise.ash.haar.sp.1.v5,
 mise.ash.s8.sp.1.v5,
 mise.ashe.haar.sp.1.v5,
@@ -5093,6 +5180,7 @@ names(mise.sp.1.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5101,8 +5189,8 @@ names(mise.sp.1.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -5110,14 +5198,12 @@ names(mise.sp.1.v5)=c("TI_homo",
 )
 
 
-
-
-
 mise.sp.3.v1=c(mise.ti.sp.3.v1,
 mise.js.sp.3.v1,
 mise.bams.sp.3.v1,
 mise.nblk.sp.3.v1,
 mise.sure.sp.3.v1,
+mise.ebayes.sp.3.v1,
 mise.ash.haar.sp.3.v1,
 mise.ash.s8.sp.3.v1,
 mise.ashe.haar.sp.3.v1,
@@ -5139,6 +5225,7 @@ names(mise.sp.3.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5147,8 +5234,8 @@ names(mise.sp.3.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -5161,6 +5248,7 @@ mise.js.sp.3.v2,
 mise.bams.sp.3.v2,
 mise.nblk.sp.3.v2,
 mise.sure.sp.3.v2,
+mise.ebayes.sp.3.v2,
 mise.ash.haar.sp.3.v2,
 mise.ash.s8.sp.3.v2,
 mise.ashe.haar.sp.3.v2,
@@ -5182,6 +5270,7 @@ names(mise.sp.3.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5190,21 +5279,20 @@ names(mise.sp.3.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.sp.3.v3=c(mise.ti.sp.3.v3,
 mise.js.sp.3.v3,
 mise.bams.sp.3.v3,
 mise.nblk.sp.3.v3,
 mise.sure.sp.3.v3,
+mise.ebayes.sp.3.v3,
 mise.ash.haar.sp.3.v3,
 mise.ash.s8.sp.3.v3,
 mise.ashe.haar.sp.3.v3,
@@ -5226,6 +5314,7 @@ names(mise.sp.3.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5234,23 +5323,20 @@ names(mise.sp.3.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.sp.3.v4=c(mise.ti.sp.3.v4,
 mise.js.sp.3.v4,
 mise.bams.sp.3.v4,
 mise.nblk.sp.3.v4,
 mise.sure.sp.3.v4,
+mise.ebayes.sp.3.v4,
 mise.ash.haar.sp.3.v4,
 mise.ash.s8.sp.3.v4,
 mise.ashe.haar.sp.3.v4,
@@ -5272,6 +5358,7 @@ names(mise.sp.3.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5280,21 +5367,20 @@ names(mise.sp.3.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.sp.3.v5=c(mise.ti.sp.3.v5,
 mise.js.sp.3.v5,
 mise.bams.sp.3.v5,
 mise.nblk.sp.3.v5,
 mise.sure.sp.3.v5,
+mise.ebayes.sp.3.v5,
 mise.ash.haar.sp.3.v5,
 mise.ash.s8.sp.3.v5,
 mise.ashe.haar.sp.3.v5,
@@ -5316,6 +5402,7 @@ names(mise.sp.3.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5324,8 +5411,8 @@ names(mise.sp.3.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -5333,12 +5420,12 @@ names(mise.sp.3.v5)=c("TI_homo",
 )
 
 
-
 mise.bump.1.v1=c(mise.ti.bump.1.v1,
 mise.js.bump.1.v1,
 mise.bams.bump.1.v1,
 mise.nblk.bump.1.v1,
 mise.sure.bump.1.v1,
+mise.ebayes.bump.1.v1,
 mise.ash.haar.bump.1.v1,
 mise.ash.s8.bump.1.v1,
 mise.ashe.haar.bump.1.v1,
@@ -5360,6 +5447,7 @@ names(mise.bump.1.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5368,8 +5456,8 @@ names(mise.bump.1.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -5382,6 +5470,7 @@ mise.js.bump.1.v2,
 mise.bams.bump.1.v2,
 mise.nblk.bump.1.v2,
 mise.sure.bump.1.v2,
+mise.ebayes.bump.1.v2,
 mise.ash.haar.bump.1.v2,
 mise.ash.s8.bump.1.v2,
 mise.ashe.haar.bump.1.v2,
@@ -5403,6 +5492,7 @@ names(mise.bump.1.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5411,21 +5501,20 @@ names(mise.bump.1.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.bump.1.v3=c(mise.ti.bump.1.v3,
 mise.js.bump.1.v3,
 mise.bams.bump.1.v3,
 mise.nblk.bump.1.v3,
 mise.sure.bump.1.v3,
+mise.ebayes.bump.1.v3,
 mise.ash.haar.bump.1.v3,
 mise.ash.s8.bump.1.v3,
 mise.ashe.haar.bump.1.v3,
@@ -5447,6 +5536,7 @@ names(mise.bump.1.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5455,23 +5545,20 @@ names(mise.bump.1.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.bump.1.v4=c(mise.ti.bump.1.v4,
 mise.js.bump.1.v4,
 mise.bams.bump.1.v4,
 mise.nblk.bump.1.v4,
 mise.sure.bump.1.v4,
+mise.ebayes.bump.1.v4,
 mise.ash.haar.bump.1.v4,
 mise.ash.s8.bump.1.v4,
 mise.ashe.haar.bump.1.v4,
@@ -5493,6 +5580,7 @@ names(mise.bump.1.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5501,21 +5589,20 @@ names(mise.bump.1.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.bump.1.v5=c(mise.ti.bump.1.v5,
 mise.js.bump.1.v5,
 mise.bams.bump.1.v5,
 mise.nblk.bump.1.v5,
 mise.sure.bump.1.v5,
+mise.ebayes.bump.1.v5,
 mise.ash.haar.bump.1.v5,
 mise.ash.s8.bump.1.v5,
 mise.ashe.haar.bump.1.v5,
@@ -5537,6 +5624,7 @@ names(mise.bump.1.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5545,8 +5633,8 @@ names(mise.bump.1.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -5554,14 +5642,12 @@ names(mise.bump.1.v5)=c("TI_homo",
 )
 
 
-
-
-
 mise.bump.3.v1=c(mise.ti.bump.3.v1,
 mise.js.bump.3.v1,
 mise.bams.bump.3.v1,
 mise.nblk.bump.3.v1,
 mise.sure.bump.3.v1,
+mise.ebayes.bump.3.v1,
 mise.ash.haar.bump.3.v1,
 mise.ash.s8.bump.3.v1,
 mise.ashe.haar.bump.3.v1,
@@ -5583,6 +5669,7 @@ names(mise.bump.3.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5591,8 +5678,8 @@ names(mise.bump.3.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -5605,6 +5692,7 @@ mise.js.bump.3.v2,
 mise.bams.bump.3.v2,
 mise.nblk.bump.3.v2,
 mise.sure.bump.3.v2,
+mise.ebayes.bump.3.v2,
 mise.ash.haar.bump.3.v2,
 mise.ash.s8.bump.3.v2,
 mise.ashe.haar.bump.3.v2,
@@ -5626,6 +5714,7 @@ names(mise.bump.3.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5634,21 +5723,20 @@ names(mise.bump.3.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.bump.3.v3=c(mise.ti.bump.3.v3,
 mise.js.bump.3.v3,
 mise.bams.bump.3.v3,
 mise.nblk.bump.3.v3,
 mise.sure.bump.3.v3,
+mise.ebayes.bump.3.v3,
 mise.ash.haar.bump.3.v3,
 mise.ash.s8.bump.3.v3,
 mise.ashe.haar.bump.3.v3,
@@ -5670,6 +5758,7 @@ names(mise.bump.3.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5678,23 +5767,20 @@ names(mise.bump.3.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.bump.3.v4=c(mise.ti.bump.3.v4,
 mise.js.bump.3.v4,
 mise.bams.bump.3.v4,
 mise.nblk.bump.3.v4,
 mise.sure.bump.3.v4,
+mise.ebayes.bump.3.v4,
 mise.ash.haar.bump.3.v4,
 mise.ash.s8.bump.3.v4,
 mise.ashe.haar.bump.3.v4,
@@ -5716,6 +5802,7 @@ names(mise.bump.3.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5724,21 +5811,20 @@ names(mise.bump.3.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.bump.3.v5=c(mise.ti.bump.3.v5,
 mise.js.bump.3.v5,
 mise.bams.bump.3.v5,
 mise.nblk.bump.3.v5,
 mise.sure.bump.3.v5,
+mise.ebayes.bump.3.v5,
 mise.ash.haar.bump.3.v5,
 mise.ash.s8.bump.3.v5,
 mise.ashe.haar.bump.3.v5,
@@ -5760,6 +5846,7 @@ names(mise.bump.3.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5768,8 +5855,8 @@ names(mise.bump.3.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -5779,12 +5866,12 @@ names(mise.bump.3.v5)=c("TI_homo",
 
 
 
-
 mise.blk.1.v1=c(mise.ti.blk.1.v1,
 mise.js.blk.1.v1,
 mise.bams.blk.1.v1,
 mise.nblk.blk.1.v1,
 mise.sure.blk.1.v1,
+mise.ebayes.blk.1.v1,
 mise.ash.haar.blk.1.v1,
 mise.ash.s8.blk.1.v1,
 mise.ashe.haar.blk.1.v1,
@@ -5806,6 +5893,7 @@ names(mise.blk.1.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5814,8 +5902,8 @@ names(mise.blk.1.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -5828,6 +5916,7 @@ mise.js.blk.1.v2,
 mise.bams.blk.1.v2,
 mise.nblk.blk.1.v2,
 mise.sure.blk.1.v2,
+mise.ebayes.blk.1.v2,
 mise.ash.haar.blk.1.v2,
 mise.ash.s8.blk.1.v2,
 mise.ashe.haar.blk.1.v2,
@@ -5849,6 +5938,7 @@ names(mise.blk.1.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5857,21 +5947,20 @@ names(mise.blk.1.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.blk.1.v3=c(mise.ti.blk.1.v3,
 mise.js.blk.1.v3,
 mise.bams.blk.1.v3,
 mise.nblk.blk.1.v3,
 mise.sure.blk.1.v3,
+mise.ebayes.blk.1.v3,
 mise.ash.haar.blk.1.v3,
 mise.ash.s8.blk.1.v3,
 mise.ashe.haar.blk.1.v3,
@@ -5893,6 +5982,7 @@ names(mise.blk.1.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5901,23 +5991,20 @@ names(mise.blk.1.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.blk.1.v4=c(mise.ti.blk.1.v4,
 mise.js.blk.1.v4,
 mise.bams.blk.1.v4,
 mise.nblk.blk.1.v4,
 mise.sure.blk.1.v4,
+mise.ebayes.blk.1.v4,
 mise.ash.haar.blk.1.v4,
 mise.ash.s8.blk.1.v4,
 mise.ashe.haar.blk.1.v4,
@@ -5939,6 +6026,7 @@ names(mise.blk.1.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5947,21 +6035,20 @@ names(mise.blk.1.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.blk.1.v5=c(mise.ti.blk.1.v5,
 mise.js.blk.1.v5,
 mise.bams.blk.1.v5,
 mise.nblk.blk.1.v5,
 mise.sure.blk.1.v5,
+mise.ebayes.blk.1.v5,
 mise.ash.haar.blk.1.v5,
 mise.ash.s8.blk.1.v5,
 mise.ashe.haar.blk.1.v5,
@@ -5983,6 +6070,7 @@ names(mise.blk.1.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -5991,8 +6079,8 @@ names(mise.blk.1.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6000,14 +6088,12 @@ names(mise.blk.1.v5)=c("TI_homo",
 )
 
 
-
-
-
 mise.blk.3.v1=c(mise.ti.blk.3.v1,
 mise.js.blk.3.v1,
 mise.bams.blk.3.v1,
 mise.nblk.blk.3.v1,
 mise.sure.blk.3.v1,
+mise.ebayes.blk.3.v1,
 mise.ash.haar.blk.3.v1,
 mise.ash.s8.blk.3.v1,
 mise.ashe.haar.blk.3.v1,
@@ -6029,6 +6115,7 @@ names(mise.blk.3.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6037,8 +6124,8 @@ names(mise.blk.3.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6051,6 +6138,7 @@ mise.js.blk.3.v2,
 mise.bams.blk.3.v2,
 mise.nblk.blk.3.v2,
 mise.sure.blk.3.v2,
+mise.ebayes.blk.3.v2,
 mise.ash.haar.blk.3.v2,
 mise.ash.s8.blk.3.v2,
 mise.ashe.haar.blk.3.v2,
@@ -6072,6 +6160,7 @@ names(mise.blk.3.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6080,21 +6169,20 @@ names(mise.blk.3.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.blk.3.v3=c(mise.ti.blk.3.v3,
 mise.js.blk.3.v3,
 mise.bams.blk.3.v3,
 mise.nblk.blk.3.v3,
 mise.sure.blk.3.v3,
+mise.ebayes.blk.3.v3,
 mise.ash.haar.blk.3.v3,
 mise.ash.s8.blk.3.v3,
 mise.ashe.haar.blk.3.v3,
@@ -6116,6 +6204,7 @@ names(mise.blk.3.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6124,23 +6213,20 @@ names(mise.blk.3.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.blk.3.v4=c(mise.ti.blk.3.v4,
 mise.js.blk.3.v4,
 mise.bams.blk.3.v4,
 mise.nblk.blk.3.v4,
 mise.sure.blk.3.v4,
+mise.ebayes.blk.3.v4,
 mise.ash.haar.blk.3.v4,
 mise.ash.s8.blk.3.v4,
 mise.ashe.haar.blk.3.v4,
@@ -6162,6 +6248,7 @@ names(mise.blk.3.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6170,21 +6257,20 @@ names(mise.blk.3.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.blk.3.v5=c(mise.ti.blk.3.v5,
 mise.js.blk.3.v5,
 mise.bams.blk.3.v5,
 mise.nblk.blk.3.v5,
 mise.sure.blk.3.v5,
+mise.ebayes.blk.3.v5,
 mise.ash.haar.blk.3.v5,
 mise.ash.s8.blk.3.v5,
 mise.ashe.haar.blk.3.v5,
@@ -6206,6 +6292,7 @@ names(mise.blk.3.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6214,8 +6301,8 @@ names(mise.blk.3.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6230,6 +6317,7 @@ mise.js.ang.1.v1,
 mise.bams.ang.1.v1,
 mise.nblk.ang.1.v1,
 mise.sure.ang.1.v1,
+mise.ebayes.ang.1.v1,
 mise.ash.haar.ang.1.v1,
 mise.ash.s8.ang.1.v1,
 mise.ashe.haar.ang.1.v1,
@@ -6251,6 +6339,7 @@ names(mise.ang.1.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6259,8 +6348,8 @@ names(mise.ang.1.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6273,6 +6362,7 @@ mise.js.ang.1.v2,
 mise.bams.ang.1.v2,
 mise.nblk.ang.1.v2,
 mise.sure.ang.1.v2,
+mise.ebayes.ang.1.v2,
 mise.ash.haar.ang.1.v2,
 mise.ash.s8.ang.1.v2,
 mise.ashe.haar.ang.1.v2,
@@ -6294,6 +6384,7 @@ names(mise.ang.1.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6302,21 +6393,20 @@ names(mise.ang.1.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.ang.1.v3=c(mise.ti.ang.1.v3,
 mise.js.ang.1.v3,
 mise.bams.ang.1.v3,
 mise.nblk.ang.1.v3,
 mise.sure.ang.1.v3,
+mise.ebayes.ang.1.v3,
 mise.ash.haar.ang.1.v3,
 mise.ash.s8.ang.1.v3,
 mise.ashe.haar.ang.1.v3,
@@ -6338,6 +6428,7 @@ names(mise.ang.1.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6346,23 +6437,20 @@ names(mise.ang.1.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.ang.1.v4=c(mise.ti.ang.1.v4,
 mise.js.ang.1.v4,
 mise.bams.ang.1.v4,
 mise.nblk.ang.1.v4,
 mise.sure.ang.1.v4,
+mise.ebayes.ang.1.v4,
 mise.ash.haar.ang.1.v4,
 mise.ash.s8.ang.1.v4,
 mise.ashe.haar.ang.1.v4,
@@ -6384,6 +6472,7 @@ names(mise.ang.1.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6392,21 +6481,20 @@ names(mise.ang.1.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.ang.1.v5=c(mise.ti.ang.1.v5,
 mise.js.ang.1.v5,
 mise.bams.ang.1.v5,
 mise.nblk.ang.1.v5,
 mise.sure.ang.1.v5,
+mise.ebayes.ang.1.v5,
 mise.ash.haar.ang.1.v5,
 mise.ash.s8.ang.1.v5,
 mise.ashe.haar.ang.1.v5,
@@ -6428,6 +6516,7 @@ names(mise.ang.1.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6436,8 +6525,8 @@ names(mise.ang.1.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6445,14 +6534,12 @@ names(mise.ang.1.v5)=c("TI_homo",
 )
 
 
-
-
-
 mise.ang.3.v1=c(mise.ti.ang.3.v1,
 mise.js.ang.3.v1,
 mise.bams.ang.3.v1,
 mise.nblk.ang.3.v1,
 mise.sure.ang.3.v1,
+mise.ebayes.ang.3.v1,
 mise.ash.haar.ang.3.v1,
 mise.ash.s8.ang.3.v1,
 mise.ashe.haar.ang.3.v1,
@@ -6474,6 +6561,7 @@ names(mise.ang.3.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6482,8 +6570,8 @@ names(mise.ang.3.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6496,6 +6584,7 @@ mise.js.ang.3.v2,
 mise.bams.ang.3.v2,
 mise.nblk.ang.3.v2,
 mise.sure.ang.3.v2,
+mise.ebayes.ang.3.v2,
 mise.ash.haar.ang.3.v2,
 mise.ash.s8.ang.3.v2,
 mise.ashe.haar.ang.3.v2,
@@ -6517,6 +6606,7 @@ names(mise.ang.3.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6525,21 +6615,20 @@ names(mise.ang.3.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.ang.3.v3=c(mise.ti.ang.3.v3,
 mise.js.ang.3.v3,
 mise.bams.ang.3.v3,
 mise.nblk.ang.3.v3,
 mise.sure.ang.3.v3,
+mise.ebayes.ang.3.v3,
 mise.ash.haar.ang.3.v3,
 mise.ash.s8.ang.3.v3,
 mise.ashe.haar.ang.3.v3,
@@ -6561,6 +6650,7 @@ names(mise.ang.3.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6569,23 +6659,20 @@ names(mise.ang.3.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.ang.3.v4=c(mise.ti.ang.3.v4,
 mise.js.ang.3.v4,
 mise.bams.ang.3.v4,
 mise.nblk.ang.3.v4,
 mise.sure.ang.3.v4,
+mise.ebayes.ang.3.v4,
 mise.ash.haar.ang.3.v4,
 mise.ash.s8.ang.3.v4,
 mise.ashe.haar.ang.3.v4,
@@ -6607,6 +6694,7 @@ names(mise.ang.3.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6615,21 +6703,20 @@ names(mise.ang.3.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.ang.3.v5=c(mise.ti.ang.3.v5,
 mise.js.ang.3.v5,
 mise.bams.ang.3.v5,
 mise.nblk.ang.3.v5,
 mise.sure.ang.3.v5,
+mise.ebayes.ang.3.v5,
 mise.ash.haar.ang.3.v5,
 mise.ash.s8.ang.3.v5,
 mise.ashe.haar.ang.3.v5,
@@ -6651,6 +6738,7 @@ names(mise.ang.3.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6659,8 +6747,8 @@ names(mise.ang.3.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6676,6 +6764,7 @@ mise.js.dop.1.v1,
 mise.bams.dop.1.v1,
 mise.nblk.dop.1.v1,
 mise.sure.dop.1.v1,
+mise.ebayes.dop.1.v1,
 mise.ash.haar.dop.1.v1,
 mise.ash.s8.dop.1.v1,
 mise.ashe.haar.dop.1.v1,
@@ -6697,6 +6786,7 @@ names(mise.dop.1.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6705,8 +6795,8 @@ names(mise.dop.1.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6719,6 +6809,7 @@ mise.js.dop.1.v2,
 mise.bams.dop.1.v2,
 mise.nblk.dop.1.v2,
 mise.sure.dop.1.v2,
+mise.ebayes.dop.1.v2,
 mise.ash.haar.dop.1.v2,
 mise.ash.s8.dop.1.v2,
 mise.ashe.haar.dop.1.v2,
@@ -6740,6 +6831,7 @@ names(mise.dop.1.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6748,21 +6840,20 @@ names(mise.dop.1.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.dop.1.v3=c(mise.ti.dop.1.v3,
 mise.js.dop.1.v3,
 mise.bams.dop.1.v3,
 mise.nblk.dop.1.v3,
 mise.sure.dop.1.v3,
+mise.ebayes.dop.1.v3,
 mise.ash.haar.dop.1.v3,
 mise.ash.s8.dop.1.v3,
 mise.ashe.haar.dop.1.v3,
@@ -6784,6 +6875,7 @@ names(mise.dop.1.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6792,23 +6884,20 @@ names(mise.dop.1.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.dop.1.v4=c(mise.ti.dop.1.v4,
 mise.js.dop.1.v4,
 mise.bams.dop.1.v4,
 mise.nblk.dop.1.v4,
 mise.sure.dop.1.v4,
+mise.ebayes.dop.1.v4,
 mise.ash.haar.dop.1.v4,
 mise.ash.s8.dop.1.v4,
 mise.ashe.haar.dop.1.v4,
@@ -6830,6 +6919,7 @@ names(mise.dop.1.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6838,21 +6928,20 @@ names(mise.dop.1.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.dop.1.v5=c(mise.ti.dop.1.v5,
 mise.js.dop.1.v5,
 mise.bams.dop.1.v5,
 mise.nblk.dop.1.v5,
 mise.sure.dop.1.v5,
+mise.ebayes.dop.1.v5,
 mise.ash.haar.dop.1.v5,
 mise.ash.s8.dop.1.v5,
 mise.ashe.haar.dop.1.v5,
@@ -6874,6 +6963,7 @@ names(mise.dop.1.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6882,8 +6972,8 @@ names(mise.dop.1.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6891,14 +6981,12 @@ names(mise.dop.1.v5)=c("TI_homo",
 )
 
 
-
-
-
 mise.dop.3.v1=c(mise.ti.dop.3.v1,
 mise.js.dop.3.v1,
 mise.bams.dop.3.v1,
 mise.nblk.dop.3.v1,
 mise.sure.dop.3.v1,
+mise.ebayes.dop.3.v1,
 mise.ash.haar.dop.3.v1,
 mise.ash.s8.dop.3.v1,
 mise.ashe.haar.dop.3.v1,
@@ -6920,6 +7008,7 @@ names(mise.dop.3.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6928,8 +7017,8 @@ names(mise.dop.3.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -6942,6 +7031,7 @@ mise.js.dop.3.v2,
 mise.bams.dop.3.v2,
 mise.nblk.dop.3.v2,
 mise.sure.dop.3.v2,
+mise.ebayes.dop.3.v2,
 mise.ash.haar.dop.3.v2,
 mise.ash.s8.dop.3.v2,
 mise.ashe.haar.dop.3.v2,
@@ -6963,6 +7053,7 @@ names(mise.dop.3.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -6971,21 +7062,20 @@ names(mise.dop.3.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.dop.3.v3=c(mise.ti.dop.3.v3,
 mise.js.dop.3.v3,
 mise.bams.dop.3.v3,
 mise.nblk.dop.3.v3,
 mise.sure.dop.3.v3,
+mise.ebayes.dop.3.v3,
 mise.ash.haar.dop.3.v3,
 mise.ash.s8.dop.3.v3,
 mise.ashe.haar.dop.3.v3,
@@ -7007,6 +7097,7 @@ names(mise.dop.3.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7015,23 +7106,20 @@ names(mise.dop.3.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.dop.3.v4=c(mise.ti.dop.3.v4,
 mise.js.dop.3.v4,
 mise.bams.dop.3.v4,
 mise.nblk.dop.3.v4,
 mise.sure.dop.3.v4,
+mise.ebayes.dop.3.v4,
 mise.ash.haar.dop.3.v4,
 mise.ash.s8.dop.3.v4,
 mise.ashe.haar.dop.3.v4,
@@ -7053,6 +7141,7 @@ names(mise.dop.3.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7061,21 +7150,20 @@ names(mise.dop.3.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.dop.3.v5=c(mise.ti.dop.3.v5,
 mise.js.dop.3.v5,
 mise.bams.dop.3.v5,
 mise.nblk.dop.3.v5,
 mise.sure.dop.3.v5,
+mise.ebayes.dop.3.v5,
 mise.ash.haar.dop.3.v5,
 mise.ash.s8.dop.3.v5,
 mise.ashe.haar.dop.3.v5,
@@ -7097,6 +7185,7 @@ names(mise.dop.3.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7105,8 +7194,8 @@ names(mise.dop.3.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -7121,6 +7210,7 @@ mise.js.blip.1.v1,
 mise.bams.blip.1.v1,
 mise.nblk.blip.1.v1,
 mise.sure.blip.1.v1,
+mise.ebayes.blip.1.v1,
 mise.ash.haar.blip.1.v1,
 mise.ash.s8.blip.1.v1,
 mise.ashe.haar.blip.1.v1,
@@ -7142,6 +7232,7 @@ names(mise.blip.1.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7150,8 +7241,8 @@ names(mise.blip.1.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -7164,6 +7255,7 @@ mise.js.blip.1.v2,
 mise.bams.blip.1.v2,
 mise.nblk.blip.1.v2,
 mise.sure.blip.1.v2,
+mise.ebayes.blip.1.v2,
 mise.ash.haar.blip.1.v2,
 mise.ash.s8.blip.1.v2,
 mise.ashe.haar.blip.1.v2,
@@ -7185,6 +7277,7 @@ names(mise.blip.1.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7193,21 +7286,20 @@ names(mise.blip.1.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.blip.1.v3=c(mise.ti.blip.1.v3,
 mise.js.blip.1.v3,
 mise.bams.blip.1.v3,
 mise.nblk.blip.1.v3,
 mise.sure.blip.1.v3,
+mise.ebayes.blip.1.v3,
 mise.ash.haar.blip.1.v3,
 mise.ash.s8.blip.1.v3,
 mise.ashe.haar.blip.1.v3,
@@ -7229,6 +7321,7 @@ names(mise.blip.1.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7237,23 +7330,20 @@ names(mise.blip.1.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.blip.1.v4=c(mise.ti.blip.1.v4,
 mise.js.blip.1.v4,
 mise.bams.blip.1.v4,
 mise.nblk.blip.1.v4,
 mise.sure.blip.1.v4,
+mise.ebayes.blip.1.v4,
 mise.ash.haar.blip.1.v4,
 mise.ash.s8.blip.1.v4,
 mise.ashe.haar.blip.1.v4,
@@ -7275,6 +7365,7 @@ names(mise.blip.1.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7283,21 +7374,20 @@ names(mise.blip.1.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.blip.1.v5=c(mise.ti.blip.1.v5,
 mise.js.blip.1.v5,
 mise.bams.blip.1.v5,
 mise.nblk.blip.1.v5,
 mise.sure.blip.1.v5,
+mise.ebayes.blip.1.v5,
 mise.ash.haar.blip.1.v5,
 mise.ash.s8.blip.1.v5,
 mise.ashe.haar.blip.1.v5,
@@ -7319,6 +7409,7 @@ names(mise.blip.1.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7327,8 +7418,8 @@ names(mise.blip.1.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -7336,14 +7427,12 @@ names(mise.blip.1.v5)=c("TI_homo",
 )
 
 
-
-
-
 mise.blip.3.v1=c(mise.ti.blip.3.v1,
 mise.js.blip.3.v1,
 mise.bams.blip.3.v1,
 mise.nblk.blip.3.v1,
 mise.sure.blip.3.v1,
+mise.ebayes.blip.3.v1,
 mise.ash.haar.blip.3.v1,
 mise.ash.s8.blip.3.v1,
 mise.ashe.haar.blip.3.v1,
@@ -7365,6 +7454,7 @@ names(mise.blip.3.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7373,8 +7463,8 @@ names(mise.blip.3.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -7387,6 +7477,7 @@ mise.js.blip.3.v2,
 mise.bams.blip.3.v2,
 mise.nblk.blip.3.v2,
 mise.sure.blip.3.v2,
+mise.ebayes.blip.3.v2,
 mise.ash.haar.blip.3.v2,
 mise.ash.s8.blip.3.v2,
 mise.ashe.haar.blip.3.v2,
@@ -7408,6 +7499,7 @@ names(mise.blip.3.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7416,21 +7508,20 @@ names(mise.blip.3.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.blip.3.v3=c(mise.ti.blip.3.v3,
 mise.js.blip.3.v3,
 mise.bams.blip.3.v3,
 mise.nblk.blip.3.v3,
 mise.sure.blip.3.v3,
+mise.ebayes.blip.3.v3,
 mise.ash.haar.blip.3.v3,
 mise.ash.s8.blip.3.v3,
 mise.ashe.haar.blip.3.v3,
@@ -7452,6 +7543,7 @@ names(mise.blip.3.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7460,23 +7552,20 @@ names(mise.blip.3.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.blip.3.v4=c(mise.ti.blip.3.v4,
 mise.js.blip.3.v4,
 mise.bams.blip.3.v4,
 mise.nblk.blip.3.v4,
 mise.sure.blip.3.v4,
+mise.ebayes.blip.3.v4,
 mise.ash.haar.blip.3.v4,
 mise.ash.s8.blip.3.v4,
 mise.ashe.haar.blip.3.v4,
@@ -7498,6 +7587,7 @@ names(mise.blip.3.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7506,21 +7596,20 @@ names(mise.blip.3.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.blip.3.v5=c(mise.ti.blip.3.v5,
 mise.js.blip.3.v5,
 mise.bams.blip.3.v5,
 mise.nblk.blip.3.v5,
 mise.sure.blip.3.v5,
+mise.ebayes.blip.3.v5,
 mise.ash.haar.blip.3.v5,
 mise.ash.s8.blip.3.v5,
 mise.ashe.haar.blip.3.v5,
@@ -7542,6 +7631,7 @@ names(mise.blip.3.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7550,8 +7640,8 @@ names(mise.blip.3.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -7566,6 +7656,7 @@ mise.js.cor.1.v1,
 mise.bams.cor.1.v1,
 mise.nblk.cor.1.v1,
 mise.sure.cor.1.v1,
+mise.ebayes.cor.1.v1,
 mise.ash.haar.cor.1.v1,
 mise.ash.s8.cor.1.v1,
 mise.ashe.haar.cor.1.v1,
@@ -7587,6 +7678,7 @@ names(mise.cor.1.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7595,8 +7687,8 @@ names(mise.cor.1.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -7609,6 +7701,7 @@ mise.js.cor.1.v2,
 mise.bams.cor.1.v2,
 mise.nblk.cor.1.v2,
 mise.sure.cor.1.v2,
+mise.ebayes.cor.1.v2,
 mise.ash.haar.cor.1.v2,
 mise.ash.s8.cor.1.v2,
 mise.ashe.haar.cor.1.v2,
@@ -7630,6 +7723,7 @@ names(mise.cor.1.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7638,21 +7732,20 @@ names(mise.cor.1.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.cor.1.v3=c(mise.ti.cor.1.v3,
 mise.js.cor.1.v3,
 mise.bams.cor.1.v3,
 mise.nblk.cor.1.v3,
 mise.sure.cor.1.v3,
+mise.ebayes.cor.1.v3,
 mise.ash.haar.cor.1.v3,
 mise.ash.s8.cor.1.v3,
 mise.ashe.haar.cor.1.v3,
@@ -7674,6 +7767,7 @@ names(mise.cor.1.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7682,23 +7776,20 @@ names(mise.cor.1.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.cor.1.v4=c(mise.ti.cor.1.v4,
 mise.js.cor.1.v4,
 mise.bams.cor.1.v4,
 mise.nblk.cor.1.v4,
 mise.sure.cor.1.v4,
+mise.ebayes.cor.1.v4,
 mise.ash.haar.cor.1.v4,
 mise.ash.s8.cor.1.v4,
 mise.ashe.haar.cor.1.v4,
@@ -7720,6 +7811,7 @@ names(mise.cor.1.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7728,21 +7820,20 @@ names(mise.cor.1.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.cor.1.v5=c(mise.ti.cor.1.v5,
 mise.js.cor.1.v5,
 mise.bams.cor.1.v5,
 mise.nblk.cor.1.v5,
 mise.sure.cor.1.v5,
+mise.ebayes.cor.1.v5,
 mise.ash.haar.cor.1.v5,
 mise.ash.s8.cor.1.v5,
 mise.ashe.haar.cor.1.v5,
@@ -7764,6 +7855,7 @@ names(mise.cor.1.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7772,8 +7864,8 @@ names(mise.cor.1.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -7781,14 +7873,12 @@ names(mise.cor.1.v5)=c("TI_homo",
 )
 
 
-
-
-
 mise.cor.3.v1=c(mise.ti.cor.3.v1,
 mise.js.cor.3.v1,
 mise.bams.cor.3.v1,
 mise.nblk.cor.3.v1,
 mise.sure.cor.3.v1,
+mise.ebayes.cor.3.v1,
 mise.ash.haar.cor.3.v1,
 mise.ash.s8.cor.3.v1,
 mise.ashe.haar.cor.3.v1,
@@ -7810,6 +7900,7 @@ names(mise.cor.3.v1)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7818,8 +7909,8 @@ names(mise.cor.3.v1)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -7832,6 +7923,7 @@ mise.js.cor.3.v2,
 mise.bams.cor.3.v2,
 mise.nblk.cor.3.v2,
 mise.sure.cor.3.v2,
+mise.ebayes.cor.3.v2,
 mise.ash.haar.cor.3.v2,
 mise.ash.s8.cor.3.v2,
 mise.ashe.haar.cor.3.v2,
@@ -7853,6 +7945,7 @@ names(mise.cor.3.v2)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7861,21 +7954,20 @@ names(mise.cor.3.v2)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.cor.3.v3=c(mise.ti.cor.3.v3,
 mise.js.cor.3.v3,
 mise.bams.cor.3.v3,
 mise.nblk.cor.3.v3,
 mise.sure.cor.3.v3,
+mise.ebayes.cor.3.v3,
 mise.ash.haar.cor.3.v3,
 mise.ash.s8.cor.3.v3,
 mise.ashe.haar.cor.3.v3,
@@ -7897,6 +7989,7 @@ names(mise.cor.3.v3)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7905,23 +7998,20 @@ names(mise.cor.3.v3)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
-
-
 mise.cor.3.v4=c(mise.ti.cor.3.v4,
 mise.js.cor.3.v4,
 mise.bams.cor.3.v4,
 mise.nblk.cor.3.v4,
 mise.sure.cor.3.v4,
+mise.ebayes.cor.3.v4,
 mise.ash.haar.cor.3.v4,
 mise.ash.s8.cor.3.v4,
 mise.ashe.haar.cor.3.v4,
@@ -7943,6 +8033,7 @@ names(mise.cor.3.v4)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7951,21 +8042,20 @@ names(mise.cor.3.v4)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
 "TI_s8_true"
 )
 
-
-
 mise.cor.3.v5=c(mise.ti.cor.3.v5,
 mise.js.cor.3.v5,
 mise.bams.cor.3.v5,
 mise.nblk.cor.3.v5,
 mise.sure.cor.3.v5,
+mise.ebayes.cor.3.v5,
 mise.ash.haar.cor.3.v5,
 mise.ash.s8.cor.3.v5,
 mise.ashe.haar.cor.3.v5,
@@ -7987,6 +8077,7 @@ names(mise.cor.3.v5)=c("TI_homo",
 "BAMS_homo",
 "NeighBlk_homo",
 "Sure_homo",
+"Ebayes_homo",
 "ash_haar_homo",
 "ash_s8_homo",
 "ash_haar_est",
@@ -7995,8 +8086,8 @@ names(mise.cor.3.v5)=c("TI_homo",
 "ash_full_s8_est",
 "TI_haar_est",
 "TI_s8_est",
-"TI_haar_ash_est"
-"TI_s8_ash_est"
+"TI_haar_ash_est",
+"TI_s8_ash_est",
 "ash_haar_true",
 "ash_s8_true",
 "TI_haar_true",
@@ -8009,8 +8100,7 @@ names(mise.cor.3.v5)=c("TI_homo",
 
 
 
-
-save.image("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/n_1024/sim_res.RData")
+save.image("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/n_1024/sim_res_alt.RData")
 
 
 round(sort(mise.sp.1.v1),digits=1)
@@ -8094,7 +8184,7 @@ round(sort(mise.cor.3.v1),digits=1)
 round(sort(mise.cor.3.v2),digits=1)
 round(sort(mise.cor.3.v3),digits=1)
 round(sort(mise.cor.3.v4),digits=1)
-print(sort(mise.cor.3.v5),digits=2)
+round(sort(mise.cor.3.v5),digits=1)
 
 
 

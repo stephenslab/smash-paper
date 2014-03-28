@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title></title>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<p>##Some other attempts</p>
+
+<p>We try dividing the data by the standard deviation so that the new data will be iid. Here we work with the true standard deviation.</p>
+
+<pre><code class="r">source(file.path(&quot;../Rcode/bayesmooth.R&quot;))
+spike.f = function(x) (0.75 * exp(-500 * (x - 0.23)^2) + 1.5 * exp(-2000 * (x - 
+    0.33)^2) + 3 * exp(-8000 * (x - 0.47)^2) + 2.25 * exp(-16000 * (x - 0.69)^2) + 
+    0.5 * exp(-32000 * (x - 0.83)^2))
+
+
+pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
+hgt = 2.97/5 * c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
+wth = c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005, 0.008, 0.005)
+mu.b = rep(0, n)
+for (j in 1:length(pos)) {
+    mu.b = mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
+}
+
+n = 1024
+t = 1:n/n
+
+mu.s = spike.f(t)
+
+mu.t = (1 + mu.s)/5
+
+rsnr = sqrt(3)
+
+var1 = rep(1, n)
+var2 = (1e-04 + 4 * (exp(-550 * (t - 0.2)^2) + exp(-200 * (t - 0.5)^2) + exp(-950 * 
+    (t - 0.8)^2)))/1.35
+var3 = 1e-05 + mu.b
+sigma.ini = sqrt(var3)
+sigma.t = sigma.ini/mean(sigma.ini) * sd(mu.t)/rsnr^2
+
+set.seed(1025)
+X.s = rnorm(n, mu.t, sigma.t)
+
+mu.est &lt;- bayesmooth(X.s, sigma = sigma.t)
+</code></pre>
+
+<pre><code>## Error: (subscript) logical subscript too long
+</code></pre>
+
+<pre><code class="r">mu.est.sig = sigma.t * bayesmooth(X.s/sigma.t, sigma = rep(1, n))
+</code></pre>
+
+<pre><code>## Error: (subscript) logical subscript too long
+</code></pre>
+
+<pre><code class="r">
+mse(mu.est, mu.t)
+</code></pre>
+
+<pre><code>## [1] 9.49e-05
+</code></pre>
+
+<pre><code class="r">mse(mu.est.sig, mu.t)
+</code></pre>
+
+<pre><code>## [1] 0.0007852
+</code></pre>
+
+<pre><code class="r">plot(mu.t, type = &quot;l&quot;)
+lines(mu.est, col = 2)
+lines(mu.est.sig, col = 4)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA2AAAANgCAMAAAB9TPuWAAAAhFBMVEX9/v0AAAAAADkAAGUAAP8AOTkAOWUAOY8AZrU5AAA5ADk5AGU5OWU5OY85ZrU5j9plAABlADllAGVlOQBlOY9lZmVltf2POQCPOTmPOWWPZgCPjzmPtY+P29qP2/21ZgC1/rW1/v3ajzna24/a/tra/v39tWX924/9/rX9/tr9/v3/AACx1ny3AAAALHRSTlP///////////////////////////////////////////////////////8A/3nwG3MAAAAJcEhZcwAACxIAAAsSAdLdfvwAACAASURBVHic7d0LY9s6eqDh8gS7Oens2WTSNpm9NGnSxnaI////Kt7EGwACBEB+IN935sQ2LUGwxMekqIv/qSaibP3T2RMgunIAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8oYwIgyBjCijAGMKGMAI8pYDLCKiDICizgv0TUCGFHGAEaUMYARZQxgRBkDGFHGAEaUMYARZQxgRBkDGFHGAEaUMYARZQxgRBkDGFHGAEaUMYARZQxgRBkDGFHGooG9fqj+/FlV736EDk10g2KB/f7Ht/rnnw9nf/0KHJroBsUCe/v8o/75sfsYNjTRDWILRpSxFPfBPnIfjMgcRxGJMgYwooylAjY5yOH5nqZEN4gt2DXiyhYawK4RV7bQUhxFbOIo4rmxQy606MfBvn5pP76853GwMwOY0FI8k2P60X9oSljFtS00tmCXSHFtCy36PtjbJ+6DnR/ApMZRxEukFNe2zAB2iQAmNYBdIoBJDWCXCGBSA9glApjUAHaJ1ON/JDGAXaHH9gtgMgPYFQKY2AB2hQAmNoBdIYCJDWBXSNUAExrArpCqNcBkBrArpDRbMKEB7AoBTGwAu0IAExvArhDAxAawKwQwsQHsCgFMbAC7QgATG8Cu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" alt="plot of chunk unnamed-chunk-2"/> </p>
+
+<p>So dividing the data by its SD does change some of the underlying properties of the original intensity, and does not perform as well as one hopes.</p>
+
+<p>Next we look at better ways to estimate the variance. One way would be to log transform the squared residuals so that they have constant variance. We also try using jash and vash instead of ash. For simplicity, we assume that the true mean is known. </p>
+
+<pre><code class="r">
+
+spike.f = function(x) (0.75 * exp(-500 * (x - 0.23)^2) + 1.5 * exp(-2000 * (x - 
+    0.33)^2) + 3 * exp(-8000 * (x - 0.47)^2) + 2.25 * exp(-16000 * (x - 0.69)^2) + 
+    0.5 * exp(-32000 * (x - 0.83)^2))
+n = 2^12
+t = 1:n/n
+mu.s = spike.f(t)
+pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
+hgt = c(2, 3.6, 2, 5, 7.5, 6.9, 2, 4.8, 2, 4.1, 2.3)
+wth = c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005, 0.008, 0.005)
+mu.b = rep(0, n)
+for (j in 1:length(pos)) {
+    mu.b = mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
+}
+dop.f = function(x) sqrt(x * (1 - x)) * sin((2 * pi * 1.05)/(x + 0.05))
+mu.dop = dop.f(t)
+mu.sine = sin(20 * t)
+var1 = 1.42 * ((3 - 20 * t) * (t &gt;= 0 &amp; t &lt; 0.1) + (20 * t - 1) * (t &gt;= 0.1 &amp; 
+    t &lt; 0.25) + (4 + (1 - 4 * t) * 18/19) * (t &gt;= 0.25 &amp; t &lt; 0.725) + (2.2 + 
+    10 * (t - 0.725)) * (t &gt;= 0.725 &amp; t &lt; 0.89) + (3.85 - 85 * (t - 0.89)/11) * 
+    (t &gt;= 0.89 &amp; t &lt;= 1))
+var2 = (1 + 4 * (exp(-550 * (t - 0.2)^2) + exp(-200 * (t - 0.5)^2) + exp(-950 * 
+    (t - 0.8)^2)))/1.35
+var3 = mu.b
+var4 = 3.4 * (2 + mu.dop)
+sigma.t.1 = sqrt(var1)
+sigma.t.2 = sqrt(var2)
+sigma.t.3 = sqrt(var3)
+sigma.t.4 = sqrt(var4)
+mu.t.1 = rep(0, n)
+mu.t.2 = mu.sine
+
+l2norm = function(x) sum(x^2)
+mise = function(x, y) l2norm(x - y)/l2norm(y)
+mse = function(x, y) mean((x - y)^2)
+
+
+set.seed(327)
+X.11 = rnorm(n, mu.t.1, sigma.t.1)
+set.seed(327)
+X.12 = rnorm(n, mu.t.1, sigma.t.2)
+set.seed(327)
+X.13 = rnorm(n, mu.t.1, sigma.t.3)
+set.seed(327)
+X.14 = rnorm(n, mu.t.1, sigma.t.4)
+set.seed(327)
+X.21 = rnorm(n, mu.t.2, sigma.t.1)
+set.seed(327)
+X.22 = rnorm(n, mu.t.2, sigma.t.2)
+set.seed(327)
+X.23 = rnorm(n, mu.t.2, sigma.t.3)
+set.seed(327)
+X.24 = rnorm(n, mu.t.2, sigma.t.4)
+
+
+source(&quot;../simulation_1d_g/wip/bayesmooth_cur.R&quot;)
+system.time(var.est.cur.11 &lt;- bayesmooth.cur(X.11, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.81    0.00    2.93
+</code></pre>
+
+<pre><code class="r">system.time(var.est.cur.12 &lt;- bayesmooth.cur(X.12, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.37    0.00    2.37
+</code></pre>
+
+<pre><code class="r">system.time(var.est.cur.13 &lt;- bayesmooth.cur(X.13, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##     2.2     0.0     2.2
+</code></pre>
+
+<pre><code class="r">system.time(var.est.cur.14 &lt;- bayesmooth.cur(X.14, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    3.04    0.00    3.04
+</code></pre>
+
+<pre><code class="r">system.time(var.est.cur.21 &lt;- bayesmooth.cur(X.21, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.54    0.00    2.56
+</code></pre>
+
+<pre><code class="r">system.time(var.est.cur.22 &lt;- bayesmooth.cur(X.22, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.23    0.00    2.26
+</code></pre>
+
+<pre><code class="r">system.time(var.est.cur.23 &lt;- bayesmooth.cur(X.23, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.09    0.00    2.09
+</code></pre>
+
+<pre><code class="r">system.time(var.est.cur.24 &lt;- bayesmooth.cur(X.24, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    3.05    0.00    3.05
+</code></pre>
+
+<pre><code class="r">
+source(&quot;../simulation_1d_g/wip/bayesmooth_log.R&quot;)
+system.time(var.est.log.11 &lt;- bayesmooth.log(X.11, mu.t.1, sigma.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##     2.6     0.0     2.6
+</code></pre>
+
+<pre><code class="r">system.time(var.est.log.12 &lt;- bayesmooth.log(X.12, mu.t.1, sigma.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.20    0.00    2.21
+</code></pre>
+
+<pre><code class="r">system.time(var.est.log.13 &lt;- bayesmooth.log(X.13, mu.t.1, sigma.t.3))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    1.85    0.00    1.86
+</code></pre>
+
+<pre><code class="r">system.time(var.est.log.14 &lt;- bayesmooth.log(X.14, mu.t.1, sigma.t.4))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.95    0.00    2.95
+</code></pre>
+
+<pre><code class="r">system.time(var.est.log.21 &lt;- bayesmooth.log(X.21, mu.t.2, sigma.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.59    0.00    2.60
+</code></pre>
+
+<pre><code class="r">system.time(var.est.log.22 &lt;- bayesmooth.log(X.22, mu.t.2, sigma.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.25    0.00    2.25
+</code></pre>
+
+<pre><code class="r">system.time(var.est.log.23 &lt;- bayesmooth.log(X.23, mu.t.2, sigma.t.3))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    1.86    0.00    1.87
+</code></pre>
+
+<pre><code class="r">system.time(var.est.log.24 &lt;- bayesmooth.log(X.24, mu.t.2, sigma.t.4))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    2.95    0.00    3.01
+</code></pre>
+
+<pre><code class="r">
+source(&quot;../simulation_1d_g/wip/bayesmooth_vash.R&quot;)
+system.time(var.est.vash.11 &lt;- bayesmooth.vash(X.11, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##  348.26   36.48  385.30
+</code></pre>
+
+<pre><code class="r">system.time(var.est.vash.12 &lt;- bayesmooth.vash(X.12, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##  292.67   32.71  325.76
+</code></pre>
+
+<pre><code class="r">system.time(var.est.vash.13 &lt;- bayesmooth.vash(X.13, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##  378.70   39.94  419.34
+</code></pre>
+
+<pre><code class="r">system.time(var.est.vash.14 &lt;- bayesmooth.vash(X.14, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##  347.98   40.13  388.82
+</code></pre>
+
+<pre><code class="r">system.time(var.est.vash.21 &lt;- bayesmooth.vash(X.21, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##  343.78   37.51  381.75
+</code></pre>
+
+<pre><code class="r">system.time(var.est.vash.22 &lt;- bayesmooth.vash(X.22, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##  279.89   28.08  308.93
+</code></pre>
+
+<pre><code class="r">system.time(var.est.vash.23 &lt;- bayesmooth.vash(X.23, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##  370.08   40.45  423.62
+</code></pre>
+
+<pre><code class="r">system.time(var.est.vash.24 &lt;- bayesmooth.vash(X.24, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##  345.87   37.75  385.32
+</code></pre>
+
+<pre><code class="r">
+source(&quot;../simulation_1d_g/wip/bayesmooth_jash.R&quot;)
+system.time(var.est.jash.11 &lt;- bayesmooth.jash(X.11, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##   65.09    0.03   65.35
+</code></pre>
+
+<pre><code class="r">system.time(var.est.jash.12 &lt;- bayesmooth.jash(X.12, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##   34.40    0.00   34.41
+</code></pre>
+
+<pre><code class="r">system.time(var.est.jash.13 &lt;- bayesmooth.jash(X.13, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##   44.30    0.00   44.82
+</code></pre>
+
+<pre><code class="r">system.time(var.est.jash.14 &lt;- bayesmooth.jash(X.14, mu.t.1))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##   56.06    0.02   56.30
+</code></pre>
+
+<pre><code class="r">system.time(var.est.jash.21 &lt;- bayesmooth.jash(X.21, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##   60.59    0.03   60.95
+</code></pre>
+
+<pre><code class="r">system.time(var.est.jash.22 &lt;- bayesmooth.jash(X.22, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##   32.18    0.00   32.26
+</code></pre>
+
+<pre><code class="r">system.time(var.est.jash.23 &lt;- bayesmooth.jash(X.23, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##   46.99    0.01   47.10
+</code></pre>
+
+<pre><code class="r">system.time(var.est.jash.24 &lt;- bayesmooth.jash(X.24, mu.t.2))
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##   69.76    0.04   70.10
+</code></pre>
+
+<pre><code class="r">
+
+
+
+matrix(c(mse(var.est.cur.11, sigma.t.1^2), mse(var.est.cur.12, sigma.t.2^2), 
+    mse(var.est.cur.13, sigma.t.3^2), mse(var.est.cur.14, sigma.t.4^2), mse(var.est.log.11, 
+        sigma.t.1^2), mse(var.est.log.12, sigma.t.2^2), mse(var.est.log.13, 
+        sigma.t.3^2), mse(var.est.log.14, sigma.t.4^2), mse(var.est.vash.11, 
+        sigma.t.1^2), mse(var.est.vash.12, sigma.t.2^2), mse(var.est.vash.13, 
+        sigma.t.3^2), mse(var.est.vash.14, sigma.t.4^2), mse(var.est.jash.11, 
+        sigma.t.1^2), mse(var.est.jash.12, sigma.t.2^2), mse(var.est.jash.13, 
+        sigma.t.3^2), mse(var.est.jash.14, sigma.t.4^2)), 4, 4)
+</code></pre>
+
+<pre><code>##         [,1]     [,2]    [,3]    [,4]
+## [1,] 0.07675 126063.0 0.08657 0.08734
+## [2,] 0.05053   3294.4 0.04575 0.05407
+## [3,] 0.18877    104.2 0.19964 0.16015
+## [4,] 0.58056 285758.6 0.60028 0.50585
+</code></pre>
+
+<pre><code class="r">
+
+
+matrix(c(mse(var.est.cur.21, sigma.t.1^2), mse(var.est.cur.22, sigma.t.2^2), 
+    mse(var.est.cur.23, sigma.t.3^2), mse(var.est.cur.24, sigma.t.4^2), mse(var.est.log.21, 
+        sigma.t.1^2), mse(var.est.log.22, sigma.t.2^2), mse(var.est.log.23, 
+        sigma.t.3^2), mse(var.est.log.24, sigma.t.4^2), mse(var.est.vash.21, 
+        sigma.t.1^2), mse(var.est.vash.22, sigma.t.2^2), mse(var.est.vash.23, 
+        sigma.t.3^2), mse(var.est.vash.24, sigma.t.4^2), mse(var.est.jash.21, 
+        sigma.t.1^2), mse(var.est.jash.22, sigma.t.2^2), mse(var.est.jash.23, 
+        sigma.t.3^2), mse(var.est.jash.24, sigma.t.4^2)), 4, 4)
+</code></pre>
+
+<pre><code>##         [,1]     [,2]    [,3]    [,4]
+## [1,] 0.07675 126063.0 0.08657 0.08734
+## [2,] 0.05053   3294.4 0.04575 0.05407
+## [3,] 0.18877    104.2 0.19964 0.16015
+## [4,] 0.58056 285758.6 0.60028 0.50585
+</code></pre>
+
+<pre><code class="r">
+</code></pre>
+
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/wd_var.R")
+source("../Rcode/wd_var.R")
 library(wavethresh)
 require(ashr)
 require(Rcpp)
@@ -458,9 +458,19 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,return.est=TRUE,basis="haar",prio
     vtable=cxxtitable(var.var.est)$sumtable
     vdtable=cxxtitable(var.est)$difftable
     vrtable=cxxtirtable(var.est)
-    virtable=3*(abs(vrtable)>=log(25))+2*(abs(vrtable)>=log(3)&abs(vrtable)<log(25))+1*(abs(vrtable)<log(3))
+    fac1=c(3,2,1.5)
+    fac2=c(2,1.5,1)
     for(j in 0:(J-1)){
-      zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable[j+2,])),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+      if(j>=0&j<=1){
+        virtable=vrtable[j+2,]
+        virtable=fac1[1]*(abs(virtable)>=log(4))+fac1[2]*(abs(virtable)>=log(2)&abs(virtable)<log(4))+fac1[3]*(abs(virtable)<log(2))
+      }else if(j>=2&j<=5){
+        virtable=vrtable[j+2,]
+        virtable=fac2[1]*(abs(virtable)>=log(4))+fac2[2]*(abs(virtable)>=log(2)&abs(virtable)<log(4))+fac2[3]*(abs(virtable)<log(2))
+      }else{
+        virtable=1
+      }
+      zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
       wmean[j+1,] = zdat.ash$PosteriorMean/2
     }
     wwmean=-wmean
@@ -504,11 +514,20 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,return.est=TRUE,basis="haar",prio
     vtable=cxxtitable(2/3*var.est^2)$sumtable
     vdtable=cxxtitable(var.est)$difftable
     vrtable=cxxtirtable(var.est)
-    virtable=3*(abs(vrtable)>=log(25))+2*(abs(vrtable)>=log(3)&abs(vrtable)<log(25))+1*(abs(vrtable)<log(3))
+    fac1=c(3,2,1.5)
+    fac2=c(2,1.5,1)
     for(j in 0:(J-1)){
-      zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable[j+2,])),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+      if(j>=0&j<=1){
+        virtable=vrtable[j+2,]
+        virtable=fac1[1]*(abs(virtable)>=log(4))+fac1[2]*(abs(virtable)>=log(2)&abs(virtable)<log(4))+fac1[3]*(abs(virtable)<log(2))
+      }else if(j>=2&j<=5){
+        virtable=vrtable[j+2,]
+        virtable=fac2[1]*(abs(virtable)>=log(4))+fac2[2]*(abs(virtable)>=log(2)&abs(virtable)<log(4))+fac2[3]*(abs(virtable)<log(2))
+      }else{
+        virtable=1
+      }
+      zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
       wmean[j+1,] = zdat.ash$PosteriorMean/2
-      wvar[j+1,] = zdat.ash$PosteriorSD^2/4
     }
     wwmean=-wmean
     wwvar=wvar

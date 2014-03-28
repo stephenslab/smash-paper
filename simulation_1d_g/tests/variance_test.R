@@ -34,13 +34,19 @@ X.s=matrix(rnorm(100*n,5*mu.sine,sigma.t),nrow=100,byrow=TRUE)
 
 
 source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth.R"))
-source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_alt.R"))
+source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_var.R"))
+source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_var_true.R"))
+
+source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_test.R"))
 source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_alt1.R"))
 source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_alt2.R"))
 
 ###single
 system.time(var.est<-bayesmooth(X.s,v.est=TRUE))
-system.time(var.est.alt<-bayesmooth.alt(X.s,v.est=TRUE))
+system.time(var.est.var<-bayesmooth.var(X.s,mu.t=rep(0,n)))
+system.time(var.est.var.true<-bayesmooth.var.true(X.s,mu.t=rep(0,n),sigma.t=sigma.t))
+
+system.time(var.est.test<-bayesmooth.test(X.s,v.est=TRUE))
 system.time(var.est.alt1<-bayesmooth.alt1(X.s,v.est=TRUE))
 system.time(var.est.alt2<-bayesmooth.alt2(X.s,v.est=TRUE))
 
@@ -51,14 +57,18 @@ system.time(mu.est.alt2<-bayesmooth.alt2(X.s))
 
 
 mse(var.est,sigma.t^2)
-mse(var.est.alt,sigma.t^2)
+mse(var.est.var,sigma.t^2)
+mse(var.est.var.true,sigma.t^2)
+
+
+mse(var.est.test,sigma.t^2)
 mse(var.est.alt1,sigma.t^2)
 mse(var.est.alt2,sigma.t^2)
 
 plot(sigma.t^2,type='l')
-lines(var.est,col=2)
-lines(var.est.alt,col=3)
-lines(var.est.alt2,col=4)
+lines(var.est.var,col=2)
+lines(var.est.var.true,col=4)
+
 
 
 mse(mu.est,0)

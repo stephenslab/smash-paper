@@ -104,111 +104,116 @@ var.est.asha2.dop.v2=matrix(0,100,n)
 var.est.asha2.dop.v3=matrix(0,100,n)
 var.est.asha2.dop.v4=matrix(0,100,n)
 
+
+
 for(i in 1:100){
-var.est.ash.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE)
-var.est.ash.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE)
-var.est.ash.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE)
-var.est.ash.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE)
+var.est.ash.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,weight=0)
+var.est.ash.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,weight=0)
+var.est.ash.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,weight=0)
+var.est.ash.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,weight=0)
 
-var.est.ash.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE)
-var.est.ash.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE)
-var.est.ash.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE)
-var.est.ash.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE)
+var.est.ash.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,weight=0)
+var.est.ash.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,weight=0)
+var.est.ash.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,weight=0)
+var.est.ash.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,weight=0)
 
-var.est.ash.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE)
-var.est.ash.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE)
-var.est.ash.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE)
-var.est.ash.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE)
+var.est.ash.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,weight=0)
+var.est.ash.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,weight=0)
+var.est.ash.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,weight=0)
+var.est.ash.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,weight=0)
 
-var.est.ash.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE)
-var.est.ash.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE)
-var.est.ash.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE)
-var.est.ash.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE)
+var.est.ash.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,weight=0)
+var.est.ash.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,weight=0)
+var.est.ash.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,weight=0)
+var.est.ash.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,weight=0)
 
-var.est.ash.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE)
-var.est.ash.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE)
-var.est.ash.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE)
-var.est.ash.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE)
-
-
-
-var.est.asha.cons.v1[i,]=bayesmooth.alt(sim.m.cons.v1[i,],v.est=TRUE)
-var.est.asha.cons.v2[i,]=bayesmooth.alt(sim.m.cons.v2[i,],v.est=TRUE)
-var.est.asha.cons.v3[i,]=bayesmooth.alt(sim.m.cons.v3[i,],v.est=TRUE)
-var.est.asha.cons.v4[i,]=bayesmooth.alt(sim.m.cons.v4[i,],v.est=TRUE)
-
-var.est.asha.sine.v1[i,]=bayesmooth.alt(sim.m.sine.v1[i,],v.est=TRUE)
-var.est.asha.sine.v2[i,]=bayesmooth.alt(sim.m.sine.v2[i,],v.est=TRUE)
-var.est.asha.sine.v3[i,]=bayesmooth.alt(sim.m.sine.v3[i,],v.est=TRUE)
-var.est.asha.sine.v4[i,]=bayesmooth.alt(sim.m.sine.v4[i,],v.est=TRUE)
-
-var.est.asha.bump.v1[i,]=bayesmooth.alt(sim.m.bump.v1[i,],v.est=TRUE)
-var.est.asha.bump.v2[i,]=bayesmooth.alt(sim.m.bump.v2[i,],v.est=TRUE)
-var.est.asha.bump.v3[i,]=bayesmooth.alt(sim.m.bump.v3[i,],v.est=TRUE)
-var.est.asha.bump.v4[i,]=bayesmooth.alt(sim.m.bump.v4[i,],v.est=TRUE)
-
-var.est.asha.blk.v1[i,]=bayesmooth.alt(sim.m.blk.v1[i,],v.est=TRUE)
-var.est.asha.blk.v2[i,]=bayesmooth.alt(sim.m.blk.v2[i,],v.est=TRUE)
-var.est.asha.blk.v3[i,]=bayesmooth.alt(sim.m.blk.v3[i,],v.est=TRUE)
-var.est.asha.blk.v4[i,]=bayesmooth.alt(sim.m.blk.v4[i,],v.est=TRUE)
-
-var.est.asha.dop.v1[i,]=bayesmooth.alt(sim.m.dop.v1[i,],v.est=TRUE)
-var.est.asha.dop.v2[i,]=bayesmooth.alt(sim.m.dop.v2[i,],v.est=TRUE)
-var.est.asha.dop.v3[i,]=bayesmooth.alt(sim.m.dop.v3[i,],v.est=TRUE)
-var.est.asha.dop.v4[i,]=bayesmooth.alt(sim.m.dop.v4[i,],v.est=TRUE)
+var.est.ash.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,weight=0)
+var.est.ash.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,weight=0)
+var.est.ash.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,weight=0)
+var.est.ash.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,weight=0)
 
 
 
+var.est.asha.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,weight=1)
+var.est.asha.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,weight=1)
+var.est.asha.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,weight=1)
+var.est.asha.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,weight=1)
 
-var.est.asha1.cons.v1[i,]=bayesmooth.alt1(sim.m.cons.v1[i,],v.est=TRUE)
-var.est.asha1.cons.v2[i,]=bayesmooth.alt1(sim.m.cons.v2[i,],v.est=TRUE)
-var.est.asha1.cons.v3[i,]=bayesmooth.alt1(sim.m.cons.v3[i,],v.est=TRUE)
-var.est.asha1.cons.v4[i,]=bayesmooth.alt1(sim.m.cons.v4[i,],v.est=TRUE)
+var.est.asha.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,weight=1)
+var.est.asha.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,weight=1)
+var.est.asha.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,weight=1)
+var.est.asha.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,weight=1)
 
-var.est.asha1.sine.v1[i,]=bayesmooth.alt1(sim.m.sine.v1[i,],v.est=TRUE)
-var.est.asha1.sine.v2[i,]=bayesmooth.alt1(sim.m.sine.v2[i,],v.est=TRUE)
-var.est.asha1.sine.v3[i,]=bayesmooth.alt1(sim.m.sine.v3[i,],v.est=TRUE)
-var.est.asha1.sine.v4[i,]=bayesmooth.alt1(sim.m.sine.v4[i,],v.est=TRUE)
+var.est.asha.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,weight=1)
+var.est.asha.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,weight=1)
+var.est.asha.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,weight=1)
+var.est.asha.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,weight=1)
 
-var.est.asha1.bump.v1[i,]=bayesmooth.alt1(sim.m.bump.v1[i,],v.est=TRUE)
-var.est.asha1.bump.v2[i,]=bayesmooth.alt1(sim.m.bump.v2[i,],v.est=TRUE)
-var.est.asha1.bump.v3[i,]=bayesmooth.alt1(sim.m.bump.v3[i,],v.est=TRUE)
-var.est.asha1.bump.v4[i,]=bayesmooth.alt1(sim.m.bump.v4[i,],v.est=TRUE)
+var.est.asha.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,weight=1)
+var.est.asha.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,weight=1)
+var.est.asha.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,weight=1)
+var.est.asha.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,weight=1)
 
-var.est.asha1.blk.v1[i,]=bayesmooth.alt1(sim.m.blk.v1[i,],v.est=TRUE)
-var.est.asha1.blk.v2[i,]=bayesmooth.alt1(sim.m.blk.v2[i,],v.est=TRUE)
-var.est.asha1.blk.v3[i,]=bayesmooth.alt1(sim.m.blk.v3[i,],v.est=TRUE)
-var.est.asha1.blk.v4[i,]=bayesmooth.alt1(sim.m.blk.v4[i,],v.est=TRUE)
+var.est.asha.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,weight=1)
+var.est.asha.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,weight=1)
+var.est.asha.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,weight=1)
+var.est.asha.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,weight=1)
 
-var.est.asha1.dop.v1[i,]=bayesmooth.alt1(sim.m.dop.v1[i,],v.est=TRUE)
-var.est.asha1.dop.v2[i,]=bayesmooth.alt1(sim.m.dop.v2[i,],v.est=TRUE)
-var.est.asha1.dop.v3[i,]=bayesmooth.alt1(sim.m.dop.v3[i,],v.est=TRUE)
-var.est.asha1.dop.v4[i,]=bayesmooth.alt1(sim.m.dop.v4[i,],v.est=TRUE)
 
-var.est.asha2.cons.v1[i,]=bayesmooth.alt2(sim.m.cons.v1[i,],v.est=TRUE)
-var.est.asha2.cons.v2[i,]=bayesmooth.alt2(sim.m.cons.v2[i,],v.est=TRUE)
-var.est.asha2.cons.v3[i,]=bayesmooth.alt2(sim.m.cons.v3[i,],v.est=TRUE)
-var.est.asha2.cons.v4[i,]=bayesmooth.alt2(sim.m.cons.v4[i,],v.est=TRUE)
 
-var.est.asha2.sine.v1[i,]=bayesmooth.alt2(sim.m.sine.v1[i,],v.est=TRUE)
-var.est.asha2.sine.v2[i,]=bayesmooth.alt2(sim.m.sine.v2[i,],v.est=TRUE)
-var.est.asha2.sine.v3[i,]=bayesmooth.alt2(sim.m.sine.v3[i,],v.est=TRUE)
-var.est.asha2.sine.v4[i,]=bayesmooth.alt2(sim.m.sine.v4[i,],v.est=TRUE)
 
-var.est.asha2.bump.v1[i,]=bayesmooth.alt2(sim.m.bump.v1[i,],v.est=TRUE)
-var.est.asha2.bump.v2[i,]=bayesmooth.alt2(sim.m.bump.v2[i,],v.est=TRUE)
-var.est.asha2.bump.v3[i,]=bayesmooth.alt2(sim.m.bump.v3[i,],v.est=TRUE)
-var.est.asha2.bump.v4[i,]=bayesmooth.alt2(sim.m.bump.v4[i,],v.est=TRUE)
+var.est.asha1.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,weight=0)
+var.est.asha1.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,weight=0)
+var.est.asha1.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,weight=0)
+var.est.asha1.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,weight=0)
 
-var.est.asha2.blk.v1[i,]=bayesmooth.alt2(sim.m.blk.v1[i,],v.est=TRUE)
-var.est.asha2.blk.v2[i,]=bayesmooth.alt2(sim.m.blk.v2[i,],v.est=TRUE)
-var.est.asha2.blk.v3[i,]=bayesmooth.alt2(sim.m.blk.v3[i,],v.est=TRUE)
-var.est.asha2.blk.v4[i,]=bayesmooth.alt2(sim.m.blk.v4[i,],v.est=TRUE)
+var.est.asha1.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,weight=0)
+var.est.asha1.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,weight=0)
+var.est.asha1.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,weight=0)
+var.est.asha1.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,weight=0)
 
-var.est.asha2.dop.v1[i,]=bayesmooth.alt2(sim.m.dop.v1[i,],v.est=TRUE)
-var.est.asha2.dop.v2[i,]=bayesmooth.alt2(sim.m.dop.v2[i,],v.est=TRUE)
-var.est.asha2.dop.v3[i,]=bayesmooth.alt2(sim.m.dop.v3[i,],v.est=TRUE)
-var.est.asha2.dop.v4[i,]=bayesmooth.alt2(sim.m.dop.v4[i,],v.est=TRUE)
+var.est.asha1.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,weight=0)
+var.est.asha1.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,weight=0)
+var.est.asha1.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,weight=0)
+var.est.asha1.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,weight=0)
+
+var.est.asha1.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,weight=0)
+var.est.asha1.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,weight=0)
+var.est.asha1.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,weight=0)
+var.est.asha1.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,weight=0)
+
+var.est.asha1.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,weight=0)
+var.est.asha1.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,weight=0)
+var.est.asha1.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,weight=0)
+var.est.asha1.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,weight=0)
+
+
+
+
+var.est.asha2.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,weight=0.5)
+
+var.est.asha2.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,weight=0.5)
+
+var.est.asha2.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,weight=0.5)
+
+var.est.asha2.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,weight=0.5)
+
+var.est.asha2.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,weight=0.5)
+var.est.asha2.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,weight=0.5)
 
 print(i)
 }
@@ -335,7 +340,7 @@ mse.asha2.cons.v1
 names(mse.cons.v1)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -351,7 +356,7 @@ mse.asha2.cons.v2
 names(mse.cons.v2)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -366,7 +371,7 @@ mse.asha2.cons.v3
 names(mse.cons.v3)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -382,7 +387,7 @@ mse.asha2.cons.v4
 names(mse.cons.v4)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -398,7 +403,7 @@ mse.asha2.sine.v1
 names(mse.sine.v1)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -414,7 +419,7 @@ mse.asha2.sine.v2
 names(mse.sine.v2)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -429,7 +434,7 @@ mse.asha2.sine.v3
 names(mse.sine.v3)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -445,7 +450,7 @@ mse.asha2.sine.v4
 names(mse.sine.v4)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -463,7 +468,7 @@ mse.asha2.bump.v1
 names(mse.bump.v1)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -479,7 +484,7 @@ mse.asha2.bump.v2
 names(mse.bump.v2)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -494,7 +499,7 @@ mse.asha2.bump.v3
 names(mse.bump.v3)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -510,7 +515,7 @@ mse.asha2.bump.v4
 names(mse.bump.v4)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -526,10 +531,11 @@ mse.asha1.blk.v1,
 mse.asha2.blk.v1
 )
 
+
 names(mse.blk.v1)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -545,7 +551,7 @@ mse.asha2.blk.v2
 names(mse.blk.v2)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -560,7 +566,7 @@ mse.asha2.blk.v3
 names(mse.blk.v3)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -576,7 +582,7 @@ mse.asha2.blk.v4
 names(mse.blk.v4)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -595,7 +601,7 @@ mse.asha2.dop.v1
 names(mse.dop.v1)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -611,7 +617,7 @@ mse.asha2.dop.v2
 names(mse.dop.v2)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -626,7 +632,7 @@ mse.asha2.dop.v3
 names(mse.dop.v3)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 
@@ -642,7 +648,7 @@ mse.asha2.dop.v4
 names(mse.dop.v4)=c(
 "current",
 "RSS both",
-"RSS final"
+"RSS final",
 "RSS weighted"
 )
 

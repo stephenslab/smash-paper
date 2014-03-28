@@ -1,13 +1,7 @@
 spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
 n=1024
 t=1:n/n
-mu.s=spike.f(1:n/n)
-#sigma.t=seq(2,10,length.out=n)
-sigma.t=rep(0.17,n)
-
-mu.s0=2
-set.seed(425)
-X.s=rnorm(n,mu.s0*(mu.s),sigma.t)
+mu.s=spike.f(t)
 
 pos = c(.1, .13, .15, .23, .25, .40, .44, .65, .76, .78, .81)
 hgt = 2.97/5*c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
@@ -59,19 +53,19 @@ mise=function(x,y) 10000*mean(apply(x-rep(1,100)%o%y,1,l2norm)/l2norm(y))
 
 
 
-source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_alt.R"))
 source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth.R"))
 source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_test.R"))
 
+source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/ti_thresh.R"))
 
 
 
 
-n=1024
-t=1:n/n
-mu.t=(1+mu.s)/5
+
+
+#mu.t=(1+mu.s)/5
 #mu.t=(1+mu.b)/5
-#mu.t=(1+mu.blk)/5
+mu.t=(1+mu.blk)/5
 #mu.t=(1+mu.ang)/5
 #mu.t=(1+mu.dop)/5
 
@@ -95,21 +89,33 @@ X.s=matrix(rnorm(100*n,mu.t,sigma.t),nrow=100,byrow=TRUE)
 
 ###single
 system.time(mu.est<-bayesmooth(X.s))
+system.time(mu.est.test<-bayesmooth.test(X.s))
 system.time(mu.est.sd<-bayesmooth(X.s/sigma.t,sigma=rep(1,n)))
-system.time(mu.est.alt<-bayesmooth.alt(X.s))
-system.time(mu.est.test<-bayesmooth.test(X.s,sigma=sigma.t))
+system.time(mu.est.ti.ash<-ti.thresh(X.s,method="bayesm"))
+system.time(mu.est.ti.mad<-ti.thresh(X.s,method="rmad"))
+
 
 mse(mu.est,mu.t)
-mse(mu.est.sd*sigma.t,mu.t)
-mse(mu.est.alt,mu.t)
 mse(mu.est.test,mu.t)
+mse(mu.est.sd*sigma.t,mu.t)
+mse(mu.est.ti.ash,mu.t)
+mse(mu.est.ti.mad,mu.t)
+
 
 ###multiple
-mu.est=apply(X.s,1,bayesmooth)
-mu.est.alt=apply(X.s,1,bayesmooth.alt)
-mu.est.test=apply(X.s,1,bayesmooth.test,sigma=sigma.t)
+mu.est=apply(X.s,1,bayesmooth,weight=0.5)
+mu.est.test=apply(X.s,1,bayesmooth.test,weight=0.5)
+mu.est.ti.ash=apply(X.s,1,ti.thresh,method="bayesm",weight=0)
+mu.est.ti.mad=apply(X.s,1,ti.thresh,method="rmad",weight=0)
+mu.est1.ti.ash=apply(X.s,1,ti.thresh,method="bayesm",weight=0.5)
+mu.est1.ti.mad=apply(X.s,1,ti.thresh,method="rmad",weight=0.5)
+
+
 
 mise(t(mu.est),mu.t)
-mise(t(mu.est.alt),mu.t)
 mise(t(mu.est.test),mu.t)
+mise(t(mu.est.ti.ash),mu.t)
+mise(t(mu.est.ti.mad),mu.t)
+mise(t(mu.est1.ti.ash),mu.t)
+mise(t(mu.est1.ti.mad),mu.t)
 

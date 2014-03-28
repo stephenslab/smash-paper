@@ -30,8 +30,8 @@ y.var.est.alt2=y.var.est.alt2[1:length(y)]
 
 plot(x,y,ylim=c(-150,100))
 lines(x,y.est,col=2)
-lines(x,y.est+2*sqrt(y.var.est),lty=2,col=3)
-lines(x,y.est-2*sqrt(y.var.est),lty=2,col=3)
+plot(x,y.var.est,type='l')
+
 
 
 

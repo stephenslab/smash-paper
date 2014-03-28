@@ -1,4 +1,4 @@
-source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/wd_var.R")
+source("../Rcode/wd_var.R")
 library(wavethresh)
 require(ashr)
 require(Rcpp)
@@ -429,7 +429,7 @@ bayesmooth.log = function(x,mu.t,sigma.t,prior="nullbiased",pointmass=TRUE,nullc
     vtable=cxxtitable(var.var.est)$sumtable
     vdtable=cxxtitable(var.est)$difftable
     for(j in 0:(J-1)){
-      zdat.ash=fast.ash(vdtable[j+2,],sqrt(2*(vtable[j+2,])),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+      zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,])),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
       wmean[j+1,] = zdat.ash$PosteriorMean/2
       wvmean[j+1,] = zdat.ash$PosteriorSD^2/4
     }

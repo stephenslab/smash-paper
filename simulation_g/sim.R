@@ -91,7 +91,7 @@ g=c(rep(0,10),rep(1,10))
 
 mse=function(x,y) mean((x-y)^2)
 
-write.table(X,"sim_data.txt",col.names=FALSE,row.names=FALSE)
+write.table(X,"../simulation_g/sim_data.txt",col.names=FALSE,row.names=FALSE)
 
 system.time(res1<-multiseq.gaus(X,g,gridmult=2))
 system.time(res2<-multiseq.gaus(X,g,gridmult=0))

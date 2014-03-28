@@ -1,3 +1,6 @@
+source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth.R"))
+mse=function(x,y) mean((x-y)^2)
+
 n=200
 mse.hsm=0
 for(i in 1:500){
@@ -17,7 +20,7 @@ y=rnorm(n,mu.t,sigma.t)
 y.exp=c(y,y[200:145])
 y.final=c(y.exp,y.exp[256:1])
 
-mu.est<-bayesmooth.alt2(y.final)
+mu.est<-bayesmooth(y.final)
 mu.est=mu.est[1:n]
 mse.hsm[i]=mse(mu.est,mu.t)
 
