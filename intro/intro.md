@@ -18,9 +18,55 @@ t = 1:n/n
 mu.s = spike.f(t)
 
 library(wavethresh)
+```
+
+```
+## Warning: package 'wavethresh' was built under R version 3.0.3
+```
+
+```
+## Loading required package: MASS
+```
+
+```
+## Warning: package 'MASS' was built under R version 3.0.3
+```
+
+```
+## WaveThresh: R wavelet software, release 4.6.6, installed
+## 
+## Copyright Guy Nason and others 1993-2013
+## 
+## Note: nlevels has been renamed to nlevelsWT
+```
+
+```r
 library(EbayesThresh)
 library(caTools)
 source(file.path("../Rcode/bayesmooth.R"))
+```
+
+```
+## Loading required package: ashr
+## Loading required package: Rcpp
+```
+
+```
+## Warning: package 'Rcpp' was built under R version 3.0.3
+```
+
+```
+## Loading required package: truncnorm
+## Loading required package: inline
+## 
+## Attaching package: 'inline'
+## 
+## The following object is masked from 'package:Rcpp':
+## 
+##     registerPlugin
+```
+
+```r
 source(file.path("../Rcode/ti_thresh.R"))
 
 mse = function(x, y) mean((x - y)^2)
@@ -240,7 +286,7 @@ mu.s = spike.f(t)
 
 
 pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
-hgt = c(2, 3.6, 2, 5, 7.5, 6.9, 2, 4.8, 2, 4.1, 2.3)
+hgt = c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
 wth = c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005, 0.008, 0.005)
 mu.b = rep(0, n)
 for (j in 1:length(pos)) {
@@ -249,14 +295,16 @@ for (j in 1:length(pos)) {
 dop.f = function(x) sqrt(x * (1 - x)) * sin((2 * pi * 1.05)/(x + 0.05))
 mu.dop = dop.f(t)
 
-var1 = 1.42 * ((3 - 20 * t) * (t >= 0 & t < 0.1) + (20 * t - 1) * (t >= 0.1 & 
-    t < 0.25) + (4 + (1 - 4 * t) * 18/19) * (t >= 0.25 & t < 0.725) + (2.2 + 
-    10 * (t - 0.725)) * (t >= 0.725 & t < 0.89) + (3.85 - 85 * (t - 0.89)/11) * 
-    (t >= 0.89 & t <= 1))
-var2 = (1 + 4 * (exp(-550 * (t - 0.2)^2) + exp(-200 * (t - 0.5)^2) + exp(-950 * 
-    (t - 0.8)^2)))/1.35
-var3 = mu.b
-var4 = 3.4 * (2 + mu.dop)
+var1.ini = ((3 - 20 * t) * (t >= 0 & t < 0.1) + (20 * t - 1) * (t >= 0.1 & t < 
+    0.25) + (4 + (1 - 4 * t) * 18/19) * (t >= 0.25 & t < 0.725) + (2.2 + 10 * 
+    (t - 0.725)) * (t >= 0.725 & t < 0.89) + (3.85 - 85 * (t - 0.89)/11) * (t >= 
+    0.89 & t <= 1))
+var1 = var1.ini/sqrt(var(var1.ini))
+var2.ini = (1 + 4 * (exp(-550 * (t - 0.2)^2) + exp(-200 * (t - 0.5)^2) + exp(-950 * 
+    (t - 0.8)^2)))
+var2 = var2.ini/sqrt(var(var2.ini))
+var3 = mu.b/sqrt(var(mu.b))
+var4 = (mu.dop + 2)/sqrt(var(mu.dop))
 
 sigma.t.1 = sqrt(var1)
 sigma.t.2 = sqrt(var2)
@@ -282,7 +330,7 @@ mse(var.est.1, sigma.t.1^2)
 ```
 
 ```
-## [1] 0.07699
+## [1] 0.08045
 ```
 
 ```r
@@ -290,7 +338,7 @@ mse(var.est.2, sigma.t.2^2)
 ```
 
 ```
-## [1] 0.05085
+## [1] 0.04994
 ```
 
 ```r
@@ -298,7 +346,7 @@ mse(var.est.3, sigma.t.3^2)
 ```
 
 ```
-## [1] 0.1886
+## [1] 0.279
 ```
 
 ```r
@@ -306,7 +354,7 @@ mse(var.est.4, sigma.t.4^2)
 ```
 
 ```
-## [1] 0.6115
+## [1] 0.6332
 ```
 
 

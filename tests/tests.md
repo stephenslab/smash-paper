@@ -5,10 +5,19 @@ We try dividing the data by the standard deviation so that the new data will be 
 
 ```r
 source(file.path("../Rcode/bayesmooth.R"))
+
+
+l2norm = function(x) sum(x^2)
+mise = function(x, y) l2norm(x - y)/l2norm(y)
+mse = function(x, y) mean((x - y)^2)
+
+
 spike.f = function(x) (0.75 * exp(-500 * (x - 0.23)^2) + 1.5 * exp(-2000 * (x - 
     0.33)^2) + 3 * exp(-8000 * (x - 0.47)^2) + 2.25 * exp(-16000 * (x - 0.69)^2) + 
     0.5 * exp(-32000 * (x - 0.83)^2))
 
+n = 1024
+t = 1:n/n
 
 pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
 hgt = 2.97/5 * c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
@@ -18,8 +27,7 @@ for (j in 1:length(pos)) {
     mu.b = mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
 }
 
-n = 1024
-t = 1:n/n
+
 
 mu.s = spike.f(t)
 
@@ -38,21 +46,7 @@ set.seed(1025)
 X.s = rnorm(n, mu.t, sigma.t)
 
 mu.est <- bayesmooth(X.s, sigma = sigma.t)
-```
-
-```
-## Error: (subscript) logical subscript too long
-```
-
-```r
 mu.est.sig = sigma.t * bayesmooth(X.s/sigma.t, sigma = rep(1, n))
-```
-
-```
-## Error: (subscript) logical subscript too long
-```
-
-```r
 
 mse(mu.est, mu.t)
 ```
@@ -120,10 +114,6 @@ sigma.t.4 = sqrt(var4)
 mu.t.1 = rep(0, n)
 mu.t.2 = mu.sine
 
-l2norm = function(x) sum(x^2)
-mise = function(x, y) l2norm(x - y)/l2norm(y)
-mse = function(x, y) mean((x - y)^2)
-
 
 set.seed(327)
 X.11 = rnorm(n, mu.t.1, sigma.t.1)
@@ -149,7 +139,7 @@ system.time(var.est.cur.11 <- bayesmooth.cur(X.11, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##    2.81    0.00    2.93
+##    2.55    0.00    2.56
 ```
 
 ```r
@@ -158,7 +148,7 @@ system.time(var.est.cur.12 <- bayesmooth.cur(X.12, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##    2.37    0.00    2.37
+##    2.20    0.00    2.24
 ```
 
 ```r
@@ -167,7 +157,7 @@ system.time(var.est.cur.13 <- bayesmooth.cur(X.13, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##     2.2     0.0     2.2
+##    2.12    0.00    2.13
 ```
 
 ```r
@@ -176,7 +166,7 @@ system.time(var.est.cur.14 <- bayesmooth.cur(X.14, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##    3.04    0.00    3.04
+##    2.98    0.00    2.99
 ```
 
 ```r
@@ -185,7 +175,7 @@ system.time(var.est.cur.21 <- bayesmooth.cur(X.21, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##    2.54    0.00    2.56
+##    2.59    0.00    2.61
 ```
 
 ```r
@@ -194,7 +184,7 @@ system.time(var.est.cur.22 <- bayesmooth.cur(X.22, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##    2.23    0.00    2.26
+##    2.20    0.00    2.25
 ```
 
 ```r
@@ -203,7 +193,7 @@ system.time(var.est.cur.23 <- bayesmooth.cur(X.23, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##    2.09    0.00    2.09
+##    2.11    0.00    2.12
 ```
 
 ```r
@@ -212,7 +202,7 @@ system.time(var.est.cur.24 <- bayesmooth.cur(X.24, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##    3.05    0.00    3.05
+##    2.98    0.00    2.98
 ```
 
 ```r
@@ -223,7 +213,7 @@ system.time(var.est.log.11 <- bayesmooth.log(X.11, mu.t.1, sigma.t.1))
 
 ```
 ##    user  system elapsed 
-##     2.6     0.0     2.6
+##    2.63    0.00    2.64
 ```
 
 ```r
@@ -232,7 +222,7 @@ system.time(var.est.log.12 <- bayesmooth.log(X.12, mu.t.1, sigma.t.2))
 
 ```
 ##    user  system elapsed 
-##    2.20    0.00    2.21
+##    2.20    0.00    2.23
 ```
 
 ```r
@@ -241,7 +231,7 @@ system.time(var.est.log.13 <- bayesmooth.log(X.13, mu.t.1, sigma.t.3))
 
 ```
 ##    user  system elapsed 
-##    1.85    0.00    1.86
+##    1.84    0.00    1.84
 ```
 
 ```r
@@ -250,7 +240,7 @@ system.time(var.est.log.14 <- bayesmooth.log(X.14, mu.t.1, sigma.t.4))
 
 ```
 ##    user  system elapsed 
-##    2.95    0.00    2.95
+##    2.89    0.00    2.91
 ```
 
 ```r
@@ -259,7 +249,7 @@ system.time(var.est.log.21 <- bayesmooth.log(X.21, mu.t.2, sigma.t.1))
 
 ```
 ##    user  system elapsed 
-##    2.59    0.00    2.60
+##    2.59    0.00    2.61
 ```
 
 ```r
@@ -268,7 +258,7 @@ system.time(var.est.log.22 <- bayesmooth.log(X.22, mu.t.2, sigma.t.2))
 
 ```
 ##    user  system elapsed 
-##    2.25    0.00    2.25
+##    2.26    0.00    2.26
 ```
 
 ```r
@@ -277,7 +267,7 @@ system.time(var.est.log.23 <- bayesmooth.log(X.23, mu.t.2, sigma.t.3))
 
 ```
 ##    user  system elapsed 
-##    1.86    0.00    1.87
+##    1.82    0.00    1.83
 ```
 
 ```r
@@ -286,7 +276,7 @@ system.time(var.est.log.24 <- bayesmooth.log(X.24, mu.t.2, sigma.t.4))
 
 ```
 ##    user  system elapsed 
-##    2.95    0.00    3.01
+##    2.93    0.00    2.97
 ```
 
 ```r
@@ -297,7 +287,7 @@ system.time(var.est.vash.11 <- bayesmooth.vash(X.11, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##  348.26   36.48  385.30
+##  330.89   37.75  372.17
 ```
 
 ```r
@@ -306,7 +296,7 @@ system.time(var.est.vash.12 <- bayesmooth.vash(X.12, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##  292.67   32.71  325.76
+##  277.98   32.31  314.24
 ```
 
 ```r
@@ -315,7 +305,7 @@ system.time(var.est.vash.13 <- bayesmooth.vash(X.13, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##  378.70   39.94  419.34
+##  361.75   39.57  406.27
 ```
 
 ```r
@@ -324,7 +314,7 @@ system.time(var.est.vash.14 <- bayesmooth.vash(X.14, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##  347.98   40.13  388.82
+##  334.09   37.49  375.58
 ```
 
 ```r
@@ -333,7 +323,7 @@ system.time(var.est.vash.21 <- bayesmooth.vash(X.21, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##  343.78   37.51  381.75
+##   326.6    35.9   366.5
 ```
 
 ```r
@@ -342,7 +332,7 @@ system.time(var.est.vash.22 <- bayesmooth.vash(X.22, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##  279.89   28.08  308.93
+##  279.48   31.46  314.75
 ```
 
 ```r
@@ -351,7 +341,7 @@ system.time(var.est.vash.23 <- bayesmooth.vash(X.23, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##  370.08   40.45  423.62
+##  353.81   39.71  397.70
 ```
 
 ```r
@@ -360,7 +350,7 @@ system.time(var.est.vash.24 <- bayesmooth.vash(X.24, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##  345.87   37.75  385.32
+##  327.29   35.91  366.55
 ```
 
 ```r
@@ -371,7 +361,7 @@ system.time(var.est.jash.11 <- bayesmooth.jash(X.11, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##   65.09    0.03   65.35
+##   58.03    0.00   58.28
 ```
 
 ```r
@@ -380,7 +370,7 @@ system.time(var.est.jash.12 <- bayesmooth.jash(X.12, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##   34.40    0.00   34.41
+##   30.86    0.02   31.03
 ```
 
 ```r
@@ -389,7 +379,7 @@ system.time(var.est.jash.13 <- bayesmooth.jash(X.13, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##   44.30    0.00   44.82
+##   42.76    0.00   42.91
 ```
 
 ```r
@@ -398,7 +388,7 @@ system.time(var.est.jash.14 <- bayesmooth.jash(X.14, mu.t.1))
 
 ```
 ##    user  system elapsed 
-##   56.06    0.02   56.30
+##   53.74    0.08   54.14
 ```
 
 ```r
@@ -407,7 +397,7 @@ system.time(var.est.jash.21 <- bayesmooth.jash(X.21, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##   60.59    0.03   60.95
+##   57.94    0.01   58.18
 ```
 
 ```r
@@ -416,7 +406,7 @@ system.time(var.est.jash.22 <- bayesmooth.jash(X.22, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##   32.18    0.00   32.26
+##   30.85    0.03   31.06
 ```
 
 ```r
@@ -425,7 +415,7 @@ system.time(var.est.jash.23 <- bayesmooth.jash(X.23, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##   46.99    0.01   47.10
+##   42.99    0.02   43.28
 ```
 
 ```r
@@ -434,7 +424,7 @@ system.time(var.est.jash.24 <- bayesmooth.jash(X.24, mu.t.2))
 
 ```
 ##    user  system elapsed 
-##   69.76    0.04   70.10
+##   53.82    0.01   54.21
 ```
 
 ```r

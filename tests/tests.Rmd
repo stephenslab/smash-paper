@@ -4,19 +4,26 @@ We try dividing the data by the standard deviation so that the new data will be 
 
 ```{r}
 source(file.path("../Rcode/bayesmooth.R"))
+
+
+l2norm=function(x) sum(x^2)
+mise=function(x,y) l2norm(x-y)/l2norm(y)
+mse=function(x,y) mean((x-y)^2)
+
+
 spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
 
+n=1024
+t=1:n/n
 
 pos = c(.1, .13, .15, .23, .25, .40, .44, .65, .76, .78, .81)
-hgt = 2.97/5*c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
+hgt = c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
 wth = c(.005, .005, .006, .01, .01, .03, .01, .01, .005, .008, .005)
 mu.b = rep(0,n)
 for(j in 1:length(pos)){
   mu.b = mu.b + hgt[j]/(( 1 + (abs(t - pos[j])/wth[j]))^4)
 }
 
-n=1024
-t=1:n/n
 
 mu.s=spike.f(t)
 
@@ -79,10 +86,6 @@ sigma.t.3=sqrt(var3)
 sigma.t.4=sqrt(var4)
 mu.t.1=rep(0,n)
 mu.t.2=mu.sine
-
-l2norm=function(x) sum(x^2)
-mise=function(x,y) l2norm(x-y)/l2norm(y)
-mse=function(x,y) mean((x-y)^2)
 
 
 set.seed(327)
