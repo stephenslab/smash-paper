@@ -1,5 +1,7 @@
-source("../Rcode/threshold_var.R")
-source("../Rcode/wd_var.R")
+source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/threshold_haar.R")
+source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/threshold_var.R")
+source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/wd_var.R")
+
 library(wavethresh)
 require(ashr)
 require(Rcpp)
@@ -414,6 +416,16 @@ cxxreverse.gvwave <- cxxfunction(signature(estimate="numeric",pmat="numeric",qma
 
 
 
+ndwt.mat=function(n,filter.number,family){
+  J=log2(n)
+  X=diag(rep(1,n))
+  W=matrix(0,n*J,n)
+  for(i in 1:n){
+    W[,i]=wd(X[i,],filter.number,family,type="station")$D
+  } 
+  return(W)
+}
+
 
 
 ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPhase",min.level=3,prior="nullbiased",pointmass=FALSE,nullcheck=TRUE,gridmult=4,mixsd=NULL,VB=FALSE) 
@@ -421,7 +433,6 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
     n=length(x)
     J=log2(n)
     if(length(sigma)==1) sigma=rep(sigma,n)
-    x.w=wd(x, filter.number, family, type = "station")
     if(is.null(sigma)){
       if(method=="bayesm"){
         tsum=sum(x)
@@ -462,7 +473,7 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
           wmean[j+1,] = zdat.ash$PosteriorMean/2
         }
         wwmean=-wmean
-        var.est=cxxreverse.gwave(sum(var.est),wmean,wwmean)
+        var.est=cxxreverse.gwave(sum((var.est1.ini+var.est1.ini)/2),wmean,wwmean)
         var.est[var.est<=0]=1e-8
         vtable=cxxtitable(var.est)$sumtable
         for(j in 0:(J-1)){
@@ -494,20 +505,32 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
         }
         wwmean=-wmean
         wwvar=wvar
-        var.est=cxxreverse.gwave(sum(var.est),wmean,wwmean)
+        var.est=cxxreverse.gwave(sum((var.est1.ini+var.est1.ini)/2),wmean,wwmean)
         var.est[var.est<=0]=1e-8
         sigma=sqrt(var.est)
       }else if(method=="rmad"){
+        x.w=wd(x, filter.number=1, family="DaubExPhase", type = "station")
         win.size=round(n/10)
         odd.boo=(win.size%%2==1)
         win.size=win.size+(1-odd.boo)
         sigma=runmad(accessD(x.w,J-1),win.size,endrule="func")
       }else{
-        error("Method not recognized")
+        stop("Error: Method not recognized")
       }
     }
-    x.w.v=wd.var(sigma^2,filter.number,family,type='station')
-    x.w.t=threshold.wd.var(x.w, x.w.v,levels=(min.level):(J-1))
-    x.w.t.r=AvBasis(convert(x.w.t))
-    return(x.w.t.r)
+    if(filter.number==1&family=="DaubExPhase"){
+      tsum = sum(x)
+      vdtable = cxxtitable(x)$difftable
+      vtable=cxxtitable(sigma^2)$sumtable
+      wmean=threshold.haar(vdtable,vtable,levels=0:(J-1-min.level),type="hard")
+      wwmean=-wmean
+      mu.est=cxxreverse.gwave(tsum,wmean,wwmean)
+    }else{
+      x.w=wd(x,filter.number=filter.number,family=family,type = "station")
+      W=ndwt.mat(n,filter.number=filter.number,family=family)
+      x.w.v=apply((rep(1,n*J)%o%(sigma^2))*W^2,1,sum)  #diagonal of W*V*W'
+      x.w.t=threshold.var(x.w,x.w.v,levels=(min.level):(J-1),type="hard")
+      mu.est=AvBasis(convert(x.w.t))
+    }
+    return(mu.est)
 }
