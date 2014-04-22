@@ -378,7 +378,7 @@ lines(var.est.4, col = 2)
 ```
 
 
-Now we take a look at how this wavelet-based approach handles unevenly spaced data. Wavelet methods are not optimized for unevenly spaced, but still works. 
+Now we take a look at how this wavelet-based approach handles unevenly spaced data. Wavelet methods are not optimized for unevenly spaced, but still works. We first look at the case when the data are normally spaced.
 
 
 ```r
@@ -684,6 +684,313 @@ lines(t, mu.est.ti.ebayes[1, ], col = 6)
 ![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
 
 
+Now for the case when the data are distributed according to a Poisson Process.
+
+
+```r
+n = 1024
+t = c(0, rexp(n - 1, 1))
+t = cumsum(t)
+t = (t - min(t))/(max(t) - min(t))
+
+mu.s = spike.f(t)
+
+## mean function
+mu.t = (1 + mu.s)/5
+
+## signal to noise ratio
+rsnr = sqrt(1)
+
+## variance functions
+var1 = rep(1, n)
+var2 = (1e-04 + 4 * (exp(-550 * (t - 0.2)^2) + exp(-200 * (t - 0.5)^2) + exp(-950 * 
+    (t - 0.8)^2)))/1.35
+```
+
+
+
+```
+
+We first look at the case of constant variance
+
+```r
+## constant variance
+sigma.ini = sqrt(var1)
+sigma.t = sigma.ini/mean(sigma.ini) * sd(mu.t)/rsnr^2
+
+set.seed(327)
+X.s = matrix(rnorm(10 * n, mu.t, sigma.t), nrow = 10, byrow = TRUE)
+
+mu.est = apply(X.s, 1, bayesmooth)
+mu.est.tivar.ash = apply(X.s, 1, ti.thresh, method = "bayesm")
+mu.est.tivar.mad = apply(X.s, 1, ti.thresh, method = "rmad")
+
+mu.est.ti = matrix(0, 10, n)
+mu.est.ti.ebayes = matrix(0, 10, n)
+for (i in 1:10) {
+    sig.est = sig.est.func(X.s[i, ], n)
+    mu.est.ti[i, ] = waveti.u(X.s[i, ], noise.level = sig.est)
+    mu.est.ti.ebayes[i, ] = waveti.ebayes(X.s[i, ], noise.level = sig.est)
+}
+
+## MISEs for the sample points
+
+## Bayesmooth
+mise(t(mu.est), mu.t, 10)
+```
+
+```
+## [1] 59.39
+```
+
+```r
+## TI thresholding with variance estimated from bayesmooth
+mise(t(mu.est.tivar.ash), mu.t, 10)
+```
+
+```
+## [1] 66.6
+```
+
+```r
+## TI thresholding with variance estimated from running MAD
+mise(t(mu.est.tivar.mad), mu.t, 10)
+```
+
+```
+## [1] 71.34
+```
+
+```r
+## TI thresholding with constant variance (estimated)
+mise(mu.est.ti, mu.t, 10)
+```
+
+```
+## [1] 83.44
+```
+
+```r
+## EBayes with constant variance (estimated)
+mise(mu.est.ti.ebayes, mu.t, 10)
+```
+
+```
+## [1] 73.97
+```
+
+```r
+
+## MISEs for the grid
+xgrid = 1:n/n
+mu.est.inter = matrix(0, 10, n)
+mu.est.tivar.ash.inter = matrix(0, 10, n)
+mu.est.tivar.mad.inter = matrix(0, 10, n)
+mu.est.ti.inter = matrix(0, 10, n)
+mu.est.ti.ebayes.inter = matrix(0, 10, n)
+for (i in 1:10) {
+    mu.est.inter[i, ] = approx(t, mu.est[, i], xgrid)$y
+    mu.est.tivar.ash.inter[i, ] = approx(t, mu.est.tivar.ash[, i], xgrid)$y
+    mu.est.tivar.mad.inter[i, ] = approx(t, mu.est.tivar.mad[, i], xgrid)$y
+    mu.est.ti.inter[i, ] = approx(t, mu.est.ti[i, ], xgrid)$y
+    mu.est.ti.ebayes.inter[i, ] = approx(t, mu.est.ti.ebayes[i, ], xgrid)$y
+    
+}
+mu.t.inter = (spike.f(xgrid) + 1)/5
+
+mise(mu.est.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 65.1
+```
+
+```r
+mise(mu.est.tivar.ash.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 72.52
+```
+
+```r
+mise(mu.est.tivar.mad.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 78.67
+```
+
+```r
+mise(mu.est.ti.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 87.98
+```
+
+```r
+mise(mu.est.ti.ebayes.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 79.18
+```
+
+
+
+```r
+par(mfrow = c(1, 1))
+plot(t, mu.t, type = "l")
+lines(t, mu.est[, 1], col = 2)
+lines(t, mu.est.tivar.mad[, 1], col = 3)
+lines(t, mu.est.ti[1, ], col = 4)
+lines(t, mu.est.ti.ebayes[1, ], col = 6)
+```
+
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15.png) 
+
+
+We then look at the case of non-constant variance
+
+```r
+## non-constant variance
+sigma.ini = sqrt(var2)
+sigma.t = sigma.ini/mean(sigma.ini) * sd(mu.t)/rsnr^2
+
+set.seed(327)
+X.s = matrix(rnorm(10 * n, mu.t, sigma.t), nrow = 10, byrow = TRUE)
+
+mu.est = apply(X.s, 1, bayesmooth)
+mu.est.tivar.ash = apply(X.s, 1, ti.thresh, method = "bayesm")
+mu.est.tivar.mad = apply(X.s, 1, ti.thresh, method = "rmad")
+
+mu.est.ti = matrix(0, 10, n)
+mu.est.ti.ebayes = matrix(0, 10, n)
+for (i in 1:10) {
+    sig.est = sig.est.func(X.s[i, ], n)
+    mu.est.ti[i, ] = waveti.u(X.s[i, ], noise.level = sig.est)
+    mu.est.ti.ebayes[i, ] = waveti.ebayes(X.s[i, ], noise.level = sig.est)
+}
+
+## MISEs
+
+## Bayesmooth
+mise(t(mu.est), mu.t, 10)
+```
+
+```
+## [1] 104.6
+```
+
+```r
+## TI thresholding with variance estimated from bayesmooth
+mise(t(mu.est.tivar.ash), mu.t, 10)
+```
+
+```
+## [1] 121.5
+```
+
+```r
+## TI thresholding with variance estimated from running MAD
+mise(t(mu.est.tivar.mad), mu.t, 10)
+```
+
+```
+## [1] 168.1
+```
+
+```r
+## TI thresholding with constant variance (estimated)
+mise(mu.est.ti, mu.t, 10)
+```
+
+```
+## [1] 362.6
+```
+
+```r
+## EBayes with constant variance (estimated)
+mise(mu.est.ti.ebayes, mu.t, 10)
+```
+
+```
+## [1] 385.4
+```
+
+```r
+
+## MISEs for the grid
+xgrid = 1:n/n
+mu.est.inter = matrix(0, 10, n)
+mu.est.tivar.ash.inter = matrix(0, 10, n)
+mu.est.tivar.mad.inter = matrix(0, 10, n)
+mu.est.ti.inter = matrix(0, 10, n)
+mu.est.ti.ebayes.inter = matrix(0, 10, n)
+for (i in 1:10) {
+    mu.est.inter[i, ] = approx(t, mu.est[, i], xgrid)$y
+    mu.est.tivar.ash.inter[i, ] = approx(t, mu.est.tivar.ash[, i], xgrid)$y
+    mu.est.tivar.mad.inter[i, ] = approx(t, mu.est.tivar.mad[, i], xgrid)$y
+    mu.est.ti.inter[i, ] = approx(t, mu.est.ti[i, ], xgrid)$y
+    mu.est.ti.ebayes.inter[i, ] = approx(t, mu.est.ti.ebayes[i, ], xgrid)$y
+    
+}
+mu.t.inter = (spike.f(xgrid) + 1)/5
+
+mise(mu.est.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 118.7
+```
+
+```r
+mise(mu.est.tivar.ash.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 141.8
+```
+
+```r
+mise(mu.est.tivar.mad.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 173.4
+```
+
+```r
+mise(mu.est.ti.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 290
+```
+
+```r
+mise(mu.est.ti.ebayes.inter, mu.t.inter, 10)
+```
+
+```
+## [1] 299.7
+```
+
+
+
+```r
+par(mfrow = c(1, 1))
+plot(t, mu.t, type = "l")
+lines(t, mu.est[, 1], col = 2)
+lines(t, mu.est.tivar.mad[, 1], col = 3)
+lines(t, mu.est.ti[1, ], col = 4)
+lines(t, mu.est.ti.ebayes[1, ], col = 6)
+```
+
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
+
+
 Now we look at some of the simulations in a couple of papers, as well as the datasets used in them. The first one is from Fan and Yao (1998). The simulation is as described in Example 2. To deal with the fact that the sample size is not a sample size of 2, we first reflect the right portion of the data about the right endpoint so that it is a power of 2. To make the data periodic, we then reflect the new data about the right endpoint again. Our results are shown below.
 
 
@@ -722,7 +1029,7 @@ for (i in 1:400) {
 boxplot(var.mad)
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-131.png) 
+![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-181.png) 
 
 ```r
 
@@ -730,7 +1037,7 @@ plot(x, mu.t, type = "l")
 lines(x, mu.est[1:200], col = 2)
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-132.png) 
+![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-182.png) 
 
 ```r
 
@@ -738,7 +1045,7 @@ plot(x, sigma.t^2, type = "l")
 lines(x, var.est[1:200], col = 2)
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-133.png) 
+![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-183.png) 
 
 
 We also look at the dataset in Example 1 of Fan and Yao (1998). To take into account replicates, we take the median of the response at the same point The results are shown below.
@@ -771,7 +1078,7 @@ y = y[order(data[5:(length(data) - 1)])]
 plot(x, y)
 ```
 
-![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19.png) 
 
 ```r
 
@@ -805,7 +1112,7 @@ plot(x.mod, y.est[1:(length(y.mod))], type = "l", ylim = c(-0.3, 0.3))
 plot(x.mod, sqrt(y.est.var[1:(length(y.mod))]), type = "l")
 ```
 
-![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15.png) 
+![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20.png) 
 
 
 We now look at the paper by Delouille et al. (2004). Specifically, we compare with the heavisine function used in section 6, as the actual function is readily available. The results for $n=200$ for both the homoskedastic and teh heteroskedastic cases are given.
@@ -906,7 +1213,7 @@ lines(x, y.est, col = 2)
 plot(x, y.var.est, type = "l")
 ```
 
-![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 
+![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23.png) 
 
 
 
@@ -950,6 +1257,6 @@ lines(x, y.est, col = 2)
 plot(x, y.var.est, type = "l")
 ```
 
-![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20.png) 
+![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-25.png) 
 
 
