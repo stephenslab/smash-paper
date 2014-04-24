@@ -3,6 +3,7 @@ require(ashr)
 require(Rcpp)
 require(inline)
 library(Matrix)
+source("~/ashewave/Rcode/jash.r")
 
 
 
@@ -539,7 +540,7 @@ ndwt.mat=function(n,filter.number,family){
 
 
 
-bayesmooth = function(x,sigma=NULL,v.est=FALSE,return.est=TRUE,filter.number=1,family="DaubExPhase",prior="nullbiased",pointmass=TRUE,nullcheck=TRUE,gridmult=0,mixsd=NULL,VB=FALSE,weight=0.5){
+bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,filter.number=1,family="DaubExPhase",prior="nullbiased",pointmass=TRUE,nullcheck=TRUE,gridmult=0,mixsd=NULL,VB=FALSE,jash=FALSE,weight=0.5){
   n = length(x)
   J = log2(n)
   if(!isTRUE(all.equal(J,trunc(J)))){stop("Error: number of columns of x must be power of 2")}
@@ -594,12 +595,14 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,return.est=TRUE,filter.number=1,f
     }
     var.est=(x-mu.est)^2
     var.var.est=2/3*var.est^2
-    #if(basis=="haar"){
+    if(basis=="haar"|v.basis==FALSE){
       vtable=cxxtitable(var.var.est)$sumtable
       vdtable=cxxtitable(var.est)$difftable
       vrtable=cxxtirtable(var.est)
       fac1=c(3,2,1.5)
       fac2=c(2,1.5,1)
+      #fac1=c(1,1,1)
+      #fac2=c(1,1,1)
       for(j in 0:(J-1)){
         if(j>=0&j<=1){
           virtable=vrtable[j+2,]
@@ -610,28 +613,36 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,return.est=TRUE,filter.number=1,f
         }else{
           virtable=1
         }
-        zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+        if(jash==TRUE){
+          zdat.ash=jasha(vdtable[j+2,],sqrt((vtable[j+2,])),df=50)
+        }else{
+          zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+        }
         wmean[j+1,] = zdat.ash$PosteriorMean/2
       }
       wwmean=-wmean
       var.est=cxxreverse.gwave(weight*sum(var.est)+(1-weight)*sum((var.est1.ini+var.est2.ini)/2),wmean,wwmean)
-    #}else{
-    #  x.w=wd(var.est, filter.number=filter.number, family=family, type = "station")
-    #  x.w.v=apply((rep(1,n*J)%o%var.var.est)*W^2,1,sum)  #diagonal of W*V*W'   
-    #  for(j in 0:(J-1)){
-    #    index=(((J-1)-j)*n+1):((J-j)*n)
-    #    x.w.j=accessD(x.w,j)
-    #    x.w.v.j=x.w.v[index]
-    #    zdat.ash=fast.ash(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-    #    x.pm = zdat.ash$PosteriorMean
-    #    x.w = putD(x.w,j,x.pm)
-    #  }
-    #  var.est=AvBasis(convert(x.w))
-    #}
+    }else{
+      x.w=wd(var.est, filter.number=filter.number, family=family, type = "station")
+      x.w.v=apply((rep(1,n*J)%o%var.var.est)*W2,1,sum)  #diagonal of W*V*W'   
+      for(j in 0:(J-1)){
+        index=(((J-1)-j)*n+1):((J-j)*n)
+        x.w.j=accessD(x.w,j)
+        x.w.v.j=x.w.v[index]
+        if(jash==TRUE){
+          zdat.ash=jasha(x.w.j,sqrt(x.w.v.j),df=50)
+        }else{
+          zdat.ash=fast.ash(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+        }
+        x.pm = zdat.ash$PosteriorMean
+        x.w = putD(x.w,j,x.pm)
+      }
+      var.est=AvBasis(convert(x.w))
+    }
     var.est[var.est<=0]=1e-8
     sigma=sqrt(var.est)
   }
-  if(basis=="haar"){
+  if(basis=="haar"|v.basis==FALSE){
     vtable=cxxtitable(sigma^2)$sumtable
     for(j in 0:(J-1)){
       ind.nnull=(y[j+2,]!=0)|(vtable[j+2,]!=0)
@@ -671,12 +682,14 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,return.est=TRUE,filter.number=1,f
   }else{
     var.est=(x-mu.est)^2
     var.var.est=2/3*var.est^2
-    #if(basis=="haar"){
+    if(basis=="haar"){
       vtable=cxxtitable(var.var.est)$sumtable
       vdtable=cxxtitable(var.est)$difftable
       vrtable=cxxtirtable(var.est)
       fac1=c(3,2,1.5)
       fac2=c(2,1.5,1)
+      #fac1=c(1,1,1)
+      #fac2=c(1,1,1)
       for(j in 0:(J-1)){
         if(j>=0&j<=1){
           virtable=vrtable[j+2,]
@@ -687,26 +700,34 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,return.est=TRUE,filter.number=1,f
         }else{
           virtable=1
         }
-        zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+        if(jash==TRUE){
+          zdat.ash=jasha(vdtable[j+2,],sqrt((vtable[j+2,])),df=50)
+        }else{
+          zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+        }
         wmean[j+1,] = zdat.ash$PosteriorMean/2
       }
       wwmean=-wmean
       wwvar=wvar
       var.est=cxxreverse.gwave(sum(var.est),wmean,wwmean)
       var.est.var=cxxreverse.gvwave(0,wvar,wwvar)
-    #}else{
-    #  x.w=wd(var.est, filter.number=filter.number, family=family, type = "station")
-    #  x.w.v=apply((rep(1,n*J)%o%var.var.est)*W^2,1,sum)  #diagonal of W*V*W'   
-    #  for(j in 0:(J-1)){
-    #    index=(((J-1)-j)*n+1):((J-j)*n)
-    #    x.w.j=accessD(x.w,j)
-    #    x.w.v.j=x.w.v[index]
-    #    zdat.ash=fast.ash(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-    #    x.pm = zdat.ash$PosteriorMean
-    #    x.w = putD(x.w,j,x.pm)
-    #  }
-    #  var.est=AvBasis(convert(x.w))
-    #}
+    }else{
+      x.w=wd(var.est, filter.number=filter.number, family=family, type = "station")
+      x.w.v=apply((rep(1,n*J)%o%var.var.est)*W2,1,sum)  #diagonal of W*V*W'   
+      for(j in 0:(J-1)){
+        index=(((J-1)-j)*n+1):((J-j)*n)
+        x.w.j=accessD(x.w,j)
+        x.w.v.j=x.w.v[index]
+        if(jash==TRUE){
+          zdat.ash=jasha(x.w.j,sqrt(x.w.v.j),df=50)
+        }else{
+          zdat.ash=fast.ash(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+        }
+        x.pm = zdat.ash$PosteriorMean
+        x.w = putD(x.w,j,x.pm)
+      }
+      var.est=AvBasis(convert(x.w))
+    }
     if(return.est==TRUE){
       return(var.est)
     }else{
