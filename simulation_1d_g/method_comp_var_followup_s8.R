@@ -144,7 +144,7 @@ var.est.ash.s8.j.dop.v3=matrix(0,100,n)
 var.est.ash.s8.j.dop.v4=matrix(0,100,n)
 
 
-
+print("start")
 
 for(i in 1:100){
 
