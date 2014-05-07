@@ -550,6 +550,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
   }else{
     basis=paste0("family",filter.number)
   }
+  if(!is.null(sigma)){gridmult=2}
 
 
   tsum = sum(x)
@@ -570,10 +571,8 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
       vtable2=cxxtitable(var.est2.ini)$sumtable
       vtable=(vtable1+vtable2)/2
       for(j in 0:(J-1)){
-        ind.nnull=(y[j+2,]!=0)|(vtable[j+2,]!=0)
-        zdat.ash=fast.ash(y[j+2,ind.nnull],sqrt(vtable[j+2,ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-        wmean[j+1,ind.nnull]=zdat.ash$PosteriorMean/2
-        wmean[j+1,!ind.nnull]=0
+        zdat.ash=fast.ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+        wmean[j+1,]=zdat.ash$PosteriorMean/2
       }
       wwmean=-wmean
       mu.est=cxxreverse.gwave(tsum,wmean,wwmean)
@@ -585,10 +584,8 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
         index=(((J-1)-j)*n+1):((J-j)*n)
         x.w.j=accessD(x.w,j)
         x.w.v.j=x.w.v[index]
-        ind.nnull=(x.w.j!=0)|(x.w.v.j!=0)
-        zdat.ash=fast.ash(x.w.j[ind.nnull],sqrt(x.w.v.j[ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-        x.pm[ind.nnull] = zdat.ash$PosteriorMean
-        x.pm[!ind.nnull] = 0
+        zdat.ash=fast.ash(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+        x.pm[] = zdat.ash$PosteriorMean
         x.w = putD(x.w,j,x.pm)
       }
       mu.est=AvBasis(convert(x.w))
@@ -614,7 +611,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
           virtable=1
         }
         if(jash==TRUE){
-          zdat.ash=jasha(vdtable[j+2,],sqrt((vtable[j+2,])),df=50)
+          zdat.ash=jasha(vdtable[j+2,],sqrt((vtable[j+2,])),df=min(50,2^(j+1)))
         }else{
           zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
         }
@@ -630,7 +627,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
         x.w.j=accessD(x.w,j)
         x.w.v.j=x.w.v[index]
         if(jash==TRUE){
-          zdat.ash=jasha(x.w.j,sqrt(x.w.v.j),df=50)
+          zdat.ash=jasha(x.w.j,sqrt(x.w.v.j),df=min(50,2^(j+1)))
         }else{
           zdat.ash=fast.ash(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
         }
@@ -645,12 +642,9 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
   if(basis=="haar"){
     vtable=cxxtitable(sigma^2)$sumtable
     for(j in 0:(J-1)){
-      ind.nnull=(y[j+2,]!=0)|(vtable[j+2,]!=0)
-      zdat.ash=fast.ash(y[j+2,ind.nnull],sqrt(vtable[j+2,ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-      wmean[j+1,ind.nnull]=zdat.ash$PosteriorMean/2
-      wmean[j+1,!ind.nnull]=0
-      wvar[j+1,ind.nnull]=zdat.ash$PosteriorSD^2/4
-      wvar[j+1,!ind.nnull]=0
+      zdat.ash=fast.ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+      wmean[j+1,]=zdat.ash$PosteriorMean/2
+      wvar[j+1,]=zdat.ash$PosteriorSD^2/4
     }
     wwmean=-wmean
     wwvar=wvar
@@ -664,10 +658,8 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
       index=(((J-1)-j)*n+1):((J-j)*n)
       x.w.j=accessD(x.w,j)
       x.w.v.j=x.w.v[index]
-      ind.nnull=(x.w.j!=0)|(x.w.v.j!=0)
-      zdat.ash=fast.ash(x.w.j[ind.nnull],sqrt(x.w.v.j[ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
-      x.pm[ind.nnull] = zdat.ash$PosteriorMean
-      x.pm[!ind.nnull] = 0
+      zdat.ash=fast.ash(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+      x.pm = zdat.ash$PosteriorMean
       x.w = putD(x.w,j,x.pm)
     }
     mu.est=AvBasis(convert(x.w))
@@ -701,7 +693,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
           virtable=1
         }
         if(jash==TRUE){
-          zdat.ash=jasha(vdtable[j+2,],sqrt((vtable[j+2,])),df=50)
+          zdat.ash=jasha(vdtable[j+2,],sqrt((vtable[j+2,])),df=min(50,2^(j+1)))
         }else{
           zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
         }
@@ -719,7 +711,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
         x.w.j=accessD(x.w,j)
         x.w.v.j=x.w.v[index]
         if(jash==TRUE){
-          zdat.ash=jasha(x.w.j,sqrt(x.w.v.j),df=50)
+          zdat.ash=jasha(x.w.j,sqrt(x.w.v.j),df=min(50,2^(j+1)))
         }else{
           zdat.ash=fast.ash(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
         }
