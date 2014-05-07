@@ -3,7 +3,7 @@ require(ashr)
 require(Rcpp)
 require(inline)
 library(Matrix)
-source("~/ashwave/Rcode/jash.r")
+source("D:/Grad School/Spring 2013/multiscale_ash/ash/jash.r")
 
 
 
@@ -642,7 +642,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
     var.est[var.est<=0]=1e-8
     sigma=sqrt(var.est)
   }
-  if(basis=="haar"|v.basis==FALSE){
+  if(basis=="haar"){
     vtable=cxxtitable(sigma^2)$sumtable
     for(j in 0:(J-1)){
       ind.nnull=(y[j+2,]!=0)|(vtable[j+2,]!=0)
@@ -682,7 +682,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,return.est=TRUE,fil
   }else{
     var.est=(x-mu.est)^2
     var.var.est=2/3*var.est^2
-    if(basis=="haar"){
+    if(basis=="haar"|v.basis==FALSE){
       vtable=cxxtitable(var.var.est)$sumtable
       vdtable=cxxtitable(var.est)$difftable
       vrtable=cxxtirtable(var.est)
