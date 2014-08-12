@@ -234,15 +234,26 @@ EMest_pi = function(params,N,n,M,K,L,a.vec,b.vec,d.vec,mu,MEAN,SSE, pi, prior, a
     loglik[1] = sum(log(m.rowsum))
     classprob = m/m.rowsum
     
+    est=nlminb(params,loglike,gradloglike,lower=rep(1e-10,M+K+L),upper=c(rep(100000,M+K),rep(0.95,L)),N=N,n=n,M=M,K=K,L=L,mu=mu,MEAN=MEAN,SSE=SSE,pi=pi,groupind=groupind)
+    params=est$par
     for(i in 2:maxiter){
       if(a.lambda.c.est==TRUE){
-        est=nlminb(params,loglike,gradloglike,lower=rep(1e-10,M+K+L),upper=c(rep(100000,M+K),rep(0.95,L)),N=N,n=n,M=M,K=K,L=L,mu=mu,MEAN=MEAN,SSE=SSE,pi=pi,groupind=groupind)
-        #est=nlminb(params,loglikec,lower=rep(1e-10,M+K+L),upper=c(rep(1e10,M+K),rep(1e10,L)),N=N,n=n,M=M,K=K,L=L,mu=mu,MEAN=MEAN,SSE=SSE,pi=pi,classprob=classprob,groupind=groupind)
-        a.vec=rep(est$par[1:M],L*K)
-        b.vec=rep(rep(est$par[(M+1):(M+K)],each=M),L)
-        d.vec=rep(c(est$par[(M+K+1):(M+K+L-1)],1),each=M*K)
-        #d.vec=rep(est$par[(M+K+1):(M+K+L)],each=M*K)
-        params=est$par
+        if(SGD==TRUE && i>5){
+          params=params-0.0001/sqrt(i)*gradloglike(params,N,n,M,K,L,mu,MEAN,SSE,pi,groupind)
+          params=pmax(params,rep(1e-10,M+K+L-1))
+          params=pmin(params,c(rep(100000,M+K),rep(0.95,L-1)))
+          a.vec=rep(params[1:M],L*K)
+          b.vec=rep(rep(params[(M+1):(M+K)],each=M),L)
+          d.vec=rep(c(params[(M+K+1):(M+K+L-1)],1),each=M*K)
+        }else{
+          est=nlminb(params,loglike,gradloglike,lower=rep(1e-10,M+K+L),upper=c(rep(100000,M+K),rep(0.95,L)),N=N,n=n,M=M,K=K,L=L,mu=mu,MEAN=MEAN,SSE=SSE,pi=pi,groupind=groupind)
+          a.vec=rep(est$par[1:M],L*K)
+          b.vec=rep(rep(est$par[(M+1):(M+K)],each=M),L)
+          d.vec=rep(c(est$par[(M+K+1):(M+K+L-1)],1),each=M*K)
+          #d.vec=rep(est$par[(M+K+1):(M+K+L)],each=M*K)
+          params=est$par
+        }
+        
       }
       pi = colSums(classprob)+prior-5/(M*K)
       #pi=colSums(classprob)
@@ -271,13 +282,21 @@ EMest_pi = function(params,N,n,M,K,L,a.vec,b.vec,d.vec,mu,MEAN,SSE, pi, prior, a
     
     for(i in 2:maxiter){
       if(a.lambda.c.est==TRUE){
-        #est=nlminb(params,loglike,lower=rep(1e-10,M+K+L),upper=c(rep(100000,M+K),rep(1,L)),N=N,n=n,M=M,K=K,L=L,mu=mu,MEAN=MEAN,SSE=SSE,pi=pi,classprob=classprob,groupind=groupind)
-        est=nlminb(params,loglike,gradloglike,lower=rep(1e-10,M+K+L),upper=c(rep(100000,M+K),rep(1,L)),N=N,n=n,M=M,K=K,L=L,mu=mu,MEAN=MEAN,SSE=SSE,pi=pi,classprob=classprob,groupind=groupind)
-        a.vec=rep(est$par[1:M],L*K)
-        b.vec=rep(rep(est$par[(M+1):(M+K)],each=M),L)
-        d.vec=rep(c(est$par[(M+K+1):(M+K+L-1)],1),each=M*K)
-        #d.vec=rep(est$par[(M+K+1):(M+K+L)],each=M*K)
-        params=est$par
+        if(SGD==TRUE && i>5){
+          params=params-0.0001/sqrt(i)*gradloglike(params,N,n,M,K,L,mu,MEAN,SSE,pi,groupind)
+          params=pmax(params,rep(1e-10,M+K+L-1))
+          params=pmin(params,c(rep(100000,M+K),rep(0.95,L-1)))
+          a.vec=rep(params[1:M],L*K)
+          b.vec=rep(rep(params[(M+1):(M+K)],each=M),L)
+          d.vec=rep(c(params[(M+K+1):(M+K+L-1)],1),each=M*K)
+        }else{
+          est=nlminb(params,loglike,gradloglike,lower=rep(1e-10,M+K+L),upper=c(rep(100000,M+K),rep(0.95,L)),N=N,n=n,M=M,K=K,L=L,mu=mu,MEAN=MEAN,SSE=SSE,pi=pi,groupind=groupind)
+          a.vec=rep(est$par[1:M],L*K)
+          b.vec=rep(rep(est$par[(M+1):(M+K)],each=M),L)
+          d.vec=rep(c(est$par[(M+K+1):(M+K+L-1)],1),each=M*K)
+          #d.vec=rep(est$par[(M+K+1):(M+K+L)],each=M*K)
+          params=est$par
+        }
       }
       pi.c = indep_post_pi(N,n,M,K,L,a.vec,b.vec,d.vec,mu,MEAN,SSE, pi.a, pi.lambda, pi.c, prior,group.c)$indep.pi
       pi.lambda = indep_post_pi(N,n,M,K,L,a.vec,b.vec,d.vec,mu,MEAN,SSE, pi.a, pi.lambda, pi.c,prior, group.lambda)$indep.pi
@@ -388,35 +407,12 @@ posterior_sample_jash = function(post,nsamp,obs){
   return(res)
 }
 
-# Compute numerical p-values for the shrinkage estimators
-simpval=function(sampleT,a.vec,b.vec,c.vec,n,pi){
-  Nsim=100000
-  ncomp=length(a.vec)
-  tau=rgamma(Nsim,shape=rep(a.vec[1],each=Nsim),rate=rep(b.vec[1],each=Nsim))
-  xbar=matrix(rep(rnorm(Nsim,mean=0,sd=sqrt(1/n/tau)),2),ncol=ncomp)
-  a.mat=outer(rep(1,Nsim),a.vec)
-  b.mat=outer(rep(1,Nsim),b.vec)
-  c.mat=outer(rep(1,Nsim),c.vec)
-  sse=matrix(rep(rchisq(Nsim,df=n-1)/tau,2),ncol=ncomp)
-  x.tilda=n*xbar/(c.mat+n)
-  tau.tilda=(a.mat+n/2)/(b.vec+0.5*(sse+c.mat*n*xbar^2/(c.mat+n)))
-  T.tilda=matrix(x.tilda*sqrt(tau.tilda),ncol=ncomp)
-  pval=sampleT-sampleT
-  for (i in 1:dim(sampleT)[1]){
-    pval[i,]=apply((T.tilda>outer(rep(1,Nsim),abs(sampleT[i,]))),2,mean)
-             +apply((T.tilda<outer(rep(1,Nsim),-abs(sampleT[i,]))),2,mean)
-  }
-  pval=apply(pi*pval,1,sum)
-  pval=ifelse(pval<=0.5,2*pval,1)
-  return(pval)
-}
-
 # Y: data matrix, N by n
 # precShape: vector of a_m
 # precMulti: vector of lambda_k
 # compprecPrior: vector of c_l
 # fac: group factor vec
-jash = function(Y, fac, auto=FALSE, precShape=NULL, precMulti=NULL, compprecPrior=NULL, mu=NULL, pi=NULL,prior=NULL, usePointMass=FALSE, localfdr=TRUE, a.lambda.c.est=TRUE, SGD=FALSE, fqvalue=FALSE){
+jash = function(Y, fac, auto=FALSE, precShape=NULL, precMulti=NULL, compprecPrior=NULL, mu=NULL, pi=NULL,prior=NULL, usePointMass=FALSE, localfdr=TRUE, a.lambda.c.est=TRUE, SGD=TRUE){
   N = dim(Y)[1]
   
   if(is.null(mu)){
@@ -486,23 +482,15 @@ jash = function(Y, fac, auto=FALSE, precShape=NULL, precMulti=NULL, compprecPrio
   }else{
     null.postprob = NULL
   }
-  if(fqvalue==TRUE){
-    sampleT=post$normmean*sqrt(post$gammaa/post$gammab)
-    numpval=simpval(sampleT,pifit$a.vec,pifit$a.vec/pifit$lambda.vec,pifit$c.vec,n,post$pi)
-    fqval=qvalue(numpval)$qvalue
-  }else{
-    fqval=NULL
-    numpval=NULL
-  }
   #fitted = list(pi=pifit$pi,a.vec=post$a.vec,lambda.vec=post$lambda.vec,c.vec=post$c.vec,pi.a=pifit$pi.a,pi.lambda=pifit$pi.lambda,pi.c=pifit$pi.c)
   PosteriorMean=post$beta*reg$scale
   return(list(PosteriorMean=PosteriorMean,PosteriorPrec=post$tau,pifit=pifit,post=post,postprob=postprob,localfdr=localfdr,qvalue=qvalue,null.postprob=null.postprob,
-              a.vec=pifit$a.vec,lambda.vec=pifit$lambda.vec,c.vec=pifit$c.vec,mu=mu,fqval=fqval,numpval=numpval))
+              a.vec=pifit$a.vec,lambda.vec=pifit$lambda.vec,c.vec=pifit$c.vec,mu=mu))
 }
 
-jasha=function(betahat,betahatsd,df,auto=FALSE, precShape=NULL, precMulti=NULL, compprecPrior=NULL, mu=NULL, pi=NULL,prior=NULL, usePointMass=TRUE, localfdr=FALSE, a.lambda.c.est=TRUE, SGD=FALSE, fqvalue=FALSE){
+jasha=function(betahat,betahatsd,df,auto=FALSE, precShape=NULL, precMulti=NULL, compprecPrior=NULL, mu=NULL, pi=NULL,prior=NULL, usePointMass=FALSE, localfdr=TRUE, a.lambda.c.est=TRUE, SGD=TRUE){
   N = length(betahat)
-  n=df
+  n=df+1
   
   if(is.null(mu)){
     mu = rep(0,N)
@@ -560,19 +548,12 @@ jasha=function(betahat,betahatsd,df,auto=FALSE, precShape=NULL, precMulti=NULL, 
   }else{
     null.postprob = NULL
   }
-  if(fqvalue==TRUE){
-    sampleT=post$normmean*sqrt(post$gammaa/post$gammab)
-    numpval=simpval(sampleT,pifit$a.vec,pifit$a.vec/pifit$lambda.vec,pifit$c.vec,n,post$pi)
-    fqval=qvalue(numpval)$qvalue
-  }else{
-    fqval=NULL
-    numpval=NULL
-  }
+  
   #fitted = list(pi=pifit$pi,a.vec=post$a.vec,lambda.vec=post$lambda.vec,c.vec=post$c.vec,pi.a=pifit$pi.a,pi.lambda=pifit$pi.lambda,pi.c=pifit$pi.c)
   PosteriorMean=post$beta*sqrt(n)
   params=c(pifit$a.vec[1],pifit$b.vec[1]/n,pifit$c.vec[1])
   loglik=loglike(params,N,n,M,K,L,mu,MEAN,rep(0,N),pifit$pi,0)
   
   return(list(PosteriorMean=PosteriorMean,PosteriorPrec=post$tau,pifit=pifit,post=post,postprob=postprob,localfdr=localfdr,qvalue=qvalue,null.postprob=null.postprob,
-              a.vec=pifit$a.vec,lambda.vec=pifit$lambda.vec,c.vec=pifit$c.vec,mu=mu,fqval=fqval,numpval=numpval,loglik=loglik))
+              a.vec=pifit$a.vec,lambda.vec=pifit$lambda.vec,c.vec=pifit$c.vec,mu=mu,loglik=loglik))
 }

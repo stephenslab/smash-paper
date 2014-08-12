@@ -1,5 +1,5 @@
-source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/threshold_haar.R")
-source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/threshold_var.R")
+source("~/ashwave/simulation_1d_g/threshold_haar.R")
+source("~/ashwave/simulation_1d_g/threshold_var.R")
 
 
 library(wavethresh)
