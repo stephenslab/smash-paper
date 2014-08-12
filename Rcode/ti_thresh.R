@@ -1,7 +1,6 @@
 source("~/ashwave/simulation_1d_g/threshold_haar.R")
 source("~/ashwave/simulation_1d_g/threshold_var.R")
 
-
 library(wavethresh)
 require(ashr)
 require(Rcpp)
@@ -558,7 +557,7 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
         vtable2=cxxtitable(var.est2.ini)$sumtable
         vtable=(vtable1+vtable2)/2
         for(j in 0:(J-1)){
-          zdat.ash=fast.ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          zdat.ash=ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
           wmean[j+1,]=zdat.ash$PosteriorMean/2
         }
         wwmean=-wmean
@@ -568,19 +567,8 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
         vtable=cxxtitable(var.var.est)$sumtable
         vdtable=cxxtitable(var.est)$difftable
         vrtable=cxxtirtable(var.est)
-        fac1=c(3,2,1.5)
-        fac2=c(2,1.5,1)
         for(j in 0:(J-1)){
-          if(j>=0&j<=1){
-            virtable=vrtable[j+2,]
-            virtable=fac1[1]*(abs(virtable)>=log(4))+fac1[2]*(abs(virtable)>=log(2)&abs(virtable)<log(4))+fac1[3]*(abs(virtable)<log(2))
-          }else if(j>=2&j<=5){
-            virtable=vrtable[j+2,]
-            virtable=fac2[1]*(abs(virtable)>=log(4))+fac2[2]*(abs(virtable)>=log(2)&abs(virtable)<log(4))+fac2[3]*(abs(virtable)<log(2))
-          }else{
-            virtable=1
-          }
-          zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          zdat.ash=ash(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
           wmean[j+1,] = zdat.ash$PosteriorMean/2
         }
         wwmean=-wmean
@@ -588,7 +576,7 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
         var.est[var.est<=0]=1e-8
         vtable=cxxtitable(var.est)$sumtable
         for(j in 0:(J-1)){
-          zdat.ash=fast.ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          zdat.ash=ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
           wmean[j+1,]=zdat.ash$PosteriorMean/2
         }
         wwmean=-wmean
@@ -597,19 +585,8 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
         vtable=cxxtitable(2/3*var.est^2)$sumtable
         vdtable=cxxtitable(var.est)$difftable
         vrtable=cxxtirtable(var.est)
-        fac1=c(3,2,1.5)
-        fac2=c(2,1.5,1)
         for(j in 0:(J-1)){
-          if(j>=0&j<=1){
-            virtable=vrtable[j+2,]
-            virtable=fac1[1]*(abs(virtable)>=log(4))+fac1[2]*(abs(virtable)>=log(2)&abs(virtable)<log(4))+fac1[3]*(abs(virtable)<log(2))
-          }else if(j>=2&j<=5){
-            virtable=vrtable[j+2,]
-            virtable=fac2[1]*(abs(virtable)>=log(4))+fac2[2]*(abs(virtable)>=log(2)&abs(virtable)<log(4))+fac2[3]*(abs(virtable)<log(2))
-          }else{
-            virtable=1
-          }
-          zdat.ash=fast.ash(vdtable[j+2,],sqrt((vtable[j+2,]/virtable)),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          zdat.ash=ash(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
           wmean[j+1,] = zdat.ash$PosteriorMean/2
         }
         wwmean=-wmean
