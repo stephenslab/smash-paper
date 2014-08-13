@@ -488,7 +488,7 @@ jash = function(Y, fac, auto=FALSE, precShape=NULL, precMulti=NULL, compprecPrio
               a.vec=pifit$a.vec,lambda.vec=pifit$lambda.vec,c.vec=pifit$c.vec,mu=mu))
 }
 
-jasha=function(betahat,betahatsd,df,auto=FALSE, precShape=NULL, precMulti=NULL, compprecPrior=NULL, mu=NULL, pi=NULL,prior=NULL, usePointMass=FALSE, localfdr=TRUE, a.lambda.c.est=TRUE, SGD=TRUE){
+jasha=function(betahat,betahatsd,df,auto=FALSE, precShape=NULL, precMulti=NULL, compprecPrior=NULL, mu=NULL, pi=NULL,prior=NULL, usePointMass=TRUE, localfdr=FALSE, a.lambda.c.est=TRUE, SGD=TRUE){
   N = length(betahat)
   n=df+1
   
@@ -532,7 +532,7 @@ jasha=function(betahat,betahatsd,df,auto=FALSE, precShape=NULL, precMulti=NULL, 
   group.lambda = rep(rep(1:K,each=M),L)
   group.c = rep(1:L,each=M*K)
   
-  pifit = EMest_pi(params,N,n,M,K,L,a.vec,b.vec,d.vec,mu,MEAN,SSE, pi,prior,a.lambda.c.est,SGD,indepprior=FALSE,ltol=0.0001, maxiter=2000, usePointMass)
+  pifit = EMest_pi(params,N,n,M,K,L,a.vec,b.vec,d.vec,mu,MEAN,SSE, pi,prior,a.lambda.c.est,SGD,indepprior=FALSE,ltol=1e-6, maxiter=2000, usePointMass)
   post = post_distn(N,n,M,K,L,pifit$a.vec,pifit$b.vec,pifit$c.vec,mu,MEAN,SSE,pifit$pi)
   #condpost = CondPostprob(post$pi,post$tau,post$gammaa,post$gammab,post$gammadens,post$normmean,post$normprec,post$c.vec)
   postprob = Postprob(mu,post$pi,post$gammaa,post$gammab,post$normmean,post$normc,pifit$c.vec)
