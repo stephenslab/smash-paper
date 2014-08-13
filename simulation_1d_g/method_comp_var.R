@@ -203,107 +203,107 @@ print("start")
 
 for(i in 1:100){
 
-  var.est.ash.haar.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,weight=1)$var.res
+  var.est.ash.haar.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,weight=1)
 
-  var.est.ash.haar.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,weight=1)$var.res
+  var.est.ash.haar.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,weight=1)
 
-  var.est.ash.haar.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,weight=1)$var.res
+  var.est.ash.haar.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,weight=1)
 
-  var.est.ash.haar.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,weight=1)$var.res
+  var.est.ash.haar.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,weight=1)
 
-  var.est.ash.haar.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,weight=1)$var.res
-  var.est.ash.haar.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,weight=1)$var.res
+  var.est.ash.haar.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,weight=1)
+  var.est.ash.haar.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,weight=1)
 
-  var.est.ash.haar.j.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
+  var.est.ash.haar.j.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,jash=TRUE,weight=1)
 
-  var.est.ash.haar.j.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
+  var.est.ash.haar.j.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,jash=TRUE,weight=1)
 
-  var.est.ash.haar.j.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
+  var.est.ash.haar.j.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,jash=TRUE,weight=1)
 
-  var.est.ash.haar.j.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
+  var.est.ash.haar.j.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,jash=TRUE,weight=1)
 
-  var.est.ash.haar.j.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
-  var.est.ash.haar.j.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,jash=TRUE,weight=1)$var.res
+  var.est.ash.haar.j.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,jash=TRUE,weight=1)
+  var.est.ash.haar.j.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,jash=TRUE,weight=1)
 
 
 
-  var.est.ash.s8.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
+  var.est.ash.s8.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
 
-  var.est.ash.s8.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
+  var.est.ash.s8.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
 
-  var.est.ash.s8.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
+  var.est.ash.s8.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
 
-  var.est.ash.s8.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
+  var.est.ash.s8.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
 
-  var.est.ash.s8.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
-  var.est.ash.s8.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)$var.res
+  var.est.ash.s8.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
+  var.est.ash.s8.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",weight=1)
 
-  var.est.ash.s8.j.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
+  var.est.ash.s8.j.cons.v1[i,]=bayesmooth(sim.m.cons.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.cons.v2[i,]=bayesmooth(sim.m.cons.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.cons.v3[i,]=bayesmooth(sim.m.cons.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.cons.v4[i,]=bayesmooth(sim.m.cons.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
 
-  var.est.ash.s8.j.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
+  var.est.ash.s8.j.sine.v1[i,]=bayesmooth(sim.m.sine.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.sine.v2[i,]=bayesmooth(sim.m.sine.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.sine.v3[i,]=bayesmooth(sim.m.sine.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.sine.v4[i,]=bayesmooth(sim.m.sine.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
 
-  var.est.ash.s8.j.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
+  var.est.ash.s8.j.bump.v1[i,]=bayesmooth(sim.m.bump.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.bump.v2[i,]=bayesmooth(sim.m.bump.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.bump.v3[i,]=bayesmooth(sim.m.bump.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.bump.v4[i,]=bayesmooth(sim.m.bump.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
 
-  var.est.ash.s8.j.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
+  var.est.ash.s8.j.blk.v1[i,]=bayesmooth(sim.m.blk.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.blk.v2[i,]=bayesmooth(sim.m.blk.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.blk.v3[i,]=bayesmooth(sim.m.blk.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.blk.v4[i,]=bayesmooth(sim.m.blk.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
 
-  var.est.ash.s8.j.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
-  var.est.ash.s8.j.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)$var.res
+  var.est.ash.s8.j.dop.v1[i,]=bayesmooth(sim.m.dop.v1[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.dop.v2[i,]=bayesmooth(sim.m.dop.v2[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.dop.v3[i,]=bayesmooth(sim.m.dop.v3[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
+  var.est.ash.s8.j.dop.v4[i,]=bayesmooth(sim.m.dop.v4[i,],v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm",jash=TRUE,weight=1)
 
   print(i)
 }
