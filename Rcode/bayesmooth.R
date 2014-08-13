@@ -3,7 +3,7 @@ require(ashr)
 require(Rcpp)
 require(inline)
 library(Matrix)
-source("D:/Grad School/Spring 2013/multiscale_ash/ash/jash.r")
+source("~/ashwave/Rcode/jash.R")
 
 
 
