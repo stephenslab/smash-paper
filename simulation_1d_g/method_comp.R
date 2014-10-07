@@ -1883,6 +1883,7 @@ mu.est.ashef.s8.cor.3.v3=matrix(0,nrow=100,ncol=n)
 mu.est.ashef.s8.cor.3.v4=matrix(0,nrow=100,ncol=n)
 mu.est.ashef.s8.cor.3.v5=matrix(0,nrow=100,ncol=n)
 
+print("start")
 
 for(i in 1:100){
   sigma.sp.1.v1.est=sig.est.func(sim.m.sp.1.v1[i,],n)
@@ -2990,7 +2991,7 @@ for(i in 1:100){
   mu.est.tieb.s8.cor.3.v5[i,]=ti.thresh(sim.m.cor.3.v5[i,],method="bayesm",filter.number=8,family="DaubLeAsymm")
 
 
-
+print("okay")
 
   mu.est.ashe.haar.j.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],filter.number=1,family="DaubExPhase",jash=TRUE)
   mu.est.ashe.s8.j.h.sp.1.v1[i,]=bayesmooth(sim.m.sp.1.v1[i,],filter.number=8,family="DaubLeAsymm",jash=TRUE)
@@ -3207,7 +3208,6 @@ for(i in 1:100){
 
   mu.est.ashe.haar.j.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],filter.number=1,family="DaubExPhase",jash=TRUE)
   mu.est.ashe.s8.j.h.cor.3.v5[i,]=bayesmooth(sim.m.cor.3.v5[i,],filter.number=8,family="DaubLeAsymm",jash=TRUE)
-
 
 
 

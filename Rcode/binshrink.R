@@ -2,7 +2,7 @@
 
 
 #ash.repodir = scan(".ash.repodir.txt",what=character())
-source("~/ashwave/Rcode/bash.R")) 
+source(file.path("~/ashwave/Rcode/bash.R")) 
 require(Rcpp)
 require(inline)
 

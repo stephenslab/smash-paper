@@ -1,8 +1,8 @@
 require(ashr)
 require(Rcpp)
 require(inline)
-source("~/ashwave/Rcode/glm_approx.R")
-source("~/ashwave/Rcode/deltamethod.R")
+source(file.path("~/ashwave/Rcode/glm_approx.R"))
+source(file.path("~/ashwave/Rcode/deltamethod.R"))
 
 #interleave two vectors
 interleave=function(x,y){
@@ -90,10 +90,44 @@ src1 <- '
         }
         return(parent);
         '
-cxxParentTItable <- cxxfunction(signature(sig="numeric"),
+cxxSParentTItable <- cxxfunction(signature(sig="numeric"),
                                 body=src1,
                                 plugin="Rcpp",
                                 inc="#include <cmath>")
+
+# src2 <- '
+#         NumericVector signal=sig; 
+#         int n=(int) signal.size();
+#         int J=(int) log2((double)n);
+#         
+#         NumericVector parent(2*J*n);
+#         NumericMatrix TItable(J+1,n);
+#         TItable(0,_) = signal;
+#         for (int D=0; D<J; D++){
+#           int nD=(int) pow(2., (int) (J-D)), pD=(int) pow(2.,(int) D);
+#           for (int l=0; l<pD; l++){
+#             int a=l*nD+1, b=2*l*nD+1, c=2*D*n+b, d;
+#             for (int i=0; i<nD-1; i++){
+#               d=TItable(D,a+i-1);
+#               parent(c+i-1)=d;
+#               parent(c+i+nD)=d;
+#             }
+#             //i=nD-1
+#             d=TItable(D,a+nD-2);
+#             parent(c+nD-2)=d;
+#             parent(c+nD-1)=d;
+#             
+#             
+#             for (int i=0; i<nD; i++)
+#               TItable(D+1,a+i-1)=parent(c+2*i-1)+parent(c+2*i);
+#           }
+#         }
+#         return(parent);
+#         '
+# cxxSParentTItable <- cxxfunction(signature(sig="numeric"),
+#                                 body=src2,
+#                                 plugin="Rcpp",
+#                                 inc="#include <cmath>")
 
 
 
@@ -214,7 +248,7 @@ src2 <- '
         }
         return(est);
         '
-cxxreverse.pwave <- cxxfunction(signature(estimate="numeric",pmat="numeric",qmat="numeric"),
+cxxreverse_pwave <- cxxfunction(signature(estimate="numeric",pmat="numeric",qmat="numeric"),
                                 body=src2,
                                 plugin="Rcpp",
                                 inc="#include <cmath>")
