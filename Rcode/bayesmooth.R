@@ -601,7 +601,7 @@ var.smooth=function(data,data.var,x.var.ini,basis,v.basis,W2,filter.number,famil
     for(j in 0:(J-1)){
       zdat.ash=shrink.wc(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=SGD)
       wmean[j+1,] = zdat.ash$PosteriorMean/2
-      if((sum(is.na(wmean[j+1,]))>0)&(SGD==TRUE){
+      if((sum(is.na(wmean[j+1,]))>0)&(SGD==TRUE)){
         zdat.ash=shrink.wc(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
         wmean[j+1,] = zdat.ash$PosteriorMean/2      
       }
@@ -624,7 +624,7 @@ var.smooth=function(data,data.var,x.var.ini,basis,v.basis,W2,filter.number,famil
       x.w.v.j=x.w.v[index]
       zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=SGD)
       x.pm = zdat.ash$PosteriorMean
-      if((sum(is.na(x.pm))>0)&(SGD==TRUE){
+      if((sum(is.na(x.pm))>0)&(SGD==TRUE)){
         zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
         x.pm = zdat.ash$PosteriorMean
       }
