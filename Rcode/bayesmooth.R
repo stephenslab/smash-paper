@@ -540,11 +540,11 @@ ndwt.mat=function(n,filter.number,family){
 
 
 
-shrink.wc=function(wc,wc.var.sqrt,prior,pointmass,nullcheck,VB,mixsd,gridmult,jash,df){
+shrink.wc=function(wc,wc.var.sqrt,prior,pointmass,nullcheck,VB,mixsd,gridmult,jash,df,SGD){
   if(jash==FALSE){
     zdat.ash=ash(wc,wc.var.sqrt,prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
   }else{
-    zdat.ash=jasha(wc,wc.var.sqrt,df=df)
+    zdat.ash=jasha(wc,wc.var.sqrt,df=df,SGD=SGD)
   }  
   return(zdat.ash)
 }
@@ -558,7 +558,7 @@ mu.smooth=function(wc,data.var,basis,tsum,W2,post.var,prior,pointmass,nullcheck,
     y=wc
     vtable=cxxtitable(data.var)$sumtable
     for(j in 0:(J-1)){
-      zdat.ash=shrink.wc(y[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=FALSE,df=NULL)
+      zdat.ash=shrink.wc(y[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=FALSE,df=NULL,SGD=FALSE)
       wmean[j+1,]=zdat.ash$PosteriorMean/2
       if(post.var==TRUE){
         wvar[j+1,]=zdat.ash$PosteriorSD^2/4       
@@ -578,7 +578,7 @@ mu.smooth=function(wc,data.var,basis,tsum,W2,post.var,prior,pointmass,nullcheck,
       index=(((J-1)-j)*n+1):((J-j)*n)
       x.w.j=accessD(x.w,j)
       x.w.v.j=x.w.v[index]
-      zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=FALSE,df=NULL)
+      zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=FALSE,df=NULL,SGD=FALSE)
       x.pm = zdat.ash$PosteriorMean
       x.w = putD(x.w,j,x.pm)
     }
@@ -599,8 +599,12 @@ var.smooth=function(data,data.var,x.var.ini,basis,v.basis,W2,filter.number,famil
     vtable=cxxtitable(data.var)$sumtable
     vdtable=cxxtitable(data)$difftable
     for(j in 0:(J-1)){
-      zdat.ash=shrink.wc(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)))
+      zdat.ash=shrink.wc(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
       wmean[j+1,] = zdat.ash$PosteriorMean/2
+      if(sum(is.na(wmean[j+1,]))>0){
+        zdat.ash=shrink.wc(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
+        wmean[j+1,] = zdat.ash$PosteriorMean/2      
+      }
       if(post.var==TRUE){
         wvar[j+1,]=zdat.ash$PosteriorSD^2/4
       }
@@ -618,8 +622,12 @@ var.smooth=function(data,data.var,x.var.ini,basis,v.basis,W2,filter.number,famil
       index=(((J-1)-j)*n+1):((J-j)*n)
       x.w.j=accessD(x.w,j)
       x.w.v.j=x.w.v[index]
-      zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)))
+      zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
       x.pm = zdat.ash$PosteriorMean
+      if(sum(is.na(x.pm))>0){
+        zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
+        x.pm = zdat.ash$PosteriorMean
+      }
       x.w = putD(x.w,j,x.pm)
     }
     var.est=AvBasis(convert(x.w))
@@ -676,7 +684,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,post.var=FALSE,filt
     sigma=sqrt(var.est)
   }
   mu.res=mu.smooth(x.w.d,sigma^2,basis,tsum,W2,post.var,prior,pointmass,nullcheck,VB,mixsd,0,J,n)
-  
+
   if(v.est==FALSE){
     return(mu.res)
   }else{
