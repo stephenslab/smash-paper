@@ -1,0 +1,257 @@
+Loading required package: MASS
+WaveThresh: R wavelet software, release 4.6.6, installed
+
+Copyright Guy Nason and others 1993-2013
+
+Note: nlevels has been renamed to nlevelsWT
+
+
+Attaching package: ‘wavethresh’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    l2norm
+
+Loading required package: ashr
+Loading required package: truncnorm
+Loading required package: SQUAREM
+Loading required package: Rcpp
+Loading required package: inline
+Loading required package: methods
+
+Attaching package: ‘inline’
+
+The following object is masked from ‘package:Rcpp’:
+
+    registerPlugin
+
+Warning message:
+In fun(libname, pkgname) : no DISPLAY variable so Tk is not available
+Error: could not find function "fast.ash"
+Execution halted
+Loading required package: MASS
+WaveThresh: R wavelet software, release 4.6.6, installed
+
+Copyright Guy Nason and others 1993-2013
+
+Note: nlevels has been renamed to nlevelsWT
+
+
+Attaching package: ‘wavethresh’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    l2norm
+
+Loading required package: ashr
+Loading required package: truncnorm
+Loading required package: SQUAREM
+Loading required package: Rcpp
+Loading required package: inline
+Loading required package: methods
+
+Attaching package: ‘inline’
+
+The following object is masked from ‘package:Rcpp’:
+
+    registerPlugin
+
+Warning message:
+In fun(libname, pkgname) : no DISPLAY variable so Tk is not available
+Error in qvalue[o] = (cumsum(sort(localfdr))/(1:sum(!is.na(localfdr)))) : 
+  replacement has length zero
+Calls: bayesmooth ... var.smooth -> shrink.wc -> jasha -> qval.from.localfdr
+Execution halted
+Loading required package: MASS
+WaveThresh: R wavelet software, release 4.6.6, installed
+
+Copyright Guy Nason and others 1993-2013
+
+Note: nlevels has been renamed to nlevelsWT
+
+
+Attaching package: ‘wavethresh’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    l2norm
+
+Loading required package: ashr
+Loading required package: truncnorm
+Loading required package: SQUAREM
+Loading required package: Rcpp
+Loading required package: inline
+Loading required package: methods
+
+Attaching package: ‘inline’
+
+The following object is masked from ‘package:Rcpp’:
+
+    registerPlugin
+
+Error in file(filename, "r", encoding = encoding) : 
+  cannot open the connection
+Calls: source -> withVisible -> eval -> eval -> source -> file
+In addition: Warning message:
+In file(filename, "r", encoding = encoding) :
+  cannot open file '/mnt/lustre/home/zrxing/ashwave/Rcode/jash.r': No such file or directory
+Execution halted
+Loading required package: MASS
+WaveThresh: R wavelet software, release 4.6.6, installed
+
+Copyright Guy Nason and others 1993-2013
+
+Note: nlevels has been renamed to nlevelsWT
+
+
+Attaching package: ‘wavethresh’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    l2norm
+
+Loading required package: ashr
+Loading required package: truncnorm
+Loading required package: SQUAREM
+Loading required package: Rcpp
+Loading required package: inline
+Loading required package: methods
+
+Attaching package: ‘inline’
+
+The following object is masked from ‘package:Rcpp’:
+
+    registerPlugin
+
+Warning message:
+In fun(libname, pkgname) : no DISPLAY variable so Tk is not available
+Loading required package: MASS
+WaveThresh: R wavelet software, release 4.6.6, installed
+
+Copyright Guy Nason and others 1993-2013
+
+Note: nlevels has been renamed to nlevelsWT
+
+
+Attaching package: ‘wavethresh’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    l2norm
+
+Loading required package: ashr
+Loading required package: truncnorm
+Loading required package: SQUAREM
+Loading required package: Rcpp
+Loading required package: inline
+Loading required package: methods
+
+Attaching package: ‘inline’
+
+The following object is masked from ‘package:Rcpp’:
+
+    registerPlugin
+
+Warning message:
+In fun(libname, pkgname) : no DISPLAY variable so Tk is not available
+Error in AvBasis.wst(convert(x.w)) : 
+  NA/NaN/Inf in foreign function call (arg 1)
+Calls: bayesmooth -> var.smooth -> AvBasis -> AvBasis.wst -> .C
+Execution halted
+Loading required package: MASS
+WaveThresh: R wavelet software, release 4.6.6, installed
+
+Copyright Guy Nason and others 1993-2013
+
+Note: nlevels has been renamed to nlevelsWT
+
+
+Attaching package: ‘wavethresh’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    l2norm
+
+Loading required package: ashr
+Loading required package: truncnorm
+Loading required package: SQUAREM
+Loading required package: Rcpp
+Loading required package: inline
+Loading required package: methods
+
+Attaching package: ‘inline’
+
+The following object is masked from ‘package:Rcpp’:
+
+    registerPlugin
+
+Warning message:
+In fun(libname, pkgname) : no DISPLAY variable so Tk is not available
+Loading required package: MASS
+WaveThresh: R wavelet software, release 4.6.6, installed
+
+Copyright Guy Nason and others 1993-2013
+
+Note: nlevels has been renamed to nlevelsWT
+
+
+Attaching package: ‘wavethresh’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    l2norm
+
+Loading required package: ashr
+Loading required package: truncnorm
+Loading required package: SQUAREM
+Loading required package: Rcpp
+Loading required package: inline
+Loading required package: methods
+
+Attaching package: ‘inline’
+
+The following object is masked from ‘package:Rcpp’:
+
+    registerPlugin
+
+Error in file(filename, "r", encoding = encoding) : 
+  cannot open the connection
+Calls: source -> withVisible -> eval -> eval -> source -> file
+In addition: Warning message:
+In file(filename, "r", encoding = encoding) :
+  cannot open file 'D:/Grad School/Spring 2013/multiscale_ash/ash/jash.R': No such file or directory
+Execution halted
+Loading required package: MASS
+WaveThresh: R wavelet software, release 4.6.6, installed
+
+Copyright Guy Nason and others 1993-2013
+
+Note: nlevels has been renamed to nlevelsWT
+
+
+Attaching package: ‘wavethresh’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    l2norm
+
+Loading required package: ashr
+Loading required package: truncnorm
+Loading required package: SQUAREM
+Loading required package: Rcpp
+Loading required package: inline
+Loading required package: methods
+
+Attaching package: ‘inline’
+
+The following object is masked from ‘package:Rcpp’:
+
+    registerPlugin
+
+Warning message:
+In fun(libname, pkgname) : no DISPLAY variable so Tk is not available
+Warning messages:
+1: In EMest(betahat[completeobs], lambda1 * sebetahat[completeobs] +  :
+  EM algorithm in function mixEM failed to converge. Results may be unreliable. Try increasing maxiter and rerunning.
+2: In EMest(betahat[completeobs], lambda1 * sebetahat[completeobs] +  :
+  EM algorithm in function mixEM failed to converge. Results may be unreliable. Try increasing maxiter and rerunning.

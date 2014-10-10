@@ -766,4 +766,4 @@ sort(mse.dop.v4)
 
 
 
-save.image("~/ashwave/simulation_1d_g/res_sim_var.RData")
+save.image("~/ashwave/simulation_1d_g/res_sim_var_nosgd.RData")
