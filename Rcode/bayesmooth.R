@@ -3,7 +3,7 @@ require(ashr)
 require(Rcpp)
 require(inline)
 library(Matrix)
-source(file.path("~/ashwave/Rcode/jash.R"))
+source("~/ashwave/Rcode/jash.R")
 
 
 
@@ -592,16 +592,16 @@ mu.smooth=function(wc,data.var,basis,tsum,W2,post.var,prior,pointmass,nullcheck,
 }
 
 
-var.smooth=function(data,data.var,x.var.ini,basis,v.basis,W2,filter.number,family,post.var,prior,pointmass,nullcheck,VB,mixsd,gridmult,jash,weight,J,n){
+var.smooth=function(data,data.var,x.var.ini,basis,v.basis,W2,filter.number,family,post.var,prior,pointmass,nullcheck,VB,mixsd,gridmult,jash,weight,J,n,SGD){
   wmean = matrix(0,J,n) 
   wvar = matrix(0,J,n) 
   if(basis=="haar"|v.basis==FALSE){
     vtable=cxxtitable(data.var)$sumtable
     vdtable=cxxtitable(data)$difftable
     for(j in 0:(J-1)){
-      zdat.ash=shrink.wc(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
+      zdat.ash=shrink.wc(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=SGD)
       wmean[j+1,] = zdat.ash$PosteriorMean/2
-      if(sum(is.na(wmean[j+1,]))>0){
+      if((sum(is.na(wmean[j+1,]))>0)&(SGD==TRUE){
         zdat.ash=shrink.wc(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
         wmean[j+1,] = zdat.ash$PosteriorMean/2      
       }
@@ -622,9 +622,9 @@ var.smooth=function(data,data.var,x.var.ini,basis,v.basis,W2,filter.number,famil
       index=(((J-1)-j)*n+1):((J-j)*n)
       x.w.j=accessD(x.w,j)
       x.w.v.j=x.w.v[index]
-      zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
+      zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=SGD)
       x.pm = zdat.ash$PosteriorMean
-      if(sum(is.na(x.pm))>0){
+      if((sum(is.na(x.pm))>0)&(SGD==TRUE){
         zdat.ash=shrink.wc(x.w.j,sqrt(x.w.v.j),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=FALSE)
         x.pm = zdat.ash$PosteriorMean
       }
@@ -650,7 +650,7 @@ var.smooth=function(data,data.var,x.var.ini,basis,v.basis,W2,filter.number,famil
 #prior, pointmass, nullcheck, gridmult, mixsd, VB - parameters in ash
 #jash - bool, indicating if jash should be used instead of ash for variance estimation. May help if variance function is extremely heterogeneous
 #weight - optional parameter used in estimating overall variance. Only works for Haar basis. 1 is usually recommended, but 0.5 might help in mean estimation slightly
-bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,post.var=FALSE,filter.number=1,family="DaubExPhase",prior="nullbiased",pointmass=TRUE,nullcheck=TRUE,gridmult=0,mixsd=NULL,VB=FALSE,jash=FALSE,weight=0.5){
+bayesmooth = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,post.var=FALSE,filter.number=1,family="DaubExPhase",prior="nullbiased",pointmass=TRUE,nullcheck=TRUE,gridmult=0,mixsd=NULL,VB=FALSE,jash=FALSE,SGD=TRUE,weight=0.5){
   n = length(x)
   J = log2(n)
   if(!isTRUE(all.equal(J,trunc(J)))){stop("Error: number of columns of x must be power of 2")}
@@ -662,7 +662,8 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,post.var=FALSE,filt
   }
   if(post.var==TRUE&basis!="haar"){stop("Error: posterior variances returned only with Haar basis")}
   if(post.var==TRUE&jash==TRUE){stop("Error: posterior variances not returned for method jash")}
-  
+  if(joint==TRUE){v.est=TRUE}
+    
   
   tsum = sum(x)
   x.w.d = cxxtitable(x)$difftable
@@ -679,7 +680,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,post.var=FALSE,filt
     mu.est=mu.smooth(x.w.d,var.est.ini,basis,tsum,W2,FALSE,prior,pointmass,nullcheck,VB,mixsd,gridmult,J,n)
     var.est=(x-mu.est)^2
     var.var.est=2/3*var.est^2
-    var.est=var.smooth(var.est,var.var.est,var.est.ini,basis,v.basis,W2,filter.number,family,FALSE,prior,pointmass,nullcheck,VB,mixsd,gridmult,jash,weight,J,n)
+    var.est=var.smooth(var.est,var.var.est,var.est.ini,basis,v.basis,W2,filter.number,family,FALSE,prior,pointmass,nullcheck,VB,mixsd,gridmult,jash,weight,J,n,SGD=SGD)
     var.est[var.est<=0]=1e-8
     sigma=sqrt(var.est)
   }
@@ -695,7 +696,11 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,v.basis=FALSE,post.var=FALSE,filt
     }
     var.est=(x-mu.est)^2
     var.var.est=2/3*var.est^2
-    var.res=var.smooth(var.est,var.var.est,0,basis,v.basis,W2,filter.number,family,post.var,prior,pointmass,nullcheck,VB,mixsd,gridmult,jash,1,J,n)
-    return(list(mu.res=mu.res,var.res=var.res))
+    var.res=var.smooth(var.est,var.var.est,0,basis,v.basis,W2,filter.number,family,post.var,prior,pointmass,nullcheck,VB,mixsd,gridmult,jash,1,J,n,SGD=SGD)
+    if(joint==FALSE){
+      return(var.res=var.res)
+    }else{
+      return(list(mu.res=mu.res,var.res=var.res))
+    }
   }
 }
