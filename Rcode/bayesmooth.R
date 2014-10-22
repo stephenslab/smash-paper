@@ -655,6 +655,8 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,post.va
   J = log2(n)
   if(!isTRUE(all.equal(J,trunc(J)))){stop("Error: number of columns of x must be power of 2")}
   if(length(sigma)==1){sigma=rep(sigma,n)}
+  gridmultm=gridmult
+  if(is.null(sigma)) gridmultm=0
   if(filter.number==1&family=="DaubExPhase"){
     basis="haar"
   }else{
@@ -684,7 +686,7 @@ bayesmooth = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,post.va
     var.est[var.est<=0]=1e-8
     sigma=sqrt(var.est)
   }
-  mu.res=mu.smooth(x.w.d,sigma^2,basis,tsum,W2,post.var,prior,pointmass,nullcheck,VB,mixsd,0,J,n)
+  mu.res=mu.smooth(x.w.d,sigma^2,basis,tsum,W2,post.var,prior,pointmass,nullcheck,VB,mixsd,gridmultm,J,n)
 
   if(v.est==FALSE){
     return(mu.res)
