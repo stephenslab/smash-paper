@@ -1,5 +1,6 @@
-source("~/ashwave/simulation_1d_g/threshold_haar.R")
-source("~/ashwave/simulation_1d_g/threshold_var.R")
+source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/threshold_haar.R")
+source("D:/Grad School/Spring 2013/multiscale_ash/simulation_1d_g/threshold_var.R")
+
 
 library(wavethresh)
 require(ashr)
@@ -557,7 +558,7 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
         vtable2=cxxtitable(var.est2.ini)$sumtable
         vtable=(vtable1+vtable2)/2
         for(j in 0:(J-1)){
-          zdat.ash=ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          zdat.ash=suppressWarnings(ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,mixcompdist="normal",VB=VB,mixsd=mixsd,gridmult=gridmult))
           wmean[j+1,]=zdat.ash$PosteriorMean/2
         }
         wwmean=-wmean
@@ -568,7 +569,7 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
         vdtable=cxxtitable(var.est)$difftable
         vrtable=cxxtirtable(var.est)
         for(j in 0:(J-1)){
-          zdat.ash=ash(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          zdat.ash=suppressWarnings(ash(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,mixcompdist="normal",VB=VB,mixsd=mixsd,gridmult=gridmult))
           wmean[j+1,] = zdat.ash$PosteriorMean/2
         }
         wwmean=-wmean
@@ -576,7 +577,7 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
         var.est[var.est<=0]=1e-8
         vtable=cxxtitable(var.est)$sumtable
         for(j in 0:(J-1)){
-          zdat.ash=ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          zdat.ash=suppressWarnings(ash(y[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,mixcompdist="normal",VB=VB,mixsd=mixsd,gridmult=gridmult))
           wmean[j+1,]=zdat.ash$PosteriorMean/2
         }
         wwmean=-wmean
@@ -586,7 +587,7 @@ ti.thresh=function(x,sigma=NULL,method="bayesm",filter.number=1,family="DaubExPh
         vdtable=cxxtitable(var.est)$difftable
         vrtable=cxxtirtable(var.est)
         for(j in 0:(J-1)){
-          zdat.ash=ash(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,gridmult=gridmult)
+          zdat.ash=suppressWarnings(ash(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,mixcompdist="normal",VB=VB,mixsd=mixsd,gridmult=gridmult))
           wmean[j+1,] = zdat.ash$PosteriorMean/2
         }
         wwmean=-wmean
