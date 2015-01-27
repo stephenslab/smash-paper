@@ -1,12 +1,3 @@
-require(wavethresh)
-require(ashr)
-require(Rcpp)
-require(inline)
-require(Matrix)
-require(data.table)
-require(caTools)
-
-
 #' Interleave two vectors
 #' @param x,y: two vectors of the same length
 #' @return a vector of length twice that of x (or y)
@@ -58,49 +49,6 @@ titable=function(sig){
 }
 
 
-#' titable implemented in C++
-src1 <- '
-  NumericVector signal=sig; 
-  int n=(int) signal.size();
-  int J=(int) log2((double)n);  
-
-  NumericVector tempvec(2*n);
-  NumericMatrix sumtable(J+1,n);
-  NumericMatrix difftable(J+1,n);
-  sumtable(0,_) = signal;
-  difftable(0,_) = signal;
-
-  for (int D=0; D<J; D++){
-    int nD=(int) pow(2., (int) (J-D)), pD=(int) pow(2.,(int) D);
-    for (int l=0; l<pD; l++){
-      int a=l*nD+1;
-      double d;
-      for (int i=0; i<nD-1; i++){
-        d=sumtable(D,a+i-1);
-        tempvec(i)=d;
-        tempvec(i+nD+1)=d;
-      }
-      //i=nD-1
-      d=sumtable(D,a+nD-2);
-      tempvec(nD-1)=d;
-      tempvec(nD)=d;
-
-      for (int i=0; i<nD; i++){
-        sumtable(D+1,a+i-1)=tempvec(2*i)+tempvec(2*i+1);
-        difftable(D+1,a+i-1)=tempvec(2*i)-tempvec(2*i+1);
-      }
-    }
-  }
-  return(List::create(Named("sumtable")=sumtable, Named("difftable")=difftable));
-'
-cxxtitable <- cxxfunction(signature(sig="numeric"),
-                          body=src1,
-                          plugin="Rcpp",
-                          inc="#include <cmath>")
-
-
-
-
 
 
 #' Produces a TI table containing the log difference between adjacent pairs of data in the same resolution.
@@ -137,47 +85,6 @@ tirtable=function(sig){
   }
   return(ddmat)
 }
-
-
-#' tirtable implemented in C++
-src4 <- '
-  NumericVector signal=sig; 
-  int n=(int) signal.size();
-  int J=(int) log2((double)n);
-
-  NumericVector tempvec(2*n);
-  NumericMatrix sumtable(J+1,n);
-  NumericMatrix vrtable(J+1,n);
-  sumtable(0,_) = signal;
-  vrtable(0,_) = signal;
-
-  for (int D=0; D<J; D++){
-    int nD=(int) pow(2., (int) (J-D)), pD=(int) pow(2.,(int) D);
-    for (int l=0; l<pD; l++){
-      int a=l*nD+1;
-      double d;
-        for (int i=0; i<nD-1; i++){
-        d=sumtable(D,a+i-1);
-        tempvec(i)=d;
-        tempvec(i+nD+1)=d;
-      }
-      //i=nD-1
-      d=sumtable(D,a+nD-2);
-      tempvec(nD-1)=d;
-      tempvec(nD)=d;
-
-      for (int i=0; i<nD; i++){
-        sumtable(D+1,a+i-1)=tempvec(2*i)+tempvec(2*i+1);
-        vrtable(D+1,a+i-1)=log((double)tempvec(2*i))-log((double)tempvec(2*i+1));
-      }
-    }
-  }
-  return(vrtable);
-'
-cxxtirtable <- cxxfunction(signature(sig="numeric"),
-                           body=src4,
-                           plugin="Rcpp",
-                           inc="#include <cmath>")
 
 
 #' Turns a TItable into a matrix that one can apply glm to (for Poisson denoising).
@@ -232,61 +139,6 @@ reverse.gwave=function(est,lp,lq=NULL){
 }
 
 
-#' reverse.gwave, as implemented in C++
-src5 <- '
-  NumericMatrix pp=pmat;
-  NumericMatrix qq=qmat;
-  NumericVector est1=estimate;
-  int np=(int) pp.ncol();
-  int J=(int) pp.nrow();
-  NumericVector est(np,est1(0));
-  //for(int D=J; D-->0;){
-  for(int D=0; D<J; D++){
-    //int nD=pow(2., (int) (J-D)), pD=pow(2., (int) D);
-    int nD=pow(2., (int) (D+1)), pD=pow(2., (int) (J-1-D));
-    int nDo2=nD/2;
-    NumericVector tempvecl(nD), tempvecr(nD);
-    for(int l=0; l<pD; l++){
-      int a=l*nD+1; 
-      double dep, deq, dp, dq;
-      for (int i=0; i<nDo2; i++){
-        dep=est(a+i-1)/2;
-        //dp=pp(D,a+i-1);
-        dp=pp(J-1-D,a+i-1);
-        //dq=qq(D,a+i-1);
-        dq=qq(J-1-D,a+i-1);
-        tempvecl(2*i)=dep+dp;
-        tempvecl(2*i+1)=dep+dq;
-      }
-      for (int i=nDo2; i<nD-1; i++){
-        dep=est(a+i)/2;
-        //dp=pp(D,a+i);
-        dp=pp(J-1-D,a+i);
-        deq=est(a+i-1)/2;
-        //dq=qq(D,a+i-1);
-        dq=qq(J-1-D,a+i-1);
-        tempvecr(2*(i-nDo2))=deq+dq;
-        tempvecr(2*(i-nDo2)+1)=dep+dp;
-      }         
-      //i=nD-1
-      dep=est(a+nDo2-1)/2;
-      //dp=pp(D,a+nDo2-1);
-      dp=pp(J-1-D,a+nDo2-1);
-      deq=est(a+nD-2)/2; 
-      //dq=qq(D,a+nD-2);
-      dq=qq(J-1-D,a+nD-2);
-      tempvecr(nD-2)=deq+dq;
-      tempvecr(nD-1)=dep+dp;
-      for(int i=0; i<nD; i++)
-        est(a+i-1)=0.5*(tempvecl(i)+tempvecr(i));
-    }
-  }
-  return(est);
-'
-cxxreverse.gwave <- cxxfunction(signature(estimate="numeric",pmat="numeric",qmat="numeric"),
-                                body=src5,
-                                plugin="Rcpp",
-                                inc="#include <cmath>")
 
 
 #' Reverse wavelet transform a set of posterior variances for wavelet coefficients in TItable format, for Gaussian data.
@@ -335,62 +187,6 @@ reverse.gvwave=function(est,lp,lq=NULL){
 
 
 
-
-#' reverse.gvwave, as implemented in C++
-src6 <- '
-  NumericMatrix pp=pmat;
-  NumericMatrix qq=qmat;
-  NumericVector est1=estimate;
-  int np=(int) pp.ncol();
-  int J=(int) pp.nrow();
-  NumericVector est(np,est1(0));
-  //for(int D=J; D-->0;){
-  for(int D=0; D<J; D++){
-    //int nD=pow(2., (int) (J-D)), pD=pow(2., (int) D);
-    int nD=pow(2., (int) (D+1)), pD=pow(2., (int) (J-1-D));
-    int nDo2=nD/2;
-    NumericVector tempvecl(nD), tempvecr(nD);
-    for(int l=0; l<pD; l++){
-      int a=l*nD+1; 
-      double dep, deq, dp, dq;
-      for (int i=0; i<nDo2; i++){
-        dep=est(a+i-1)/4;
-        //dp=pp(D,a+i-1);
-        dp=pp(J-1-D,a+i-1);
-        //dq=qq(D,a+i-1);
-        dq=qq(J-1-D,a+i-1);
-        tempvecl(2*i)=dep+dp;
-        tempvecl(2*i+1)=dep+dq;
-      }
-      for (int i=nDo2; i<nD-1; i++){
-        dep=est(a+i)/4;
-        //dp=pp(D,a+i);
-        dp=pp(J-1-D,a+i);
-        deq=est(a+i-1)/4;
-        //dq=qq(D,a+i-1);
-        dq=qq(J-1-D,a+i-1);
-        tempvecr(2*(i-nDo2))=deq+dq;
-        tempvecr(2*(i-nDo2)+1)=dep+dp;
-      }         
-      //i=nD-1
-      dep=est(a+nDo2-1)/4;
-      //dp=pp(D,a+nDo2-1);
-      dp=pp(J-1-D,a+nDo2-1);
-      deq=est(a+nD-2)/4; 
-      //dq=qq(D,a+nD-2);
-      dq=qq(J-1-D,a+nD-2);
-      tempvecr(nD-2)=deq+dq;
-      tempvecr(nD-1)=dep+dp;
-      for(int i=0; i<nD; i++)
-        est(a+i-1)=0.5*(tempvecl(i)+tempvecr(i));
-    }
-  }
-  return(est);
-'
-cxxreverse.gvwave <- cxxfunction(signature(estimate="numeric",pmat="numeric",qmat="numeric"),
-                                 body=src6,
-                                 plugin="Rcpp",
-                                 inc="#include <cmath>")
 
 
 
@@ -562,10 +358,10 @@ mu.smooth=function(wc,data.var,basis,tsum,Wl,post.var,prior,pointmass,nullcheck,
       }
     }
     wwmean=-wmean
-    mu.est=cxxreverse.gwave(tsum,wmean,wwmean)
+    mu.est=cxxreverse_gwave(tsum,wmean,wwmean)
     if(post.var==TRUE){
       wwvar=wvar
-      mu.est.var=cxxreverse.gvwave(0,wvar,wwvar)
+      mu.est.var=cxxreverse_gvwave(0,wvar,wwvar)
     }
   }else{
     x.w=wc
@@ -623,10 +419,10 @@ var.smooth=function(data,data.var,x.var.ini,basis,v.basis,Wl,filter.number,famil
       }
     }
     wwmean=-wmean
-    var.est=cxxreverse.gwave(weight*sum(data)+(1-weight)*sum(x.var.ini),wmean,wwmean)
+    var.est=cxxreverse_gwave(weight*sum(data)+(1-weight)*sum(x.var.ini),wmean,wwmean)
     if(post.var==TRUE){
       wwvar=wvar
-      var.est.var=cxxreverse.gvwave(0,wvar,wwvar)
+      var.est.var=cxxreverse_gvwave(0,wvar,wwvar)
     }
   }else{
     x.w=wd(data, filter.number=filter.number, family=family, type = "station")
@@ -711,11 +507,11 @@ setAshParam.gaus <- function(ashparam){
 #' @param weight: optional parameter used in estimating overall variance. Only works for Haar basis. Defaults to 0.5. Setting this to 1 might improve variance estimation slightly
 #' @param min.var: The minimum positive value to be set if the variance estimates are negative.
 #' @param ashparam: a list of parameters to be passed to \code{ash}; default values are set by function \code{\link{setAshParam}}.
-#' export
-#' 
-#' return \code{ashsmooth.gaus} returns the mean estimate by default, or the variance estimate if \code{v.est} is TRUE. However, if \code{joint} is TRUE, then a list with the following is returned:
+#' @return \code{ashsmooth.gaus} returns the mean estimate by default, or the variance estimate if \code{v.est} is TRUE. However, if \code{joint} is TRUE, then a list with the following is returned:
 #' \item{mu.res}{a list with the mean estimate and its posterior variance if \code{post.var} is TRUE, or a vector of mean estimates otherwise}
-#" \item{var.res}{a list with the variance estimate and its posterior variance if \code{v.est} is TRUE and \code{post.var} is TRUE, or a vector of variance estimates if only \code{v.est} is TRUE}
+#' \item{var.res}{a list with the variance estimate and its posterior variance if \code{v.est} is TRUE and \code{post.var} is TRUE, or a vector of variance estimates if only \code{v.est} is TRUE}
+#'
+#' @export
 ashsmooth.gaus = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,post.var=FALSE,filter.number=1,family="DaubExPhase",jash=FALSE,SGD=TRUE,weight=0.5,min.var=1e-8,ashparam=list()){
   n = length(x)
   J = log2(n)
@@ -785,9 +581,63 @@ ashsmooth.gaus = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,pos
 
 
 
+#' This is a modified threshold.wd function from package "wavethresh", designed to perform thresholding for heteroskedastic Gaussian errors when using the Haar basis
+threshold.haar <- function (vdtable, vtable, levels, type = "hard", policy = "universal")
+{
+    wmean <- vdtable[-1,]/2
+    d <- NULL
+    n <- dim(vdtable)[2]
+    nthresh <- length(levels)
+    thresh <- list(0)
+    for (i in 1:nthresh) {
+        d <- vdtable[levels[i]+2,]
+        noise.level <- sqrt(vtable[levels[i]+2,])
+        nd <- length(d)
+        thresh[[i]] <- sqrt(2*log(nd*log2(nd))) * noise.level
+    }
+    for (i in 1:nthresh) {
+        d <- vdtable[levels[i]+2,]
+        if (type == "hard") {
+            d[abs(d) <= thresh[[i]]] <- 0
+        }
+        else if (type == "soft") {
+            d <- (d * (abs(d) - thresh[[i]]) * (abs(d) > thresh[[i]]))/abs(d)
+            d[is.na(d)] <- 0
+        }
+        wmean[levels[i]+1,] <- d/2
+    }
+    return(wmean)
+}
 
 
-
+#' This is a modified threshold.wd function from package "wavethresh", designed to perform thresholding for heteroskedastic Gaussian errors when using non-Haar basis
+threshold.var <- function (x.w, x.w.v, levels, type = "hard")
+{
+    d <- NULL
+    n <- 2^nlevelsWT(x.w)
+    J <- nlevelsWT(x.w)
+    nthresh <- length(levels)
+    thresh <- list(0)
+    for (i in 1:nthresh) {
+        d <- accessD(x.w,level=levels[i])
+        ind <- (((J-1)-levels[i])*n+1):((J-levels[i])*n)
+        noise.level <- sqrt(x.w.v[ind])
+        nd <- length(d)
+        thresh[[i]] <- sqrt(2*log(nd*log2(nd))) * noise.level
+    }
+    for (i in 1:nthresh) {
+        d <- accessD(x.w,level=levels[i])
+        if (type == "hard") {
+            d[abs(d) <= thresh[[i]]] <- 0
+        }
+        else if (type == "soft") {
+            d <- (d * (abs(d) - thresh[[i]]) * (abs(d) > thresh[[i]]))/abs(d)
+            d[is.na(d)] <- 0
+        }
+        x.w=putD(x.w,level=levels[i],v=d)
+    }
+    return(x.w)
+}
 
 
 
@@ -825,7 +675,7 @@ ti.thresh=function(x,sigma=NULL,method="smash",filter.number=1,family="DaubExPha
       vtable=cxxtitable(sigma^2)$sumtable
       wmean=threshold.haar(vdtable,vtable,levels=0:(J-1-min.level),type="hard")
       wwmean=-wmean
-      mu.est=cxxreverse.gwave(tsum,wmean,wwmean)
+      mu.est=cxxreverse_gwave(tsum,wmean,wwmean)
     }else{
       x.w=wd(x,filter.number=filter.number,family=family,type = "station")
       Wl=ndwt.mat(n,filter.number=filter.number,family=family)
@@ -883,41 +733,6 @@ ParentTItable=function(sig){
 }
 
 
-#' ParentTItable implemented in C++
-src3 <- '
-	NumericVector signal=sig; 
-	int n=(int) signal.size();
-	int J=(int) log2((double)n);
-
-	NumericVector parent(2*J*n);
-	NumericMatrix TItable(J+1,n);
-	TItable(0,_) = signal;
-	for (int D=0; D<J; D++){
-		int nD=(int) pow(2., (int) (J-D)), pD=(int) pow(2.,(int) D);
-     		for (int l=0; l<pD; l++){
-        	int a=l*nD+1, b=2*l*nD+1, c=2*D*n+b, d;
-       		for (int i=0; i<nD-1; i++){
-           	d=TItable(D,a+i-1);
-           	parent(c+i-1)=d;
-           	parent(c+i+nD)=d;
-        }
-      	//i=nD-1
-     	 d=TItable(D,a+nD-2);
-     	 parent(c+nD-2)=d;
-     	 parent(c+nD-1)=d;
-
-	
-     	 for (int i=0; i<nD; i++)
-      		TItable(D+1,a+i-1)=parent(c+2*i-1)+parent(c+2*i);
-    	}
-  	}
- 	 return(parent);
-        '
-cxxSParentTItable <- cxxfunction(signature(sig="numeric"),
-                                body=src3,
-                                plugin="Rcpp",
-                                inc="#include <cmath>")
-
 
 
 
@@ -964,69 +779,12 @@ reverse.pwave=function(est,lp,lq=NULL){
 }
 
 
-#' reverse.pwave, as implemented in C++
-src7 <- '
-        NumericMatrix pp=pmat;
-        NumericMatrix qq=qmat;
-        NumericVector est1=estimate;
-        int np=(int) pp.ncol();
-        int J=(int) pp.nrow();
-        NumericVector est(np,est1(0));
-        //for(int D=J; D-->0;){
-        for(int D=0; D<J; D++){
-          //int nD=pow(2., (int) (J-D)), pD=pow(2., (int) D);
-          int nD=pow(2., (int) (D+1)), pD=pow(2., (int) (J-1-D));
-          int nDo2=nD/2;
-          NumericVector tempvecl(nD), tempvecr(nD);
-          for(int l=0; l<pD; l++){
-            int a=l*nD+1; 
-            double dep, deq, dp, dq;
-            for (int i=0; i<nDo2; i++){
-              dep=est(a+i-1);
-              //dp=pp(D,a+i-1);
-              dp=pp(J-1-D,a+i-1);
-              //dq=qq(D,a+i-1);
-              dq=qq(J-1-D,a+i-1);
-              tempvecl(2*i)=dep+dp;
-              tempvecl(2*i+1)=dep+dq;
-            }
-            for (int i=nDo2; i<nD-1; i++){
-              dep=est(a+i);
-              //dp=pp(D,a+i);
-              dp=pp(J-1-D,a+i);
-              deq=est(a+i-1);
-              //dq=qq(D,a+i-1);
-              dq=qq(J-1-D,a+i-1);
-              tempvecr(2*(i-nDo2))=deq+dq;
-              tempvecr(2*(i-nDo2)+1)=dep+dp;
-            }         
-            //i=nD-1
-            dep=est(a+nDo2-1);
-            //dp=pp(D,a+nDo2-1);
-            dp=pp(J-1-D,a+nDo2-1);
-            deq=est(a+nD-2); 
-            //dq=qq(D,a+nD-2);
-            dq=qq(J-1-D,a+nD-2);
-            tempvecr(nD-2)=deq+dq;
-            tempvecr(nD-1)=dep+dp;
-            for(int i=0; i<nD; i++)
-               est(a+i-1)=0.5*(tempvecl(i)+tempvecr(i));
-          }
-        }
-        return(est);
-        '
-cxxreverse_pwave <- cxxfunction(signature(estimate="numeric",pmat="numeric",qmat="numeric"),
-                                body=src7,
-                                plugin="Rcpp",
-                                inc="#include <cmath>")
 
 
 
 
-
-
-
-
+#' reflects a vector if it has length a power of 2; otherwise extends the vector to have length a power of 2 and then reflects it
+#' @param x an n-vector
 #' @return an n-vector containing the indices of the original signal x 
 reflect <- function(x){
   n = dim(x)[2]
@@ -1152,10 +910,9 @@ setAshParam.pois <- function(ashparam){
 #' @param pseudocounts: bool, a number to be added to counts. Passed to \code{glm.approx}
 #' @param all: bool, indicates if pseudocounts should be added too all entries or only cases when either number of successes or number of failures (but not both) is 0. Passed to \code{glm.approx}
 #' @param ashparam: a list of parameters to be passed to \code{ash}; default values are set by function \code{\link{setAshParam}}.
-#' export
+#' @return \code{ashsmooth.pois} returns the mean estimate by default, or the variance estimate if \code{post.var} is TRUE
 #' 
-#' return \code{ashsmooth.pois} returns the mean estimate by default, or the variance estimate if \code{post.var} is TRUE
-
+#' @export
 ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudocounts=0.5,all=FALSE,ashparam=list()){
   if(is.matrix(x)){
     if(nrow(x)==1){  #change matrix x to vector

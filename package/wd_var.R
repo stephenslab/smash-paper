@@ -1,3 +1,5 @@
+#These functions are modified functions of their respective counterparts from package "wavethresh" in order to perform reconstruction of posterior variances
+
 wd.var <- function (data, filter.number = 10, family = "DaubLeAsymm", type = "wavelet", 
     bc = "periodic", verbose = FALSE, min.scale = 0, precond = TRUE) 
 {
