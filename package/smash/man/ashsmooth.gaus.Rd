@@ -22,7 +22,7 @@ ashsmooth.gaus(x, sigma = NULL, v.est = FALSE, joint = FALSE,
 
 \item{post.va:}{bool, indicating if the posterior variance should be returned for the mean and/or variance estiamtes.}
 
-\item{jash:}{indicates if the prior from method JASH should be used. This will typically provide better variance estimates (especially for nonsmooth variance functions), at the cost of computational efficiency. Defaults to FALSE.}
+\item{jash:}{indicates if the prior from method JASH should be used. This will often provide slightly better variance estimates (especially for nonsmooth variance functions), at the cost of computational efficiency. Defaults to FALSE.}
 
 \item{SGD:}{bool, indicating if stochastic gradient descent should be used in the EM. Only applicable if jash=TRUE.}
 
@@ -39,5 +39,22 @@ ashsmooth.gaus(x, sigma = NULL, v.est = FALSE, joint = FALSE,
 }
 \description{
 This function takes a data vector of length a power of 2 and performs signal denoising using wavelet decomposition and an adaptive shrinkage prior on the wavelet parameters. The data are assumed to be (mostly) independent and Gaussian, but not necessarily identically distributed.
+}
+\examples{
+n=2^10
+t=1:n/n
+spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
+mu.s=spike.f(t)
+#Gaussian case
+mu.t=(1+mu.s)/5
+plot(mu.t,type="l")
+var.fn=(0.0001+4*(exp(-550*(t-0.2)^2)+exp(-200*(t-0.5)^2)+exp(-950*(t-0.8)^2)))/1.35
+plot(var.fn,type="l")
+rsnr=sqrt(5)
+sigma.t=sqrt(var.fn)/mean(sqrt(var.fn))*sd(mu.t)/rsnr^2
+X.s=rnorm(n,mu.t,sigma.t)
+mu.est<-ashsmooth.gaus(X.s)
+plot(mu.t,type="l")
+lines(mu.est,col=2)
 }
 

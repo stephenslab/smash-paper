@@ -30,4 +30,15 @@ ashsmooth.pois(x, post.var = FALSE, reflect = FALSE, lev = 0,
 \description{
 Main smoothing procedure for Poisson data. Takes a univariate inhomogeneous Poisson process and estimates its mean intensity
 }
+\examples{
+n=2^10
+t=1:n/n
+spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
+mu.s=spike.f(t)
+mu.t=0.01+mu.s
+X.s=rpois(n,mu.t)
+mu.est=ashsmooth.pois(X.s)
+plot(mu.t,type="l")
+lines(mu.est,col=2)
+}
 

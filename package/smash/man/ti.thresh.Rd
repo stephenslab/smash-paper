@@ -19,9 +19,31 @@ ti.thresh(x, sigma = NULL, method = "smash", filter.number = 1,
 \item{min.level:}{the primary resolution level.}
 }
 \value{
-a vector of mean estimates
+returns a vector of mean estimates
 }
 \description{
 This function performs TI thresholding for the case where the errors are heteroskedastic.
+}
+\examples{
+n=2^10
+t=1:n/n
+spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
+mu.s=spike.f(t)
+#Gaussian case
+mu.t=(1+mu.s)/5
+plot(mu.t,type="l")
+var.fn=(0.0001+4*(exp(-550*(t-0.2)^2)+exp(-200*(t-0.5)^2)+exp(-950*(t-0.8)^2)))/1.35
+plot(var.fn,type="l")
+rsnr=sqrt(5)
+sigma.t=sqrt(var.fn)/mean(sqrt(var.fn))*sd(mu.t)/rsnr^2
+X.s=rnorm(n,mu.t,sigma.t)
+mu.est.rmad<-ti.thresh(X.s,method="rmad")
+mu.est.smash<-ti.thresh(X.s,method="smash")
+plot(mu.t,type="l")
+lines(mu.est.rmad,col=2)
+lines(mu.est.smash,col=4)
+}
+\references{
+Gao, Hong-Ye (1997) Wavelet shrinkage estimates for heteroscedastic regression models. MathSoft, Inc.
 }
 

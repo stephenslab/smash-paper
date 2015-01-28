@@ -1,6 +1,6 @@
 Package: smash
 Type: Package
-Title: Smoothing using Adaptive SHrinkage (ASH)
+Title: Smoothing using Adaptive SHrinkage (SMASH)
 Version: 1.0
 Date: 2015-01-26
 Author: Matthew Stephens, Zhengrong Xing

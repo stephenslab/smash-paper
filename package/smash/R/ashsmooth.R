@@ -502,7 +502,7 @@ setAshParam.gaus <- function(ashparam){
 #' @param v.basis: bool, indicating if the same wavelet basis should be used for variance estimation as mean estimation. If false, defaults to Haar basis for variance estimation (this is much faster than other bases).
 #' @param post.va: bool, indicating if the posterior variance should be returned for the mean and/or variance estiamtes.
 #' @param filter.number, family: wavelet basis to be used, as in \code{wavethresh}
-#' @param jash: indicates if the prior from method JASH should be used. This will typically provide better variance estimates (especially for nonsmooth variance functions), at the cost of computational efficiency. Defaults to FALSE.
+#' @param jash: indicates if the prior from method JASH should be used. This will often provide slightly better variance estimates (especially for nonsmooth variance functions), at the cost of computational efficiency. Defaults to FALSE.
 #' @param SGD: bool, indicating if stochastic gradient descent should be used in the EM. Only applicable if jash=TRUE.
 #' @param weight: optional parameter used in estimating overall variance. Only works for Haar basis. Defaults to 0.5. Setting this to 1 might improve variance estimation slightly
 #' @param min.var: The minimum positive value to be set if the variance estimates are negative.
@@ -510,6 +510,22 @@ setAshParam.gaus <- function(ashparam){
 #' @return \code{ashsmooth.gaus} returns the mean estimate by default, or the variance estimate if \code{v.est} is TRUE. However, if \code{joint} is TRUE, then a list with the following is returned:
 #' \item{mu.res}{a list with the mean estimate and its posterior variance if \code{post.var} is TRUE, or a vector of mean estimates otherwise}
 #' \item{var.res}{a list with the variance estimate and its posterior variance if \code{v.est} is TRUE and \code{post.var} is TRUE, or a vector of variance estimates if only \code{v.est} is TRUE}
+#' @examples
+#' n=2^10
+#' t=1:n/n
+#' spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
+#' mu.s=spike.f(t)
+#' #Gaussian case
+#' mu.t=(1+mu.s)/5
+#' plot(mu.t,type="l")
+#' var.fn=(0.0001+4*(exp(-550*(t-0.2)^2)+exp(-200*(t-0.5)^2)+exp(-950*(t-0.8)^2)))/1.35
+#' plot(var.fn,type="l")
+#' rsnr=sqrt(5)
+#' sigma.t=sqrt(var.fn)/mean(sqrt(var.fn))*sd(mu.t)/rsnr^2
+#' X.s=rnorm(n,mu.t,sigma.t)
+#' mu.est<-ashsmooth.gaus(X.s)
+#' plot(mu.t,type="l")
+#' lines(mu.est,col=2)
 #'
 #' @export
 ashsmooth.gaus = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,post.var=FALSE,filter.number=1,family="DaubExPhase",jash=FALSE,SGD=TRUE,weight=0.5,min.var=1e-8,ashparam=list()){
@@ -648,8 +664,27 @@ threshold.var <- function (x.w, x.w.v, levels, type = "hard")
 #' @param method: the method to estimate the variance function. Can be "rmad" for running MAD as in Gao (1997), or "smash".
 #' @param filter.number, family: the wavelet basis to be used.
 #' @param min.level: the primary resolution level.
-#' @return a vector of mean estimates
-#' 
+#' @return returns a vector of mean estimates
+#' @references Gao, Hong-Ye (1997) Wavelet shrinkage estimates for heteroscedastic regression models. MathSoft, Inc.
+#' @examples
+#' n=2^10
+#' t=1:n/n
+#' spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
+#' mu.s=spike.f(t)
+#' #Gaussian case
+#' mu.t=(1+mu.s)/5
+#' plot(mu.t,type="l")
+#' var.fn=(0.0001+4*(exp(-550*(t-0.2)^2)+exp(-200*(t-0.5)^2)+exp(-950*(t-0.8)^2)))/1.35
+#' plot(var.fn,type="l")
+#' rsnr=sqrt(5)
+#' sigma.t=sqrt(var.fn)/mean(sqrt(var.fn))*sd(mu.t)/rsnr^2
+#' X.s=rnorm(n,mu.t,sigma.t)
+#' mu.est.rmad<-ti.thresh(X.s,method="rmad")
+#' mu.est.smash<-ti.thresh(X.s,method="smash")
+#' plot(mu.t,type="l")
+#' lines(mu.est.rmad,col=2)
+#' lines(mu.est.smash,col=4)
+#'
 #' @export
 ti.thresh=function(x,sigma=NULL,method="smash",filter.number=1,family="DaubExPhase",min.level=3) 
 {
@@ -911,7 +946,17 @@ setAshParam.pois <- function(ashparam){
 #' @param all: bool, indicates if pseudocounts should be added too all entries or only cases when either number of successes or number of failures (but not both) is 0. Passed to \code{glm.approx}
 #' @param ashparam: a list of parameters to be passed to \code{ash}; default values are set by function \code{\link{setAshParam}}.
 #' @return \code{ashsmooth.pois} returns the mean estimate by default, or the variance estimate if \code{post.var} is TRUE
-#' 
+#' @examples
+#' n=2^10
+#' t=1:n/n
+#' spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
+#' mu.s=spike.f(t)
+#' mu.t=0.01+mu.s
+#' X.s=rpois(n,mu.t)
+#' mu.est=ashsmooth.pois(X.s)
+#' plot(mu.t,type="l")
+#' lines(mu.est,col=2)
+#'
 #' @export
 ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudocounts=0.5,all=FALSE,ashparam=list()){
   if(is.matrix(x)){
