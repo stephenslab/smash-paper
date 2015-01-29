@@ -14,7 +14,7 @@ ti.thresh(x, sigma = NULL, method = "smash", filter.number = 1,
 
 \item{sigma:}{the standard deviation function. Can be provided if known or estimated beforehand.}
 
-\item{method:}{the method to estimate the variance function. Can be "rmad" for running MAD as in Gao (1997), or "smash".}
+\item{method:}{the method to estimate the variance function. Can be "rmad" for running MAD as described in Gao (1997), or "smash".}
 
 \item{min.level:}{the primary resolution level.}
 }
@@ -23,6 +23,10 @@ returns a vector of mean estimates
 }
 \description{
 This function performs TI thresholding for the case where the errors are heteroskedastic.
+}
+\details{
+The "rmad" option effectively implements the procedure described in Gao (1997), while the "smash" option first estimates the variance function using
+package \code{smash} and then performs thresholding given this variance function.
 }
 \examples{
 n=2^10

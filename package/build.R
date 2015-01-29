@@ -112,7 +112,7 @@ mu.t=(1+mu.s)/5
 #mu.t=mu.blip
 #mu.t=mu.cor
 
-rsnr=sqrt(1)
+rsnr=sqrt(3)
 
 var1=rep(1,n)
 var2=(0.0001+4*(exp(-550*(t-0.2)^2)+exp(-200*(t-0.5)^2)+exp(-950*(t-0.8)^2)))/1.35
@@ -123,9 +123,9 @@ sigma.t=sigma.ini/mean(sigma.ini)*sd(mu.t)/rsnr^2
 
 #sigma.t=sd(mu.t)/rsnr^2
 
-set.seed(377)
+set.seed(327)
 X.s=rnorm(n,mu.t,sigma.t)
 
 system.time(mu.est.haar<-ashsmooth.gaus(X.s,filter.number=1,family="DaubExPhase"))
 
-
+plot(mu.est.haar,type='l')
