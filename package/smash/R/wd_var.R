@@ -1,4 +1,5 @@
-#These functions are modified functions of their respective counterparts from package "wavethresh" in order to perform reconstruction of posterior variances
+#Disclaimer: The functions defined in this file are adapted and modified from their counterparts as defined in package "wavethresh" under the GPL license, authored by Guy Nason.
+#These functions perform reconstruction of posterior variances for a given wavelet basis when the TI version is used.
 
 wd.var <- function (data, filter.number = 10, family = "DaubLeAsymm", type = "wavelet", 
     bc = "periodic", verbose = FALSE, min.scale = 0, precond = TRUE) 

@@ -1,3 +1,11 @@
+#Disclaimer: Functions "interleave", "lsift", "rshift", "simplify", "setAshParam.gaus" and 'setAshParam.pois' in this file are adapted from the same functions defined in package "Multiseq" under the GPL license, authored by Ester Pantaleo, Heejung Shim,
+#Matthew Stephens and Zhengrong Xing.
+#All TI table (eg "titable", "ParentTItable") and reconstruction (eg "reverse.pwave", "reverse.gwave") functions and their respective Rcpp counterparts are adapted and modified from functions "ParentTItable" and "reverse.pwave" in package "Multiseq" 
+#under the GPL license, authored by Ester Pantaleo, Heejung Shim, Matthew Stephens and Zhengrong Xing, which are in turn ported into R from Matlab functions "BMSMShrink" and "TISumProd" as part of 
+#the BMSM project maintained by Eric Kolaczyk
+#The "wd" ("wd.D") and "threshold" ("threshold.haar", "threshold.var") class of functions are adapted and modified from "wd" and "threshold.wd" respectively in package "wavethresh" under th GPL license, authored buy Guy Nason.
+
+
 #' Interleave two vectors
 #' @param x,y: two vectors of the same length
 #' @return a vector of length twice that of x (or y)
@@ -657,14 +665,16 @@ threshold.var <- function (x.w, x.w.v, levels, type = "hard")
 
 
 
-#' This function performs TI thresholding for the case where the errors are heteroskedastic. 
+#' This function performs TI thresholding for the case where the errors are heteroskedastic.
 #'
 #' @param x: the data. Should be a vector of length a power of 2
 #' @param sigma: the standard deviation function. Can be provided if known or estimated beforehand.
-#' @param method: the method to estimate the variance function. Can be "rmad" for running MAD as in Gao (1997), or "smash".
+#' @param method: the method to estimate the variance function. Can be "rmad" for running MAD as described in Gao (1997), or "smash".
 #' @param filter.number, family: the wavelet basis to be used.
 #' @param min.level: the primary resolution level.
 #' @return returns a vector of mean estimates
+#' @details The "rmad" option effectively implements the procedure described in Gao (1997), while the "smash" option first estimates the variance function using
+#' package \code{smash} and then performs thresholding given this variance function.
 #' @references Gao, Hong-Ye (1997) Wavelet shrinkage estimates for heteroscedastic regression models. MathSoft, Inc.
 #' @examples
 #' n=2^10

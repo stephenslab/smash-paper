@@ -1,3 +1,5 @@
+#Disclaimer: The functions defined in this file are adapted from the same functions used in the project "JASH", supervised by Mengyin Lu and Matthew Stephens 
+
 # Y: N by n observation matrix (N tests, n replicate obs for each test)
 # Model: Y_{jk}|beta_j,tau_j ~ N(beta_j,1/tau_j)
 # Prior: beta_j|tau_j~N(mu_j,1/(c_l*tau_j)), tau_j~lambda_k*Gamma(a_m,a_m), w.p. pi_{klm}

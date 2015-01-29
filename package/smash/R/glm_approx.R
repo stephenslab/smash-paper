@@ -1,3 +1,7 @@
+##Disclaimer: The functions defined in this file are adapted from the same functions defined in package "Multiseq" under the GPL license, authored by Ester Pantaleo, Heejung Shim,
+#Matthew Stephens and Zhengrong Xing
+
+
 #' Compute approximately unbiased variance estimates for the estimators for logit(p) when n is small
 #' @param n: number of trials
 #' @param s: number of successes

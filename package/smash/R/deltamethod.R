@@ -1,4 +1,6 @@
-
+#Disclaimer: The functions defined in this file are adapted from the same functions defined in package "Multiseq" under the GPL license, authored by Ester Pantaleo, Heejung Shim,
+#Matthew Stephens and Zhengrong Xing
+ 
 ff_exp = function(x){
   return(exp(-log(1+exp(-x))))
 }
