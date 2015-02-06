@@ -1,3 +1,11 @@
+#Disclaimer: Functions "interleave", "lsift", "rshift", "simplify", "setAshParam.gaus" and 'setAshParam.pois' in this file are adapted from the same functions defined in package "Multiseq" under the GPL license, authored by Ester Pantaleo, Heejung Shim,
+#Matthew Stephens and Zhengrong Xing.
+#All TI table (eg "titable", "ParentTItable") and reconstruction (eg "reverse.pwave", "reverse.gwave") functions and their respective Rcpp counterparts are adapted and modified from functions "ParentTItable" and "reverse.pwave" in package "Multiseq" 
+#under the GPL license, authored by Ester Pantaleo, Heejung Shim, Matthew Stephens and Zhengrong Xing, which are in turn ported into R from Matlab functions "BMSMShrink" and "TISumProd" as part of 
+#the BMSM project maintained by Eric Kolaczyk
+#The "wd" ("wd.D") and "threshold" ("threshold.haar", "threshold.var") class of functions are adapted and modified from "wd" and "threshold.wd" respectively in package "wavethresh" under th GPL license, authored buy Guy Nason.
+
+
 #' Interleave two vectors
 #' @param x,y: two vectors of the same length
 #' @return a vector of length twice that of x (or y)
@@ -502,7 +510,7 @@ setAshParam.gaus <- function(ashparam){
 #' @param v.basis: bool, indicating if the same wavelet basis should be used for variance estimation as mean estimation. If false, defaults to Haar basis for variance estimation (this is much faster than other bases).
 #' @param post.va: bool, indicating if the posterior variance should be returned for the mean and/or variance estiamtes.
 #' @param filter.number, family: wavelet basis to be used, as in \code{wavethresh}
-#' @param jash: indicates if the prior from method JASH should be used. This will typically provide better variance estimates (especially for nonsmooth variance functions), at the cost of computational efficiency. Defaults to FALSE.
+#' @param jash: indicates if the prior from method JASH should be used. This will often provide slightly better variance estimates (especially for nonsmooth variance functions), at the cost of computational efficiency. Defaults to FALSE.
 #' @param SGD: bool, indicating if stochastic gradient descent should be used in the EM. Only applicable if jash=TRUE.
 #' @param weight: optional parameter used in estimating overall variance. Only works for Haar basis. Defaults to 0.5. Setting this to 1 might improve variance estimation slightly
 #' @param min.var: The minimum positive value to be set if the variance estimates are negative.
@@ -510,6 +518,22 @@ setAshParam.gaus <- function(ashparam){
 #' @return \code{ashsmooth.gaus} returns the mean estimate by default, or the variance estimate if \code{v.est} is TRUE. However, if \code{joint} is TRUE, then a list with the following is returned:
 #' \item{mu.res}{a list with the mean estimate and its posterior variance if \code{post.var} is TRUE, or a vector of mean estimates otherwise}
 #' \item{var.res}{a list with the variance estimate and its posterior variance if \code{v.est} is TRUE and \code{post.var} is TRUE, or a vector of variance estimates if only \code{v.est} is TRUE}
+#' @examples
+#' n=2^10
+#' t=1:n/n
+#' spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
+#' mu.s=spike.f(t)
+#' #Gaussian case
+#' mu.t=(1+mu.s)/5
+#' plot(mu.t,type="l")
+#' var.fn=(0.0001+4*(exp(-550*(t-0.2)^2)+exp(-200*(t-0.5)^2)+exp(-950*(t-0.8)^2)))/1.35
+#' plot(var.fn,type="l")
+#' rsnr=sqrt(5)
+#' sigma.t=sqrt(var.fn)/mean(sqrt(var.fn))*sd(mu.t)/rsnr^2
+#' X.s=rnorm(n,mu.t,sigma.t)
+#' mu.est<-ashsmooth.gaus(X.s)
+#' plot(mu.t,type="l")
+#' lines(mu.est,col=2)
 #'
 #' @export
 ashsmooth.gaus = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,post.var=FALSE,filter.number=1,family="DaubExPhase",jash=FALSE,SGD=TRUE,weight=0.5,min.var=1e-8,ashparam=list()){
@@ -529,7 +553,7 @@ ashsmooth.gaus = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,pos
   }else{
     basis=list(family=family,filter.number=filter.number)
   }
-  if(post.var==TRUE&basis[[1]]!="haar"){stop("Error: posterior variances returned only with Haar basis")}
+  #if(post.var==TRUE&basis[[1]]!="haar"){stop("Error: posterior variances returned only with Haar basis")}
   if(post.var==TRUE&v.est==TRUE&jash==TRUE){stop("Error: Posterior variances for variance estimate not returned for method JASH")}
   if(joint==TRUE){v.est=TRUE}
     
@@ -581,21 +605,96 @@ ashsmooth.gaus = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,pos
 
 
 
+#' This is a modified threshold.wd function from package "wavethresh", designed to perform thresholding for heteroskedastic Gaussian errors when using the Haar basis
+threshold.haar <- function (vdtable, vtable, levels, type = "hard", policy = "universal")
+{
+    wmean <- vdtable[-1,]/2
+    d <- NULL
+    n <- dim(vdtable)[2]
+    nthresh <- length(levels)
+    thresh <- list(0)
+    for (i in 1:nthresh) {
+        d <- vdtable[levels[i]+2,]
+        noise.level <- sqrt(vtable[levels[i]+2,])
+        nd <- length(d)
+        thresh[[i]] <- sqrt(2*log(nd*log2(nd))) * noise.level
+    }
+    for (i in 1:nthresh) {
+        d <- vdtable[levels[i]+2,]
+        if (type == "hard") {
+            d[abs(d) <= thresh[[i]]] <- 0
+        }
+        else if (type == "soft") {
+            d <- (d * (abs(d) - thresh[[i]]) * (abs(d) > thresh[[i]]))/abs(d)
+            d[is.na(d)] <- 0
+        }
+        wmean[levels[i]+1,] <- d/2
+    }
+    return(wmean)
+}
+
+
+#' This is a modified threshold.wd function from package "wavethresh", designed to perform thresholding for heteroskedastic Gaussian errors when using non-Haar basis
+threshold.var <- function (x.w, x.w.v, levels, type = "hard")
+{
+    d <- NULL
+    n <- 2^nlevelsWT(x.w)
+    J <- nlevelsWT(x.w)
+    nthresh <- length(levels)
+    thresh <- list(0)
+    for (i in 1:nthresh) {
+        d <- accessD(x.w,level=levels[i])
+        ind <- (((J-1)-levels[i])*n+1):((J-levels[i])*n)
+        noise.level <- sqrt(x.w.v[ind])
+        nd <- length(d)
+        thresh[[i]] <- sqrt(2*log(nd*log2(nd))) * noise.level
+    }
+    for (i in 1:nthresh) {
+        d <- accessD(x.w,level=levels[i])
+        if (type == "hard") {
+            d[abs(d) <= thresh[[i]]] <- 0
+        }
+        else if (type == "soft") {
+            d <- (d * (abs(d) - thresh[[i]]) * (abs(d) > thresh[[i]]))/abs(d)
+            d[is.na(d)] <- 0
+        }
+        x.w=putD(x.w,level=levels[i],v=d)
+    }
+    return(x.w)
+}
 
 
 
-
-
-
-#' This function performs TI thresholding for the case where the errors are heteroskedastic. 
+#' This function performs TI thresholding for the case where the errors are heteroskedastic.
 #'
 #' @param x: the data. Should be a vector of length a power of 2
 #' @param sigma: the standard deviation function. Can be provided if known or estimated beforehand.
-#' @param method: the method to estimate the variance function. Can be "rmad" for running MAD as in Gao (1997), or "smash".
+#' @param method: the method to estimate the variance function. Can be "rmad" for running MAD as described in Gao (1997), or "smash".
 #' @param filter.number, family: the wavelet basis to be used.
 #' @param min.level: the primary resolution level.
-#' @return a vector of mean estimates
-#' 
+#' @return returns a vector of mean estimates
+#' @details The "rmad" option effectively implements the procedure described in Gao (1997), while the "smash" option first estimates the variance function using
+#' package \code{smash} and then performs thresholding given this variance function.
+#' @references Gao, Hong-Ye (1997) Wavelet shrinkage estimates for heteroscedastic regression models. MathSoft, Inc.
+#' @examples
+#' n=2^10
+#' t=1:n/n
+#' spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
+#' mu.s=spike.f(t)
+#' #Gaussian case
+#' mu.t=(1+mu.s)/5
+#' plot(mu.t,type="l")
+#' var.fn=(0.0001+4*(exp(-550*(t-0.2)^2)+exp(-200*(t-0.5)^2)+exp(-950*(t-0.8)^2)))/1.35
+#' plot(var.fn,type="l")
+#' rsnr=sqrt(5)
+#' sigma.t=sqrt(var.fn)/mean(sqrt(var.fn))*sd(mu.t)/rsnr^2
+#' X.s=rnorm(n,mu.t,sigma.t)
+#' mu.est.rmad<-ti.thresh(X.s,method="rmad")
+#' mu.est.smash<-ti.thresh(X.s,method="smash")
+#' plot(mu.t,type="l")
+#' lines(mu.est.rmad,col=2)
+#' lines(mu.est.smash,col=4)
+#'
 #' @export
 ti.thresh=function(x,sigma=NULL,method="smash",filter.number=1,family="DaubExPhase",min.level=3) 
 {
@@ -857,7 +956,17 @@ setAshParam.pois <- function(ashparam){
 #' @param all: bool, indicates if pseudocounts should be added too all entries or only cases when either number of successes or number of failures (but not both) is 0. Passed to \code{glm.approx}
 #' @param ashparam: a list of parameters to be passed to \code{ash}; default values are set by function \code{\link{setAshParam}}.
 #' @return \code{ashsmooth.pois} returns the mean estimate by default, or the variance estimate if \code{post.var} is TRUE
-#' 
+#' @examples
+#' n=2^10
+#' t=1:n/n
+#' spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
+#' mu.s=spike.f(t)
+#' mu.t=0.01+mu.s
+#' X.s=rpois(n,mu.t)
+#' mu.est=ashsmooth.pois(X.s)
+#' plot(mu.t,type="l")
+#' lines(mu.est,col=2)
+#'
 #' @export
 ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudocounts=0.5,all=FALSE,ashparam=list()){
   if(is.matrix(x)){

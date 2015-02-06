@@ -740,7 +740,7 @@ ashsmooth.gaus = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,pos
   }else{
     basis=list(family=family,filter.number=filter.number)
   }
-  if(post.var==TRUE&basis[[1]]!="haar"){stop("Error: posterior variances returned only with Haar basis")}
+  #if(post.var==TRUE&basis[[1]]!="haar"){stop("Error: posterior variances returned only with Haar basis")}
   if(post.var==TRUE&v.est==TRUE&jash==TRUE){stop("Error: Posterior variances for variance estimate not returned for method JASH")}
   if(joint==TRUE){v.est=TRUE}
     
