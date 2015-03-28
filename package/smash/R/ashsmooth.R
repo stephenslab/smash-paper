@@ -954,6 +954,8 @@ setAshParam.pois <- function(ashparam){
 #' @param log: bool, determines if smoothed signal is returned on log scale or not
 #' @param pseudocounts: bool, a number to be added to counts. Passed to \code{glm.approx}
 #' @param all: bool, indicates if pseudocounts should be added too all entries or only cases when either number of successes or number of failures (but not both) is 0. Passed to \code{glm.approx}
+#' @param lm.approx: bool, indicates if a WLS shuold be fitted instead of GLM. Passed to \code{glm.approx}
+#' @param cxx: bool, indicates if C++ code should be used to create TI tables.
 #' @param ashparam: a list of parameters to be passed to \code{ash}; default values are set by function \code{\link{setAshParam}}.
 #' @return \code{ashsmooth.pois} returns the mean estimate by default, or the variance estimate if \code{post.var} is TRUE
 #' @examples
@@ -968,7 +970,7 @@ setAshParam.pois <- function(ashparam){
 #' lines(mu.est,col=2)
 #'
 #' @export
-ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudocounts=0.5,all=FALSE,ashparam=list()){
+ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudocounts=0.5,all=FALSE,lm.approx=FALSE,cxx=TRUE,ashparam=list()){
   if(is.matrix(x)){
     if(nrow(x)==1){  #change matrix x to vector
       x=as.vector(x)
@@ -995,10 +997,13 @@ ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudoc
   #create the parent TI table for each signal, and put into rows of matrix y
   ls=sum(x)
   
-  #y = as.vector(t(ParentTItable(x)$parent))
-  y = cxxSParentTItable(x)
+  if(!cxx){
+    y = as.vector(t(ParentTItable(x)$parent))
+  }else{
+    y = cxxSParentTItable(x)
+  }
   
-  zdat=glm.approx(y,g=NULL,minobs=1,pseudocounts=pseudocounts,center=FALSE,all=all,forcebin=TRUE,repara=TRUE,lm.approx=FALSE,disp="add")
+  zdat=glm.approx(y,g=NULL,minobs=1,pseudocounts=pseudocounts,center=FALSE,all=all,forcebin=TRUE,repara=TRUE,lm.approx=lm.approx,disp="add")
   #define empty matrices for posterior means and variances of log(p) and log(q)
   
   res=list()

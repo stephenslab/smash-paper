@@ -5,7 +5,8 @@
 \title{Main smoothing procedure for Poisson data. Takes a univariate inhomogeneous Poisson process and estimates its mean intensity}
 \usage{
 ashsmooth.pois(x, post.var = FALSE, reflect = FALSE, lev = 0,
-  log = FALSE, pseudocounts = 0.5, all = FALSE, ashparam = list())
+  log = FALSE, pseudocounts = 0.5, all = FALSE, lm.approx = FALSE,
+  cxx = TRUE, ashparam = list())
 }
 \arguments{
 \item{x:}{a vector of Poisson counts of a length a power of 2}
@@ -21,6 +22,10 @@ ashsmooth.pois(x, post.var = FALSE, reflect = FALSE, lev = 0,
 \item{pseudocounts:}{bool, a number to be added to counts. Passed to \code{glm.approx}}
 
 \item{all:}{bool, indicates if pseudocounts should be added too all entries or only cases when either number of successes or number of failures (but not both) is 0. Passed to \code{glm.approx}}
+
+\item{lm.approx:}{bool, indicates if a WLS shuold be fitted instead of GLM. Passed to \code{glm.approx}}
+
+\item{cxx:}{bool, indicates if C++ code should be used to create TI tables.}
 
 \item{ashparam:}{a list of parameters to be passed to \code{ash}; default values are set by function \code{\link{setAshParam}}.}
 }
