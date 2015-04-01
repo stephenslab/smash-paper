@@ -832,10 +832,10 @@ reverse.pwave=function(est,lp,lq=NULL){
 #' @param x an n-vector
 #' @return an n-vector containing the indices of the original signal x 
 reflect <- function(x){
-  n = dim(x)[2]
+  n = length(x)
   J = log2(n)
   if((J%%1)==0){#if J is an integer, i.e. n is a power of 2
-    eval.parent(substitute(x<-cbind(x,x[,n:1])))
+    eval.parent(substitute(x<-c(x,x[n:1])))
     return(1:n)
   }else{
     n.ext=2^ceiling(J)
@@ -844,16 +844,16 @@ reflect <- function(x){
     if(lnum==0){
       x.lmir=NULL
     }else{
-      x.lmir=x[,lnum:1]
+      x.lmir=x[lnum:1]
     }
     if(rnum==0){
       x.rmir=NULL
     }else{
-      x.rmir=x[,n:(n-rnum+1)]
+      x.rmir=x[n:(n-rnum+1)]
     }
-    x.ini=cbind(x.lmir,x,x.rmir)
-    x.mir=x.ini[,n.ext:1]
-    eval.parent(substitute(x<-cbind(x.ini,x.mir)))
+    x.ini=c(x.lmir,x,x.rmir)
+    x.mir=x.ini[n.ext:1]
+    eval.parent(substitute(x<-c(x.ini,x.mir)))
     return((lnum+1):(lnum+n))
   }
 }
@@ -1019,8 +1019,8 @@ ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudoc
   }
   recons=recons.mv(ls,res,log,n,J)
   if(reflect==TRUE){
-    recons$est.mean=recons$est.mean[sig.ind]
-    recons$est.var=recons$est.var[sig.ind]
+    recons$est.mean=recons$est.mean[reflect.indices]
+    recons$est.var=recons$est.var[reflect.indices]
   }
   if(post.var==FALSE){  #if post.var=TRUE then only estimate (and not variance) is returned
     return(est=recons$est.mean)
