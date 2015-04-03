@@ -359,7 +359,7 @@ mu.smooth=function(wc,data.var,basis,tsum,Wl,post.var,prior,pointmass,nullcheck,
     y=wc
     vtable=cxxtitable(data.var)$sumtable
     for(j in 0:(J-1)){
-      ind.nnull=(y[j+2,]!=0)|(vtable[j+2,]!=0)
+      ind.nnull=(vtable[j+2,]!=0)
       zdat.ash=shrink.wc(y[j+2,ind.nnull],sqrt(vtable[j+2,ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,mixcompdist=mixcompdist,gridmult=gridmult,jash=FALSE,df=NULL,SGD=FALSE)
       wmean[j+1,ind.nnull]=zdat.ash$PosteriorMean/2
       wmean[j+1,!ind.nnull]=0
@@ -383,7 +383,7 @@ mu.smooth=function(wc,data.var,basis,tsum,Wl,post.var,prior,pointmass,nullcheck,
       index=(((J-1)-j)*n+1):((J-j)*n)
       x.w.j=accessD(x.w,j)
       x.w.v.j=x.w.v[index]
-      ind.nnull=(x.w.j!=0)|(x.w.v.j!=0)
+      ind.nnull=(x.w.v.j!=0)
       zdat.ash=shrink.wc(x.w.j[ind.nnull],sqrt(x.w.v.j[ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,mixcompdist=mixcompdist,gridmult=gridmult,jash=FALSE,df=NULL,SGD=FALSE)
       x.pm[ind.nnull] = zdat.ash$PosteriorMean
       x.pm[!ind.nnull] = 0
@@ -422,7 +422,7 @@ var.smooth=function(data,data.var,x.var.ini,basis,v.basis,Wl,filter.number,famil
     vtable=cxxtitable(data.var)$sumtable
     vdtable=cxxtitable(data)$difftable
     for(j in 0:(J-1)){
-      ind.nnull=(vdtable[j+2,]!=0)|(vtable[j+2,]!=0)
+      ind.nnull=(vtable[j+2,]!=0)
       zdat.ash=shrink.wc(vdtable[j+2,],sqrt(vtable[j+2,]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,mixcompdist=mixcompdist,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=SGD)
       wmean[j+1,ind.nnull] = zdat.ash$PosteriorMean/2
       wmean[j+1,!ind.nnull] = 0
@@ -451,7 +451,7 @@ var.smooth=function(data,data.var,x.var.ini,basis,v.basis,Wl,filter.number,famil
       index=(((J-1)-j)*n+1):((J-j)*n)
       x.w.j=accessD(x.w,j)
       x.w.v.j=x.w.v[index]
-      ind.nnull=(x.w.j!=0)|(x.w.v.j!=0)
+      ind.nnull=(x.w.v.j!=0)
       zdat.ash=shrink.wc(x.w.j[ind.nnull],sqrt(x.w.v.j[ind.nnull]),prior=prior,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,mixcompdist=mixcompdist,gridmult=gridmult,jash=jash,df=min(50,2^(j+1)),SGD=SGD)
       x.pm[ind.nnull] = zdat.ash$PosteriorMean
       x.pm[!ind.nnull] = 0
