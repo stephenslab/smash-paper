@@ -341,7 +341,7 @@ ndwt.mat=function(n,filter.number,family){
 #' @keywords internal 
 shrink.wc=function(wc,wc.var.sqrt,prior,pointmass,nullcheck,VB,mixsd,mixcompdist,gridmult,jash,df,SGD){
   if(jash==FALSE){
-    zdat.ash=suppressWarnings(ash(wc,wc.var.sqrt,prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,mixcompdist=mixcompdist,gridmult=gridmult,lambda1=1,lambda2=0,df=NULL,trace=FALSE))
+    zdat.ash=suppressWarnings(ash(wc,wc.var.sqrt,prior=prior,multiseqoutput=TRUE,pointmass=pointmass,nullcheck=nullcheck,VB=VB,mixsd=mixsd,mixcompdist=mixcompdist,gridmult=gridmult,lambda1=1,lambda2=0,df=NULL,control=list(trace=FALSE)))
   }else{
     zdat.ash=jasha(wc,wc.var.sqrt,df=df,SGD=SGD)
   }  
@@ -900,7 +900,7 @@ getlist.res=function(res,j,n,zdat,log,shrink,prior,pointmass,nullcheck,gridmult,
     ind = ((j-1)*n+1):(j*n)
     if(shrink==TRUE){
       #apply ash to vector of intercept estimates and SEs
-      zdat.ash=suppressWarnings(ash(zdat[1,ind],zdat[2,ind], prior=prior, multiseqoutput=TRUE, pointmass=pointmass, nullcheck=nullcheck, gridmult=gridmult, mixsd=mixsd, VB=VB, mixcompdist=mixcompdist,lambda1=1,lambda2=0,df=NULL,trace=FALSE))
+      zdat.ash=suppressWarnings(ash(zdat[1,ind],zdat[2,ind], prior=prior, multiseqoutput=TRUE, pointmass=pointmass, nullcheck=nullcheck, gridmult=gridmult, mixsd=mixsd, VB=VB, mixcompdist=mixcompdist,lambda1=1,lambda2=0,df=NULL,control=list(trace=FALSE)))
       alpha.mv=list(mean=zdat.ash$PosteriorMean,var=zdat.ash$PosteriorSD^2) #find mean and variance of alpha
     }else{
       alpha.mv=list(mean=fill.nas(zdat[1,ind]),var=fill.nas(zdat[2,ind])^2) #find mean and variance of alpha   
