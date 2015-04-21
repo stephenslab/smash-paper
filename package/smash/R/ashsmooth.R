@@ -523,7 +523,7 @@ setAshParam.gaus <- function(ashparam){
 #' @param v.est: bool, indicating if variance estimation should be performed instead.
 #' @param joint: bool, indicating if results of mean and variance estimation should be returned together.
 #' @param v.basis: bool, indicating if the same wavelet basis should be used for variance estimation as mean estimation. If false, defaults to Haar basis for variance estimation (this is much faster than other bases).
-#' @param post.va: bool, indicating if the posterior variance should be returned for the mean and/or variance estiamtes.
+#' @param post.var: bool, indicating if the posterior variance should be returned for the mean and/or variance estiamtes.
 #' @param filter.number, family: wavelet basis to be used, as in \code{wavethresh}
 #' @param jash: indicates if the prior from method JASH should be used. This will often provide slightly better variance estimates (especially for nonsmooth variance functions), at the cost of computational efficiency. Defaults to FALSE.
 #' @param SGD: bool, indicating if stochastic gradient descent should be used in the EM. Only applicable if jash=TRUE.
@@ -621,7 +621,7 @@ ashsmooth.gaus = function(x,sigma=NULL,v.est=FALSE,joint=FALSE,v.basis=FALSE,pos
 
 
 #' This is a modified threshold.wd function from package "wavethresh", designed to perform thresholding for heteroskedastic Gaussian errors when using the Haar basis
-threshold.haar <- function (vdtable, vtable, levels, type = "hard", policy = "universal")
+threshold.haar <- function (vdtable, vtable, lambda.thresh, levels, type = "hard", policy = "universal")
 {
     wmean <- vdtable[-1,]/2
     d <- NULL
@@ -632,7 +632,12 @@ threshold.haar <- function (vdtable, vtable, levels, type = "hard", policy = "un
         d <- vdtable[levels[i]+2,]
         noise.level <- sqrt(vtable[levels[i]+2,])
         nd <- length(d)
-        thresh[[i]] <- sqrt(2*log(nd*log2(nd))) * noise.level
+        if(lambda.thresh == 1){
+          lambda <- 2*sqrt(log(nd))
+        }else{
+          lambda <- sqrt(2*log(nd*log2(nd)))    
+        } 
+        thresh[[i]] <- lambda * noise.level
     }
     for (i in 1:nthresh) {
         d <- vdtable[levels[i]+2,]
@@ -650,7 +655,7 @@ threshold.haar <- function (vdtable, vtable, levels, type = "hard", policy = "un
 
 
 #' This is a modified threshold.wd function from package "wavethresh", designed to perform thresholding for heteroskedastic Gaussian errors when using non-Haar basis
-threshold.var <- function (x.w, x.w.v, levels, type = "hard")
+threshold.var <- function (x.w, x.w.v, lambda.thresh, levels, type = "hard")
 {
     d <- NULL
     n <- 2^nlevelsWT(x.w)
@@ -662,7 +667,12 @@ threshold.var <- function (x.w, x.w.v, levels, type = "hard")
         ind <- (((J-1)-levels[i])*n+1):((J-levels[i])*n)
         noise.level <- sqrt(x.w.v[ind])
         nd <- length(d)
-        thresh[[i]] <- sqrt(2*log(nd*log2(nd))) * noise.level
+        if(lambda.thresh == 1){
+          lambda <- 2*sqrt(log(nd))
+        }else{
+          lambda <- sqrt(2*log(nd*log2(nd)))    
+        } 
+        thresh[[i]] <- lambda * noise.level
     }
     for (i in 1:nthresh) {
         d <- accessD(x.w,level=levels[i])
@@ -716,11 +726,18 @@ ti.thresh=function(x,sigma=NULL,method="smash",filter.number=1,family="DaubExPha
     n=length(x)
     J=log2(n)
     if(length(sigma)==1) sigma=rep(sigma,n)
+
+    if(is.null(sigma)&method=="rmad"){
+      lambda.thresh=1
+    }else{
+      lambda.thresh=2
+    }
+
     if(is.null(sigma)){
       if(method=="smash"){
-        sigma=sqrt(ashsmooth.gaus(x,v.est=TRUE,weight=1,ashparam=list(gridmult=2)))
+        sigma=sqrt(ashsmooth.gaus(x,v.est=TRUE,v.basis=TRUE,filter.number=filter.number,family=family,weight=1))
       }else if(method=="rmad"){
-        x.w=wd(x, filter.number=1, family="DaubExPhase", type = "station")
+        x.w=wd(x, filter.number = filter.number, family = family, type = "station")
         win.size=round(n/10)
         odd.boo=(win.size%%2==1)
         win.size=win.size+(1-odd.boo)
@@ -729,18 +746,19 @@ ti.thresh=function(x,sigma=NULL,method="smash",filter.number=1,family="DaubExPha
         stop("Error: Method not recognized")
       }
     }
+
     if(filter.number==1&family=="DaubExPhase"){
       tsum = sum(x)
       vdtable = cxxtitable(x)$difftable
       vtable=cxxtitable(sigma^2)$sumtable
-      wmean=threshold.haar(vdtable,vtable,levels=0:(J-1-min.level),type="hard")
+      wmean=threshold.haar(vdtable,vtable,lambda.thresh,levels=0:(J-1-min.level),type="hard")
       wwmean=-wmean
       mu.est=cxxreverse_gwave(tsum,wmean,wwmean)
     }else{
       x.w=wd(x,filter.number=filter.number,family=family,type = "station")
       Wl=ndwt.mat(n,filter.number=filter.number,family=family)
       x.w.v=apply((rep(1,n*J)%o%(sigma^2))*Wl$W2,1,sum)  #diagonal of W*V*W'
-      x.w.t=threshold.var(x.w,x.w.v,levels=(min.level):(J-1),type="hard")
+      x.w.t=threshold.var(x.w,x.w.v,lambda.thresh,levels=(min.level):(J-1),type="hard")
       mu.est=AvBasis(convert(x.w.t))
     }
     return(mu.est)
