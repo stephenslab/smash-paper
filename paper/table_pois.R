@@ -74,6 +74,14 @@ rownames(mise.ang.table)=tex.row.names
 colnames(mise.ang.table)=tex.col.names
 rownames(mise.b.table)=tex.row.names
 colnames(mise.b.table)=tex.col.names
+rownames(mise.cb.table)=tex.row.names
+colnames(mise.cb.table)=tex.col.names
+rownames(mise.s.table)=tex.row.names
+colnames(mise.s.table)=tex.col.names
+rownames(mise.hs.table)=tex.row.names
+colnames(mise.hs.table)=tex.col.names
+rownames(mise.bur.table)=tex.row.names
+colnames(mise.bur.table)=tex.col.names
 
 
 print(xtable(mise.ang.table,caption="MISE of various methods for the Angles function",digits=1))
