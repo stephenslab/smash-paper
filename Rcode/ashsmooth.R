@@ -1163,7 +1163,7 @@ setAshParam.pois <- function(ashparam){
 #' 
 #' return \code{ashsmooth.pois} returns the mean estimate by default, or the variance estimate if \code{post.var} is TRUE
 
-ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudocounts=0.5,all=FALSE,ashparam=list()){
+ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudocounts=0.5,all=FALSE,bound=0.02,ashparam=list()){
   if(is.matrix(x)){
     if(nrow(x)==1){  #change matrix x to vector
       x=as.vector(x)
@@ -1193,7 +1193,7 @@ ashsmooth.pois = function(x,post.var=FALSE,reflect=FALSE,lev=0,log=FALSE,pseudoc
   #y = as.vector(t(ParentTItable(x)$parent))
   y = cxxSParentTItable(x)
   
-  zdat=glm.approx(y,g=NULL,minobs=1,pseudocounts=pseudocounts,center=FALSE,all=all,forcebin=TRUE,repara=TRUE,lm.approx=FALSE,disp="add")
+  zdat=glm.approx(y,g=NULL,minobs=1,pseudocounts=pseudocounts,center=FALSE,all=all,forcebin=TRUE,repara=TRUE,lm.approx=FALSE,disp="add",bound=bound)
   #define empty matrices for posterior means and variances of log(p) and log(q)
   
   res=list()
