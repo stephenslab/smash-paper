@@ -186,20 +186,20 @@ Here compare our method mainly against TI thresholding, which often produced the
   \hline
  & Spikes & Bumps & Block & Angles & Doppler & Blip & Corner \\
   \hline
-SMASH, joint, Haar & 57.1 & 146.5 & 65.0 & 50.6 & 76.8 & 24.1 & 8.2 \\
-  SMASH, joint, Symm8 & 60.1 & 152.7 & 97.7 & 49.5 & 53.4 & 35.5 & 7.7 \\
-  TI, RMAD, Symm8 & 84.0 & 253.7 & 152.2 & 66.7 & 70.2 & 42.0 & 8.6 \\
-  TI, SMASH, Symm8 & 79.2 & 218.8 & 144.9 & 65.7 & 67.7 & 40.7 & 8.4 \\
-  SMASH, homo, Symm8 & 61.0 & 154.9 & 100.2 & 50.1 & 54.9 & 35.8 & 7.8 \\
-  TI, homo, Symm8 & 82.7 & 235.5 & 150.5 & 66.7 & 68.4 & 41.4 & 8.5 \\
-  Ebayes, homo, Symm8 & 70.7 & 152.2 & 98.0 & 52.5 & 51.5 & 37.9 & 8.1 \\
-  SURE, homo, Symm8 & 369.1 & 418.1 & 301.4 & 482.4 & 275.8 & 272.1 & 97.4 \\
-  PostMean, homo, Symm8 & 101.4 & 185.1 & 113.0 & 86.2 & 70.5 & 53.2 & 13.3 \\
-  SMASH, truth, Symm8 & 60.9 & 153.6 & 100.0 & 50.1 & 54.9 & 35.5 & 7.7 \\
-  TI, truth, Symm8 & 83.1 & 234.7 & 150.8 & 67.1 & 69.1 & 41.3 & 8.5 \\
+SMASH, joint, Haar & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+  SMASH, joint, Symm8 & 1.05 & 1.04 & 1.50 & 1.00 & 0.69 & 1.50 & 0.94 \\
+  TI-thresh, RMAD, Symm8 & 2.03 & 2.38 & 3.34 & 1.63 & 1.17 & 2.34 & 1.28 \\
+  TI-thresh, SMASH, Symm8 & 1.40 & 1.54 & 2.32 & 1.35 & 0.89 & 1.74 & 1.07 \\
+  SMASH, homo, Symm8 & 1.05 & 1.05 & 1.53 & 1.00 & 0.71 & 1.51 & 0.94 \\
+  Ebayes, homo, Symm8 & 1.30 & 1.01 & 1.49 & 1.16 & 0.77 & 1.66 & 1.09 \\
+  PostMean, homo, Symm8 & 1.80 & 1.26 & 1.75 & 1.71 & 0.89 & 2.14 & 1.61 \\
+  SURE, homo, Symm8 & 6.26 & 2.83 & 4.60 & 9.45 & 3.28 & 10.63 & 11.41 \\
+  TI-thresh, homo, Symm8 & 1.47 & 1.64 & 2.39 & 1.37 & 0.90 & 1.74 & 1.08 \\
+  SMASH, truth, Symm8 & 1.05 & 1.04 & 1.52 & 1.00 & 0.70 & 1.51 & 0.94 \\
+  TI-thresh, truth, Symm8 & 1.45 & 1.59 & 2.35 & 1.36 & 0.90 & 1.72 & 1.07 \\
    \hline
 \end{tabular}
-\caption{MISEs of various methods for iid Gaussian errors, SNR=1}
+\caption{Relative MSE of various methods for iid Gaussian errors, SNR=1}
 \label{table:homo1}
 \end{table}
 \begin{table}[ht]
@@ -208,20 +208,20 @@ SMASH, joint, Haar & 57.1 & 146.5 & 65.0 & 50.6 & 76.8 & 24.1 & 8.2 \\
   \hline
  & Spikes & Bumps & Block & Angles & Doppler & Blip & Corner \\
   \hline
-SMASH, joint, Haar & 11.8 & 18.4 & 7.4 & 10.3 & 18.0 & 3.6 & 1.7 \\
-  SMASH, joint, Symm8 & 9.8 & 26.2 & 23.9 & 8.3 & 9.8 & 5.8 & 1.2 \\
-  TI, RMAD, Symm8 & 10.9 & 33.7 & 30.7 & 9.4 & 13.5 & 6.6 & 1.5 \\
-  TI, SMASH, Symm8 & 10.2 & 24.0 & 26.7 & 9.2 & 10.8 & 6.0 & 1.4 \\
-  SMASH, homo, Symm8 & 9.8 & 22.4 & 22.9 & 8.3 & 9.2 & 5.6 & 1.2 \\
-  TI, homo, Symm8 & 10.9 & 27.3 & 30.4 & 9.4 & 10.8 & 6.4 & 1.5 \\
-  Ebayes, homo, Symm8 & 10.8 & 24.8 & 23.3 & 9.0 & 9.3 & 5.9 & 1.3 \\
-  SURE, homo, Symm8 & 43.5 & 65.0 & 54.0 & 57.3 & 40.3 & 37.3 & 11.3 \\
-  PostMean, homo, Symm8 & 15.2 & 30.9 & 26.8 & 13.1 & 12.7 & 9.0 & 2.0 \\
-  SMASH, truth, Symm8 & 9.7 & 21.4 & 21.5 & 8.3 & 9.2 & 5.5 & 1.2 \\
-  TI, truth, Symm8 & 10.9 & 26.1 & 29.7 & 9.4 & 10.8 & 6.4 & 1.5 \\
+SMASH, joint, Haar & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+  SMASH, joint, Symm8 & 0.82 & 1.41 & 3.20 & 0.77 & 0.54 & 1.72 & 0.69 \\
+  TI-thresh, RMAD, Symm8 & 1.12 & 2.34 & 5.80 & 0.94 & 0.84 & 2.84 & 1.10 \\
+  TI-thresh, SMASH, Symm8 & 0.88 & 1.39 & 4.03 & 0.85 & 0.60 & 1.85 & 0.83 \\
+  SMASH, homo, Symm8 & 0.81 & 1.21 & 3.07 & 0.77 & 0.50 & 1.65 & 0.69 \\
+  Ebayes, homo, Symm8 & 0.96 & 1.36 & 2.98 & 0.88 & 0.58 & 1.76 & 0.83 \\
+  PostMean, homo, Symm8 & 1.28 & 1.69 & 3.63 & 1.18 & 0.70 & 2.54 & 1.13 \\
+  SURE, homo, Symm8 & 3.38 & 3.45 & 7.39 & 5.05 & 2.11 & 10.14 & 6.34 \\
+  TI-thresh, homo, Symm8 & 0.91 & 1.50 & 4.13 & 0.86 & 0.61 & 1.90 & 0.85 \\
+  SMASH, truth, Symm8 & 0.81 & 1.15 & 2.86 & 0.77 & 0.50 & 1.63 & 0.69 \\
+  TI-thresh, truth, Symm8 & 0.90 & 1.41 & 3.96 & 0.86 & 0.60 & 1.87 & 0.84 \\
    \hline
 \end{tabular}
-\caption{MISEs of various methods for iid Gaussian errors, SNR=3}
+\caption{Relative MSE of various methods for iid Gaussian errors, SNR=3} 
 \label{table:homo3}
 \end{table}
 From Tables \ref{table:homo1} and \ref{table:homo3}, we see that our method almost always outperform other methods for all the test functions in terms of MISE as defined above. Furthermore, two key observations should be noted here. First, estimating the variance without the assumption of homoskedasticity does not decrease the performance of our method in any way. In fact, the MISEs for the case where our method estimates the mean and variance jointly and the optimal scenario where our method estimates the mean given the true function are extremely similar. As such, there is no need to specifically assume homoskedasticity or otherwise when using our method. Second, the Haar and the Symmlet 8 bases perform similarly, with each outperforming the other slightly for different test functions. As such, the default option for our method is actually the Haar basis due to computational reasons. \bigskip\\
@@ -234,17 +234,17 @@ Having shown that our method performs well in the case of homoskedastic errors w
   \hline
  & Spikes & Bumps & Block & Angles & Doppler & Blip & Corner \\
   \hline
-SMASH, joint, Haar & 108.5 & 282.2 & 112.4 & 86.9 & 113.7 & 62.5 & 15.5 \\
-  SMASH, joint, Symm8 & 117.4 & 264.4 & 147.1 & 95.5 & 87.1 & 76.6 & 13.8 \\
-  TI, RMAD, Symm8 & 191.9 & 268.6 & 168.5 & 154.0 & 107.1 & 90.9 & 22.5 \\
-  TI, SMASH, Symm8 & 171.5 & 410.9 & 217.8 & 123.6 & 120.3 & 85.0 & 16.5 \\
-  SMASH, homo, Symm8 & 413.7 & 501.7 & 356.1 & 553.6 & 314.7 & 296.9 & 106.1 \\
-  TI, homo, Symm8 & 2007.9 & 1553.2 & 1416.9 & 3170.2 & 1460.2 & 1663.8 & 644.0 \\
-  SMASH, truth, Symm8 & 115.6 & 221.4 & 128.4 & 93.1 & 74.6 & 77.5 & 13.7 \\
-  TI, truth, Symm8 & 188.4 & 336.0 & 194.8 & 124.7 & 101.1 & 86.3 & 17.1 \\
+SMASH, joint, Haar & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+  SMASH, joint, Symm8 & 1.02 & 0.91 & 1.23 & 1.38 & 0.71 & 1.27 & 0.90 \\
+  TI-thresh, RMAD, Symm8 & 3.39 & 1.52 & 2.66 & 6.64 & 1.77 & 4.43 & 5.69 \\
+  TI-thresh, SMASH, Symm8 & 1.83 & 1.46 & 1.97 & 1.84 & 0.93 & 1.56 & 1.03 \\
+  SMASH, homo, Symm8 & 1.88 & 1.07 & 1.92 & 4.91 & 1.56 & 3.41 & 4.40 \\
+  TI-thresh, homo, Symm8 & 8.66 & 2.79 & 6.73 & 29.84 & 7.15 & 19.45 & 29.05 \\
+  SMASH, truth, Symm8 & 1.00 & 0.71 & 1.14 & 1.33 & 0.55 & 1.13 & 0.85 \\
+  TI-thresh, truth, Symm8 & 1.88 & 1.22 & 1.81 & 1.83 & 0.78 & 1.42 & 1.04 \\
    \hline
 \end{tabular}
-\caption{MISEs of various methods for variance function V2 as in Cai \& Wang (2008), SNR=1, Gaussian errors}
+\caption{Relative MSE of various methods for the Clipped Blocks variance function, SNR=1, Gaussian errors} 
 \label{table:hetero_v2_1}
 \end{table}
 \begin{table}[ht]
@@ -253,17 +253,17 @@ SMASH, joint, Haar & 108.5 & 282.2 & 112.4 & 86.9 & 113.7 & 62.5 & 15.5 \\
   \hline
  & Spikes & Bumps & Block & Angles & Doppler & Blip & Corner \\
   \hline
-SMASH, joint, Haar & 22.0 & 49.7 & 19.1 & 16.9 & 23.3 & 10.2 & 3.0 \\
-  SMASH, joint, Symm8 & 20.4 & 59.2 & 40.0 & 14.3 & 11.7 & 18.7 & 2.7 \\
-  TI, RMAD, Symm8 & 25.2 & 53.5 & 35.6 & 19.4 & 16.7 & 17.4 & 3.8 \\
-  TI, SMASH, Symm8 & 24.3 & 64.7 & 43.5 & 16.1 & 14.4 & 18.9 & 3.3 \\
-  SMASH, homo, Symm8 & 50.8 & 64.1 & 58.5 & 65.2 & 39.9 & 37.7 & 12.6 \\
-  TI, homo, Symm8 & 225.3 & 174.0 & 159.5 & 354.4 & 156.5 & 186.0 & 71.8 \\
-  SMASH, truth, Symm8 & 20.0 & 43.6 & 31.0 & 13.9 & 9.1 & 19.2 & 2.6 \\
-  TI, truth, Symm8 & 25.9 & 66.6 & 42.8 & 17.1 & 10.0 & 22.2 & 3.6 \\
+SMASH, joint, Haar & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+  SMASH, joint, Symm8 & 0.83 & 1.26 & 2.34 & 1.11 & 0.45 & 1.90 & 0.72 \\
+  TI-thresh, RMAD, Symm8 & 2.12 & 1.68 & 3.03 & 4.09 & 0.90 & 3.55 & 3.39 \\
+  TI-thresh, SMASH, Symm8 & 0.98 & 1.48 & 3.17 & 1.32 & 0.50 & 2.17 & 0.84 \\
+  SMASH, homo, Symm8 & 1.68 & 1.16 & 2.50 & 3.18 & 1.09 & 2.83 & 2.65 \\
+  TI-thresh, homo, Symm8 & 6.72 & 2.34 & 5.18 & 17.54 & 3.61 & 13.22 & 16.13 \\
+  SMASH, truth, Symm8 & 0.80 & 0.84 & 1.66 & 1.07 & 0.35 & 1.80 & 0.70 \\
+  TI-thresh, truth, Symm8 & 0.99 & 1.15 & 2.34 & 1.29 & 0.38 & 2.11 & 0.83 \\
    \hline
 \end{tabular}
-\caption{MISEs of various methods for variance function V2 as in Cai \& Wang (2008), SNR=3, Gaussian errors}
+\caption{Relative MSE of various methods for the Clipped Blocks variance function, SNR=3, Gaussian errors}
 \end{table}
 \begin{table}[ht]
 \centering
@@ -271,17 +271,17 @@ SMASH, joint, Haar & 22.0 & 49.7 & 19.1 & 16.9 & 23.3 & 10.2 & 3.0 \\
   \hline
  & Spikes & Bumps & Block & Angles & Doppler & Blip & Corner \\
   \hline
-SMASH, joint, Haar & 223.1 & 650.9 & 275.9 & 233.6 & 232.6 & 148.0 & 47.4 \\
-  SMASH, joint, Symm8 & 231.7 & 606.4 & 293.6 & 263.1 & 194.9 & 154.4 & 44.5 \\
-  TI, RMAD, Symm8 & 1621.6 & 1464.5 & 1221.0 & 2543.6 & 1197.5 & 1334.5 & 512.2 \\
-  TI, SMASH, Symm8 & 335.9 & 798.1 & 422.0 & 385.4 & 274.6 & 207.8 & 62.5 \\
-  SMASH, homo, Symm8 & 1242.1 & 1199.3 & 940.4 & 1836.5 & 910.0 & 973.8 & 366.3 \\
-  TI, homo, Symm8 & 3289.2 & 2543.4 & 2310.3 & 5206.6 & 2404.7 & 2731.0 & 1060.4 \\
-  SMASH, truth, Symm8 & 114.0 & 633.3 & 214.9 & 115.9 & 100.6 & 81.5 & 15.6 \\
-  TI, truth, Symm8 & 171.0 & 799.0 & 324.7 & 170.4 & 140.0 & 95.0 & 18.6 \\
+SMASH, joint, Haar & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+  SMASH, joint, Symm8 & 1.00 & 0.93 & 1.05 & 1.08 & 0.83 & 1.02 & 0.92 \\
+  TI-thresh, RMAD, Symm8 & 5.52 & 2.00 & 3.71 & 7.88 & 4.08 & 6.70 & 7.72 \\
+  TI-thresh, SMASH, Symm8 & 1.13 & 1.20 & 1.40 & 1.25 & 0.95 & 1.11 & 1.00 \\
+  SMASH, homo, Symm8 & 5.11 & 1.85 & 3.35 & 7.07 & 3.81 & 6.07 & 6.90 \\
+  TI-thresh, homo, Symm8 & 13.47 & 3.94 & 8.21 & 19.95 & 10.02 & 16.94 & 19.78 \\
+  SMASH, truth, Symm8 & 0.45 & 0.93 & 0.72 & 0.41 & 0.39 & 0.47 & 0.28 \\
+  TI-thresh, truth, Symm8 & 0.66 & 1.19 & 1.11 & 0.60 & 0.55 & 0.56 & 0.33 \\
    \hline
 \end{tabular}
-\caption{MISEs of various methods for the Bumps variance function, SNR=1, Gaussian errors}
+\caption{Relative MSE of various methods for the Bumps variance function, SNR=1, Gaussian errors}
 \end{table}
 \begin{table}[ht]
 \centering
@@ -289,17 +289,17 @@ SMASH, joint, Haar & 223.1 & 650.9 & 275.9 & 233.6 & 232.6 & 148.0 & 47.4 \\
   \hline
  & Spikes & Bumps & Block & Angles & Doppler & Blip & Corner \\
   \hline
-SMASH, joint, Haar & 34.9 & 137.1 & 56.0 & 32.9 & 46.9 & 20.5 & 6.9 \\
-  SMASH, joint, Symm8 & 29.4 & 122.2 & 71.3 & 33.8 & 30.8 & 28.7 & 5.9 \\
-  TI, RMAD, Symm8 & 174.8 & 183.1 & 153.4 & 286.2 & 137.0 & 152.1 & 57.4 \\
-  TI, SMASH, Symm8 & 41.4 & 148.1 & 86.5 & 49.2 & 41.5 & 35.5 & 8.5 \\
-  SMASH, homo, Symm8 & 141.3 & 167.3 & 127.7 & 209.1 & 112.9 & 114.0 & 41.6 \\
-  TI, homo, Symm8 & 366.6 & 286.7 & 259.9 & 580.2 & 264.8 & 304.2 & 118.0 \\
-  SMASH, truth, Symm8 & 14.9 & 162.9 & 67.1 & 16.9 & 16.0 & 13.2 & 2.5 \\
-  TI, truth, Symm8 & 17.1 & 242.4 & 82.9 & 23.0 & 20.7 & 16.8 & 2.9 \\
+SMASH, joint, Haar & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+  SMASH, joint, Symm8 & 0.83 & 0.87 & 1.23 & 0.98 & 0.66 & 1.33 & 0.86 \\
+  TI-thresh, RMAD, Symm8 & 4.10 & 1.25 & 2.41 & 6.42 & 2.35 & 5.58 & 6.27 \\
+  TI-thresh, SMASH, Symm8 & 0.88 & 1.14 & 1.60 & 1.12 & 0.67 & 1.60 & 0.95 \\
+  SMASH, homo, Symm8 & 3.85 & 1.20 & 2.26 & 5.80 & 2.37 & 5.10 & 5.63 \\
+  TI-thresh, homo, Symm8 & 9.95 & 2.06 & 4.60 & 16.02 & 5.52 & 13.50 & 15.85 \\
+  SMASH, truth, Symm8 & 0.39 & 1.12 & 1.13 & 0.44 & 0.32 & 0.58 & 0.32 \\
+  TI-thresh, truth, Symm8 & 0.45 & 1.65 & 1.39 & 0.60 & 0.41 & 0.72 & 0.37 \\
    \hline
 \end{tabular}
-\caption{MISEs of various methods for the Bumps variance function, SNR=3, Gaussian errors}
+\caption{Relative MSE of various methods for the Bumps variance function, SNR=3, Gaussian errors} 
 \label{table:hetero_bump_3}
 \end{table}
 \bigskip\\
@@ -363,37 +363,33 @@ The Haar-Fisz transform uses 50 external cyclespins as suggested by Fryzlewicz \
   \hline
  & (0.01,3) & (1/8,8) & (1/128,128) \\
   \hline
-SMASH & 145.3 & 68.5 & 10.2 \\
-  Haar-Fisz & 369.5 & 140.4 & 9.8 \\
-  Anscombe, universal & 459.0 & 163.7 & 10.1 \\
-  Anscombe, CV & 458.8 & 162.6 & 10.1 \\
-  Haar thresholds & 295.8 & 168.3 & 89.4 \\
-  CVS & 5201.1 & 1083.5 & 122.8 \\
-  BMMIM & 277.2 & 110.1 & 18.1 \\
-  BMSM & 147.4 & 73.9 & 10.5 \\
+SMASH & 1.00 & 1.00 & 1.00 \\
+  BMSM & 1.15 & 1.04 & 1.01 \\
+  BMMIM & 1.53 & 1.49 & 21.99 \\
+  Haar-Fisz & 2.05 & 2.47 & 4.36 \\
+  Anscombe, universal & 2.61 & 2.80 & 4.24 \\
+  Haar thresholds & 1.52 & 1.66 & 12.17 \\
    \hline
 \end{tabular}
-\caption{MISEs of various methods for the Angles function for Poisson data}
+\caption{Relative MSE of various methods for the Clipped Blocks function for Poisson data} 
 \label{table:pois_angles}
 \end{table}
 
-\begin{table}[ht]
+begin{table}[ht]
 \centering
 \begin{tabular}{rrrr}
   \hline
  & (0.01,3) & (1/8,8) & (1/128,128) \\
   \hline
-SMASH & 2597.5 & 1194.6 & 141.2 \\
-  Haar-Fisz & 2849.9 & 1572.3 & 184.0 \\
-  Anscombe, universal & 3500.0 & 2029.9 & 194.9 \\
-  Anscombe, CV & 3520.7 & 2070.0 & 196.3 \\
-  Haar thresholds & 3151.9 & 1601.4 & 173.7 \\
-  CVS & 9410.7 & 3457.5 & 194.9 \\
-  BMMIM & 3089.9 & 2065.3 & 222.2 \\
-  BMSM & 4036.8 & 1889.9 & 171.1 \\
+SMASH & 1.00 & 1.00 & 1.00 \\
+  BMSM & 1.55 & 1.58 & 1.21 \\
+  BMMIM & 1.32 & 1.86 & 2.06 \\
+  Haar-Fisz & 1.20 & 1.39 & 1.31 \\
+  Anscombe, universal & 1.55 & 1.88 & 1.39 \\
+  Haar thresholds & 1.35 & 1.38 & 1.23 \\
    \hline
 \end{tabular}
-\caption{MISEs of various methods for the Bumps function for Poisson data}
+\caption{Relative MSE of various methods for the Bumps function for Poisson data}
 \label{table:pois_bumps}
 \end{table}
 
@@ -447,7 +443,7 @@ Var^{1/2}(Y_t|x_t)=\Ga x_t^{\Gb}
 By performing least squares regression of $\log(\hat{V}^{1/2}(Y_t|x_t))$ on $\log(x_t)$, we have that $\hat{\Ga}=0.0106$ and $\hat{\Gb}=1.429$, which are similar to the values reported in Fan \& Yao (1998).
 \newpage
 \subsection{ChIP-Seq Data}
-Here we apply our Poisson de-noising procedure to next generation sequencing data, commonly seen in the field of genomics. Specifically, we chose an example dataset from the ENCODE (\textbf{Enc}yclopedia \textbf{O}f \textbf{D}NA \textbf{E}lements) project launched by the National Human Genome Research Institute. This dataset contains reads from chromatin immunoprecipitation sequencing (ChIP-seq) measuring transcription factor binding in two different cell types, with two samples for each cell type. Due to the massive size of the data, we selected a representative portion of the reads of length $2^{15}$ from chromosome 1. 
+Here we apply our Poisson de-noising procedure to next generation sequencing data, commonly seen in the field of genomics. Specifically, we chose an example dataset from the ENCODE (\textbf{Enc}yclopedia \textbf{O}f \textbf{D}NA \textbf{E}lements) project launched by the National Human Genome Research Institute. This dataset contains reads from chromatin immunoprecipitation sequencing (ChIP-seq) measuring transcription factor binding in two different cell types, with two samples for each cell type. Due to the massive size of the data, we selected a representative portion of the reads of length $2^{15}$ from chromosome 1.
 %Since we are looking mainly at univariate denoising here, we ran our method on each sample separately to produce the the plots in Figure \ref{fig:seq_smooth}.\\
 %\begin{figure}[h]
 %\centering
@@ -456,8 +452,8 @@ Here we apply our Poisson de-noising procedure to next generation sequencing dat
 %\label{fig:seq_smooth}
 %\end{figure}
 %\bigskip
-One goal of analyzing ChIP-seq data is to discover regions where transcription factors are likely to bind to DNA, thereby allowing us to better understand the mechanisms underlying gene regulation. These binding regions are often reflected in the data as ``peaks'', where more counts are present than background noise. Our method allows us to identify these peaks by looking at the estimated intensity function. 
-%In Figure \ref{fig:seq_smooth}, we immediately notice the presence of several large peaks around position 895000 for the first three samples, and around position 952000 for the last two samples. 
+One goal of analyzing ChIP-seq data is to discover regions where transcription factors are likely to bind to DNA, thereby allowing us to better understand the mechanisms underlying gene regulation. These binding regions are often reflected in the data as ``peaks'', where more counts are present than background noise. Our method allows us to identify these peaks by looking at the estimated intensity function.
+%In Figure \ref{fig:seq_smooth}, we immediately notice the presence of several large peaks around position 895000 for the first three samples, and around position 952000 for the last two samples.
 To ensure that our method performs sensibly, we pooled the reads for the GM12878 cell line and ran our method as well as a popular peak calling procedure MACS on the selected region. The results are shown in Figure \ref{fig:seq_peak}.\\
 \newpage
 \begin{figure}[h]

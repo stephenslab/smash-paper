@@ -1,9 +1,9 @@
 library(xtable)
 
-scale.baseline = function(x) x/x[2]
+scale.baseline = function(x) x/x[1]
 
 mise.res = aggregate(mise ~ method + scenario, res, mean)
-table.order = c(6, 10, 16, 17, 8, 3, 5, 13, 14, 12, 20)
+table.order = c(6, 10, 16, 18, 8, 3, 5, 13, 14, 12, 20)
 colname.order = c(7, 4, 3, 1, 6, 2, 5)
 
 tex.row.names = c("SMASH, joint, Haar",
@@ -42,31 +42,33 @@ for(i in 1:dim(design)[1]){
   assign(paste0("table",table.suffix),table.temp)
 }
 
-print(xtable(table.1.v1,caption="MISE of various methods for iid Gaussian errors, RSNR=1",digits=1))
-print(xtable(table.3.v1,caption="MISE of various methods for iid Gaussian errors, RSNR=3",digits=1))
+ndigits=2
+
+print(xtable(table.1.v1,caption="Relative MSE of various methods for iid Gaussian errors, SNR=1",digits=ndigits))
+print(xtable(table.3.v1,caption="Relative MSE of various methods for iid Gaussian errors, SNR=3",digits=ndigits))
 
 
 ####
 
-print(xtable(table.1.v2,caption="MISE of various methods for variance function V2 as in Cai & Wang (2008), RSNR=1",digits=1))
-print(xtable(table.3.v2,caption="MISE of various methods for variance function V2 as in Cai & Wang (2008), RSNR=3",digits=1))
-print(xtable(table.1.v3,caption="MISE of various methods for the Doppler variance function, RSNR=1",digits=1))
-print(xtable(table.3.v3,caption="MISE of various methods for the Doppler variance function, RSNR=3",digits=1))
-print(xtable(table.1.v4,caption="MISE of various methods for the Bumps variance function, RSNR=1",digits=1))
-print(xtable(table.3.v4,caption="MISE of various methods for the Bumps variance function, RSNR=3",digits=1))
-print(xtable(table.1.v5,caption="MISE of various methods for the Clipped Blocks variance function, RSNR=1",digits=1))
-print(xtable(table.3.v5,caption="MISE of various methods for the Clipped Blocks variance function, RSNR=3",digits=1))
+print(xtable(table.1.v2,caption="Relative MSE of various methods for variance function V2 as in Cai & Wang (2008), SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(table.3.v2,caption="Relative MSE of various methods for variance function V2 as in Cai & Wang (2008), SNR=3, Gaussian errors",digits=ndigits))
+print(xtable(table.1.v3,caption="Relative MSE of various methods for the Doppler variance function, SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(table.3.v3,caption="Relative MSE of various methods for the Doppler variance function, SNR=3, Gaussian errors",digits=ndigits))
+print(xtable(table.1.v4,caption="Relative MSE of various methods for the Bumps variance function, SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(table.3.v4,caption="Relative MSE of various methods for the Bumps variance function, SNR=3, Gaussian errors",digits=ndigits))
+print(xtable(table.1.v5,caption="Relative MSE of various methods for the Clipped Blocks variance function, SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(table.3.v5,caption="Relative MSE of various methods for the Clipped Blocks variance function, SNR=3, Gaussian errors",digits=ndigits))
 #####
 
 
-table.1.v2.short=table.1.v2[c(-6,-7,-8),]
-table.3.v2.short=table.3.v2[c(-6,-7,-8),]
+table.1.v5.short=table.1.v5[c(-6,-7,-8),]
+table.3.v5.short=table.3.v5[c(-6,-7,-8),]
 table.1.v4.short=table.1.v4[c(-6,-7,-8),]
 table.3.v4.short=table.3.v4[c(-6,-7,-8),]
 
 
 
-print(xtable(table.1.v2.short,caption="MISE of various methods for variance function V2 as in Cai & Wang (2008), RSNR=1",digits=1))
-print(xtable(table.3.v2.short,caption="MISE of various methods for variance function V2 as in Cai & Wang (2008), RSNR=3",digits=1))
-print(xtable(table.1.v4.short,caption="MISE of various methods for the Bumps variance function, RSNR=1",digits=1))
-print(xtable(table.3.v4.short,caption="MISE of various methods for the Bumps variance function, RSNR=3",digits=1))
+print(xtable(table.1.v5.short,caption="Relative MSE of various methods for the Clipped Blocks variance function, SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(table.3.v5.short,caption="Relative MSE of various methods for the Clipped Blocks variance function, SNR=3, Gaussian errors",digits=ndigits))
+print(xtable(table.1.v4.short,caption="Relative MSE of various methods for the Bumps variance function, SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(table.3.v4.short,caption="Relative MSE of various methods for the Bumps variance function, SNR=3, Gaussian errors",digits=ndigits))

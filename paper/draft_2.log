@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.1.9)  28 APR 2015 15:55
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.1.9)  2 MAY 2015 22:59
 entering extended mode
 **D:/Grad*School/Spring*2013/ashwave/paper/draft_2.tex
 ("D:/Grad School/Spring 2013/ashwave/paper/draft_2.tex"
@@ -487,12 +487,12 @@ LaTeX Warning: No \author given.
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3] [4] [5]
 [6] [7] [8] [9]
-Overfull \hbox (28.17635pt too wide) in paragraph at lines 185--202
+Overfull \hbox (39.09984pt too wide) in paragraph at lines 185--202
  [][] 
  []
 
 
-Overfull \hbox (22.78891pt too wide) in paragraph at lines 207--224
+Overfull \hbox (39.09984pt too wide) in paragraph at lines 207--224
  [][] 
  []
 
@@ -501,22 +501,22 @@ Overfull \hbox (22.78891pt too wide) in paragraph at lines 207--224
 LaTeX Warning: Reference `' on page 12 undefined on input line 230.
 
 
-Overfull \hbox (28.69438pt too wide) in paragraph at lines 233--247
+Overfull \hbox (39.09984pt too wide) in paragraph at lines 233--247
  [][] 
  []
 
 
-Overfull \hbox (18.47644pt too wide) in paragraph at lines 252--266
+Overfull \hbox (39.09984pt too wide) in paragraph at lines 252--266
  [][] 
  []
 
 
-Overfull \hbox (28.69438pt too wide) in paragraph at lines 270--284
+Overfull \hbox (39.09984pt too wide) in paragraph at lines 270--284
  [][] 
  []
 
 
-Overfull \hbox (18.47644pt too wide) in paragraph at lines 288--302
+Overfull \hbox (39.09984pt too wide) in paragraph at lines 288--302
  [][] 
  []
 
@@ -544,75 +544,80 @@ pring 2013/ashwave/paper/mfvb_var.pdf>] [15]
 
 LaTeX Warning: Reference `' on page 16 undefined on input line 359.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 402--404
+[16]
+Underfull \hbox (badness 10000) in paragraph at lines 400--402
 
  []
 
-[16] <figures_treasury_a.pdf, id=230, 505.89pt x 505.89pt>
+<figures_treasury_a.pdf, id=230, 505.89pt x 505.89pt>
 File: figures_treasury_a.pdf Graphic file (type pdf)
 
 <use figures_treasury_a.pdf>
-Package pdftex.def Info: figures_treasury_a.pdf used on input line 415.
+Package pdftex.def Info: figures_treasury_a.pdf used on input line 413.
 (pdftex.def)             Requested size: 173.44534pt x 173.44382pt.
 
 <figures_treasury_b.pdf, id=231, 505.89pt x 505.89pt>
 File: figures_treasury_b.pdf Graphic file (type pdf)
 
 <use figures_treasury_b.pdf>
-Package pdftex.def Info: figures_treasury_b.pdf used on input line 422.
+Package pdftex.def Info: figures_treasury_b.pdf used on input line 420.
 (pdftex.def)             Requested size: 173.44534pt x 173.44382pt.
 
 <figures_treasury_c.pdf, id=232, 505.89pt x 505.89pt>
 File: figures_treasury_c.pdf Graphic file (type pdf)
 
 <use figures_treasury_c.pdf>
-Package pdftex.def Info: figures_treasury_c.pdf used on input line 429.
+Package pdftex.def Info: figures_treasury_c.pdf used on input line 427.
 (pdftex.def)             Requested size: 173.44534pt x 173.44382pt.
 
 <figures_treasury_d.pdf, id=233, 505.89pt x 505.89pt>
 File: figures_treasury_d.pdf Graphic file (type pdf)
 
 <use figures_treasury_d.pdf>
-Package pdftex.def Info: figures_treasury_d.pdf used on input line 436.
+Package pdftex.def Info: figures_treasury_d.pdf used on input line 434.
 (pdftex.def)             Requested size: 173.44534pt x 173.44382pt.
- [17] [18 <D:/Grad School/Spring 2013/ashwave/paper/figures_treasury_a.pdf> <D:
-/Grad School/Spring 2013/ashwave/paper/figures_treasury_b.pdf> <D:/Grad School/
-Spring 2013/ashwave/paper/figures_treasury_c.pdf> <D:/Grad School/Spring 2013/a
-shwave/paper/figures_treasury_d.pdf>] [19]
-Underfull \hbox (badness 10000) in paragraph at lines 450--462
+ [17]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 448--460
 
  []
 
-[20] <peaks_comp_a.pdf, id=277, 722.7pt x 361.35pt>
+[19 <D:/Grad School/Spring 2013/ashwave/paper/figures_treasury_a.pdf> <D:/Grad 
+School/Spring 2013/ashwave/paper/figures_treasury_b.pdf> <D:/Grad School/Spring
+ 2013/ashwave/paper/figures_treasury_c.pdf> <D:/Grad School/Spring 2013/ashwave
+/paper/figures_treasury_d.pdf>] [20]
+<peaks_comp_a.pdf, id=277, 722.7pt x 361.35pt>
 File: peaks_comp_a.pdf Graphic file (type pdf)
  <use peaks_comp_a.pdf>
-Package pdftex.def Info: peaks_comp_a.pdf used on input line 467.
+Package pdftex.def Info: peaks_comp_a.pdf used on input line 465.
 (pdftex.def)             Requested size: 368.57965pt x 184.29158pt.
 
 <peaks_comp_b.pdf, id=278, 722.7pt x 361.35pt>
 File: peaks_comp_b.pdf Graphic file (type pdf)
  <use peaks_comp_b.pdf>
-Package pdftex.def Info: peaks_comp_b.pdf used on input line 474.
+Package pdftex.def Info: peaks_comp_b.pdf used on input line 472.
 (pdftex.def)             Requested size: 368.57965pt x 184.29158pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 481--482
+Underfull \hbox (badness 10000) in paragraph at lines 479--480
 
  []
 
 [21 <D:/Grad School/Spring 2013/ashwave/paper/peaks_comp_a.pdf> <D:/Grad School
 /Spring 2013/ashwave/paper/peaks_comp_b.pdf>] [22] [23]
-Underfull \hbox (badness 10000) in paragraph at lines 510--512
+Underfull \hbox (badness 10000) in paragraph at lines 508--510
 
  []
 
 [24] [25]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 560.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 558.
  [26]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 560.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 558.
  ("D:\Grad School\Spring 2013\ashwave\paper\draft_2.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 560.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 560.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 558.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 558.
 Package rerunfilecheck Info: File `draft_2.out' has not changed.
 (rerunfilecheck)             Checksum: 8482FE3B05B315E789BD3F4909D6A645;744.
 
@@ -626,7 +631,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  8487 strings out of 494045
  127604 string characters out of 3145952
- 238428 words of memory out of 3000000
+ 243470 words of memory out of 3000000
  11528 multiletter control sequences out of 15000+200000
  19487 words of font info for 72 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
@@ -645,7 +650,7 @@ iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiK
 TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files (x86)/MiKTeX
  2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files (x86)/MiKTeX 2.
 9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on draft_2.pdf (26 pages, 717682 bytes).
+Output written on draft_2.pdf (26 pages, 717485 bytes).
 PDF statistics:
  411 PDF objects out of 1000 (max. 8388607)
  113 named destinations out of 1000 (max. 500000)
