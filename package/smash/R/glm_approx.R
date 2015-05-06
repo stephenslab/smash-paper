@@ -1,4 +1,4 @@
-##Disclaimer: The functions defined in this file are adapted from the same functions defined in package "Multiseq" under the GPL license, authored by Ester Pantaleo, Heejung Shim,
+##Disclaimer: The functions defined in this file are adapted from the nearly identical functions defined in package "Multiseq" under the GPL license, authored by Ester Pantaleo, Heejung Shim,
 #Matthew Stephens and Zhengrong Xing
 
 
@@ -182,6 +182,7 @@ compute.approx.z=function(x.s,x.f,bound,eps,pseudocounts,all,indexn=NULL,return.
     }else{
         var=vss(s-2*pseudocounts,x$x.s-pseudocounts,x$x.f-pseudocounts)   
     }
+    var[var==Inf]=1e+20
     if(return.p==TRUE)
         return(list(mu=mu,var=var,p=x$x.s/s))
     else
