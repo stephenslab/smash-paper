@@ -44,20 +44,33 @@ for(i in 1:dim(design)[1]){
 
 ndigits=2
 
-print(xtable(table.1.v1,caption="Relative MSE of various methods for iid Gaussian errors, SNR=1",digits=ndigits))
-print(xtable(table.3.v1,caption="Relative MSE of various methods for iid Gaussian errors, SNR=3",digits=ndigits))
+edit.smallest = function(x){
+  x[which(x == min(x))] = paste0(min(x), "(*)")
+  return(x)
+}
+
+
+mark.smallest = function(table, ndigits){
+  table = apply(table, 2, sprintf, fmt = paste0("%.", ndigits, "f"))
+  table = apply(table, 2, edit.smallest)
+  return(table)
+}
+
+
+print(xtable(mark.smallest(table.1.v1,2),caption="Relative MSE of various methods for iid Gaussian errors, SNR=1",digits=ndigits))
+print(xtable(mark.smallest(table.3.v1,2),caption="Relative MSE of various methods for iid Gaussian errors, SNR=3",digits=ndigits))
 
 
 ####
 
-print(xtable(table.1.v2,caption="Relative MSE of various methods for variance function V2 as in Cai & Wang (2008), SNR=1, Gaussian errors",digits=ndigits))
-print(xtable(table.3.v2,caption="Relative MSE of various methods for variance function V2 as in Cai & Wang (2008), SNR=3, Gaussian errors",digits=ndigits))
-print(xtable(table.1.v3,caption="Relative MSE of various methods for the Doppler variance function, SNR=1, Gaussian errors",digits=ndigits))
-print(xtable(table.3.v3,caption="Relative MSE of various methods for the Doppler variance function, SNR=3, Gaussian errors",digits=ndigits))
-print(xtable(table.1.v4,caption="Relative MSE of various methods for the Bumps variance function, SNR=1, Gaussian errors",digits=ndigits))
-print(xtable(table.3.v4,caption="Relative MSE of various methods for the Bumps variance function, SNR=3, Gaussian errors",digits=ndigits))
-print(xtable(table.1.v5,caption="Relative MSE of various methods for the Clipped Blocks variance function, SNR=1, Gaussian errors",digits=ndigits))
-print(xtable(table.3.v5,caption="Relative MSE of various methods for the Clipped Blocks variance function, SNR=3, Gaussian errors",digits=ndigits))
+print(xtable(mark.smallest(table.1.v2,2),caption="Relative MSE of various methods for variance function V2 as in Cai & Wang (2008), SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(mark.smallest(table.3.v2,2),caption="Relative MSE of various methods for variance function V2 as in Cai & Wang (2008), SNR=3, Gaussian errors",digits=ndigits))
+print(xtable(mark.smallest(table.1.v3,2),caption="Relative MSE of various methods for the Doppler variance function, SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(mark.smallest(table.3.v3,2),caption="Relative MSE of various methods for the Doppler variance function, SNR=3, Gaussian errors",digits=ndigits))
+print(xtable(mark.smallest(table.1.v4,2),caption="Relative MSE of various methods for the Bumps variance function, SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(mark.smallest(table.3.v4,2),caption="Relative MSE of various methods for the Bumps variance function, SNR=3, Gaussian errors",digits=ndigits))
+print(xtable(mark.smallest(table.1.v5,2),caption="Relative MSE of various methods for the Clipped Blocks variance function, SNR=1, Gaussian errors",digits=ndigits))
+print(xtable(mark.smallest(table.3.v5,2),caption="Relative MSE of various methods for the Clipped Blocks variance function, SNR=3, Gaussian errors",digits=ndigits))
 #####
 
 
