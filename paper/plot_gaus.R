@@ -3,7 +3,7 @@ library(reshape2)
 library(ggplot2)
 
 
-##plots in main body of paper
+##barplots in main body of paper
 mean.table = melt(table.1.v1)
 names(mean.table) = c("method", "testfunction", "mse")
 
@@ -102,6 +102,7 @@ dev.off()
 ##boxplot?
 
 
+##lineplot
 ggplot(mean.table, aes(x = testfunction, y = mse, color = method, group = method)) + 
        geom_line(linetype = 2) + 
        geom_point(shape = 19) + 
