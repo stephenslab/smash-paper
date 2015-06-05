@@ -109,9 +109,9 @@ row.names.all = c("BAMS, homo, Symm8",
                   "TI-thresh, truth, Symm8"
 )
 
-software = c("R - EbayesThresh", 
-             "Matlab - WaveDen", 
-             "Matlab - WaveDen", 
+software = c("Matlab - WaveDen", 
+             "Matlab - WaveDen",
+             "R - EbayesThresh",
              "Matlab - WaveDen", 
              "Matlab - WaveDen", 
              "R - SMASH", 
@@ -246,4 +246,4 @@ method.info = data.frame(method = mise.res$method[1:20],
                          add.notes = add.notes)
 
 
-res.final = merge(mise.res, method.info, sort = FALSE)
+res.final = merge(mise.res, method.info)

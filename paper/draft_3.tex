@@ -56,16 +56,18 @@ Note that $\bm{\pi}$ and $\bm{s}^2$ are shared across all the $\Gb_i$'s, allowin
 The flexibility and computational efficiency of ASH is immediately obvious, which motivates us to extend this method to the more complex wavelet settings described here. As an Empirical Bayes procedure, ASH borrows information across all available data and is extremely data adaptive. At the same time, the key advantage of ASH over other Empirical Bayes procedures such as EbayesThresh [Johnstone \& Silverman (2005)] and the commonly used ``spike-and-slab'' prior (is there a name for this?) variable variances are allowed as input, a feature which latter methods lack. This is also the primary reason we can use ASH as the only shrinkage procedure in both the problems described above. Furthermore, Gaussian mixture priors can effectively approximate any unimodal distribution, allowing for a more flexible prior than many other procedures. In tackling these two specific problems, we can speed up the entire signal denoising problem via likelihood approximations (discussed in the next section), allowing our method to be computationally efficient without compromising accuracy. Typical wavelet methods require the specification of a primary resolution level as a ``tuning'' parameter, which could substantially influence the accuracy of the method. However, applying ASH to every resolution in the wavelet transformationwe spares us the need for such a parameter. For an in-depth understanding of the original motivations and applications of ASH, see Stephens (??). With the main shrinkage method accounted for, we will proceed to explore the two aforementioned problems in detail. Note that one only needs to supply a vector of estimates $\hat{\Gb}$ and their standard errors se$(\hat{\Gb})$ to ASH to obtain posterior estimates; hence, we will focus on obtaining these estimates and standard errors when describing our methods.
 \section{Method}
 \subsection{Gaussian denoising with heteroskedastic errors}
-We first consider the application of ASH in the context of the nonparametric regression model with i.i.d. Gaussian errors that are spatially structured. Specifically, consider the model
+Consider the nonparametric regression model with i.i.d. Gaussian errors:
 \begin{eqnarray}\label{eq:1d gaussian model}
 Y_i=\mu_i+\Ge_i
 \end{eqnarray}
-for $i=1,...,n$, where $\bm{Y}$ is the vector of observations, $\bm{\mu}$ is the mean curve sampled on an equally spaced grid, and $\Ge_i$ are independent $N(0,\s^2)$ noise. Assume that $n=2^J$ for some integer $J$, as is standard in the wavelet literature. To better understand and motivate our method, we first look at wavelet shrinkage from a Bayesian perspective.\bigskip\\
-Given an orthogonal $n\times n$ matrix $W$ representing the orthonormal wavelet basis chosen, we have that the wavelet coefficients $\bm{d}$ are given by
+for $i=1,...,n$, where $\bm{Y}$ is the vector of observations, $\bm{\mu}$ is the mean curve, and $\Ge_i$ are independent $N(0,\s^2)$ noise. Assume that $n=2^J$ for some integer $J$, as is standard in the wavelet literature. To motivate our method, we first describe wavelet shrinkage from a Bayesian perspective.
+
+The wavelet coefficients $\bm{d}$ are given by
 \begin{eqnarray}
 \bm{d}=W\bm{Y}
-\end{eqnarray}
-where $\mathbb{V}(Y)=\s^2I$. Hence, we can easily see that
+\end{eqnarray
+where $W$ denotes the orthogonal $n\times n$ matrix corresponding to the orthonormal wavelet basis chosen.
+Since $\mathbb{V}(Y)=\s^2I$,
 \begin{eqnarray}\label{eq:waveletcoef}
 \bm{d}\sim N_n(\bm{\Ga},\s^2I)
 \end{eqnarray}

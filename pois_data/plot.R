@@ -20,7 +20,7 @@ plot(bppos,res4,type='l',xlab="position",ylab="intensity",ylim=c(0,5.5),main="Ce
 dev.off()
 
 
-peaks=read.table("Gm1287peaks_chr1_sorted")
+peaks=read.table("pois_data/Gm1287peaks_chr1_sorted")
 peaks=peaks[order(peaks[,2]),]
 all.base=1:peaks[dim(peaks)[1],3]
 peaks.start=peaks[,2][peaks[,2]>=880000&peaks[,2]<=1011072]
@@ -29,7 +29,7 @@ peaks.end=peaks[,3][peaks[,3]>=880000&peaks[,3]<=1011072]
 res=ashsmooth.pois(M[1,]+M[2,],post.var=TRUE)
 
 pdf("peaks_comp_a.pdf",height=5,width=10)
-plot(bppos,M[1,]+M[2,],xlab="position",ylab="counts",pch=1,cex=0.6,col=alpha("black",0.3))
+plot(bppos,M[1,]+M[2,],xlab="position",ylab="counts",pch=16,cex=0.5,col=alpha("black",0.04))
 dev.off()
 
 pdf("peaks_comp_b.pdf",height=5,width=10)
