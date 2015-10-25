@@ -203,3 +203,60 @@ lines(mu.ti, col = "blue")
 lines(mu.smash, col = "red")
 legend(x = 750, y = 0.7, legend = c("SMASH", "TI-thresh, RMAD"), col = c("red", "blue"), lty = c(1, 1), cex = 1.2, pt.cex = 0.5, bty = "n")
 dev.off()
+
+
+#######################
+##ash illustration
+source("code_plot.R")
+
+n = 1024
+t = 1:n/n
+spike.f = function(x) (0.75 * exp(-500 * (x - 0.23)^2) + 1.5 * exp(-2000 * (x - 0.33)^2) + 3 * exp(-8000 * (x - 0.47)^2) + 2.25 * exp(-16000 * (x - 0.69)^2) + 0.5 * exp(-32000 * (x - 0.83)^2))
+mu.sp = spike.f(t)
+mu.sp = (1 + mu.sp)/5
+
+pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
+hgt = 2.88/5 * c(4, (-5), 3, (-4), 5, (-4.2), 2.1, 4.3, (-3.1), 2.1, (-4.2))
+sig.cb = rep(0, length(t))
+for (j in 1:length(pos)) {
+  sig.cb = sig.cb + (1 + sign(t - pos[j])) * (hgt[j]/2)
+}
+sig.cb[sig.cb < 0] = 0
+sig.cb = 0.1 + (sig.cb - min(sig.cb))/max(sig.cb)
+rsnr = sqrt(3)
+sig.cb = sig.cb/mean(sig.cb) * sd(mu.sp)/rsnr^2
+
+set.seed(70915)
+x.sim = rnorm(n, mu.sp, sig.cb)
+
+##get wavelet coefficients and their variances
+wc.sim = titable(x.sim)$difftable
+wc.var.sim = titable(sig.cb^2)$sumtable
+
+wc.true = titable(mu.sp)$difftable
+
+##get shrunken estimates
+wc.sim.shrunk = list()
+wc.pres = list()
+for(j in 0:(log2(n) - 1)){
+  wc.sim.shrunk[[j+1]] = ash(wc.sim[j+2,],sqrt(wc.var.sim[j+2,]),prior="nullbiased",multiseqoutput=TRUE,pointmass=TRUE,nullcheck=TRUE,VB=FALSE,mixsd=NULL,mixcompdist="normal",gridmult=2,lambda1=1,lambda2=0,df=NULL,trace=FALSE)
+  wc.pres[[j+1]] = 1/sqrt(wc.var.sim[j+2,])
+}
+
+rbPal = colorRampPalette(c('red', 'white','blue'))
+
+#plot the wc and their shrunken estimates for different resolutions
+col.3 <- rbPal(10)[as.numeric(cut(wc.pres[[3]],breaks = 10))]
+wc.sig.3 = 1/wc.pres[[3]]
+col.bw.3 = wc.sig.3*0.7/(max(wc.sig.3) - min(wc.sig.3)) - (0.7/(max(wc.sig.3) - min(wc.sig.3)))*min(wc.sig.3)
+plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, ylim = c(-1, 1), col = col.3)
+plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, ylim = c(-1, 1), col = grey(col.bw.3))
+
+col.8 <- rbPal(10)[as.numeric(cut(wc.pres[[8]],breaks = 10))]
+wc.sig.8 = 1/wc.pres[[8]]
+col.bw.8 = wc.sig.8*0.7/(max(wc.sig.8) - min(wc.sig.8)) - (0.7/(max(wc.sig.8) - min(wc.sig.8)))*min(wc.sig.8)
+plot(wc.sim[9, ], wc.sim.shrunk[[8]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = col.8)
+plot(wc.sim[9, ], wc.sim.shrunk[[8]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = grey(col.bw.8))
+
+
+
