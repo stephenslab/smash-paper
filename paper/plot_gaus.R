@@ -2,6 +2,7 @@ library(dplyr)
 library(reshape2)
 library(ggplot2)
 library(vioplot)
+library(Hmisc)
 
 
 ##barplots in main body of paper
@@ -115,6 +116,8 @@ ggplot(mean.table, aes(x = testfunction, y = mse, color = method, group = method
 
 #########################################3
 #violin plots
+source("paper/vioplot_col.R")
+
 homo.data.smash = res[res$.id == "sp.3.v1" & res$method == "smash.s8" , ]
 homo.data.tithresh = res[res$.id == "sp.3.v1" & res$method == "tithresh.homo.s8" , ]
 homo.data.ebayes = res[res$.id == "sp.3.v1" & res$method == "ebayesthresh" , ]
@@ -124,14 +127,16 @@ homo.data = res[res$.id == "sp.3.v1" & (res$method == "smash.s8" | res$method ==
 
 
 pdf("paper/violin_gaus_homo_comp.pdf", height = 8, width = 12)
-vioplot(homo.data.smash$mise, homo.data.tithresh$mise, homo.data.ebayes$mise, names = c("SMASH", "TI-thresholding", "EbayesThresh"))
-title(ylab = "MISE", xlab = "Method")
+par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(6.1, 6.1, 4.1, 2.1), mgp = c(3, 1.5, 0))
+vioplot.col(homo.data.smash$mise, homo.data.tithresh$mise, homo.data.ebayes$mise, ylim = c(5, 18), names = c("SMASH", "TI-thresholding", "EbayesThresh"), col = c("magenta", "gold", "gold"))
+title(xlab = "Method", ylab = "MISE", line = 4)
 abline(h = median(homo.data.smash$mise), lty = 3, col = 3)
 dev.off()
 
 pdf("paper/violin_gaus_homo_smash.pdf", height = 8, width = 12)
-vioplot(homo.data.smash$mise, homo.data.smash.true$mise, names = c("SMASH", "SMASH, true variance"))
-title(ylab = "MISE", xlab = "Method")
+par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(6.1, 6.1, 4.1, 2.1), mgp = c(3, 1.5, 0))
+vioplot.col(homo.data.smash$mise, homo.data.smash.true$mise, ylim = c(5, 18), names = c("SMASH", "SMASH, true variance"), col = c("magenta", "purple"))
+title(xlab = "Method", ylab = "MISE", line = 4)
 abline(h = median(homo.data.smash$mise), lty = 3, col = 3)
 dev.off()
 
@@ -149,18 +154,75 @@ vioplot(hetero.data.smash$mise, hetero.data.tithresh.rmad$mise, hetero.data.tith
         hetero.data.ebayes$mise, hetero.data.smash.true$mise, hetero.data.tithresh.true$mise)
 
 pdf("paper/violin_gaus_hetero_ti.pdf", height = 8, width = 12)
-vioplot(hetero.data.smash$mise, hetero.data.tithresh.rmad$mise, hetero.data.tithresh.smash$mise,  hetero.data.tithresh.true$mise, names = c("SMASH", "TI-thresh, RMAD", "TI-thresh, SMASH", "TI-thresh, true variance"))
+par(cex.axis = 1.7, cex.lab = 2, cex.sub = 2, mar = c(8.1, 6.1, 6.1, 2.1), mgp = c(3, 1.5, 0))
+vioplot.col(hetero.data.smash$mise, hetero.data.tithresh.rmad$mise, hetero.data.tithresh.smash$mise, hetero.data.tithresh.true$mise, ylim = c(10, 80), names=NULL, col = c("magenta", rep("red", 3)))
+axis(side = 1, at = 1:4, labels = c("SMASH \n", "TI-thresh \n RMAD variance", "TI-thresh \n SMASH variance", "TI-thresh \n true variance"), mgp = c(3, 3, 0))
+title(ylab = "MISE", line = 4)
+title(xlab = "Method", line = 6)
 abline(h = median(hetero.data.smash$mise), lty = 3, col = 3)
 dev.off()
 
 pdf("paper/violin_gaus_hetero_homo.pdf", height = 8, width = 12)
-vioplot(hetero.data.smash$mise, hetero.data.smash.homo$mise, hetero.data.tithresh.homo$mise,hetero.data.ebayes$mise, names = c("SMASH", "SMASH, homo", "TI-thresh, homo", "EbayesThresh, homo"))
+par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(8.1, 6.1, 6.1, 2.1), mgp = c(3, 1.5, 0))
+#vioplot.col(hetero.data.smash$mise, hetero.data.smash.homo$mise, hetero.data.tithresh.homo$mise,hetero.data.ebayes$mise, ylim = c(10, 80), names = c("SMASH", "SMASH, homo", "TI-thresh, homo", "EbayesThresh, homo"), col = c("magenta", rep("gold", 3)))
+vioplot.col(hetero.data.smash$mise, hetero.data.smash.homo$mise,hetero.data.ebayes$mise, ylim = c(10, 80), col = c("magenta", rep("gold", 2)))
+axis(side = 1, at = 1:3, labels = c("SMASH \n", "SMASH \n homo", "EbayesThresh \n homo"), mgp = c(3, 3, 0))
+title(ylab = "MISE", line = 4)
+title(xlab = "Method", line = 6)
 abline(h = median(hetero.data.smash$mise), lty = 3, col = 3)
 dev.off()
 
 pdf("paper/violin_gaus_hetero_smash.pdf", height = 8, width = 12)
-vioplot(hetero.data.smash$mise, hetero.data.smash.true$mise, names = c("SMASH", "SMASH, true variance"))
+par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(5.1, 5.1, 6.1, 2.1), mgp = c(3, 1.3, 0))
+vioplot.col(hetero.data.smash$mise, hetero.data.smash.true$mise, ylim = c(10, 80), names = c("SMASH", "SMASH, true variance"), col = c("magenta", "purple"))
+title(ylab = "MISE")
 abline(h = median(hetero.data.smash$mise), lty = 3, col = 3)
+dev.off()
+
+
+hetero.data.smash.2 = res[res$.id == "cor.3.v3" & res$method == "smash.s8" , ]
+hetero.data.smash.homo.2 = res[res$.id == "cor.3.v3" & res$method == "smash.homo.s8" , ]
+hetero.data.tithresh.homo.2 = res[res$.id == "cor.3.v3" & res$method == "tithresh.homo.s8" , ]
+hetero.data.tithresh.rmad.2 = res[res$.id == "cor.3.v3" & res$method == "tithresh.rmad.s8" , ]
+hetero.data.tithresh.smash.2 = res[res$.id == "cor.3.v3" & res$method == "tithresh.smash.s8" , ]
+hetero.data.tithresh.true.2 = res[res$.id == "cor.3.v3" & res$method == "tithresh.true.s8" , ]
+hetero.data.ebayes.2 = res[res$.id == "cor.3.v3" & res$method == "ebayesthresh" , ]
+hetero.data.smash.true.2 = res[res$.id == "cor.3.v3" & res$method == "smash.true.s8" , ]
+
+# hetero.data.smash.2 = res[res$.id == "blk.3.v4" & res$method == "smash.s8" , ]
+# hetero.data.smash.homo.2 = res[res$.id == "blk.3.v4" & res$method == "smash.homo.s8" , ]
+# hetero.data.tithresh.homo.2 = res[res$.id == "blk.3.v4" & res$method == "tithresh.homo.s8" , ]
+# hetero.data.tithresh.rmad.2 = res[res$.id == "blk.3.v4" & res$method == "tithresh.rmad.s8" , ]
+# hetero.data.tithresh.smash.2 = res[res$.id == "blk.3.v4" & res$method == "tithresh.smash.s8" , ]
+# hetero.data.tithresh.true.2 = res[res$.id == "blk.3.v4" & res$method == "tithresh.true.s8" , ]
+# hetero.data.ebayes.2 = res[res$.id == "blk.3.v4" & res$method == "ebayesthresh" , ]
+# hetero.data.smash.true.2 = res[res$.id == "blk.3.v4" & res$method == "smash.true.s8" , ]
+
+pdf("paper/violin_gaus_hetero_ti_2.pdf", height = 8, width = 12)
+par(cex.axis = 1.7, cex.lab = 2, cex.sub = 2, mar = c(8.1, 6.1, 4.1, 2.1), mgp = c(3, 1.5, 0))
+vioplot.col(hetero.data.smash.2$mise, hetero.data.tithresh.rmad.2$mise, hetero.data.tithresh.smash.2$mise, hetero.data.tithresh.true.2$mise, ylim = c(0.5,5), col = c("magenta", rep("red", 3)))
+#vioplot.col(hetero.data.smash.2$mise, hetero.data.tithresh.rmad.2$mise, hetero.data.tithresh.smash.2$mise, hetero.data.tithresh.true.2$mise, ylim = c(50, 200), col = c("magenta", rep("red", 3)))
+axis(side = 1, at = 1:4, labels = c("SMASH \n", "TI-thresh \n RMAD variance", "TI-thresh \n SMASH variance", "TI-thresh \n true variance"), mgp = c(3, 3, 0))
+title(ylab = "MISE", line = 4)
+title(xlab = "Method", line = 6)
+abline(h = median(hetero.data.smash.2$mise), lty = 3, col = 3)
+dev.off()
+
+pdf("paper/violin_gaus_hetero_homo_2.pdf", height = 8, width = 12)
+par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(8.1, 6.1, 4.1, 2.1), mgp = c(3, 1.5, 0))
+#vioplot.col(hetero.data.smash$mise, hetero.data.smash.homo$mise, hetero.data.tithresh.homo$mise,hetero.data.ebayes$mise, ylim = c(10, 80), names = c("SMASH", "SMASH, homo", "TI-thresh, homo", "EbayesThresh, homo"), col = c("magenta", rep("gold", 3)))
+vioplot.col(hetero.data.smash.2$mise, hetero.data.smash.homo.2$mise,hetero.data.ebayes.2$mise, ylim = c(0.5, 5), names = c("SMASH", "SMASH, homo", "EbayesThresh, homo"), col = c("magenta", rep("gold", 2)))
+#vioplot.col(hetero.data.smash.2$mise, hetero.data.smash.homo.2$mise,hetero.data.ebayes.2$mise, ylim = c(50, 200), names = c("SMASH", "SMASH, homo", "EbayesThresh, homo"), col = c("magenta", rep("gold", 2)))
+title(ylab = "MISE", line = 4)
+title(xlab = "Method", line = 6)
+abline(h = median(hetero.data.smash.2$mise), lty = 3, col = 3)
+dev.off()
+
+pdf("paper/violin_gaus_hetero_smash_2.pdf", height = 8, width = 12)
+par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(5.1, 5.1, 4.1, 2.1), mgp = c(3, 1.3, 0))
+vioplot.col(hetero.data.smash.2$mise, hetero.data.smash.true.2$mise, ylim = c(50, 200), names = c("SMASH", "SMASH, true variance"), col = c("magenta", "purple"))
+title(ylab = "MISE")
+abline(h = median(hetero.data.smash.2$mise), lty = 3, col = 3)
 dev.off()
 
 
@@ -194,14 +256,15 @@ sig.est = sqrt(2/(3 * (n - 2)) * sum((1/2 * x.sim[1:(n - 2)] - x.sim[2:(n - 1)] 
 mu.ti.homo = ti.thresh(x.sim, sig = sig.est, family = "DaubLeAsymm", filter.number = 8)
 
 pdf("paper/simple_eg.pdf", height = 16, width = 16)
-par(mfrow = c(2, 2))
-plot(mu.sp, type = 'l', ylim = c(0.15, 0.85), xlab = "position", ylab = "mean")
+par(mfrow = c(2, 2), cex.axis = 2, cex.sub = 2, cex.lab = 2, mar = c(7.1, 7.1, 4.1, 3.1), mgp = c(3, 1.3, 0))
+plot(mu.sp, type = 'l', ylim = c(0.15, 0.85), xlab = "", ylab = "mean")
+title(xlab = "position", line = 4)
 plot(sig.cb, type = 'l', ylim = c(0, 0.1), xlab = "position", ylab = "standard deviation")
 plot(x.sim, ylim = c(-0.1, 1), xlab = "position", ylab = "observed value")
 plot(mu.sp, type = "l", lty = 2, ylim = c(0.15, 0.85), xlab = "position", ylab = "mean")
 lines(mu.ti, col = "blue")
 lines(mu.smash, col = "red")
-legend(x = 750, y = 0.7, legend = c("SMASH", "TI-thresh, RMAD"), col = c("red", "blue"), lty = c(1, 1), cex = 1.2, pt.cex = 0.5, bty = "n")
+legend(x = 600, y = 0.8, legend = c("SMASH", "TI-thresh, RMAD"), col = c("red", "blue"), lty = c(1, 1), cex = 1.6, pt.cex = 0.5, bty = "n")
 dev.off()
 
 
