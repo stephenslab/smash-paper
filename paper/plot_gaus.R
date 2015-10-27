@@ -2,7 +2,7 @@ library(dplyr)
 library(reshape2)
 library(ggplot2)
 library(vioplot)
-library(Hmisc)
+
 
 
 ##barplots in main body of paper
@@ -211,8 +211,9 @@ dev.off()
 pdf("paper/violin_gaus_hetero_homo_2.pdf", height = 8, width = 12)
 par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(8.1, 6.1, 4.1, 2.1), mgp = c(3, 1.5, 0))
 #vioplot.col(hetero.data.smash$mise, hetero.data.smash.homo$mise, hetero.data.tithresh.homo$mise,hetero.data.ebayes$mise, ylim = c(10, 80), names = c("SMASH", "SMASH, homo", "TI-thresh, homo", "EbayesThresh, homo"), col = c("magenta", rep("gold", 3)))
-vioplot.col(hetero.data.smash.2$mise, hetero.data.smash.homo.2$mise,hetero.data.ebayes.2$mise, ylim = c(0.5, 5), names = c("SMASH", "SMASH, homo", "EbayesThresh, homo"), col = c("magenta", rep("gold", 2)))
-#vioplot.col(hetero.data.smash.2$mise, hetero.data.smash.homo.2$mise,hetero.data.ebayes.2$mise, ylim = c(50, 200), names = c("SMASH", "SMASH, homo", "EbayesThresh, homo"), col = c("magenta", rep("gold", 2)))
+vioplot.col(hetero.data.smash.2$mise, hetero.data.smash.homo.2$mise,hetero.data.ebayes.2$mise, ylim = c(0.5, 5), col = c("magenta", rep("gold", 2)))
+#vioplot.col(hetero.data.smash.2$mise, hetero.data.smash.homo.2$mise,hetero.data.ebayes.2$mise, ylim = c(50, 200), col = c("magenta", rep("gold", 2)))
+axis(side = 1, at = 1:3, labels = c("SMASH \n", "SMASH \n homo", "EbayesThresh \n homo"), mgp = c(3, 3, 0))
 title(ylab = "MISE", line = 4)
 title(xlab = "Method", line = 6)
 abline(h = median(hetero.data.smash.2$mise), lty = 3, col = 3)
@@ -257,20 +258,23 @@ mu.ti.homo = ti.thresh(x.sim, sig = sig.est, family = "DaubLeAsymm", filter.numb
 
 pdf("paper/simple_eg.pdf", height = 16, width = 16)
 par(mfrow = c(2, 2), cex.axis = 2, cex.sub = 2, cex.lab = 2, mar = c(7.1, 7.1, 4.1, 3.1), mgp = c(3, 1.3, 0))
-plot(mu.sp, type = 'l', ylim = c(0.15, 0.85), xlab = "", ylab = "mean")
-title(xlab = "position", line = 4)
-plot(sig.cb, type = 'l', ylim = c(0, 0.1), xlab = "position", ylab = "standard deviation")
-plot(x.sim, ylim = c(-0.1, 1), xlab = "position", ylab = "observed value")
-plot(mu.sp, type = "l", lty = 2, ylim = c(0.15, 0.85), xlab = "position", ylab = "mean")
+plot(mu.sp, type = 'l', ylim = c(-0.05, 0.85), xlab = "", ylab = "")
+title(xlab = "position", ylab = "true mean", line = 4)
+plot(sig.cb, type = 'l', ylim = c(0, 0.1), xlab = "", ylab = "")
+title(xlab = "position", ylab = "standard deviation", line = 4)
+plot(x.sim, ylim = c(-0.05, 0.85), xlab = "", ylab = "")
+title(xlab = "position", ylab = "observed value", line = 4)
+plot(mu.sp, type = "l", lty = 2, ylim = c(-0.05, 0.85), xlab = "", ylab = "")
+title(xlab = "position", ylab = "reconstructed mean", line = 4)
 lines(mu.ti, col = "blue")
 lines(mu.smash, col = "red")
-legend(x = 600, y = 0.8, legend = c("SMASH", "TI-thresh, RMAD"), col = c("red", "blue"), lty = c(1, 1), cex = 1.6, pt.cex = 0.5, bty = "n")
+legend(x = 600, y = 0.83, legend = c("SMASH", "TI-thresh \n RMAD variance"), col = c("red", "blue"), lty = c(1, 1), cex = 1.6, pt.cex = 0.5, bty = "n")
 dev.off()
 
 
 #######################
 ##ash illustration
-source("code_plot.R")
+source("paper/code_plot.R")
 
 n = 1024
 t = 1:n/n
@@ -302,7 +306,7 @@ wc.true = titable(mu.sp)$difftable
 wc.sim.shrunk = list()
 wc.pres = list()
 for(j in 0:(log2(n) - 1)){
-  wc.sim.shrunk[[j+1]] = ash(wc.sim[j+2,],sqrt(wc.var.sim[j+2,]),prior="nullbiased",multiseqoutput=TRUE,pointmass=TRUE,nullcheck=TRUE,VB=FALSE,mixsd=NULL,mixcompdist="normal",gridmult=2,lambda1=1,lambda2=0,df=NULL,trace=FALSE)
+  wc.sim.shrunk[[j+1]] = ash(wc.sim[j+2,],sqrt(wc.var.sim[j+2,]),prior="nullbiased",multiseqoutput=TRUE,pointmass=TRUE,nullcheck=TRUE,VB=FALSE,mixsd=NULL,mixcompdist="normal",gridmult=2,lambda1=1,lambda2=0,df=NULL,control=(list(trace=FALSE)))
   wc.pres[[j+1]] = 1/sqrt(wc.var.sim[j+2,])
 }
 
