@@ -282,6 +282,16 @@ spike.f = function(x) (0.75 * exp(-500 * (x - 0.23)^2) + 1.5 * exp(-2000 * (x - 
 mu.sp = spike.f(t)
 mu.sp = (1 + mu.sp)/5
 
+
+mu.wave=0.5+0.2*cos(4*pi*t)+0.1*cos(24*pi*t)
+
+mu.sine = 0.01 * sin(2*pi*t)
+
+mu.cor=623.87*t^3*(1-2*t)*(t>=0&t<=0.5)+187.161*(0.125-t^3)*t^4*(t>0.5&t<=0.8)+3708.470441*(t-1)^3*(t>0.8&t<=1)
+mu.cor=(0.6/(max(mu.cor)-min(mu.cor)))*mu.cor
+mu.cor=mu.cor-min(mu.cor)+0.2
+
+
 pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
 hgt = 2.88/5 * c(4, (-5), 3, (-4), 5, (-4.2), 2.1, 4.3, (-3.1), 2.1, (-4.2))
 sig.cb = rep(0, length(t))
@@ -293,14 +303,18 @@ sig.cb = 0.1 + (sig.cb - min(sig.cb))/max(sig.cb)
 rsnr = sqrt(3)
 sig.cb = sig.cb/mean(sig.cb) * sd(mu.sp)/rsnr^2
 
+sig.texp = 1e-04 + 4 * (exp(-550 * (t - 0.2)^2) + exp(-200 * (t - 0.5)^2) + exp(-950 * (t - 0.8)^2))
+
 set.seed(70915)
-x.sim = rnorm(n, mu.sp, sig.cb)
+#x.sim = rnorm(n, mu.sp, sig.cb)
+x.sim = rnorm(n, mu.wave, sig.cb)
 
 ##get wavelet coefficients and their variances
 wc.sim = titable(x.sim)$difftable
+#wc.var.sim = titable(sig.cb^2)$sumtable
 wc.var.sim = titable(sig.cb^2)$sumtable
 
-wc.true = titable(mu.sp)$difftable
+wc.true = titable(mu.wave)$difftable
 
 ##get shrunken estimates
 wc.sim.shrunk = list()
@@ -319,11 +333,84 @@ col.bw.3 = wc.sig.3*0.7/(max(wc.sig.3) - min(wc.sig.3)) - (0.7/(max(wc.sig.3) - 
 plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, ylim = c(-1, 1), col = col.3)
 plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, ylim = c(-1, 1), col = grey(col.bw.3))
 
-col.8 <- rbPal(10)[as.numeric(cut(wc.pres[[8]],breaks = 10))]
-wc.sig.8 = 1/wc.pres[[8]]
-col.bw.8 = wc.sig.8*0.7/(max(wc.sig.8) - min(wc.sig.8)) - (0.7/(max(wc.sig.8) - min(wc.sig.8)))*min(wc.sig.8)
-plot(wc.sim[9, ], wc.sim.shrunk[[8]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = col.8)
-plot(wc.sim[9, ], wc.sim.shrunk[[8]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = grey(col.bw.8))
+col.7 <- rbPal(10)[as.numeric(cut(wc.pres[[7]],breaks = 10))]
+wc.sig.7 = 1/wc.pres[[7]]
+col.bw.7 = wc.sig.7*0.7/(max(wc.sig.7) - min(wc.sig.7)) - (0.7/(max(wc.sig.7) - min(wc.sig.7)))*min(wc.sig.7)
+plot(wc.sim[8, ], wc.sim.shrunk[[7]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = col.8)
+plot(wc.sim[8, ], wc.sim.shrunk[[7]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = grey(col.bw.8))
 
+
+
+set.seed(70915)
+#x.sim = rnorm(n, mu.sp, sig.cb)
+x.sim.2 = rnorm(n, mu.sine, sig.cb)
+
+##get wavelet coefficients and their variances
+wc.sim.2 = titable(x.sim.2)$difftable
+#wc.var.sim = titable(sig.cb^2)$sumtable
+wc.var.sim.2 = titable(sig.cb^2)$sumtable
+
+wc.true.2 = titable(mu.sine)$difftable
+
+##get shrunken estimates
+wc.sim.shrunk.2 = list()
+wc.pres.2 = list()
+for(j in 0:(log2(n) - 1)){
+  wc.sim.shrunk.2[[j+1]] = ash(wc.sim.2[j+2,],sqrt(wc.var.sim.2[j+2,]),prior="nullbiased",multiseqoutput=TRUE,pointmass=TRUE,nullcheck=TRUE,VB=FALSE,mixsd=NULL,mixcompdist="normal",gridmult=2,lambda1=1,lambda2=0,df=NULL,control=(list(trace=FALSE)))
+  wc.pres.2[[j+1]] = 1/sqrt(wc.var.sim.2[j+2,])
+}
+
+rbPal = colorRampPalette(c('red', 'white','blue'))
+
+#plot the wc and their shrunken estimates for different resolutions
+col.3 <- rbPal(10)[as.numeric(cut(wc.pres[[3]],breaks = 10))]
+wc.sig.3 = 1/wc.pres.2[[3]]
+col.bw.3 = wc.sig.3*0.7/(max(wc.sig.3) - min(wc.sig.3)) - (0.7/(max(wc.sig.3) - min(wc.sig.3)))*min(wc.sig.3)
+plot(wc.sim.2[4, ], wc.sim.shrunk.2[[3]]$PosteriorMean, xlim = c(-0.6, 0.6), pch = 20, ylim = c(-0.6, 0.6), col = col.3)
+plot(wc.sim.2[4, ], wc.sim.shrunk.2[[3]]$PosteriorMean, xlim = c(-0.6, 0.6), pch = 20, ylim = c(-0.6, 0.6), col = grey(col.bw.3))
+
+col.7 <- rbPal(10)[as.numeric(cut(wc.pres[[7]],breaks = 10))]
+wc.sig.7 = 1/wc.pres.2[[7]]
+col.bw.7 = wc.sig.7*0.7/(max(wc.sig.7) - min(wc.sig.7)) - (0.7/(max(wc.sig.7) - min(wc.sig.7)))*min(wc.sig.7)
+plot(wc.sim.2[8, ], wc.sim.shrunk.2[[7]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = col.8)
+plot(wc.sim.2[8, ], wc.sim.shrunk.2[[7]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = grey(col.bw.8))
+abline(0,1)
+
+
+hist(wc.true[4, ], breaks = 50, xlim = c(-0.2, 0.2), ylim = c(0, 500), col = "red")
+hist(wc.true.2[4, ], breaks = c(-0.005, 0, 0.005), add = TRUE, col = rgb(0, 1, 0, 0.5))
+
+hist(wc.true[8, ], breaks = 50, xlim = c(-14, 14), ylim = c(0, 500), col = "red")
+hist(wc.true.2[8, ], breaks = c(-0.5, 0, 0.5), add = TRUE, col = rgb(0, 1, 0, 0.5))
+
+
+par(mfrow = c(2, 2))
+col.3 <- rbPal(10)[as.numeric(cut(wc.pres[[3]],breaks = 10))]
+wc.sig.3 = 1/wc.pres[[3]]
+col.bw.3 = wc.sig.3*0.7/(max(wc.sig.3) - min(wc.sig.3)) - (0.7/(max(wc.sig.3) - min(wc.sig.3)))*min(wc.sig.3)
+#plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, ylim = c(-1, 1), col = col.3)
+plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, ylim = c(-1, 1), col = grey(col.bw.3), xlab = "Observed wavelet coefficients", ylab = "Shrunken wavelet coefficients", main = "Scale 7, not-so-peaky prior")
+abline(0, 1)
+
+col.7 <- rbPal(10)[as.numeric(cut(wc.pres[[7]],breaks = 10))]
+wc.sig.7 = 1/wc.pres[[7]]
+col.bw.7 = wc.sig.7*0.7/(max(wc.sig.7) - min(wc.sig.7)) - (0.7/(max(wc.sig.7) - min(wc.sig.7)))*min(wc.sig.7)
+#plot(wc.sim[8, ], wc.sim.shrunk[[7]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = col.8)
+plot(wc.sim[8, ], wc.sim.shrunk[[7]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = grey(col.bw.8), xlab = "Observed wavelet coefficients", ylab = "Shrunken wavelet coefficients", main = "Scale 3, not-so-peaky prior")
+abline(0, 1)
+
+col.3 <- rbPal(10)[as.numeric(cut(wc.pres[[3]],breaks = 10))]
+wc.sig.3 = 1/wc.pres.2[[3]]
+col.bw.3 = wc.sig.3*0.7/(max(wc.sig.3) - min(wc.sig.3)) - (0.7/(max(wc.sig.3) - min(wc.sig.3)))*min(wc.sig.3)
+#plot(wc.sim.2[4, ], wc.sim.shrunk.2[[3]]$PosteriorMean, xlim = c(-0.6, 0.6), pch = 20, ylim = c(-0.6, 0.6), col = col.3)
+plot(wc.sim.2[4, ], wc.sim.shrunk.2[[3]]$PosteriorMean, xlim = c(-0.6, 0.6), pch = 20, ylim = c(-0.6, 0.6), col = grey(col.bw.3), xlab = "Observed wavelet coefficients", ylab = "Shrunken wavelet coefficients", main = "Scale 7, peaky prior")
+abline(0, 1)
+
+col.7 <- rbPal(10)[as.numeric(cut(wc.pres[[7]],breaks = 10))]
+wc.sig.7 = 1/wc.pres.2[[7]]
+col.bw.7 = wc.sig.7*0.7/(max(wc.sig.7) - min(wc.sig.7)) - (0.7/(max(wc.sig.7) - min(wc.sig.7)))*min(wc.sig.7)
+#plot(wc.sim.2[8, ], wc.sim.shrunk.2[[7]]$PosteriorMean, xlim = c(-14, 14), pch = 20, ylim = c(-14, 14), col = col.8)
+plot(wc.sim.2[8, ], wc.sim.shrunk.2[[7]]$PosteriorMean, xlim = c(-3, 3), pch = 20, ylim = c(-3, 3), col = grey(col.bw.8), xlab = "Observed wavelet coefficients", ylab = "Shrunken wavelet coefficients", main = "Scale 7, peaky prior")
+abline(0, 1)
 
 
