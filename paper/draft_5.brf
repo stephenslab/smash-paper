@@ -1,0 +1,56 @@
+\backcite {Tibshirani1996Regression}{{1}{2}{section.2}}
+\backcite {Bickel2008Covariance}{{1}{2}{section.2}}
+\backcite {efron:xx}{{1}{2}{section.2}}
+\backcite {Donoho1994Ideal, donoho95}{{1}{2}{section.2}}
+\backcite {efron?, Johnstone2005Empirical, Clyde2000Flexible,george.mccullogh,bayesian-covariance-estimation}{{1}{2}{section.2}}
+\backcite {Antoniadis2001Wavelet}{{1}{2}{section.2}}
+\backcite {stephens:2015}{{1}{2}{section.2}}
+\backcite {stephens:2015}{{2}{2}{section.2}}
+\backcite {stephens:15}{{2}{2}{section.2}}
+\backcite {Donoho1994Ideal}{{2}{2}{section.2}}
+\backcite {Coifman1995Translationinvariant, Donoho1994Ideal, donoho95}{{2}{2}{section.2}}
+\backcite {Johnstone2005Empirical, Clyde2000Flexible}{{2}{2}{section.2}}
+\backcite {Johnstone2005Empirical, Clyde2000Flexible}{{2}{2}{section.2}}
+\backcite {stephens:2015}{{3}{3.1}{subsection.3.1}}
+\backcite {stephens:2015}{{4}{3.1}{equation.3.3}}
+\backcite {stephens:2015}{{4}{3.1}{equation.3.3}}
+\backcite {Silverman1999Wavelets}{{5}{3.2.1}{equation.3.8}}
+\backcite {Coifman1995Translationinvariant}{{5}{3.2.1}{equation.3.8}}
+\backcite {checkcgandjs}{{5}{3.2.1}{equation.3.8}}
+\backcite {Cai2008Adaptive}{{6}{3.2.2}{equation.3.10}}
+\backcite {Nowak2000Statistical}{{7}{3.3}{subsection.3.3}}
+\backcite {Timmermann1999Multiscale}{{7}{3.3}{subsection.3.3}}
+\backcite {Nowak2000Statistical}{{8}{3.3}{equation.3.17}}
+\backcite {Timmermann1999Multiscale}{{8}{3.3}{equation.3.17}}
+\backcite {Gart1967Bias}{{8}{3.3}{equation.3.17}}
+\backcite {Gart1967Bias}{{8}{3.3}{equation.3.17}}
+\backcite {Gao1997Wavelet}{{9}{4.2}{subsection.4.2}}
+\backcite {Antoniadis2001Wavelet}{{9}{4.2}{figure.caption.1}}
+\backcite {Coifman1995Translationinvariant}{{9}{4.2}{figure.caption.1}}
+\backcite {Johnstone2005Empirical}{{9}{4.2}{figure.caption.1}}
+\backcite {Gao1997Wavelet}{{9}{2}{Item.2}}
+\backcite {Menictas2015Variational}{{13}{4.2}{Item.4}}
+\backcite {Menictas2015Variational}{{13}{4.2}{Item.4}}
+\backcite {Sardy1999Wavelet}{{14}{4.2}{figure.caption.4}}
+\backcite {Timmermann1999Multiscale}{{14}{4.2}{table.caption.5}}
+\backcite {Fryzlewicz2004HaarFisz}{{14}{4.2}{table.caption.5}}
+\backcite {Fryzlewicz2004HaarFisz}{{14}{4.2}{table.caption.5}}
+\backcite {Kolaczyk1999Bayesian}{{14}{4.2}{table.caption.5}}
+\backcite {Fan1998Efficient}{{16}{5.1}{subsection.5.1}}
+\backcite {Fan1998Efficient}{{16}{5.1}{subsection.5.1}}
+\backcite {Delouille2004Smooth}{{16}{5.1}{equation.5.18}}
+\backcite {Fan1998Efficient}{{16}{5.1}{figure.caption.7}}
+\backcite {Fan1998Efficient}{{16}{5.1}{figure.caption.7}}
+\backcite {Fan1998Efficient}{{16}{5.1}{equation.5.19}}
+\backcite {Kolaczyk1999Bayesian}{{19}{6}{section.6}}
+\backcite {Menictas2015Variational}{{19}{6}{section.6}}
+\backcite {Kolaczyk1999Bayesian}{{21}{6}{section.6}}
+\backcite {Morris2006Waveletbased}{{21}{6}{section.6}}
+\backcite {Morris2006Waveletbased}{{21}{6}{section.6}}
+\backcite {Nowak1999Multiscale}{{21}{6}{section.6}}
+\backcite {Gart1967Bias}{{24}{B.1}{subsection.a.B.1}}
+\backcite {Gart1967Bias}{{24}{B.1}{equation.a.B.36}}
+\backcite {Gart1967Bias}{{24}{B.1}{equation.a.B.36}}
+\backcite {Gart1967Bias}{{24}{B.1}{equation.a.B.36}}
+\backcite {Coifman1995Translationinvariant}{{26}{B.2}{equation.a.B.49}}
+\backcite {Kolaczyk1999Multiscale}{{26}{B.2}{equation.a.B.49}}

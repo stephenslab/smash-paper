@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.16)  19 NOV 2015 14:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.16)  19 NOV 2015 17:59
 entering extended mode
-**draft_4.tex
-(draft_4.tex
+**draft_5.tex
+(draft_5.tex
 LaTeX2e <2015/01/01> patch level 2
 Babel <3.9m> and hyphenation patterns for 69 languages loaded.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
@@ -353,25 +353,30 @@ Package caption3 Info: TeX engine: e-TeX on input line 57.
 )
 \c@ContinuedFloat=\count117
 Package caption Info: hyperref package is loaded.
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\caption\subcaption.sty"
+) (C:\Users\zrxing\AppData\Roaming\MiKTeX\2.9\tex\latex\cite\cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\caption\subcaption.sty"
 Package: subcaption 2015/09/15 v1.1-100 Sub-captions (AR)
 \c@subfigure=\count118
 \c@subtable=\count119
-) (draft_4.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
+) (draft_5.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
 
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -388,7 +393,7 @@ LaTeX Font Info:    ... okay on input line 38.
 \everyMPtoPDFconversion=\toks32
 )
 \AtBeginShipoutBox=\box30
-Package hyperref Info: Link coloring ON on input line 38.
+Package hyperref Info: Link coloring ON on input line 37.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -397,10 +402,10 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count126
 )
-LaTeX Info: Redefining \ref on input line 38.
-LaTeX Info: Redefining \pageref on input line 38.
-LaTeX Info: Redefining \nameref on input line 38.
- (draft_4.out) (draft_4.out)
+LaTeX Info: Redefining \ref on input line 37.
+LaTeX Info: Redefining \pageref on input line 37.
+LaTeX Info: Redefining \nameref on input line 37.
+ (draft_5.out) (draft_5.out)
 \@outlinefile=\write3
 
 *geometry* driver: auto-detecting
@@ -439,75 +444,273 @@ LaTeX Info: Redefining \nameref on input line 38.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+msa on input line 43.
+LaTeX Font Info:    Try loading font information for U+msa on input line 42.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 43.
+LaTeX Font Info:    Try loading font information for U+msb on input line 42.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
 LaTeX Warning: No \author given.
 
+
+LaTeX Warning: Citation `efron:xx' on page 1 undefined on input line 47.
+
+
+LaTeX Warning: Citation `efron?' on page 1 undefined on input line 47.
+
+
+LaTeX Warning: Citation `george.mccullogh' on page 1 undefined on input line 47.
+
+
+LaTeX Warning: Citation `bayesian-covariance-estimation' on page 1 undefined on input line 47.
+
+
+LaTeX Warning: Citation `stephens:2015' on page 1 undefined on input line 78.
+
+
+LaTeX Warning: Citation `stephens:2015' on page 1 undefined on input line 86.
+
 [1
 
-{C:/Users/zrxing/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3] [4]
+{C:/Users/zrxing/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 
-LaTeX Warning: Reference `app:var estimation' on page 5 undefined on input line 108.
+LaTeX Warning: Citation `stephens:15' on page 2 undefined on input line 102.
+
+[2]
+
+LaTeX Warning: Citation `stephens:2015' on page 3 undefined on input line 157.
+
+[3]
+
+LaTeX Warning: Citation `stephens:2015' on page 4 undefined on input line 181.
+
+
+LaTeX Warning: Citation `stephens:2015' on page 4 undefined on input line 186.
+
+[4]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 260.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 260.
+
+Overfull \hbox (1.15604pt too wide) in paragraph at lines 260--263
+[]\OT1/cmr/m/n/12 Rather than use a sin-gle wavelet trans-forrm, we use the ``non-decimated" wavelet
+ []
+
+
+LaTeX Warning: Citation `checkcgandjs' on page 5 undefined on input line 267.
 
 [5] [6]
-Overfull \hbox (48.46216pt too wide) in paragraph at lines 144--146
-\OT1/cmr/m/n/12 Laplace ap-prox-i-ma-tion, which re-sults in the Gaus-sian like-li-hood given by $\OML/cmm/m/it/12 \OT1
-/cmr/m/n/12 (\OML/cmm/m/it/12 \OT1/cmr/m/n/12 ; []\OML/cmm/m/it/12 ; \U/msb/m/n/12 V\OT1/cmr/m/n/12 ([]))$.
- []
+
+LaTeX Warning: Reference `eq:constantvar' on page 7 undefined on input line 347.
 
 [7]
 
-LaTeX Warning: Reference `app:reconstruction' on page 8 undefined on input line 170.
+LaTeX Warning: Reference `' on page 8 undefined on input line 403.
 
-[8]
+[8] <simple_eg_1.pdf, id=199, 578.16pt x 433.62pt>
+File: simple_eg_1.pdf Graphic file (type pdf)
+ <use simple_eg_1.pdf>
+Package pdftex.def Info: simple_eg_1.pdf used on input line 446.
+(pdftex.def)             Requested size: 208.13574pt x 156.09647pt.
+ <simple_eg_2.pdf, id=200, 578.16pt x 433.62pt>
+File: simple_eg_2.pdf Graphic file (type pdf)
 
-LaTeX Warning: Reference `fig:gaus_homo_comp' on page 9 undefined on input line 176.
+<use simple_eg_2.pdf>
+Package pdftex.def Info: simple_eg_2.pdf used on input line 453.
+(pdftex.def)             Requested size: 208.13574pt x 156.09647pt.
+ <simple_eg_3.pdf, id=201, 578.16pt x 433.62pt>
+File: simple_eg_3.pdf Graphic file (type pdf)
+ <use simple_eg_3.pdf>
+Package pdftex.def Info: simple_eg_3.pdf used on input line 460.
+(pdftex.def)             Requested size: 208.13574pt x 156.09647pt.
+
+<simple_eg_4.pdf, id=202, 578.16pt x 418.56375pt>
+File: simple_eg_4.pdf Graphic file (type pdf)
+ <use simple_eg_4.pdf>
+Package pdftex.def Info: simple_eg_4.pdf used on input line 467.
+(pdftex.def)             Requested size: 208.13574pt x 150.67644pt.
+ <simple_eg_5.pdf, id=203, 578.16pt x 433.62pt>
+File: simple_eg_5.pdf Graphic file (type pdf)
+
+<use simple_eg_5.pdf>
+Package pdftex.def Info: simple_eg_5.pdf used on input line 474.
+(pdftex.def)             Requested size: 208.13574pt x 156.09647pt.
+ <violin_gaus_homo.pdf, id=208, 578.16pt x 578.16pt>
+File: violin_gaus_homo.pdf Graphic file (type pdf)
+ <use violin_gaus_homo.pdf>
+Package pdftex.def Info: violin_gaus_homo.pdf used on input line 487.
+(pdftex.def)             Requested size: 433.62001pt x 433.61893pt.
+
+<violin_gaus_hetero_1.pdf, id=210, 578.16pt x 578.16pt>
+File: violin_gaus_hetero_1.pdf Graphic file (type pdf)
+ <use violin_gaus_hetero_1.pdf>
+Package pdftex.def Info: violin_gaus_hetero_1.pdf used on input line 499.
+(pdftex.def)             Requested size: 216.81pt x 216.80946pt.
+
+<violin_gaus_hetero_sd_1.pdf, id=211, 578.16pt x 578.16pt>
+File: violin_gaus_hetero_sd_1.pdf Graphic file (type pdf)
+ <use violin_gaus_hetero_sd_1.pdf>
+Package pdftex.def Info: violin_gaus_hetero_sd_1.pdf used on input line 506.
+(pdftex.def)             Requested size: 195.12767pt x 195.12498pt.
+
+<violin_gaus_hetero_2.pdf, id=212, 578.16pt x 578.16pt>
+File: violin_gaus_hetero_2.pdf Graphic file (type pdf)
+ <use violin_gaus_hetero_2.pdf>
+Package pdftex.def Info: violin_gaus_hetero_2.pdf used on input line 513.
+(pdftex.def)             Requested size: 216.81pt x 216.80946pt.
+
+<violin_gaus_hetero_sd_2.pdf, id=213, 578.16pt x 578.16pt>
+File: violin_gaus_hetero_sd_2.pdf Graphic file (type pdf)
+ <use violin_gaus_hetero_sd_2.pdf>
+Package pdftex.def Info: violin_gaus_hetero_sd_2.pdf used on input line 520.
+(pdftex.def)             Requested size: 195.12767pt x 195.12498pt.
+ [9] [10 <./simple_eg_1.pdf> <./simple_eg_2.pdf> <./simple_eg_3.pdf> <./simple_eg_4.pdf> <./simple_eg_5.pdf>] [11 <./vio
+lin_gaus_homo.pdf>] [12 <./violin_gaus_hetero_1.pdf> <./violin_gaus_hetero_sd_1.pdf> <./violin_gaus_hetero_2.pdf> <./vio
+lin_gaus_hetero_sd_2.pdf>]
+Overfull \hbox (9.4637pt too wide) in paragraph at lines 542--543
+\OT1/cmr/m/n/12 tic and equally spaced on (0,1), while the $\OML/cmm/m/it/12 Y[]$\OT1/cmr/m/n/12 's were dis-tributed as
+ $\OML/cmm/m/it/12 N\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 m\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x[]\OT1/cmr/m/n/12 )\OML/cmm/m/
+it/12 ; sd\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x[]\OT1/cmr/m/n/12 ))$.
+ []
+
+<mfvb_mean.pdf, id=300, 578.16pt x 361.35pt>
+File: mfvb_mean.pdf Graphic file (type pdf)
+ <use mfvb_mean.pdf>
+Package pdftex.def Info: mfvb_mean.pdf used on input line 548.
+(pdftex.def)             Requested size: 195.12767pt x 121.95311pt.
+ <mfvb_var.pdf, id=301, 578.16pt x 361.35pt>
+File: mfvb_var.pdf Graphic file (type pdf)
+
+<use mfvb_var.pdf>
+Package pdftex.def Info: mfvb_var.pdf used on input line 555.
+(pdftex.def)             Requested size: 195.12767pt x 121.95311pt.
+ [13 <./mfvb_mean.pdf> <./mfvb_var.pdf>] <violin_pois_1.pdf, id=333, 578.16pt x 578.16pt>
+File: violin_pois_1.pdf Graphic file (type pdf)
+
+<use violin_pois_1.pdf>
+Package pdftex.def Info: violin_pois_1.pdf used on input line 586.
+(pdftex.def)             Requested size: 195.12767pt x 195.12498pt.
+ <violin_pois_8.pdf, id=334, 578.16pt x 578.16pt>
+File: violin_pois_8.pdf Graphic file (type pdf)
+ <use violin_pois_8.pdf>
+Package pdftex.def Info: violin_pois_8.pdf used on input line 593.
+(pdftex.def)             Requested size: 195.12767pt x 195.12498pt.
+ [14] [15 <./violin_pois_1.pdf> <./violin_pois_8.pdf>] <figures_treasury_a.pdf, id=368, 505.89pt x 505.89pt>
+File: figures_treasury_a.pdf Graphic file (type pdf)
+ <use figures_treasury_a.pdf>
+Package pdftex.def Info: figures_treasury_a.pdf used on input line 618.
+(pdftex.def)             Requested size: 173.44534pt x 173.44382pt.
+
+<figures_treasury_b.pdf, id=369, 505.89pt x 505.89pt>
+File: figures_treasury_b.pdf Graphic file (type pdf)
+ <use figures_treasury_b.pdf>
+Package pdftex.def Info: figures_treasury_b.pdf used on input line 625.
+(pdftex.def)             Requested size: 173.44534pt x 173.44382pt.
+
+<figures_treasury_c.pdf, id=370, 505.89pt x 505.89pt>
+File: figures_treasury_c.pdf Graphic file (type pdf)
+ <use figures_treasury_c.pdf>
+Package pdftex.def Info: figures_treasury_c.pdf used on input line 631.
+(pdftex.def)             Requested size: 173.44534pt x 173.44382pt.
+
+<figures_treasury_d.pdf, id=371, 505.89pt x 505.89pt>
+File: figures_treasury_d.pdf Graphic file (type pdf)
+ <use figures_treasury_d.pdf>
+Package pdftex.def Info: figures_treasury_d.pdf used on input line 638.
+(pdftex.def)             Requested size: 173.44534pt x 173.44382pt.
+ [16] [17 <./figures_treasury_a.pdf> <./figures_treasury_b.pdf> <./figures_treasury_c.pdf> <./figures_treasury_d.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 652--664
+
+ []
+
+[18] <peaks_comp_a.pdf, id=417, 722.7pt x 361.35pt>
+File: peaks_comp_a.pdf Graphic file (type pdf)
+ <use peaks_comp_a.pdf>
+Package pdftex.def Info: peaks_comp_a.pdf used on input line 669.
+(pdftex.def)             Requested size: 368.57965pt x 184.29158pt.
+
+<peaks_comp_b.pdf, id=418, 722.7pt x 361.35pt>
+File: peaks_comp_b.pdf Graphic file (type pdf)
+ <use peaks_comp_b.pdf>
+Package pdftex.def Info: peaks_comp_b.pdf used on input line 675.
+(pdftex.def)             Requested size: 368.57965pt x 184.29158pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 682--683
+
+ []
+
+[19] [20 <./peaks_comp_a.pdf> <./peaks_comp_b.pdf>] [21]
+
+LaTeX Warning: Reference `eq:likelihood' on page 22 undefined on input line 704.
+
+[22]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 757.
 
 
-LaTeX Warning: Reference `fig:gaus_homo_comp' on page 9 undefined on input line 176.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\alpha' on input line 757.
 
 
-LaTeX Warning: File `violin_gaus_homo_comp.pdf' not found on input line 182.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 757.
 
 
-! Package pdftex.def Error: File `violin_gaus_homo_comp.pdf' not found.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 757.
 
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.182 ...th=\textwidth]{violin_gaus_homo_comp.pdf}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+[23] [24]
 
+LaTeX Warning: Citation `Kolaczyk1999Multiscale' on page 25 undefined on input line 828.
 
-LaTeX Warning: File `violin_gaus_homo_smash.pdf' not found on input line 189.
-
-
-! Package pdftex.def Error: File `violin_gaus_homo_smash.pdf' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.189 ...h=\textwidth]{violin_gaus_homo_smash.pdf}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+[25] (draft_5.bbl (draft_5.brf)
+\tf@brf=\write4
+ [26] [27])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 841.
+ [28]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 841.
+ (draft_5.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 841.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 841.
+Package rerunfilecheck Info: File `draft_5.out' has not changed.
+(rerunfilecheck)             Checksum: CE3E1632A7995E57C15B0158D607CB2A;1413.
+Package rerunfilecheck Info: File `draft_5.brf' has not changed.
+(rerunfilecheck)             Checksum: 6DD5703484840260728B9C54BBBA2E37;3315.
 
 
-LaTeX Warning: Reference `fig:simple_eg' on page 9 undefined on input line 197.
+LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Reference `fig:gaus_hetero' on page 9 undefined on input line 197.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 841.
+ ) 
+Here is how much of TeX's memory you used:
+ 9068 strings out of 493673
+ 137068 string characters out of 3143956
+ 236588 words of memory out of 3000000
+ 12119 multiletter control sequences out of 15000+200000
+ 20003 words of font info for 74 fonts, out of 3000000 for 9000
+ 1025 hyphenation exceptions out of 8191
+ 42i,12n,38p,2230b,490s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/
+Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmmib10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program F
+iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
+10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10
+.pfb>
+Output written on draft_5.pdf (28 pages, 3111430 bytes).
+PDF statistics:
+ 644 PDF objects out of 1000 (max. 8388607)
+ 130 named destinations out of 1000 (max. 500000)
+ 269 words of extra memory for PDF output out of 10000 (max. 10000000)
 

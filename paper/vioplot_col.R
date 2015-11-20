@@ -235,7 +235,7 @@ vioplot.col <- function(x,...,range=1.5,h=NULL,ylim=NULL,names=NULL, horizontal=
     if(!add){
       plot.window(xlim = ylim, ylim = xlim)
       axis(1)
-      axis(2,at = at, label=label )
+      axis(2,at = at, label=label, las = 2)
     }
     
     box()
@@ -243,7 +243,7 @@ vioplot.col <- function(x,...,range=1.5,h=NULL,ylim=NULL,names=NULL, horizontal=
       # plot left/right density curve
       polygon( c(base[[i]], rev(base[[i]])),
                c(at[i]-height[[i]], rev(at[i]+height[[i]])),
-               col = col[i %% length(col) + 1], border=border, lty=lty, lwd=lwd)
+               col = col[i], border=border, lty=lty, lwd=lwd)
       
       if(drawRect){
         # plot IQR
