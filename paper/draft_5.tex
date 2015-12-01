@@ -75,15 +75,7 @@ Consistent with previous studies (\cite{Antoniadis2001Wavelet}) we find these EB
 \def\bhat{\hat{\beta}}
 \def\shat{\hat{s}}
 
-The {\it adaptive shrinkage} (\ash) method is described in detail in a companion paper, \cite{stephens:2015},
-which applies \ash~to estimate false discovery rates (FDR) in multiple testing settings. 
-Here we apply the same method to a different problem, signal denoising.  In brief,
-\ash~aims to provide EB shrinkage estimates of quantities $\beta_1,\dots,\beta_J$, given observed estimates of these quantities $\bhat_1,\dots,\bhat_J$, 
-and corresponding standard errors $\shat_1,\dots,\shat_J$. In common with most EB methods \ash~assumes that the $\beta_j$ come from some common underlying distribution, $g$, which is estimated from all the data (as $\hat{g}$ say), and
-uses the posterior mean,  $E(\beta_j | \bhat_j, \shat_j, \hat{g})$ as a shrinkage estimate of $\beta_j$.
-Key features that make \ash~attractive as a flexible and generic approach to shrinkage include: 
-i) its flexible semi-parametric modelling of $g$, under the constraint that it be uni-modal at 0 (and, optionally, symmetric); ii) its incorporation of the precision of each measurement through the standard errors $\shat_j$, so that the amount of shrinkage adapts to the precision of each measurement;  iii) its computational simplicity and speed: e.g.~our {\tt R} implementation typically takes a fraction of a second for $J=1000$;
-iv) its computational stability, with, for example, minimal problems due to convergence to local optima \cite{stephens:2015}. 
+The {\it adaptive shrinkage} (\ash) method is described in detail in a companion paper, \cite{stephens:2015}, which applies \ash~to estimate false discovery rates (FDR) in multiple testing settings. Here we apply the same method to a different problem, signal denoising.  In brief, \ash~aims to provide EB shrinkage estimates of quantities $\beta_1,\dots,\beta_J$, given observed estimates of these quantities $\bhat_1,\dots,\bhat_J$, and corresponding standard errors $\shat_1,\dots,\shat_J$. In common with most EB methods \ash~assumes that the $\beta_j$ come from some common underlying distribution, $g$, which is estimated from all the data (as $\hat{g}$ say), and uses the posterior mean,  $E(\beta_j | \bhat_j, \shat_j, \hat{g})$ as a shrinkage estimate of $\beta_j$. Key features that make \ash~attractive as a flexible and generic approach to shrinkage include: i) its flexible semi-parametric modelling of $g$, under the constraint that it be uni-modal at 0 (and, optionally, symmetric); ii) its incorporation of the precision of each measurement through the standard errors $\shat_j$, so that the amount of shrinkage adapts to the precision of each measurement;  iii) its computational simplicity and speed: e.g.~our {\tt R} implementation typically takes a fraction of a second for $J=1000$; iv) its computational stability, with, for example, minimal problems due to convergence to local optima \cite{stephens:2015}. 
 
 
 % treating the observations as conditionally independent from a normal model, $\bhat_j | \beta_j, \shat_j \sim N(\beta_j, \shat_j)$. Given the estimate $\hat{g}$ for $g$, \ash~then computes the posterior distiributions $\beta_j | \bhat_j, \shat_j, \hat{g}$,vand provides the posterior mean of $\beta_j$ as a shrinkage estimate for $\beta_j$. 
@@ -166,6 +158,7 @@ In its simpest form it assumes the hierarchical model
 where the distribution $g$ is constrained to be unimodal and symmetric. This constraint on $g$ can
 be flexibly achieved using 
 a mixture of zero-centered normal distributions
+
 \begin{equation}
 g(\cdot)=\sum_{k=0}^K \pi_0 N(\cdot;0,\sigma_k^2),
 \end{equation}
@@ -182,9 +175,6 @@ tractable, and the posterior mean $E(\beta_j \| \bhat, \shat, \hat{g})$ provides
 package, including generalizing the normal likelihood to a $t$ likelihood, and dropping the symmetric
 constraint on $g$ by replacing the mixture
 of normals with a more flexible (though less smooth) mixture of uniforms. However, we do not use these embellishments here. 
-CHECK: IS THIS TRUE. WHAT PARAMETERS DO WE USE?
-We also do not use the penalty term on the likelihood introduced in \cite{stephens:2015} for FDR applications,
-because it is unnecessary in this context, and has little effect on the shrinkage estimates.
 
 %\cite{stephens:2015} demonstrates the potential for this adaptive shrinkage approach to  estimate false discovery rates and related quantities in settings where the primary goal is to identify the $\beta_j$ that differ ``significantly" from 0. Our work here compliments this, by demonstrating  the potential for this approach to provide the adaptive shrinkage estimates that its name promises. 
 
@@ -227,7 +217,7 @@ which, using $\,\tilde{}\,$ to denote the wavelet transform, we write
 \end{equation}
 where $\tbe \sim N(0,W D W')$. 
 
-A key feature of the wavelet tranform is that if $\bmu$ is spatially structured 
+A key feature of the wavelet transform is that if $\bmu$ is spatially structured 
 then many elements of $\tbmu=W\bmu$ will tend to be close to zero, and vice versa.
 In other words, smoothing in the data domain corresponds to shrinking in the wavelet domain.
 Thus, one can obtain a spatially structured estimate of
@@ -257,9 +247,10 @@ see also \cite{Silverman1999Wavelets} for example.)
 The above outlines the basic strategy, but there are some important
  additional implementational details:
 \begin{itemize}
-\item Rather than use a single wavelet transforrm, we use the ``non-decimated" wavelet transform, which treats the observations as coming
-from a circle, rather than a line, and averages results over all $T$ possible rotations of the data. Although not always necessary, this is a standard trick to reduce artifacts that can occur near discontinuities in the underlying signal (see eg. \cite{Coifman1995Translationinvariant}). COMMENT: WHat about reflection before doing this?
-DO OTHER EB APPROACHES CONSIDER THE NDWT? ALSO, POINT FOR DISCUSSION: NDWT INCREASES DEPENDENCE, SO MAKE INDEPENDENCE ASSUMPTION WORSE, BUT MUCH BETTER TO DO IT THAN NOT TO DO IT!
+\item Rather than use a single wavelet transform, we use the ``non-decimated" wavelet transform, which treats the observations as coming
+from a circle, rather than a line, and averages results over all $T$ possible rotations of the data. Although not always necessary, this is a standard trick to reduce artifacts that can occur near discontinuities in the underlying signal (see eg. Coifman \& Donoho (1995)). 
+%COMMENT: WHat about reflection before doing this? ans: all the test fns are periodic
+%DO OTHER EB APPROACHES CONSIDER THE NDWT? yes ebayesthresh software discusses this option
 \item The non-decimated wavelet transform yields $T$ wavelet coefficients (transformed values of $\bY$) 
 at each of $J=\log_2(T)$ resolution levels.
 We apply ash separately to the wavelet coefficients at each resolution level, so that
@@ -267,7 +258,7 @@ a different distribution $g$ for the $(\tmu_j)$ is estimated for each resolution
 EB approaches are applied in this context (e.g.~\cite{checkcgandjs}) and indeed is crucial because
 the underlying distribution $g$  will vary with resolution (because smoothness of $\bmu$ will vary with resolution).  
 \item Although we have presented the wavelet transform as a matrix multiplication, which is an $o(T^2)$ operation, in practice both the wavelet transform and the inverse tranform are implemented using
-Mallat's pyramid algorithm, taking only $T\log(T)$ operations. Do we need $o(T \log T)$ or $O()$? What about the TI table? Is there a different name for the algorithm for the reverse transform?
+efficient algorithms \cite{beylkin.92,coifman.donoho.94}, implemented in the {\tt wavethresh} package \cite{}, taking only $O(T\log T)$ operations. 
 \end{itemize}
 %\item Ash yields a posterior distribution for each $\tmu_t$. A simple approach would
 %be to use the posterior mean for $\tmu_t$ and then invert the wavelet transform; however we instead use the delta method? 
@@ -303,12 +294,12 @@ Mallat's pyramid algorithm, taking only $T\log(T)$ operations. Do we need $o(T \
 \subsubsection{Estimating spatially structured variance (known mean)}
 
 Although we assumed variances to be known above, the problem of variance estimation is itself non-trivial. 
-A common approach is to assume that the variance is constant ($\sigma_t=\sigma$), and that changes in the adjacent means $\mu_t-\mu_{t+1}$ are negligible, so 
+A common approach is to assume that the variance is constant ($\sigma_t=\sigma$), and that changes in the adjacent means $\mu_t-\mu_{t+1}$ are negligible, and to use an unbiased estimate for $\sigma$ such as
 \begin{equation} \label{eq:constvar}
-\hat{\sigma} = (1/T) \sum_{t=1}^{T} (Y_t-Y_{t-1})^2
+\hat{\sigma}^2 = (1/2T) \sum_{t=1}^{T} (Y_t-Y_{t-1})^2
 \end{equation}
-(with $Y_0:=Y_T$) provides an unbiased estimate for $\sigma$. ...CHECK WITH TOM
-Here we make the more flexible assumption that the variance function is spatially structured, and use wavelet shrinkage to estimate it. 
+(with $Y_0:=Y_T$.
+Here we make the more flexible assumption that the variance function is spatially structured, and use wavelet shrinkage to estimate it. Our approach is similar in spirit to \cite{cai.wang}, but we jointly estimate the mean and variance functions whereas they estimate only the variance function.
 
 Assume initially that the mean $\mu_t$ is known, and define
 \begin{eqnarray}\label{eq:varobs1}
@@ -317,18 +308,15 @@ Z_t^2=(Y_t-\mu_t)^2_t
 to be the ``observations'' for the unknown variance function. Note that $\mathbb{E}(Z_t^2)=\s_t^2$, and so
 we have a mean estimation problem. To tackle this we use the mean estimation procedure above (effectively treating the wavelet-transformed values $WZ_t^2$ as Gaussian when really they are linear combinations of $\chi^2$ random variables). To apply this procedure we need the variance
 of $Z_t^2$, $\mathbb{V}(Z_t^2)$, which is unknown.
-Here we use $\frac{2}{3}Z_t^4$ as an approximately (CHECK) 
-unbiased estimator for $\mathbb{V}(Z_t^2)$. (This follows from the distributional result that, when $Z^2 \sim \s^2 \chi^2$, then $\mathbb{E}(Z^4)\approx 3\s^4$, and $\mathbb{V}(Z^2)\approx 2\s^4$.)
+Here we use $\frac{2}{3}Z_t^4$ as an 
+unbiased estimator for $\mathbb{V}(Z_t^2)$. (This follows from the distributional result that, when $Z^2 \sim \s^2 \chi^2$, then $\mathbb{E}(Z^4)= 3\s^4$, and $\mathbb{V}(Z^2)=2\s^4$.)
 
 Despite the approximations being made here, we have found this procedure to work well in practice in most cases,
-perhaps with a tendancy to oversmooth quickly-varying variance functions. (IS THIS A FAIR SUMMARY? DO
-WE REALLY KNOW IT IS OVERSMOOTHING? IS IT POSSIBLE TO DO BETTER?)
+perhaps with a tendancy to oversmooth quickly-varying variance functions. 
 %Although this works well in most cases, there are variance functions for which the above procedure tends to overshrink the detail coefficients at the finer levels. This is likely because the distribution of the wavelet coefficients are extremely skewed, especially when the true coefficients are large (at coarser levels the distributions are much less skewed since we are dealing a linear combination of a large number of data points).
 
-This approach is similar in spirit to \cite{Cai2008Adaptive}, but they use first order differences instead of the squared residuals, removing the need to jointly estimate the mean and variance. 
-WHY DID WE DO THIS? DID IT PERFORM BETTER? How do they deal with the unknown variance?
 
-   One way around this issue is to employ a procedure that jointly shrinks the coefficients $\bm{\Gg}$ and their variance estimates (see JASH). LET'S TALK MORE ABOUT THAT...
+
 
 %MOVE THIS TO DISCUSSION?
 %Of course, better likelihoods and priors could be used that reflect the skewness in the distributions of the ``observations'', but we found that a normal approximation works reasonably well (especially for smoother variance functions), and has the key advantage of being easy and fast to implement. The variance estimation process is then very similar to one for mean estimation as described above, with a few extra details. The full procedure is outlined in Appendix \ref{app:var estimation}.
@@ -343,8 +331,6 @@ We initialize the algorithm by estimating the variance vector $\bm{\s}^2$ using
 \end{eqnarray}
 where $Y_0\equiv Y_n$ and $Y_{T+1}\equiv Y_1$ (equivalent to putting the observations on a circle). 
 %This estimator has the property that it is approximately unbiased for the variance at the two corresponding points, provided that the mean and the variance function is smooth enough.
-IS THIS as in (eg Cai \& Wang (2008)).? ALSO IS THIS CORRECT? I REMOVED A SUM OVER T THAT TOM HAD.
-ALSO, DID WE TRY USING \eqref{eq:constantvar})?
 Then we iterate:
 \begin{enumerate}
 \item[1] Estimate $\bm{\mu}$ as if $\bm{\s}^2$ is known (with the value obtained from the previous step).
@@ -419,7 +405,6 @@ An alternative is to estimate the posterior mean using the Delta method; see App
 
 
 
-
 \section{Results}
 
 \subsection{Illustration}
@@ -475,7 +460,7 @@ We first present a simple illustration of our method as a signal denoising techn
         \caption{}
         \label{fig:simple_eg_5}
     \end{subfigure}
-    \caption{Simple illustration of the advantages of SMASH over TI-thresholding under heteroskedastic Gaussian errors. Top left plot shows the mean function, top right plot shows the variance function, bottom left plot shows a sample dataset, and bottom right plot shows the estimated mean functions from SMASH and TI-thresh against the true mean function.}
+    \caption{shows both ASH and SMASH at work. (a) shows the mean and variance functions, as well as one realized dataset. (b) contrasts the difference in the distribution of the true wavelet coefficients at two different scales - one coarse and one fine. (c) demonstrates the shrinkage properties of ASH for the two scales of interest: the coefficients at the fine scale are substantially shrunk, but barely so for the coarse scale. (d) shows the shrinkage effect of ASH on the fine scale wavelet coefficients - wavelet coefficients are shrunk adaptively based on their precision. (e) plots the estimated mean functions from SMASH and TI-thresh against the true mean function; we see that TI-thresh has notable artifacts.}
     \label{fig:simple_eg}
 \end{figure}
 
@@ -484,8 +469,8 @@ To demonstrate the robustness of SMASH, we now consider only homoskedastic error
 
 \begin{figure}
 \centering
-    \includegraphics[width=\textwidth]{violin_gaus_homo.pdf}
-    \caption{Violin plots of MISEs for various methods in denoising data with homoskedastic Gaussian errors for the ``Spikes'' mean function. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. a) demonstrates the performance gain of SMASH over two popular and accurate denoising methods: TI-thresholding and Ebayesthresh, and b) shows that SMASH with variance estimated can perform nearly as well as when it is given the true variance.}
+    \includegraphics[width=0.65\textwidth]{violin_gaus_homo.pdf}
+    \caption{Compares various wavelet-based methods for denoising data with homoskedastic Gaussian errors for the ``Spikes'' mean function. Violin plots of MISEs for (from bottom to top) SMASH, SMASH with homoskedastic assumption, TI-thresholding with homoskedastic assumption, Ebayesthresh with homoskedastic assumption, and SMASH with known true variance are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. We note the performance gain of SMASH over both TI-thresholding and Ebayesthresh, and that SMASH with estimated variance can perform nearly as well as when it is given the true variance.}
     \label{fig:gaus_homo}
 \end{figure}
 
@@ -494,34 +479,34 @@ Having shown that SMASH performs well in the homoskedastic case without any expl
 
 \begin{figure}
 \centering
-    \begin{subfigure}[b]{0.5\textwidth}
+    \begin{subfigure}[b]{0.65\textwidth}
         \centering
         \includegraphics[width=\textwidth]{violin_gaus_hetero_1.pdf}
         \caption{}
         \label{fig:gaus_hetero_1}
     \end{subfigure}
 		\hfill
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.3\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{violin_gaus_hetero_sd_1.pdf}
+        \raisebox{0.5\height}{\includegraphics[width=\textwidth]{violin_gaus_hetero_sd_1.pdf}}
         \caption{}
         \label{fig:gaus_hetero_sd_1}
     \end{subfigure}
 		\hfill
-    \begin{subfigure}[b]{0.5\textwidth}
+    \begin{subfigure}[b]{0.65\textwidth}
         \centering
         \includegraphics[width=\textwidth]{violin_gaus_hetero_2.pdf}
         \caption{}
         \label{fig:gaus_hetero_2}
     \end{subfigure}
 		\hfill
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.3\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{violin_gaus_hetero_sd_2.pdf}
+        \raisebox{0.5\height}{\includegraphics[width=\textwidth]{violin_gaus_hetero_sd_2.pdf}}
         \caption{}
         \label{fig:gaus_hetero_sd_2}
     \end{subfigure}
-    \caption{Violin plots of MISEs for various methods in denoising data with homoskedastic Gaussian errors for two sets of mean-variance functions: ``Spikes'' mean function with ``Clipped Blocks'' variance function, and ``Corner'' mean function with ``Doppler'' variance function. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. a) and c) demonstrates the performance gain of SMASH over TI-thresh with different variance options: variance estimated by RMAD, variance estimated by SMASH, and the true variance. b) and d) plots the associated.}
+    \caption{Compares various wavelet-based methods for denoising data with heteroskedastic Gaussian errors. Figures on the left show violin plots of MISEs for various methods in denoising data with homoskedastic Gaussian errors for two sets of mean-variance functions: ``Spikes'' mean function with ``Clipped Blocks'' variance function, and ``Corner'' mean function with ``Doppler'' variance function. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. Figures on the right plot the associated mean and variance functions. We note the performance gain of SMASH over TI-thresh with different variance options: variance estimated by RMAD, variance estimated by SMASH, and the true variance.}
     \label{fig:gaus_hetero}
 \end{figure}
 
@@ -531,7 +516,7 @@ Several facts are immediately clear from figure \ref{fig:gaus_hetero}:
 \item SMASH does better than all TI-thresh variants, including the case when the true variance is provided, demonstrating the excellent finite sample performance of SMASH.
 \item using the variance estimate from SMASH as an input to TI-thresh improves the accuracy of TI-thresh substantially, compared with using RMAD to estimate the variance as in \cite{Gao1997Wavelet}
 \item accounting for heteroskedasticity allows SMASH to vastly outperform methods which assume homoskedastic errors.
-\item empirical Bayes methods are more robust to violations of homoskedasticity compared with TI-thresholding.
+\item SMASH is more robust to violations of homoskedasticity compared with both Ebayesthresh (shown) and TI-thresholding (not shown due to space limitations).
 \end{enumerate}
 
 It should also be noted that providing the true variance to SMASH does not result in substantial gains compared to the case when SMASH estimates its own variance function for most of the test functions (results shown in the supplementary materials). Hence, we can reasonably assume that SMASH does a good job of variance estimation, although this claim relies heavily on the variance function at hand. For example, the Bumps variance function (see appendix ?) is extremely difficult to estimate, and SMASH will perform much better when provided with the true variance function.

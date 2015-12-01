@@ -119,6 +119,7 @@ library(vioplot)
 source("paper/vioplot_col.R")
 
 homo.data.smash = res[res$.id == "sp.3.v1" & res$method == "smash.s8" , ]
+homo.data.smash.homo = res[res$.id == "sp.3.v1" & res$method == "smash.homo.s8" , ]
 homo.data.tithresh = res[res$.id == "sp.3.v1" & res$method == "tithresh.homo.s8" , ]
 homo.data.ebayes = res[res$.id == "sp.3.v1" & res$method == "ebayesthresh" , ]
 homo.data.smash.true = res[res$.id == "sp.3.v1" & res$method == "smash.true.s8" , ]
@@ -152,11 +153,11 @@ homo.data = res[res$.id == "sp.3.v1" & (res$method == "smash.s8" | res$method ==
 #horizontal
 pdf("paper/violin_gaus_homo.pdf", height = 8, width = 8)
 par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5, mar = c(6.1, 12.1, 4.1, 2.1), mgp = c(3, 1.5, 0))
-vioplot.col(homo.data.smash$mise, homo.data.tithresh$mise, homo.data.ebayes$mise, homo.data.smash.true$mise, horizontal = TRUE, ylim = c(5, 18), col = c("magenta", "gold", "gold", "purple"))
-axis(2, 1:4, labels = c("SMASH", "TI-thresholding", "EbayesThresh", "SMASH\ntrue variance"), las = 2)
+vioplot.col(homo.data.smash$mise, homo.data.smash.homo$mise, homo.data.tithresh$mise, homo.data.ebayes$mise, homo.data.smash.true$mise, horizontal = TRUE, ylim = c(5, 18), col = c("magenta", "gold", "gold", "gold", "purple"))
+axis(2, 1:5, labels = c("SMASH", "SMASH\nhomo", "TI-thresholding\nhomo", "EbayesThresh\nhomo", "SMASH\ntrue variance"), las = 2)
 title(xlab = "MISE", line = 3.5)
 abline(v = median(homo.data.smash$mise), lty = 3, col = 3)
-abline(h = 3.5, lty = 3)
+abline(h = 4.5, lty = 3)
 dev.off()
 
 
@@ -171,7 +172,7 @@ cblocks.fn = function(t, type) {
   if (type == "mean") {
     return(NULL)
   } else if (type == "var") {
-    return(1e-05 + 1 * (fn - min(fn))/max(fn))
+    return(0.01 + 1 * (fn - min(fn))/max(fn))
   }
 }
 
@@ -280,7 +281,9 @@ dev.off()
 
 pdf("paper/violin_gaus_hetero_sd_1.pdf", height = 8, width = 8)
 par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5, mar = c(6.1, 3.1, 4.1, 2.1))
-plot(sd.fn, type = 'l', axes = FALSE, xlab = "", ylab = "")
+plot(mu, type = 'l', ylim = c(0, 1), axes = FALSE, xlab = "", ylab = "")
+lines(mu + 2* sd.fn, col = 2, lty = 5)
+lines(mu - 2* sd.fn, col = 2, lty = 5)
 axis(1, labels = FALSE, tick = FALSE)
 axis(2)
 dev.off()
@@ -364,7 +367,9 @@ dev.off()
 
 pdf("paper/violin_gaus_hetero_sd_2.pdf", height = 8, width = 8)
 par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5, mar = c(6.1, 3.1, 4.1, 2.1))
-plot(sd.fn.2, type = 'l', axes = FALSE, xlab = "", ylab = "")
+plot(mu, type = 'l', ylim = c(0, 1), axes = FALSE, xlab = "", ylab = "")
+lines(mu + 2* sd.fn.2, col = 2, lty = 5)
+lines(mu - 2* sd.fn.2, col = 2, lty = 5)
 axis(1, labels = FALSE, tick = FALSE)
 axis(2)
 dev.off()
@@ -422,7 +427,7 @@ rbPal = colorRampPalette(c('#191970', '#4169E1','#87CEEB'))
 #plot the wc and their shrunken estimates for different resolutions
 col.3 <- rev(rbPal(100))[as.numeric(cut(wc.pres[[3]],breaks = 100))]
 wc.sig.3 = 1/wc.pres[[3]]
-col.bw.3 = wc.sig.3*0.7/(max(wc.sig.3) - min(wc.sig.3)) - (0.7/(max(wc.sig.3) - min(wc.sig.3)))*min(wc.sig.3)
+col.bw.3 = wc.sig.3*0.8/(max(wc.sig.3) - min(wc.sig.3)) - (0.8/(max(wc.sig.3) - min(wc.sig.3)))*min(wc.sig.3)
 #plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, ylim = c(-1, 1), col = col.3)
 plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, ylim = c(-1, 1), col = grey(col.bw.3))
 
@@ -439,30 +444,31 @@ breaks.ori = seq(min(wc.sig.3), max(wc.sig.3), length.out = 50)
 
 pdf("paper/simple_eg_1.pdf", height = 6, width = 8)
 par(cex.axis = 1.8, cex.sub = 1.8, cex.lab = 1.8, mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
-plot(mu.sp, type = 'l', ylim = c(-0.05, 0.85), xlab = "position", ylab = "", lwd =1.7)
-lines(mu.sp + 2*sig.cb, col = 3, lty = 2, lwd = 1.7)
-lines(mu.sp - 2*sig.cb, col = 3, lty = 2, lwd = 1.7)
+plot(mu.sp, type = 'l', ylim = c(-0.05, 0.85), xlab = "position", ylab = "", lwd = 1.7)
+lines(mu.sp + 2*sig.cb, col = 2, lty = 5, lwd = 1.8)
+lines(mu.sp - 2*sig.cb, col = 2, lty = 5, lwd = 1.8)
 points(x.sim, cex = 0.7, pch = 16, col = alpha("black", 0.5))
 dev.off()
 
 pdf("paper/simple_eg_2.pdf", height = 6, width = 8)
 par(cex.axis = 1.8, cex.sub = 1.8, cex.lab = 1.8, mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
-hist(wc.true[4, ], breaks = 2, xlab = "wavelet coefficients", xlim = c(-25, 25), ylim = c(0, 800), col = "red", main = "")
+hist(wc.true[4, ], breaks = 2, xlab = "wavelet coefficients", xlim = c(-25, 25), ylim = c(0, 1000), col = grey(0.3), main = "")
 hist(wc.true[10, ], breaks = 40, add = TRUE, col = rgb(0, 1, 0, 0.5))
+legend('topright', legend = c("wavelet coefficients, scale 1", "wavelet coefficients, scale 7"), cex = 1.5, fill = c(rgb(0, 1, 0, 0.5), grey(0.1)))
 dev.off()
 
 pdf("paper/simple_eg_3.pdf", height = 6, width = 8)
 par(cex.axis = 1.8, cex.sub = 1.8, cex.lab = 1.8, mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
-plot(wc.sim[10, ], wc.sim.shrunk[[9]]$PosteriorMean, xlab = "empirical wavelet coefficients", ylab = "estimated wavelet coefficients", xlim = c(-4, 4), pch = 20, cex = 0.8, ylim = c(-4, 4), col = '#228B22')
+plot(wc.sim[10, ], wc.sim.shrunk[[9]]$PosteriorMean, xlab = "empirical wavelet coefficients", ylab = "estimated wavelet coefficients", xlim = c(-4, 4), pch = 20, cex = 0.8, ylim = c(-4, 4), col = rgb(0, 1, 0, 0.5))
 points(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, pch = 20, cex = 0.8, col = grey(0.1))
 abline(0, 1, lty = 3, col = grey(0.3))
-legend('bottomright', legend = c("wavelet coefficients, scale 1", "wavelet coefficients, scale 7"), cex = 1.5, pch = c(20, 20), col = c(grey(0.1), '#228B22'))
+legend('bottomright', legend = c("wavelet coefficients, scale 1", "wavelet coefficients, scale 7"), cex = 1.5, pch = c(20, 20), col = c(rgb(0, 1, 0, 0.5), grey(0.1)))
 dev.off()
 
 pdf("paper/simple_eg_4.pdf", height = 5.8, width = 8)
 layout(matrix(c(1, 1, 1, 3, 2, 0), nrow = 3), widths = c(8, 2), heights = c(2, 4, 2))
 par(mar = c(7.1, 7.1, 2.1, 1.1), cex.axis = 2.5, cex.sub = 2.5, cex.lab = 2.5, mgp = c(3, 1.5, 0))
-plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, cex = 0.8, xlab = "", ylab = "", ylim = c(-1, 1), col = grey(col.bw.3))
+plot(wc.sim[4, ], wc.sim.shrunk[[3]]$PosteriorMean, xlim = c(-1, 1), pch = 20, cex = 1.4, xlab = "", ylab = "", ylim = c(-1, 1), col = grey(col.bw.3))
 title(xlab = "empirical wavelet coefficients", ylab = "estimated wavelet coefficients", line = 4)
 par(mar = c(1, 1, 0.1, 5.1), cex.axis = 2, cex.sub = 2, cex.lab = 2, mgp = c(3, 1.3, 0))
 image.scale(volcano, col = grey(breaks), breaks = breaks.ori, horiz = FALSE, yaxt = "n")
@@ -477,8 +483,8 @@ par(cex.axis = 1.8, cex.sub = 1.8, cex.lab = 1.8, mar = c(6.1, 6.1, 2.1, 2.1), m
 plot(mu.sp, type = "l", lty = 2, ylim = c(-0.05, 0.85), xlab = "", ylab = "")
 title(xlab = "position", ylab = "reconstructed mean", line = 4)
 lines(mu.ti, col = "blue")
-lines(mu.smash, col = "red")
-legend(x = 550, y = 0.9, legend = c("SMASH", "TI-thresh \n RMAD variance"), col = c("red", "blue"), lty = c(1, 1), cex = 1.6, pt.cex = 0.5, bty = "n")
+lines(mu.smash, col = "#FF8C00")
+legend(x = 500, y = 0.9, legend = c("SMASH", "TI-thresh (RMAD)"), col = c("#FF8C00", "blue"), lty = c(1, 1), cex = 1.6, pt.cex = 0.5, bty = "n")
 dev.off()
 
 

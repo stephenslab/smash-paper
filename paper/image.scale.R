@@ -1,3 +1,5 @@
+#Disclaimer: This function is courtesy of Pretty R at inside-R.org
+
 image.scale <- function(z, zlim, col = heat.colors(12),
                         breaks, horiz=TRUE, ylim=NULL, xlim=NULL, ...){
   if(!missing(breaks)){

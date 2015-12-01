@@ -11,12 +11,6 @@ Peter~J. Bickel and Elizaveta Levina.
 \newblock {Covariance regularization by thresholding}.
 \newblock {\em The Annals of Statistics}, 36(6):2577--2604, December 2008.
 
-\bibitem{Cai2008Adaptive}
-Tony~T. Cai and Lie Wang.
-\newblock {Adaptive variance function estimation in heteroscedastic
-  nonparametric regression}.
-\newblock {\em The Annals of Statistics}, 36(5):2025--2054, October 2008.
-
 \bibitem{Clyde2000Flexible}
 Merlise Clyde and Edward~I. George.
 \newblock {Flexible empirical Bayes estimation for wavelets}.
