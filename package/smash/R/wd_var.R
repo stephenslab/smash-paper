@@ -112,7 +112,7 @@ wd.var <- function (data, filter.number = 10, family = "DaubLeAsymm", type = "wa
 
 
 
-convert.var=function (wd, ...) 
+convert.var <- function (wd, ...) 
 {
     if (wd$type != "station") 
         stop("Object to convert must be of type \"station\" ")
@@ -143,7 +143,7 @@ convert.var=function (wd, ...)
 
 
 
-AvBasis.var=function (wst, Ccode = TRUE, ...) 
+AvBasis.var <- function (wst, Ccode = TRUE, ...) 
 {
     nlevels <- nlevelsWT(wst)
     if (is.null(wst$filter$G)) {
