@@ -45,7 +45,7 @@
 
 @article{Kolaczyk1999Bayesian,
     abstract = {{Abstract I introduce a class of Bayesian multiscale models (BMSM's) for one-dimensional inhomogeneous Poisson processes. The focus is on estimating the (discretized) intensity function underlying the process. Unlike the usual transform-based approach at the heart of most wavelet-based methods for Gaussian data, these BMSM's are constructed using recursive dyadic partitions (RDP's) within an entirely likelihood-based framework. Each RDP may be associated with a binary tree, and a new multiscale prior distribution is introduced for the unknown intensity through the placement of mixture distributions at each of the nodes of the tree. The concept of model mixing is then applied to a complete collection of such trees. In addition to allowing for the inclusion of full location/scale information in the model, this last step also is fundamental both in inducing stationarity in the prior distribution and in enabling a given intensity function to be approximated at the resolution of the data. Under squared-error loss, a closed-form recursive expression for the Bayes optimal estimator is derived, which makes computationally efficient implementation possible. The mixing parameters in the prior distribution can be interpreted as the ?fraction of homogeneity? in the underlying intensity function at each scale, and I provide an empirical Bayes approach to eliciting their values, resulting in the ability to quantify multiscale structure in the data. The practical performance of the overall procedure is investigated through a series of simulations and illustrated using a real-data example from the field of high-energy astrophysics.}},
-    author = {Kolaczyk, Eric D.},
+    author = {Kolaczyk, Eric D},
     citeulike-article-id = {13839867},
     citeulike-linkout-0 = {http://dx.doi.org/10.1080/01621459.1999.10474197},
     citeulike-linkout-1 = {http://www.tandfonline.com/doi/abs/10.1080/01621459.1999.10474197},
@@ -1039,4 +1039,46 @@ seminorms, and partition-based multiscale estimation methods.}},
     year = {1992}
 }
 
+@inproceedings{D93,
+    abstract = {{. We describe wavelet methods for recovery of objects from noisy and incomplete data. The common themes: (a) the new methods utilize nonlinear operations in the wavelet domain; (b) they accomplish tasks which are not possible by traditional linear/Fourier approaches to such problems. We attempt to indicate the heuristic principles, theoretical foundations, and possible application areas for these methods. Areas covered: (1) Wavelet De-Noising. (2) Wavelet Approaches to Linear Inverse Problems. (4) Wavelet Packet De-Noising. (5) Segmented MultiResolutions. (6) Nonlinear Multi-resolutions. 1. Introduction.  With the rapid development of computerized scientific instruments comes a wide variety of interesting problems for data analysis and signal processing. In fields ranging from Extragalactic Astronomy to Molecular Spectroscopy to Medical Imaging to Computer Vision, one must recover a signal, curve, image, spectrum, or density from incomplete, indirect, and noisy data. What can wavelets ...}},
+    author = {Donoho, David L.},
+    booktitle = {In Proceedings of Symposia in Applied Mathematics},
+    citeulike-article-id = {9268342},
+    citeulike-linkout-0 = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.41.7262},
+    keywords = {poisson, regression, shrinkage, thresholding, vst, wavelet},
+    pages = {173--205},
+    posted-at = {2016-01-08 22:35:49},
+    priority = {2},
+    publisher = {AMS},
+    title = {{Nonlinear Wavelet Methods for Recovery of Signals, Densities, and Spectra from Indirect and Noisy Data}},
+    url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.41.7262},
+    volume = {47},
+    year = {1993}
+}
 
+@article{kolaczyk1999wavelet,
+  title={Wavelet shrinkage estimation of certain Poisson intensity signals using corrected thresholds},
+  author={Kolaczyk, Eric D},
+  journal={Statistica Sinica},
+  volume={9},
+  number={1},
+  pages={119--135},
+  year={1999},
+  publisher={C/O DR HC HO, INST STATISTICAL SCIENCE, ACADEMIA SINICA, TAIPEI 115, TAIWAN}
+}
+
+
+@inproceedings{Kolaczyk1996NonParametric,
+    abstract = {{In this article, I present a method for the non-parametric (model-free) estimation of intensity profiles underlying gamma-ray bursts. The method, TIPSH, is based on applying specially calibrated thresholds to the Haar wavelet coefficients of binned counts gathered from such bursts. As functions well-localized with respect to both time and scale, wavelets are an ideal tool for working with the often sharp, abrupt nature of gamma-ray burst signals. When applied to an idealized signal in a small simulation study and a selection of actual gamma-ray bursts, the TIPSH algorithm is found to be well capable of simultaneously estimating the smooth, uniform background and the pulse-like structure of gamma-ray burst signals.  Subject headings: gamma rays: bursts -- methods: statistical  1 INTRODUCTION.  In this paper I introduce a non-parametric method for estimating the intensity profiles of gamma-ray bursts (GRBs). The term `non-parametric' is used in the statistical sense, to refer to a lack ...}},
+    author = {Kolaczyk, Eric D},
+    booktitle = {The Astrophysical Journal},
+    citeulike-article-id = {13901325},
+    citeulike-linkout-0 = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.47.5161},
+    keywords = {haar, poisson, regression, shrinkage, thresholding},
+    pages = {340--349},
+    posted-at = {2016-01-08 22:39:18},
+    priority = {2},
+    title = {{Non-Parametric Estimation of Gamma-Ray Burst Intensities Using Haar Wavelets.}},
+    url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.47.5161},
+    year = {1996}
+}

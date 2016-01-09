@@ -47,7 +47,11 @@
 Shrinkage and sparsity play a key role in many areas of modern statistics, including, for example, high-dimensional regression \cite{Tibshirani1996Regression}, covariance or precision matrix estimation \cite{Bickel2008Covariance}, multiple testing \cite{efron:xx} and signal denoising \cite{Donoho1994Ideal, donoho95}. One attractive way to achieve shrinkage and sparsity is via Bayesian or Empirical Bayes (EB) methods (e.g.\cite{efron?, Johnstone2005Empirical, Clyde2000Flexible,george.mccullogh,bayesian-covariance-estimation}).  
 However, these methods are usually perceived to require context-specific implementations, and this overhead can limit their use in practice. Here we consider a flexible EB approach to shrinkage, which we call {\it adaptive shrinkage}, whose goal is to provide a generic shrinkage method that could be useful for a range of applications. 
 We show how this single shrinkage method can produce effective results for several denoising problems, including smoothing Gaussian means in the presence of heteroskedastic variance, smoothing of Gaussian variances, and smoothing Poisson means. These are all settings that are relatively underserved by existing EB implementations, and indeed  we are unaware of any existing EB implementation for smoothing either the mean or the variance in the heteroskedastic Gaussian case.
-Consistent with previous studies (\cite{Antoniadis2001Wavelet}) we find these EB methods to be more accurate than commonly-used thresholding rules, and, in the Poisson case, competitive with a purpose-built EB method.
+Consistent with previous studies (\cite{Antoniadis2001Wavelet}, \cite{Besbeas2004Comparative}) we find these EB methods to be more accurate than commonly-used thresholding rules, and, in the Poisson case, competitive with a purpose-built EB method.
+
+Methods for smoothing the variance of Gaussian data, or even for smoothing the mean in the presence of heteroskedastic errors, are uncommon, particularly compared with the well-studied homoskedastic case. Previous non-wavelet-based work includes \cite{Fan1998Efficient}, who estimated the variance by smoothing the squared residuals using local polynomial smoothing, and \cite{Brown2007Variance} who employed difference-based kernel estimators. The only wavelet-based method for variance estimation we have found is \cite{Cai2008Adaptive}, which applied a wavelet thresholding approach to first order differences. Unfortunately none of these methods have available software implementations. (WAND'S WORK?)
+
+For Poisson data, variance stabilizing techniques together with normal approximations have been proposed by \cite{D93} and \cite{Fryzlewicz2004HaarFisz}, by exploiting the mean-variance relationship of a Poisson distribution. \cite{Kolaczyk1996NonParametric} and \cite{kolaczyk1999wavelet} derived thresholds achieving optimal asymptotic properties in the context of wavelet transformations, similar to the thresholds in the i.i.d. Gaussian case.  However, \cite{Fryzlewicz2004HaarFisz} is computationally inefficient due to the presence of external cycle-spinning, and threshold-based methods may not result in satisfactory finite sample performance. Furthermore, all of these methods are sensitive to the choice of the primary resolution level as subsequent simulations will show. Multiscale analysis using recursive dyadic partitions within a Bayesian framework was later developed by \cite{Kolaczyk1999Bayesian} to make use of a particular form of likelihood factorization, but a relatively inflexible conjugate prior was chosen. 
 
 %Methods used to achieve shrinkage and sparsity include simple thresholding rules
 %(e.g.~\cite{TI-thresh, SURE, others?,thresholding-outside-of-wavelets?}), penalized likelihood approaches (e.g.~\cite{lasso,elasticnet,glasso}), and 
@@ -75,7 +79,7 @@ Consistent with previous studies (\cite{Antoniadis2001Wavelet}) we find these EB
 \def\bhat{\hat{\beta}}
 \def\shat{\hat{s}}
 
-The {\it adaptive shrinkage} (\ash) method is described in detail in a companion paper, \cite{stephens:2015}, which applies \ash~to estimate false discovery rates (FDR) in multiple testing settings. Here we apply the same method to a different problem, signal denoising.  In brief, \ash~aims to provide EB shrinkage estimates of quantities $\beta_1,\dots,\beta_J$, given observed estimates of these quantities $\bhat_1,\dots,\bhat_J$, and corresponding standard errors $\shat_1,\dots,\shat_J$. In common with most EB methods \ash~assumes that the $\beta_j$ come from some common underlying distribution, $g$, which is estimated from all the data (as $\hat{g}$ say), and uses the posterior mean,  $E(\beta_j | \bhat_j, \shat_j, \hat{g})$ as a shrinkage estimate of $\beta_j$. Key features that make \ash~attractive as a flexible and generic approach to shrinkage include: i) its flexible semi-parametric modelling of $g$, under the constraint that it be uni-modal at 0 (and, optionally, symmetric); ii) its incorporation of the precision of each measurement through the standard errors $\shat_j$, so that the amount of shrinkage adapts to the precision of each measurement;  iii) its computational simplicity and speed: e.g.~our {\tt R} implementation typically takes a fraction of a second for $J=1000$; iv) its computational stability, with, for example, minimal problems due to convergence to local optima \cite{stephens:2015}. 
+The {\it adaptive shrinkage} (\ash) method is described in detail in a companion paper, \cite{stephens:2015}, which applies \ash~to estimate false discovery rates (FDR) in multiple testing settings. Here we apply the same method to the signal denoising problems described above.  In brief, \ash~aims to provide EB shrinkage estimates of quantities $\beta_1,\dots,\beta_J$, given observed estimates of these quantities $\bhat_1,\dots,\bhat_J$, and corresponding standard errors $\shat_1,\dots,\shat_J$. In common with most EB methods \ash~assumes that the $\beta_j$ come from some common underlying distribution, $g$, which is estimated from all the data (as $\hat{g}$ say), and uses the posterior mean,  $E(\beta_j | \bhat_j, \shat_j, \hat{g})$ as a shrinkage estimate of $\beta_j$. Key features that make \ash~attractive as a flexible and generic approach to shrinkage include: i) its flexible semi-parametric modelling of $g$, under the constraint that it be uni-modal at 0 (and, optionally, symmetric); ii) its incorporation of the precision of each measurement through the standard errors $\shat_j$, so that the amount of shrinkage adapts to the precision of each measurement;  iii) its computational simplicity and speed: e.g.~our {\tt R} implementation typically takes a fraction of a second for $J=1000$; iv) its computational stability, with, for example, minimal problems due to convergence to local optima \cite{stephens:2015}. 
 
 
 % treating the observations as conditionally independent from a normal model, $\bhat_j | \beta_j, \shat_j \sim N(\beta_j, \shat_j)$. Given the estimate $\hat{g}$ for $g$, \ash~then computes the posterior distiributions $\beta_j | \bhat_j, \shat_j, \hat{g}$,vand provides the posterior mean of $\beta_j$ as a shrinkage estimate for $\beta_j$. 
@@ -119,15 +123,8 @@ and {\tt smash} (SMoothing by Adaptive SHrinkage), available from
 
 %Before delving deeper into the two denoising tasks, we first present a brief overview of wavelet estimators. These estimators have become extremely popular in nonparametric regression problems following the seminal paper by Donoho \& Johnstone (1994). Wavelet methods are locally adaptive in that they achieve the optimal minimax rate over a wide variety of functions, yet are also computationally faster than many other adaptive methods such as variable-bandwidth kernel methods [antoniadis 2001]. While classical thresholding estimators have been shown to possess optimal asymptotic properties, an extensive simulation study by Antoniadis et al. (2001) has demonstrated that various Bayesian shrinkage methods are usually more adaptive than thresholding methods in finite samples, outperforming the latter in terms of mean squared error (MSE). However, many Bayesian methods require specific distributional assumptions, and are not easily extensible to more complex problems, two of which we subsequently describe. On the other hand, our method simplies the task by making approximations, while still possessing good finite sample performance and computational efficiency. These approximations also allow us to use ASH as the common shrinkage procedure in both the problems.
 
-Move some of this material to the relevant place? or discussion?
 
-Methods for smoothing the variance of Gaussian data, or even for smoothing the mean in the presence of heteroskedastic errors, 
-are uncommon, particularly compared with the well-studied homoskedastic case. 
-Previous non-wavelet-based work includes Fan \& Yao (1998), who estimated the variance by smoothing the squared residuals using local polynomial smoothing, and Brown \& Levine (2007) who employed difference-based kernel estimators. The only wavelet-based method we have found is Cai \& Wang (2008), which applied
-a wavelet thresholding approach to first order differences. Unfortunately none of these methods have available software implementations.
-mention Wand work.
 
-The second task is to denoise a Poisson distributed signal. This often occurs in the experimental sciences such as gamma-ray burst signals in astronomy [references], and more recently in genetics where high throughput sequencing data is of interest. This problem is interesting because there are many distinct ways to perform signal recovery. Variance stabilizing techniques together with normal approximations have been proposed by Donoho (1993) and Fryzlewicz \& Nason (2001), by exploiting the mean-variance relationship of a Poisson distribution. Kolaczyk (1997, 1999a) derived thresholds achieving optimal asymptotic properties in the context of wavelet transformations, similar to the thresholds in the i.i.d. Gaussian case.  However, variance stabilizing methods are computationally inefficient due to the presence of external cycle-spinning, and threshold-based methods may not result in satisfactory finite sample performance. Furthermore, both these methods are quite sensitive to the choice of the primary resolution level as our simulations will show. Multiscale analysis using recursive dyadic partitions within a Bayesian framework was later developed by Kolaczyk (1999b) to make use of a particular form of likelihood factorization, but a relatively inflexible conjugate prior was chosen. We will improve upon the prior (and likelihood) specification by using ASH as the main shrinkage procedure in a Bayesian framework similar to that of Kolaczyk (1999b).
 
 %Both the aforementioned problems are harder to deal with than the classical problem with i.i.d. Gaussian errors, and usually requires extension of the ideas from the latter task. Before proceeding to describe the two problems in detail, we will first describe briefly the portion of ASH that performs shrinkage. 
 
@@ -464,7 +461,7 @@ We first present a simple illustration of our method as a signal denoising techn
         \caption{}
         \label{fig:simple_eg_5}
     \end{subfigure}
-    \caption{shows both ASH and SMASH at work. (a) shows the mean and variance functions, as well as one realized dataset. (b) contrasts the difference in the distribution of the true wavelet coefficients at two different scales - one coarse and one fine. (c) demonstrates the shrinkage properties of ASH for the two scales of interest: the coefficients at the fine scale are substantially shrunk, but barely so for the coarse scale. (d) shows the shrinkage effect of ASH on the fine scale wavelet coefficients - wavelet coefficients are shrunk adaptively based on their precision. (e) plots the estimated mean functions from SMASH and TI-thresh against the true mean function; we see that TI-thresh has noticeable artifacts.}
+    \caption{shows both ASH and SMASH at work. (a) shows the mean and variance functions, as well as one realized dataset. (b) contrasts the difference in the distribution of the true wavelet coefficients at two different scales - one coarse (scale 1) and one fine (scale 7). (c) demonstrates the shrinkage properties of ASH for the two scales of interest (scales 1 and 7): the coefficients at the fine scale (scale 7) are substantially shrunk, but barely so for the coarse scale. (d) shows the shrinkage effect of ASH on the fine scale (scale 7) wavelet coefficients - wavelet coefficients are shrunk adaptively based on their precision. (e) plots the estimated mean functions from SMASH and TI-thresh against the true mean function; we see that TI-thresh has noticeable artifacts.}
     \label{fig:simple_eg}
 \end{figure}
 
@@ -567,7 +564,7 @@ SMASH & 0.0334 & 0.0187 & 0.0158 & 0.0065 \\
 
 Note that wavelets in general are poorly suited for dealing with the setup in Scenario 1; not only are the number of data points not a power of two, they are also not equally spaced. Also, linear interpolation between sample points was used in computing the MSE, further impacting the accuracy of SMASH. At the same time, spline-based methods such as MFVB are well suited to dealing with smooth mean and variance functions such as those used in the simulations, whereas wavelet methods can better deal with spatial inhomogeneity which are present in functions such as those presented in Figure \ref{fig:gaus_homo}. Despite all these limitations, our method performs comparably to MFVB in terms of mean estimation for the simulation scheme presented in Scenario 1, and has a lower MSE in terms of variance estimation. For Scenario 2, our method outperforms MFVB in both mean and variance estimation. 
 
-Thus far, we have demonstrated that our method does a good job of mean and variance estimation for a variety of situations in the Gaussian case. As such, we now turn our attention to the Poisson case. For this simulation study, we considered different test functions and Poisson intensities for a given sample size of $n=1024$ as in \cite{Timmermann1999Multiscale} and \cite{Fryzlewicz2004HaarFisz}, over 100 independent runs. Figure \ref{fig:pois_sim} compares the MISE of SMASH with Haar-Fisz (\cite{Fryzlewicz2004HaarFisz}) and BMSM (\cite{Kolaczyk1999Bayesian}), which are two popular and accurate Poisson denoising techniques, for the ``Bursts'' function with (min,max) intensities of (0.01,3) and (1/8,8). The low intensities are of primary interest in genomic applications, and so we focus our attention to these. Complete results, including a (min,max) intensity of (1/128, 128), are included in appendix \textcolor{red}{where?}. From figure \ref{fig:pois_sim}, it is clear that SMASH outperforms both methods, and the claim holds true in general. As an exception, Haar-Fisz outperforms both SMASH and BMSM for certain test functions with a (min,max) intensity of (1/128,128) when the asmyptotic variance of 1 is assumed in the Gaussian wavelet thresholding stage of the Haar-Fisz algorithm, but underperforms when the variance is estimated from the data instead. Besides the somewhat strong assumption of unit variance, the inconsistent performance of Haar-Fisz could also be attributed to the choice of the primary resolution level used, which can substantially affect the performance of Haar-Fisz in general. Here we analyzed primary resolution levels of 4, 5, 6 and 7. On the other hand, SMASH outperforms BMSM consistently, even though our method is based on the same likelihood factorization used in the latter. We can thus conclude that the choice of ASH as the shrinkage procedure (with the necessary likelihood approximations) is superior to that used in BMSM. More importantly, using this formulation in SMASH also makes it easily extensible to multiple samples in the context of a (generalized) linear model, something we will briefly describe in the Discussion section.
+Thus far, we have demonstrated that our method does a good job of mean and variance estimation for a variety of situations in the Gaussian case. As such, we now turn our attention to the Poisson case. For this simulation study, we considered different test functions and Poisson intensities for a given sample size of $n=1024$ as in \cite{Timmermann1999Multiscale}, \cite{Fryzlewicz2004HaarFisz} and \cite{Besbeas2004Comparative}, over 100 independent runs. Figure \ref{fig:pois_sim} compares the MISE of SMASH with Haar-Fisz (\cite{Fryzlewicz2004HaarFisz}) and BMSM (\cite{Kolaczyk1999Bayesian}), which are two popular and accurate Poisson denoising techniques, for the ``Bursts'' function with (min,max) intensities of (0.01,3) and (1/8,8). The low intensities are of primary interest in genomic applications, and so we focus our attention to these. Complete results, including a (min,max) intensity of (1/128, 128), are included in appendix \textcolor{red}{where?}. From figure \ref{fig:pois_sim}, it is clear that SMASH outperforms both methods, and the claim holds true in general. As an exception, Haar-Fisz outperforms both SMASH and BMSM for certain test functions with a (min,max) intensity of (1/128,128) when the asmyptotic variance of 1 is assumed in the Gaussian wavelet thresholding stage of the Haar-Fisz algorithm, but underperforms when the variance is estimated from the data instead. Besides the somewhat strong assumption of unit variance, the inconsistent performance of Haar-Fisz could also be attributed to the choice of the primary resolution level used, which can substantially affect the performance of Haar-Fisz in general. Here we analyzed primary resolution levels of 4, 5, 6 and 7, similar to \cite{Besbeas2004Comparative}. On the other hand, SMASH outperforms BMSM consistently, even though our method is based on the same likelihood factorization used in the latter. We can thus conclude that the choice of ASH as the shrinkage procedure (with the necessary likelihood approximations) is superior to that used in BMSM. More importantly, using this formulation in SMASH also makes it easily extensible to multiple samples in the context of a (generalized) linear model, something we will briefly describe in the Discussion section.
 \begin{figure}
 \centering
     \begin{subfigure}[b]{0.45\textwidth}
@@ -593,49 +590,58 @@ Overall, these simulation studies demonstrate the ability of our method to accur
 
 
 \section{Application to real datasets}
-\subsection{Three-month Treasury Bill Yields}
-In this section we apply the Gaussian and Poisson denoising techniques to one example dataset each. For the Gaussian case, we looked at yields of secondary market rates from three-month Treasure bills, which were recorded weekly on Fridays. These rates were quoted on a discount basis and annualized using a 360-day year of bank interest. To match the analysis in \cite{Fan1998Efficient}, we used 1735 weekly observations spanning Jan. 5 1962 to Mar. 31 1995. The data are plotted in Figure \ref{fig:tb_raw_data}. Similar to \cite{Fan1998Efficient}, we fit an autoregressive model of order 5 (AR(5)) to the data and obtained the following:
-\begin{eqnarray}
-T_t=1.228T_{t-1}-0.234T_{t-2}+0.028T_{t-3}+0.039T_{t-4}-0.066T_{t-5}+Y_t
-\end{eqnarray}
-where $T_t, t=1,...,1735$ is the time series for the yields, and $Y_t$ are the residuals from fitting the model. Figure \ref{fig:tb_res} shows the plot of $Y_t$ against $X_t\equiv T_{t-1}$. Our goal is to estimate the mean function defined by $E(Y_t|X_t=x)$ as well as the variance function $V(Y_t|X_t=x)$. Note that standard wavelet techniques are not designed for such types of data, where 1) repeated observations are present and 2) the number of data points is not a power of two and the points are unevenly spaced. To tackle the first issue, we use the median of the repeated observations at their respective sample points (see eg \cite{Delouille2004Smooth}). Next, we applied the procedure described in the Simulations section when comparing our method against MFVB, which was a modified version of symmetric extension. This deals with the second complication. The estimated mean and variance functions are given in Figures \ref{fig:tb_res} and \ref{fig:tb_var} respectively.
-
+%\subsection{Three-month Treasury Bill Yields}
+%In this section we apply the Gaussian and Poisson denoising techniques to one example dataset each. For the Gaussian case, we looked at yields of secondary market rates from three-month Treasure bills, which were recorded weekly on Fridays. These rates were quoted on a discount basis and annualized using a 360-day year of bank interest. To match the analysis in \cite{Fan1998Efficient}, we used 1735 weekly observations spanning Jan. 5 1962 to Mar. 31 1995. The data are plotted in Figure \ref{fig:tb_raw_data}. Similar to \cite{Fan1998Efficient}, we fit an autoregressive model of order 5 (AR(5)) to the data and obtained the following:
+%\begin{eqnarray}
+%T_t=1.228T_{t-1}-0.234T_{t-2}+0.028T_{t-3}+0.039T_{t-4}-0.066T_{t-5}+Y_t
+%\end{eqnarray}
+%where $T_t, t=1,...,1735$ is the time series for the yields, and $Y_t$ are the residuals from fitting the model. Figure \ref{fig:tb_res} shows the plot of $Y_t$ against $X_t\equiv T_{t-1}$. Our goal is to estimate the mean function defined by $E(Y_t|X_t=x)$ as well as the variance function $V(Y_t|X_t=x)$. Note that standard wavelet techniques are not designed for such types of data, where 1) repeated observations are present and 2) the number of data points is not a power of two and the points are unevenly spaced. To tackle the first issue, we use the median of the repeated observations at their respective sample points (see eg \cite{Delouille2004Smooth}). Next, we applied the procedure described in the Simulations section when comparing our method against MFVB, which was a modified version of symmetric extension. This deals with the second complication. The estimated mean and variance functions are given in Figures \ref{fig:tb_res} and \ref{fig:tb_var} respectively.
+%
+%\begin{figure}
+%\centering
+    %\begin{subfigure}[b]{0.4\textwidth}
+        %\centering
+        %\includegraphics[width=\textwidth]{figures_treasury_a.pdf}
+        %\caption{}
+        %\label{fig:tb_raw_data}
+    %\end{subfigure}
+    %\hfill
+    %\begin{subfigure}[b]{0.4\textwidth}
+        %\centering
+        %\includegraphics[width=\textwidth]{figures_treasury_b.pdf}
+        %\caption{}
+        %\label{fig:tb_res}
+    %\end{subfigure}
+    %\begin{subfigure}[b]{0.4\textwidth}
+        %\centering
+        %\includegraphics[width=\textwidth]{figures_treasury_c.pdf}
+        %\caption{}
+        %\label{fig:tb_mean}
+    %\end{subfigure}
+    %\hfill
+    %\begin{subfigure}[b]{0.4\textwidth}
+        %\centering
+        %\includegraphics[width=\textwidth]{figures_treasury_d.pdf}
+        %\caption{}
+        %\label{fig:tb_var}
+    %\end{subfigure}
+    %\caption{Analysis of yields from three-month Treasury Bills. (a) Raw data of interest rates as a function of time. (b) Residuals $Y_t$ from fitting an AR(5) model to the data against $X_t\equiv T_{t-1}$. The red curve is the estimated mean curve from SMASH. (c) Plot of a zoomed-in version of the estimated mean curve, with approximate 95\% credible bands. (d) The estimated conditional variance curve, with approximate 95\% credible bands.}
+%\end{figure}
+%
+%Except for possible boundary effects, our mean and conditional variance estimates are similar to those of \cite{Fan1998Efficient}. Unfortunately, these boundary effects are difficult to deal with for non-periodic functions in the wavelet case, and our usage of symmetric extension with the Haar basis is just one possible solution. Better alternatives have been suggested by eg. Su et al. (2013), but is beyond the scope of discussion in this paper. Similar to the analysis in \cite{Fan1998Efficient}, we found the correlation coefficient between the logarithm of $x_t$ and the logarithm $\hat{V}^{1/2}(Y_t|x_t)$ to be 0.949, which further supports the structural volatility model suggested by Andersen and Lund (source?):
+%\begin{eqnarray}
+%Var^{1/2}(Y_t|x_t)=\Ga x_t^{\Gb}
+%\end{eqnarray}
+%By performing least squares regression of $\log(\hat{V}^{1/2}(Y_t|x_t))$ on $\log(x_t)$, we have that $\hat{\Ga}=0.0106$ and $\hat{\Gb}=1.429$, which are similar to the values reported in \cite{Fan1998Efficient}.
+\subsection{Motorcycle Acceleration Data}
 \begin{figure}
 \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures_treasury_a.pdf}
-        \caption{}
-        \label{fig:tb_raw_data}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures_treasury_b.pdf}
-        \caption{}
-        \label{fig:tb_res}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures_treasury_c.pdf}
-        \caption{}
-        \label{fig:tb_mean}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures_treasury_d.pdf}
-        \caption{}
-        \label{fig:tb_var}
-    \end{subfigure}
-    \caption{Analysis of yields from three-month Treasury Bills. (a) Raw data of interest rates as a function of time. (b) Residuals $Y_t$ from fitting an AR(5) model to the data against $X_t\equiv T_{t-1}$. The red curve is the estimated mean curve from SMASH. (c) Plot of a zoomed-in version of the estimated mean curve, with approximate 95\% credible bands. (d) The estimated conditional variance curve, with approximate 95\% credible bands.}
+    \includegraphics[width=0.65\textwidth]{motorcycle.pdf}
+    \caption{}
+    \label{fig:motorcycle}
 \end{figure}
 
-Except for possible boundary effects, our mean and conditional variance estimates are similar to those of \cite{Fan1998Efficient}. Unfortunately, these boundary effects are difficult to deal with for non-periodic functions in the wavelet case, and our usage of symmetric extension with the Haar basis is just one possible solution. Better alternatives have been suggested by eg. Su et al. (2013), but is beyond the scope of discussion in this paper. Similar to the analysis in \cite{Fan1998Efficient}, we found the correlation coefficient between the logarithm of $x_t$ and the logarithm $\hat{V}^{1/2}(Y_t|x_t)$ to be 0.949, which further supports the structural volatility model suggested by Andersen and Lund (source?):
-\begin{eqnarray}
-Var^{1/2}(Y_t|x_t)=\Ga x_t^{\Gb}
-\end{eqnarray}
-By performing least squares regression of $\log(\hat{V}^{1/2}(Y_t|x_t))$ on $\log(x_t)$, we have that $\hat{\Ga}=0.0106$ and $\hat{\Gb}=1.429$, which are similar to the values reported in \cite{Fan1998Efficient}.
+Talk about this being a fast one-step procedure. Compare with Delouille and note that we do not have to manually remove detail coefficients. Could also do better visually by using better interpolation methods
 \newpage
 \subsection{ChIP-Seq Data}
 Here we apply our Poisson de-noising procedure to next generation sequencing data, commonly seen in the field of genomics. Specifically, we chose an example dataset from the ENCODE (\textbf{Enc}yclopedia \textbf{O}f \textbf{D}NA \textbf{E}lements) project launched by the National Human Genome Research Institute. This dataset contains reads from chromatin immunoprecipitation sequencing (ChIP-seq) measuring transcription factor binding in two different cell types, with two samples for each cell type. Due to the massive size of the data, we selected a representative portion of the reads of length $2^{15}$ from chromosome 1.

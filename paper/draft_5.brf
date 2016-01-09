@@ -4,7 +4,17 @@
 \backcite {Donoho1994Ideal, donoho95}{{1}{2}{section.2}}
 \backcite {efron?, Johnstone2005Empirical, Clyde2000Flexible,george.mccullogh,bayesian-covariance-estimation}{{1}{2}{section.2}}
 \backcite {Antoniadis2001Wavelet}{{1}{2}{section.2}}
-\backcite {stephens:2015}{{1}{2}{section.2}}
+\backcite {Besbeas2004Comparative}{{1}{2}{section.2}}
+\backcite {Fan1998Efficient}{{1}{2}{section.2}}
+\backcite {Brown2007Variance}{{1}{2}{section.2}}
+\backcite {Cai2008Adaptive}{{1}{2}{section.2}}
+\backcite {D93}{{1}{2}{section.2}}
+\backcite {Fryzlewicz2004HaarFisz}{{1}{2}{section.2}}
+\backcite {Kolaczyk1996NonParametric}{{2}{2}{section.2}}
+\backcite {kolaczyk1999wavelet}{{2}{2}{section.2}}
+\backcite {Fryzlewicz2004HaarFisz}{{2}{2}{section.2}}
+\backcite {Kolaczyk1999Bayesian}{{2}{2}{section.2}}
+\backcite {stephens:2015}{{2}{2}{section.2}}
 \backcite {stephens:2015}{{2}{2}{section.2}}
 \backcite {stephens:15}{{2}{2}{section.2}}
 \backcite {Donoho1994Ideal}{{2}{2}{section.2}}
@@ -12,14 +22,14 @@
 \backcite {Johnstone2005Empirical, Clyde2000Flexible}{{2}{2}{section.2}}
 \backcite {Johnstone2005Empirical, Clyde2000Flexible}{{2}{2}{section.2}}
 \backcite {stephens:2015}{{3}{3.1}{subsection.3.1}}
-\backcite {stephens:2015}{{4}{3.1}{equation.3.3}}
+\backcite {stephens:2015}{{3}{3.1}{equation.3.3}}
 \backcite {Silverman1999Wavelets}{{5}{3.2.1}{equation.3.8}}
 \backcite {checkcgandjs}{{5}{3.2.1}{equation.3.8}}
 \backcite {beylkin.92,coifman.donoho.94}{{5}{3.2.1}{equation.3.8}}
 \backcite {}{{5}{3.2.1}{equation.3.8}}
-\backcite {cai.wang}{{6}{3.2.2}{equation.3.9}}
-\backcite {Nowak2000Statistical}{{7}{3.3}{subsection.3.3}}
-\backcite {Timmermann1999Multiscale}{{7}{3.3}{subsection.3.3}}
+\backcite {cai.wang}{{5}{3.2.2}{equation.3.9}}
+\backcite {Nowak2000Statistical}{{6}{3.3}{subsection.3.3}}
+\backcite {Timmermann1999Multiscale}{{6}{3.3}{subsection.3.3}}
 \backcite {Nowak2000Statistical}{{7}{3.3}{equation.3.17}}
 \backcite {Timmermann1999Multiscale}{{7}{3.3}{equation.3.17}}
 \backcite {Gart1967Bias}{{7}{3.3}{equation.3.17}}
@@ -34,23 +44,19 @@
 \backcite {Sardy1999Wavelet}{{13}{4.2}{figure.caption.4}}
 \backcite {Timmermann1999Multiscale}{{14}{4.2}{table.caption.5}}
 \backcite {Fryzlewicz2004HaarFisz}{{14}{4.2}{table.caption.5}}
+\backcite {Besbeas2004Comparative}{{14}{4.2}{table.caption.5}}
 \backcite {Fryzlewicz2004HaarFisz}{{14}{4.2}{table.caption.5}}
 \backcite {Kolaczyk1999Bayesian}{{14}{4.2}{table.caption.5}}
-\backcite {Fan1998Efficient}{{15}{5.1}{subsection.5.1}}
-\backcite {Fan1998Efficient}{{15}{5.1}{subsection.5.1}}
-\backcite {Delouille2004Smooth}{{15}{5.1}{equation.5.18}}
-\backcite {Fan1998Efficient}{{15}{5.1}{figure.caption.7}}
-\backcite {Fan1998Efficient}{{15}{5.1}{figure.caption.7}}
-\backcite {Fan1998Efficient}{{17}{5.1}{equation.5.19}}
+\backcite {Besbeas2004Comparative}{{14}{4.2}{table.caption.5}}
+\backcite {Kolaczyk1999Bayesian}{{17}{6}{section.6}}
+\backcite {Menictas2015Variational}{{17}{6}{section.6}}
 \backcite {Kolaczyk1999Bayesian}{{19}{6}{section.6}}
-\backcite {Menictas2015Variational}{{19}{6}{section.6}}
-\backcite {Kolaczyk1999Bayesian}{{21}{6}{section.6}}
-\backcite {Morris2006Waveletbased}{{21}{6}{section.6}}
-\backcite {Morris2006Waveletbased}{{21}{6}{section.6}}
-\backcite {Nowak1999Multiscale}{{21}{6}{section.6}}
-\backcite {Gart1967Bias}{{24}{B.1}{subsection.a.B.1}}
-\backcite {Gart1967Bias}{{24}{B.1}{equation.a.B.36}}
-\backcite {Gart1967Bias}{{24}{B.1}{equation.a.B.36}}
-\backcite {Gart1967Bias}{{24}{B.1}{equation.a.B.36}}
-\backcite {Coifman1995Translationinvariant}{{26}{B.2}{equation.a.B.49}}
-\backcite {Kolaczyk1999Multiscale}{{26}{B.2}{equation.a.B.49}}
+\backcite {Morris2006Waveletbased}{{19}{6}{section.6}}
+\backcite {Morris2006Waveletbased}{{19}{6}{section.6}}
+\backcite {Nowak1999Multiscale}{{19}{6}{section.6}}
+\backcite {Gart1967Bias}{{22}{B.1}{subsection.a.B.1}}
+\backcite {Gart1967Bias}{{22}{B.1}{equation.a.B.34}}
+\backcite {Gart1967Bias}{{22}{B.1}{equation.a.B.34}}
+\backcite {Gart1967Bias}{{22}{B.1}{equation.a.B.34}}
+\backcite {Coifman1995Translationinvariant}{{24}{B.2}{equation.a.B.47}}
+\backcite {Kolaczyk1999Multiscale}{{24}{B.2}{equation.a.B.47}}
