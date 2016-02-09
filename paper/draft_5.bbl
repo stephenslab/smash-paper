@@ -39,6 +39,13 @@ Merlise Clyde and Edward~I. George.
 R.~R. Coifman and D.~L. Donoho.
 \newblock {Translation-invariant de-noising}, 1995.
 
+\bibitem{Delouille2004Smooth}
+V.~Delouille, J.~Simoens, and R.~von Sachs.
+\newblock {Smooth Design-Adapted Wavelets for Nonparametric Stochastic
+  Regression}.
+\newblock {\em Journal of the American Statistical Association},
+  99(467):643--658, September 2004.
+
 \bibitem{D93}
 David~L. Donoho.
 \newblock {Nonlinear Wavelet Methods for Recovery of Signals, Densities, and
@@ -133,6 +140,13 @@ Sylvain Sardy, Donald~B. Percival, Andrew~G. Bruce, Hong-Ye Gao, and Werner
   Stuetzle.
 \newblock {Wavelet shrinkage for unequally spaced data}.
 \newblock {\em Statistics and Computing}, 9(1):65--75, April 1999.
+
+\bibitem{silverman1985some}
+B.~W. Silverman.
+\newblock Some aspects of the spline smoothing approach to non-parametric
+  regression curve fitting.
+\newblock {\em Journal of the Royal Statistical Society. Series B
+  (Methodological)}, 47(1):1--52, 1985.
 
 \bibitem{Silverman1999Wavelets}
 Bernard~W. Silverman.

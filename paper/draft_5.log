@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.16)  8 JAN 2016 19:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.16)  8 FEB 2016 22:04
 entering extended mode
 **draft_5.tex
 (draft_5.tex
@@ -608,79 +608,76 @@ File: motorcycle.pdf Graphic file (type pdf)
  <use motorcycle.pdf>
 Package pdftex.def Info: motorcycle.pdf used on input line 639.
 (pdftex.def)             Requested size: 281.85036pt x 211.38393pt.
- [14] [15 <./violin_pois_1.pdf> <./violin_pois_8.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 647--659
+ [14] [15 <./violin_pois_1.pdf> <./violin_pois_8.pdf>] [16 <./motorcycle.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 649--661
 
  []
 
-[16 <./motorcycle.pdf>] <peaks_comp_a.pdf, id=396, 722.7pt x 361.35pt>
+[17] <peaks_comp_a.pdf, id=406, 722.7pt x 361.35pt>
 File: peaks_comp_a.pdf Graphic file (type pdf)
  <use peaks_comp_a.pdf>
-Package pdftex.def Info: peaks_comp_a.pdf used on input line 664.
+Package pdftex.def Info: peaks_comp_a.pdf used on input line 666.
 (pdftex.def)             Requested size: 368.57965pt x 184.29158pt.
 
-<peaks_comp_b.pdf, id=397, 722.7pt x 361.35pt>
+<peaks_comp_b.pdf, id=407, 722.7pt x 361.35pt>
 File: peaks_comp_b.pdf Graphic file (type pdf)
  <use peaks_comp_b.pdf>
-Package pdftex.def Info: peaks_comp_b.pdf used on input line 670.
+Package pdftex.def Info: peaks_comp_b.pdf used on input line 672.
 (pdftex.def)             Requested size: 368.57965pt x 184.29158pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 677--678
+Underfull \hbox (badness 10000) in paragraph at lines 679--680
 
  []
 
-[17] [18 <./peaks_comp_a.pdf> <./peaks_comp_b.pdf>] [19]
+[18] [19 <./peaks_comp_a.pdf> <./peaks_comp_b.pdf>] [20]
 
-LaTeX Warning: Reference `eq:likelihood' on page 20 undefined on input line 699.
+LaTeX Warning: Reference `eq:likelihood' on page 21 undefined on input line 701.
 
-[20]
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 752.
-
+[21]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\alpha' on input line 752.
+(hyperref)                removing `math shift' on input line 754.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 752.
+(hyperref)                removing `\alpha' on input line 754.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 752.
+(hyperref)                removing `subscript' on input line 754.
 
-[21] [22]
 
-LaTeX Warning: Citation `Kolaczyk1999Multiscale' on page 23 undefined on input line 823.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 754.
 
-[23] (draft_5.bbl (draft_5.brf)
+[22] [23]
+
+LaTeX Warning: Citation `Kolaczyk1999Multiscale' on page 24 undefined on input line 825.
+
+[24] (draft_5.bbl (draft_5.brf)
 \tf@brf=\write4
- [24] [25])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 836.
- [26]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 836.
+ [25] [26])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 838.
+ [27]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 838.
  (draft_5.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 836.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 836.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 838.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 838.
 Package rerunfilecheck Info: File `draft_5.out' has not changed.
 (rerunfilecheck)             Checksum: 28E5706D234E74E2EDFE36E23CC0E8A2;1409.
 Package rerunfilecheck Info: File `draft_5.brf' has not changed.
-(rerunfilecheck)             Checksum: F064CB262843A47FC890C25C3DE7D39B;3586.
+(rerunfilecheck)             Checksum: B3DD1800BA0AC6F4498E331177F5BBE0;3770.
 
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 836.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 838.
  ) 
 Here is how much of TeX's memory you used:
- 9057 strings out of 493673
- 136889 string characters out of 3143956
- 237303 words of memory out of 3000000
- 12116 multiletter control sequences out of 15000+200000
+ 9067 strings out of 493673
+ 137093 string characters out of 3143956
+ 237343 words of memory out of 3000000
+ 12123 multiletter control sequences out of 15000+200000
  18442 words of font info for 68 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  42i,12n,38p,2303b,490s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -695,9 +692,9 @@ iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX
 blic/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10
 .pfb>
-Output written on draft_5.pdf (26 pages, 3093079 bytes).
+Output written on draft_5.pdf (27 pages, 3097164 bytes).
 PDF statistics:
- 633 PDF objects out of 1000 (max. 8388607)
- 130 named destinations out of 1000 (max. 500000)
+ 646 PDF objects out of 1000 (max. 8388607)
+ 133 named destinations out of 1000 (max. 500000)
  254 words of extra memory for PDF output out of 10000 (max. 10000000)
 
