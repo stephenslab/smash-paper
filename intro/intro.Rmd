@@ -9,36 +9,40 @@ where $\epsilon_i\sim N(0,\sigma_i^2)$, and both $\mu$ and $\sigma$ are unknown.
 We first look at mean estimation, which is our primary focus. A sample mean function is presented, as well as a couple of different variance functions. Our method is compared against a few other simple methods.
 
 ```{r}
+#create mean function
 spike.f=function(x) (0.75*exp(-500*(x-0.23)^2)+1.5*exp(-2000*(x-0.33)^2)+3*exp(-8000*(x-0.47)^2)+2.25*exp(-16000*(x-0.69)^2)+0.5*exp(-32000*(x-0.83)^2))
 n=1024
 t=1:n/n
 mu.s=spike.f(t)
 
+#load packages
 library(wavethresh)
 library(EbayesThresh)
 library(caTools)
-source(file.path("../Rcode/bayesmooth.R"))
-source(file.path("../Rcode/ti_thresh.R"))
+library(smash)
 
+#define functions to be used later
 mse=function(x,y) mean((x-y)^2)
 l2norm=function(x) sum(x^2)
 mise=function(x,y,r) 10000*mean(apply(x-rep(1,r)%o%y,1,l2norm)/l2norm(y))
 sig.est.func=function(x,n) sqrt(2/(3*(n-2))*sum((1/2*x[1:(n-2)]-x[2:(n-1)]+1/2*x[3:n])^2))
 
-##Default R wavelet method, written into a single function
+##Default R wavelet thresholding method, written into a single function
 waveti.u=function (x, filter.number = 10, family = "DaubLeAsymm", min.level = 3, noise.level){
-    TT <- length(x)
-    thresh <- noise.level * sqrt(2 * log(TT))    
-    x.w <- wd(x, filter.number, family, type = "station")
-    x.w.t <- threshold(x.w, levels = (min.level):(x.w$nlevels - 1), policy = "manual", value = thresh, type = "hard")
-    x.w.t.r <- AvBasis(convert(x.w.t))
+    TT = length(x)
+    thresh = noise.level * sqrt(2 * log(TT))    
+    x.w = wd(x, filter.number, family, type = "station")
+    x.w.t = threshold(x.w, levels = (min.level):(x.w$nlevels - 1), policy = "manual", value = thresh, type = "hard")
+    x.w.t.r = AvBasis(convert(x.w.t))
     return(x.w.t.r)
 }
 
+
+##Similarly for Ebayesthresh
 waveti.ebayes=function (x, filter.number = 10, family = "DaubLeAsymm", min.level = 3, noise.level){
     n=length(x)
     J=log2(n)
-    x.w <- wd(x, filter.number, family, type = "station")
+    x.w = wd(x, filter.number, family, type = "station")
     for(j in min.level:(J-1)){
       x.pm = ebayesthresh(accessD(x.w,j),sdev=noise.level)
       x.w = putD(x.w,j,x.pm)
@@ -67,8 +71,8 @@ sigma.t=sigma.ini/mean(sigma.ini)*sd(mu.t)/rsnr^2
 set.seed(327)
 X.s=matrix(rnorm(10*n,mu.t,sigma.t),nrow=10,byrow=TRUE)
 
-mu.est=apply(X.s,1,bayesmooth)
-mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="bayesm")
+mu.est=apply(X.s,1,ashsmooth.gaus)
+mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="smash")
 mu.est.tivar.mad=apply(X.s,1,ti.thresh,method="rmad")
 
 mu.est.ti=matrix(0,10,n)
@@ -81,9 +85,9 @@ for(i in 1:10){
 
 ##MISEs
 
-##Bayesmooth
+##SMASH
 mise(t(mu.est),mu.t,10)
-##TI thresholding with variance estimated from bayesmooth
+##TI thresholding with variance estimated from smash
 mise(t(mu.est.tivar.ash),mu.t,10)
 ##TI thresholding with variance estimated from running MAD
 mise(t(mu.est.tivar.mad),mu.t,10)
@@ -95,11 +99,12 @@ mise(mu.est.ti.ebayes,mu.t,10)
 
 ```{r fig.width=12, fig.height=12}
 
-plot(mu.t,type='l')
+plot(mu.t, xlab = "", ylab = "",type='l')
 lines(mu.est[,1],col=2)
 lines(mu.est.tivar.mad[,1],col=3)
 lines(mu.est.ti[1,],col=4)
 lines(mu.est.ti.ebayes[1,],col=6)
+legend("topright", legend = c("smash", "ti_rmad", "ti_homo", "ebayes_homo"), col = c(2, 3, 4, 6))
 ```
 
 We then look at the case of non-constant variance
@@ -111,8 +116,8 @@ sigma.t=sigma.ini/mean(sigma.ini)*sd(mu.t)/rsnr^2
 set.seed(327)
 X.s=matrix(rnorm(10*n,mu.t,sigma.t),nrow=10,byrow=TRUE)
 
-mu.est=apply(X.s,1,bayesmooth)
-mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="bayesm")
+mu.est=apply(X.s,1,ashsmooth.gaus)
+mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="smash", ashparam = list(nullcheck = FALSE))
 mu.est.tivar.mad=apply(X.s,1,ti.thresh,method="rmad")
 
 mu.est.ti=matrix(0,10,n)
@@ -125,9 +130,9 @@ for(i in 1:10){
 
 ##MISEs
 
-##Bayesmooth
+##smash
 mise(t(mu.est),mu.t,10)
-##TI thresholding with variance estimated from bayesmooth
+##TI thresholding with variance estimated from smash
 mise(t(mu.est.tivar.ash),mu.t,10)
 ##TI thresholding with variance estimated from running MAD
 mise(t(mu.est.tivar.mad),mu.t,10)
@@ -139,11 +144,12 @@ mise(mu.est.ti.ebayes,mu.t,10)
 ````
 
 ```{r fig.width=12, fig.height=12}
-plot(mu.t,type='l')
+plot(mu.t,xlab = "", ylab = "", type='l')
 lines(mu.est[,1],col=2)
 lines(mu.est.tivar.mad[,1],col=3)
 lines(mu.est.ti[1,],col=4)
 lines(mu.est.ti.ebayes[1,],col=6)
+legend("topright", legend = c("smash", "ti_rmad", "ti_homo", "ebayes_homo"), col = c(2, 3, 4, 6))
 
 ```
 
@@ -154,7 +160,7 @@ n=2^12
 t=1:n/n
 mu.s=spike.f(t)
 
-
+#define test functions
 pos = c(.1, .13, .15, .23, .25, .40, .44, .65, .76, .78, .81)
 hgt = c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
 wth = c(.005, .005, .006, .01, .01, .03, .01, .01, .005, .008, .005)
@@ -187,10 +193,10 @@ X.s.3=rnorm(n,0,sigma.t.3)
 set.seed(327)
 X.s.4=rnorm(n,0,sigma.t.4)
 
-var.est.1=bayesmooth(X.s.1,v.est=TRUE)
-var.est.2=bayesmooth(X.s.2,v.est=TRUE)
-var.est.3=bayesmooth(X.s.3,v.est=TRUE)
-var.est.4=bayesmooth(X.s.4,v.est=TRUE)
+var.est.1=ashsmooth.gaus(X.s.1,v.est=TRUE)
+var.est.2=ashsmooth.gaus(X.s.2,v.est=TRUE)
+var.est.3=ashsmooth.gaus(X.s.3,v.est=TRUE)
+var.est.4=ashsmooth.gaus(X.s.4,v.est=TRUE)
 
 mse(var.est.1,sigma.t.1^2)
 mse(var.est.2,sigma.t.2^2)
@@ -201,13 +207,13 @@ mse(var.est.4,sigma.t.4^2)
 
 ```{r fig.width=12, fig.height=12}
 par(mfrow=c(2,2))
-plot(sigma.t.1^2,type='l')
+plot(sigma.t.1^2, xlab = "", ylab = "",type='l', main = "V1")
 lines(var.est.1,col=2)
-plot(sigma.t.2^2,type='l')
+plot(sigma.t.2^2, xlab = "", ylab = "",type='l', main = "V2")
 lines(var.est.2,col=2)
-plot(sigma.t.3^2,type='l')
+plot(sigma.t.3^2, xlab = "", ylab = "",type='l', main = "V3")
 lines(var.est.3,col=2)
-plot(sigma.t.4^2,type='l')
+plot(sigma.t.4^2, xlab = "", ylab = "",type='l', main = "V4")
 lines(var.est.4,col=2)
 
 
@@ -245,8 +251,8 @@ sigma.t=sigma.ini/mean(sigma.ini)*sd(mu.t)/rsnr^2
 set.seed(327)
 X.s=matrix(rnorm(10*n,mu.t,sigma.t),nrow=10,byrow=TRUE)
 
-mu.est=apply(X.s,1,bayesmooth)
-mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="bayesm")
+mu.est=apply(X.s,1,ashsmooth.gaus)
+mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="smash")
 mu.est.tivar.mad=apply(X.s,1,ti.thresh,method="rmad")
 
 mu.est.ti=matrix(0,10,n)
@@ -259,9 +265,9 @@ for(i in 1:10){
 
 ##MISEs for the sample points
 
-##Bayesmooth
+##smash
 mise(t(mu.est),mu.t,10)
-##TI thresholding with variance estimated from bayesmooth
+##TI thresholding with variance estimated from smash
 mise(t(mu.est.tivar.ash),mu.t,10)
 ##TI thresholding with variance estimated from running MAD
 mise(t(mu.est.tivar.mad),mu.t,10)
@@ -302,6 +308,7 @@ lines(t,mu.est[,1],col=2)
 lines(t,mu.est.tivar.mad[,1],col=3)
 lines(t,mu.est.ti[1,],col=4)
 lines(t,mu.est.ti.ebayes[1,],col=6)
+
 ```
 
 We then look at the case of non-constant variance
@@ -313,8 +320,8 @@ sigma.t=sigma.ini/mean(sigma.ini)*sd(mu.t)/rsnr^2
 set.seed(327)
 X.s=matrix(rnorm(10*n,mu.t,sigma.t),nrow=10,byrow=TRUE)
 
-mu.est=apply(X.s,1,bayesmooth)
-mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="bayesm")
+mu.est=apply(X.s,1,ashsmooth.gaus)
+mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="smash")
 mu.est.tivar.mad=apply(X.s,1,ti.thresh,method="rmad")
 
 mu.est.ti=matrix(0,10,n)
@@ -327,9 +334,9 @@ for(i in 1:10){
 
 ##MISEs
 
-##Bayesmooth
+##smash
 mise(t(mu.est),mu.t,10)
-##TI thresholding with variance estimated from bayesmooth
+##TI thresholding with variance estimated from smash
 mise(t(mu.est.tivar.ash),mu.t,10)
 ##TI thresholding with variance estimated from running MAD
 mise(t(mu.est.tivar.mad),mu.t,10)
@@ -365,11 +372,12 @@ mise(mu.est.ti.ebayes.inter,mu.t.inter,10)
 
 ```{r fig.width=12, fig.height=12}
 par(mfrow=c(1,1))
-plot(t,mu.t,type='l')
+plot(t,mu.t, xlab = "", ylab = "",type='l')
 lines(t,mu.est[,1],col=2)
 lines(t,mu.est.tivar.mad[,1],col=3)
 lines(t,mu.est.ti[1,],col=4)
 lines(t,mu.est.ti.ebayes[1,],col=6)
+legend("topright", legend = c("smash", "ti_rmad", "ti_homo", "ebayes_homo"), col = c(2, 3, 4, 6))
 
 ```
 
@@ -406,8 +414,8 @@ sigma.t=sigma.ini/mean(sigma.ini)*sd(mu.t)/rsnr^2
 set.seed(327)
 X.s=matrix(rnorm(10*n,mu.t,sigma.t),nrow=10,byrow=TRUE)
 
-mu.est=apply(X.s,1,bayesmooth)
-mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="bayesm")
+mu.est=apply(X.s,1,ashsmooth.gaus)
+mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="smash")
 mu.est.tivar.mad=apply(X.s,1,ti.thresh,method="rmad")
 
 mu.est.ti=matrix(0,10,n)
@@ -420,9 +428,9 @@ for(i in 1:10){
 
 ##MISEs for the sample points
 
-##Bayesmooth
+##smash
 mise(t(mu.est),mu.t,10)
-##TI thresholding with variance estimated from bayesmooth
+##TI thresholding with variance estimated from smash
 mise(t(mu.est.tivar.ash),mu.t,10)
 ##TI thresholding with variance estimated from running MAD
 mise(t(mu.est.tivar.mad),mu.t,10)
@@ -458,11 +466,13 @@ mise(mu.est.ti.ebayes.inter,mu.t.inter,10)
 
 ```{r fig.width=12, fig.height=12}
 par(mfrow=c(1,1))
-plot(t,mu.t,type='l')
+plot(t,mu.t, xlab = "", ylab = "",type='l')
 lines(t,mu.est[,1],col=2)
 lines(t,mu.est.tivar.mad[,1],col=3)
 lines(t,mu.est.ti[1,],col=4)
 lines(t,mu.est.ti.ebayes[1,],col=6)
+legend("topright", legend = c("smash", "ti_rmad", "ti_homo", "ebayes_homo"), col = c(2, 3, 4, 6))
+
 ```
 
 We then look at the case of non-constant variance
@@ -474,8 +484,8 @@ sigma.t=sigma.ini/mean(sigma.ini)*sd(mu.t)/rsnr^2
 set.seed(327)
 X.s=matrix(rnorm(10*n,mu.t,sigma.t),nrow=10,byrow=TRUE)
 
-mu.est=apply(X.s,1,bayesmooth)
-mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="bayesm")
+mu.est=apply(X.s,1,ashsmooth.gaus,ashparam=list(nullcheck=FALSE))
+mu.est.tivar.ash=apply(X.s,1,ti.thresh,method="smash",ashparam=list(nullcheck=FALSE))
 mu.est.tivar.mad=apply(X.s,1,ti.thresh,method="rmad")
 
 mu.est.ti=matrix(0,10,n)
@@ -488,9 +498,9 @@ for(i in 1:10){
 
 ##MISEs
 
-##Bayesmooth
+##smash
 mise(t(mu.est),mu.t,10)
-##TI thresholding with variance estimated from bayesmooth
+##TI thresholding with variance estimated from smash
 mise(t(mu.est.tivar.ash),mu.t,10)
 ##TI thresholding with variance estimated from running MAD
 mise(t(mu.est.tivar.mad),mu.t,10)
@@ -526,11 +536,12 @@ mise(mu.est.ti.ebayes.inter,mu.t.inter,10)
 
 ```{r fig.width=12, fig.height=12}
 par(mfrow=c(1,1))
-plot(t,mu.t,type='l')
+plot(t,mu.t, xlab  ="",  ylab = "",type='l')
 lines(t,mu.est[,1],col=2)
 lines(t,mu.est.tivar.mad[,1],col=3)
 lines(t,mu.est.ti[1,],col=4)
 lines(t,mu.est.ti.ebayes[1,],col=6)
+legend("topright", legend = c("smash", "ti_rmad", "ti_homo", "ebayes_homo"), col = c(2, 3, 4, 6))
 
 ```
 
@@ -555,9 +566,9 @@ for(i in 1:400){
   y.exp=c(y,y[200:145])
   y.data=c(y.exp,y.exp[256:1])
   
-  mu.est=bayesmooth(y.data)
+  mu.est=ashsmooth.gaus(y.data)
   mu.est=mu.est[1:200]
-  var.est=bayesmooth(y.data,v.est=TRUE)
+  var.est=ashsmooth.gaus(y.data,v.est=TRUE)
   var.est=var.est[1:200]
   
   mu.est.inter=approx(x,mu.est,xgrid,'linear')$y
@@ -570,10 +581,10 @@ for(i in 1:400){
 
 boxplot(var.mad)
 
-plot(x,mu.t,type='l')
+plot(x,mu.t, xlab = "", ylab = "",type='l', main = "mean function")
 lines(x,mu.est[1:200],col=2)
 
-plot(x,sigma.t^2,type='l')
+plot(x,sigma.t^2, xlab = "", ylab = "",type='l', main = "var function")
 lines(x,var.est[1:200],col=2)
 
 ```
@@ -581,7 +592,7 @@ lines(x,var.est[1:200],col=2)
 We also look at the dataset in Example 1 of Fan and Yao (1998). To take into account replicates, we take the median of the response at the same point The results are shown below.
 
 ```{r}
-data=read.csv("../gaus_data/treas_bill/treas_bill.csv",header=FALSE)
+data=read.csv("../code_paper/gaus_data/treas_bill/treas_bill.csv",header=FALSE)
 data=as.numeric(data[,1])
 
 library(tseries)
@@ -604,22 +615,22 @@ for(i in 1:length(x.mod)){
 y.exp=c(y.mod,y.mod[length(y.mod):(2*length(y.mod)-2^10+1)])
 y.final=c(y.exp,y.exp[length(y.exp):1])
 
-y.est=bayesmooth(y.final)
-y.est.var=bayesmooth(y.final,v.est=TRUE)
+y.est=ashsmooth.gaus(y.final)
+y.est.var=ashsmooth.gaus(y.final,v.est=TRUE)
 
 ```
 
 
 ```{r fig.width=12, fig.height=12}
 par(mfrow=c(2,2))
-plot(data,type='l')
+plot(data, xlab = "year", ylab = "interest rate",type='l')
 
 plot(x,y)
-lines(x.mod,y.est[1:(length(y.mod))],col=2)
+lines(x.mod,y.est[1:(length(y.mod))], xlab = "X", ylab = "Y",col=2)
 
-plot(x.mod,y.est[1:(length(y.mod))],type='l',ylim=c(-0.3,0.3))
+plot(x.mod,y.est[1:(length(y.mod))], xlab = "X", ylab = "Y",type='l',ylim=c(-0.3,0.3))
 
-plot(x.mod,sqrt(y.est.var[1:(length(y.mod))]),type='l')
+plot(x.mod,sqrt(y.est.var[1:(length(y.mod))]), xlab = "X",  ylab = "volatility",type='l')
 ````
 
 We now look at the paper by Delouille et al. (2004). Specifically, we compare with the heavisine function used in section 6, as the actual function is readily available. The results for $n=200$ for both the homoskedastic and teh heteroskedastic cases are given.
@@ -646,7 +657,7 @@ for(i in 1:500){
   y.exp=c(y,y[200:145])
   y.final=c(y.exp,y.exp[256:1])
   
-  mu.est<-bayesmooth(y.final)
+  mu.est<-ashsmooth.gaus(y.final)
   mu.est=mu.est[1:n]
   mse.hsm.c[i]=mse(mu.est,mu.t)
   
@@ -658,7 +669,7 @@ for(i in 1:500){
   y.exp=c(y,y[200:145])
   y.final=c(y.exp,y.exp[256:1])
   
-  mu.est<-bayesmooth(y.final)
+  mu.est<-ashsmooth.gaus(y.final)
   mu.est=mu.est[1:n]
   mse.hsm.n[i]=mse(mu.est,mu.t)
 
@@ -688,9 +699,9 @@ for(i in 1:length(x)){
 y.exp=c(y,y[length(y):(2*length(y)-128+1)])
 y.final=c(y.exp,y.exp[length(y.exp):1])
 
-y.est=bayesmooth(y.final)
+y.est=ashsmooth.gaus(y.final)
 y.est=y.est[1:length(y)]
-y.var.est=bayesmooth(y.final,v.est=TRUE)
+y.var.est=ashsmooth.gaus(y.final,v.est=TRUE)
 y.var.est=y.var.est[1:length(y)]
 
 ```
@@ -699,9 +710,9 @@ y.var.est=y.var.est[1:length(y)]
 
 par(mfrow=c(1,2))
 
-plot(x,y,ylim=c(-150,100))
+plot(x,y, xlab = "time", ylab = "acceleration",ylim=c(-150,100), main = "mean function")
 lines(x,y.est,col=2)
-plot(x,y.var.est,type='l')
+plot(x,y.var.est, xlab = "time", ylab = "acceleration",type='l', main = "var function")
 
 ```
 
@@ -721,9 +732,9 @@ for(i in 1:length(x)){
 y.exp=c(y,y[length(y):(2*length(y)-128+1)])
 y.final=c(y.exp,y.exp[length(y.exp):1])
 
-y.est=bayesmooth(y.final)
+y.est=ashsmooth.gaus(y.final)
 y.est=y.est[1:length(y)]
-y.var.est=bayesmooth(y.final,v.est=TRUE)
+y.var.est=ashsmooth.gaus(y.final,v.est=TRUE)
 y.var.est=y.var.est[1:length(y)]
 
 ```
@@ -732,9 +743,9 @@ y.var.est=y.var.est[1:length(y)]
 
 par(mfrow=c(1,2))
 
-plot(x,y,ylim=c(-1,5))
+plot(x,y, xlab = "ethonal", ylab = "NOx",ylim=c(-1,5), main = "mean function")
 lines(x,y.est,col=2)
-plot(x,y.var.est,type='l')
+plot(x,y.var.est, xlab = "ethonal", ylab = "NOx",type='l', main = "var function")
 
 ```
 
