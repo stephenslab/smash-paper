@@ -36,7 +36,7 @@
 
 \begin{document}
 
-\title{\textbf{Empirical Bayes shrinkage, and denoising of Poisson and heteroskedastic Gaussian signals (?)}}
+\title{\textbf{Empirical Bayes shrinkage, and denoising of Poisson and heteroskedastic Gaussian signals}}
 \date{}
 \maketitle
 
@@ -409,15 +409,24 @@ to be more comparable with previous approaches that estimate $\mu$ on the raw sc
 
 \subsection{Illustration}
 
-Idea of adaptive shrinkage.
+Figure \ref{fig:simple_eg} illustrates the main features of adaptive shrinkage (ash) applied 
+to a denoising problem. The data (panel a) is first transformed into wavelet coefficients (WCs) at different scales.
+Each such ``observed" WC can be thought of as a noisy estimate of some ``true" WC for the (unknown) mean that we wish to estimate.
+We also compute, for each WC, an associated standard error that depends on the variance of the data about the mean.
+The idea behind wavelet denoising is to ``shrink" the observed WCs towards 0, which produces a smoother estimate of the mean than the observed data.
 
-By estimating the uni-modal distribution from the data, ash uses the data to
-determine how sparse $\tbmu$ should be,
-and therefore how spatially structured $\bmu$ should be. Thus the degree of spatial smoothing is adaptive to the dataset: more smoothing for
-datasets that appear consistent with a smooth signal.
+A crucial question is, of course, how much to shrink. A key idea behind ash is that the shrinkage is ``adaptive", in that it
+determined by the data, in two distinct ways. First, if at a particular scale many observed WCs are ``large" (compared with their standard errors)
+then ash infers that, at this scale, many of the true WCs may also be large - that is, the estimated distribution $g$ in (\ref{}) will have a long tail.
+Consequently ash will shrink less at this scale than at scales where few observed
+WCs are large, for which the estimated $g$ will have a short tail. This is illustrated in panels b-c: at scale 1, many observed WCs are large (b), and so very little shrinkage is applied to these estimates (c).
+In contrast, at scale 7, few observed WCs are large (b), and so stronger shrinkage is applied (c). Second, the shrinkage is adaptive to 
+the standard error for each WC: at a given scale, WCs with larger standard error are shrunk more strongly than WCs with small standard error.
+This is illustrated in panel d). (The standard errors vary among WCs here because of the hetereskedastic variance.)
 
-We first present a simple illustration of our method as a signal denoising technique. Figure \ref{fig:simple_eg} demonstrates that SMASH is able to better capture the true signal than TI-thresholding (with variance estimated by running median absolute deviation (RMAD); see \cite{Gao1997Wavelet}) on a simple simulated signal.  
-
+ The end result is that i) data that are consistent with a smooth signal, get smoothed more strongly; ii) smoothing is stronger in areas
+ of the signal with larger variance. In this example the smoothed signal from ash is visually (and also quantitatively) more accurate than
+ using TI-thresholding (with variance estimated by running median absolute deviation (RMAD); see \cite{Gao1997Wavelet}) (panel e).
 
 
 \begin{figure}
@@ -464,27 +473,42 @@ We first present a simple illustration of our method as a signal denoising techn
 
 We conducted extensive simulation studies to compare the performance of our method with existing approaches.
  
+ \subsubsection{Gaussian mean estimation}
+ 
 For the Gaussian case, we focus on mean estimation, initially with homoskedastic errors. We modelled our simulation study after
 \cite{Antoniadis2001Wavelet}, using many of the same test functions, a variety of sample sizes, two different signal to noise ratios (SNRs), and including
-the best-performing methods from their comparison. In particular Translation Invariant (TI) thresholding (\cite{Coifman1995Translationinvariant}) performed the best for most of the test signals, where performance is measured by mean squared error (MSE). We also considered the popular Empirical Bayes shrinkage procedure (\cite{Johnstone2005Empirical}), named Ebayesthresh. Figure \ref{fig:gaus_homo} compares the mean integrated squared errors (MISEs) of TI-thresholding and Ebayesthresh to SMASH with two different options for the ``Spikes'' mean function, with a signal to noise ratio of 3 and sample size 1024. The default version of SMASH estimates the mean without any homoskedastic assumptions on the variance function, while the other version of SMASH estimates the mean given the true variance function. We can clearly see that the performance of SMASH is not impacted by the lack of homoskedastic assumptions imposed on the variance function: it outperforms two of the most accurate wavelet denoising algorithms for i.i.d. Gaussian noise even when the i.i.d. assumption holds, and performs nearly as well as when the variance function is known, which is the best-case scenario for any denoising technique. These results also extend to other mean functions, SNRs and sample sizes (see Supplementary Materials for more details).
- Different test functions, sample sizes, signal-to-noise ratios (SNR) and variance functions were considered, to ensure that SMASH behaves well in a variety of settings. However, only a small portion of the results will be shown here to highlight key findings from the extensive simulation study. Full results from the study can be found in the Supplementary Materials.
+the best-performing methods from their comparison. In particular their results showed that Translation Invariant (TI) thresholding (\cite{Coifman1995Translationinvariant}) performed the best for most of the test signals, where performance is measured by mean squared error (MSE). We also considered the Empirical Bayes shrinkage procedure (\cite{Johnstone2005Empirical}), named Ebayesthresh. 
 
+Figure \ref{fig:gaus_homo} compares the mean integrated squared errors (MISEs) of TI-thresholding and Ebayesthresh to SMASH for the ``Spikes'' mean function, with a signal to noise ratio of 3 and sample size 1024. We applied SMASH in three ways, the first (SMASH) estimating the variance function allowing for heteroskedasticity, the second estimating the variance assuming homoskedasticity (SMASH-homo) and the
+third using the true variance function (SMASH true variance), which could be viewed as a "gold standard". The results show that all three versions of SMASH outperform both EbayesThresh and TI-thresholding. Notably all three SMASH versions perform very similarly, demonstrating that
+in this case there is little cost in allowing for heterskedasticity when the truth is homoskedastic.
 
-
-
-We focus initially on estimation of a Gaussian mean with homoskedastic errors. Due to the large number of methods available in the literature for this setting, we chose only a subset. 
-
-
+We obtained similar results for other mean functions, SNRs and sample sizes (see Supplementary Materials).
 
 \begin{figure}
 \centering
     \includegraphics[width=0.65\textwidth]{violin_gaus_homo.pdf}
-    \caption{Compares various wavelet-based methods for denoising data with homoskedastic Gaussian errors for the ``Spikes'' mean function. Violin plots of MISEs for (from bottom to top) SMASH, SMASH with homoskedastic assumption, TI-thresholding with homoskedastic assumption, Ebayesthresh with homoskedastic assumption, and SMASH with known true variance are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. We note the performance gain of SMASH over both TI-thresholding and Ebayesthresh, and that SMASH with estimated variance can perform nearly as well as when it is given the true variance.}
+    \caption{Comparison of wavelet-based methods for mean estimation with homoskedastic Gaussian errors for the ``Spikes'' mean function. Violin plots of MISEs for (from bottom to top) SMASH, SMASH with homoskedastic assumption, TI-thresholding with homoskedastic assumption, Ebayesthresh with homoskedastic assumption, and SMASH with known true variance are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. SMASH outperforms both TI-thresholding and Ebayesthresh, and SMASH with estimated variance performs nearly as well as with true variance.}
     \label{fig:gaus_homo}
 \end{figure}
 
-Having shown that SMASH performs well in the homoskedastic case without any explicit assumptions on the Gaussian noise, we now demonstrate its performance gain when the errors are heteroskedastic. For the sake of presentation, Figure \ref{fig:gaus_hetero} highlights only the results from SMASH, TI-thresh (with various choices of variance estimation) and EbayesThresh for just two sets of test functions: the ``Spikes'' mean function with the ``Clipped Blocks'' variance function and the ``Corner'' mean function with ``Doppler'' variance function, both with SNRs of 3 and sample sizes of 1024. Nevertheless, similar results hold in general for different mean and variance functions, SNRs, and sample sizes (see Supplementary Materials for more details). 
+Turning now to heteroskedastic errors, we compare results from SMASH (run three different ways, as above) with EbayesThresh (which assumes
+homoskedastic variance) and TI-thresh. For TI-thresh we considered three different ways of estimating the heteroskedastic variance: RMAD 
+(\cite{Gao1997Wavelet}), the SMASH estimated variance, and the true variance. (TI-thresh with homoskedastic variance performed very poorly; Supplementary Results.) Figure \ref{fig:gaus_hetero} 
+shows results for two sets of test functions: the ``Spikes'' mean function with the ``Clipped Blocks'' variance function and the ``Corner'' mean function with ``Doppler'' variance function, both with SNRs of 3 and sample sizes of 1024. 
 
+To summarize the main patterns in Figure \ref{fig:gaus_hetero}:
+\begin{enumerate}
+\item SMASH outperforms all TI-thresh variants (including, here, TI with the true variance).
+\item SMASH performs almost as well for mean estimation when estimating the variance as when given the true variance.
+\item Allowing for heteroskedasticity within SMASH can substantially improve accuracy of mean estimation (compare SMASH with SMASH-homo and EbayesThresh).
+\item TI-thresh performs considerably better when used with the SMASH variance estimate than with the RMAD variance estimate.
+\end{enumerate}
+
+These main patterns hold for a variety of different mean and variance functions, SNRs, and sample sizes (see Supplementary Materials). Some variance functions are harder to estimate than others (e.g. the ``Bumps" function), and in these cases providing methods the true variance can greatly increase
+accuracy compared with estimating the variance. 
+As might be expected, the gain in allowing for heteroskedastic variance tends to be greatest when the variance functions are more
+volatile.
 
 \begin{figure}
 \centering
@@ -515,25 +539,27 @@ Having shown that SMASH performs well in the homoskedastic case without any expl
         \caption{}
         \label{fig:gaus_hetero_sd_2}
     \end{subfigure}
-    \caption{Compares various wavelet-based methods for denoising data with heteroskedastic Gaussian errors. Figures on the left show violin plots of MISEs for various methods in denoising data with homoskedastic Gaussian errors for two sets of mean-variance functions: ``Spikes'' mean function with ``Clipped Blocks'' variance function, and ``Corner'' mean function with ``Doppler'' variance function. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. Figures on the right plot the associated mean and variance functions. We note the performance gain of SMASH over TI-thresh with different variance options: variance estimated by RMAD, variance estimated by SMASH, and the true variance.}
+    \caption{Comparison of wavelet-based methods for mean estimation with heteroskedastic Gaussian errors. Figures on the left show violin plots of MISEs for various methods on two sets of mean-variance functions: ``Spikes'' mean function with ``Clipped Blocks'' variance function, and ``Corner'' mean function with ``Doppler'' variance function. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. Figures on the right plot the mean and variance functions used.}
     \label{fig:gaus_hetero}
 \end{figure}
 
 
-Several facts are immediately clear from figure \ref{fig:gaus_hetero}: 
-\begin{enumerate}
-\item SMASH does better than all TI-thresh variants, including the case when the true variance is provided, demonstrating the excellent finite sample performance of SMASH.
-\item using the variance estimate from SMASH as an input to TI-thresh improves the accuracy of TI-thresh substantially, compared with using RMAD to estimate the variance as in \cite{Gao1997Wavelet}
-\item accounting for heteroskedasticity allows SMASH to vastly outperform methods which assume homoskedastic errors.
-\item SMASH is more robust to violations of homoskedasticity compared with both Ebayesthresh (shown) and TI-thresholding (not shown due to space limitations).
-\end{enumerate}
+\subsubsection{Gaussian variance estimation}
 
-It should also be noted that providing the true variance to SMASH does not result in substantial gains compared to the case when SMASH estimates its own variance function for most of the test functions (results shown in the Supplementary Materials). Hence, we can reasonably assume that SMASH does a good job of variance estimation, although this claim relies heavily on the variance function at hand. For example, the Bumps variance function (see Appendix ??) is extremely difficult to estimate, and SMASH will perform much better when provided with the true variance function.
+One unusual feature of SMASH is that it performs joint mean and variance estimation.
+Indeed, we found only one other joint mean and variance estimation procedure for which we could obtain software (CHECK):
+the Mean Field Variational Bayes (MFVB) method for heteroskedastic Gaussian regression \cite{Menictas2015Variational}. 
+This method is based on penalized splines, and so is not well suited to many standard test functions in the wavelet literature, which
+often contain ``spiky" local features not well captured by splines. Hence, we compared SMASH and MFVB on some
+smoother mean and variance (standard deviation) functions, specifically scenario A from \cite{Menictas2015Variational} (shown in Figure \ref{fig:mfvb_fn}),
+using scripts kindly provided by M.~Menictas.
 
-Since our method also provides variance estimates, one could potentially perform similar assessments for different variance functions as with mean functions. In this particular study, we compare our method against the only joint mean and variance estimation procedure for which software is easily available. Specifically, we consider the Mean Field Variational Bayes (MFVB) methodology developed by \cite{Menictas2015Variational} for heteroskedastic Gaussian regression. Here we note that the MFVB approach is not well suited for dealing with standard test functions in the wavelet literature, as it is based on penalized splines (simulation studies were conducted to confirm this observation; results not shown). Hence, we chose the smooth mean and standard deviation functions (A) from \cite{Menictas2015Variational} as our test functions, plotted in Figure \ref{fig:mfvb_fn} and denoted by $m(\cdot)$ and $sd(\cdot)$ respectively. We then considered two different simulation scenarios:
+We simulated data under two different scenarios:
 \begin{enumerate}
-\item $n=500$ independent $(X_i,Y_i)$ pairs were generated. The $X_i$'s were distributed as Uniform(0,1), and the $Y_i$'s were distributed as $N(m(x_i),sd(x_i))$. The performance of a given method is measured by the standard MSE evaluated at 201 equally spaced points on $(X_{min},X_{max})$ for both the mean and the standard deviation functions.
-\item $n=1024$ independent $(X_i,Y_i)$ pairs were generated. The $X_i$'s were deterministic and equally spaced on (0,1), while the $Y_i$'s were distributed as $N(m(x_i),sd(x_i))$. The performance of a given method is measured by the MSE evaluated at the 1024 $X_i$'s for both the mean and the standard deviation functions.
+\item We generated $n=500$ independent $(X_i,Y_i)$ pairs, with $X_i \sim$ Uniform(0,1), and $Y_i | X_i=x_i \sim N(m(x_i),s(x_i)^2)$
+where $m(\cdot)$ and $s(\cdot)$ denote the mean and standard deviation functions (Figure \ref{fig:mfvb_fn}). We measured performance by the MSE 
+evaluated at 201 equally spaced points on $(X_{min},X_{max})$ for both the mean and the standard deviation.
+\item We generated $n=1024$ independent $(X_i,Y_i)$ pairs, with the $X_i$'s (deterministically) equally spaced on (0,1), and $Y_i|X_i$ as above. Performance is measured by MSE evaluated at the 1024 $X_i$'s for both the mean and the standard deviation.
 \end{enumerate}
 \begin{figure}[ht]
 \centering
@@ -553,7 +579,12 @@ Since our method also provides variance estimates, one could potentially perform
     \caption{Mean (a) and variance (b) functions used in the simulation study comparing SMASH against MFVB. These functions correspond to mean and standard deviation functions (A) from \cite{Menictas2015Variational}.}
     \label{fig:mfvb_fn}
 \end{figure}
-In the first scenario, the number of data points is not a power of two, nor are the point equally spaced. To deal with these complications, we adapted and modified the standard symmetric extension procedure commonly used in wavelet settings. We first mirrored the data about the right edge and extract the first $2^{\lfloor\log_2(2n)\rfloor}$ sample points. This ensures that the number of data points in the new ``dataset'' is a power of two, and the mean curve would be continuous at the right edge. To further ensure that the input to the Gaussian denoising method is periodic, we then reflected the new dataset about the right edge and used this as the final input. To obtain the original mean and variance functions, we extracted the first $n$ points from the outputs (mean and variance) of our denoising technique. Since the data points are not evenly spaced, we took the simplest approach and applied our method treating the observations as if they were evenly spaced. This approach is not only intuitively appealing, but can also be considered a formal treatment of unequally spaced data in traditional wavelet settings (eg. \cite{Sardy1999Wavelet}). Evaluation of MSE at the 201 equally spaced points is then based on simple linear interpolation between the estimated points. Table \ref{table:mfvb_comp} displays the MSEs over 100 independent runs for each scenario.
+
+The first scenario presents some issues for SMASH because the number of data points is not a power of two, nor are the point equally spaced. To deal with the first issue, following standard ideas in the wavelet literature, we first mirrored the data about the right edge and extract the first $2^{\lfloor\log_2(2n)\rfloor}$ sample points, so that the number of data points in the new ``dataset'' is a power of two, and the mean curve is continuous at the right edge. To further ensure that the input to SMASH is periodic, we reflected the new dataset about the right edge and used this as the final input. 
+To deal with the second issue we follow the common practice of treating the observations as if they are evenly spaced (see \cite{Sardy1999Wavelet} for discussion). To estimate the original mean and variance functions, we extract the first $n$ points from the SMASH estimated mean and variance. 
+To evaluate MSE at the 201 equally spaced points (Scenario 1) we use simple linear interpolation between the estimated points. 
+
+Table \ref{table:mfvb_comp} shows mean MSEs over 100 independent runs for each scenario.
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrrrr}
@@ -570,9 +601,12 @@ SMASH & 0.0334 & 0.0187 & 0.0158 & 0.0065 \\
 \label{table:mfvb_comp}
 \end{table}
 
-Note that wavelets in general are poorly suited for dealing with the setup in Scenario 1; not only are the number of data points not a power of two, they are also not equally spaced. Also, linear interpolation between sample points was used in computing the MSE, further impacting the accuracy of SMASH. At the same time, spline-based methods such as MFVB are well suited to dealing with smooth mean and variance functions such as those used in the simulations, whereas wavelet methods can better deal with spatial inhomogeneity which are present in functions such as those presented in Figure \ref{fig:gaus_homo}. Despite all these limitations, our method performs comparably to MFVB in terms of mean estimation for the simulation scheme presented in Scenario 1, and has a lower MSE in terms of variance estimation. For Scenario 2, our method outperforms MFVB in both mean and variance estimation. 
+Note that wavelets in general are poorly suited to Scenario 1; not only are the number of data points not a power of two, they are also not equally spaced. Also, linear interpolation between sample points was used in computing the MSE, further impacting the accuracy of SMASH. At the same time, spline-based methods such as MFVB are well suited to dealing with smooth mean and variance functions such as those used in the simulations, whereas wavelet methods can better deal with spatial inhomogeneity which are present in functions such as those presented in Figure \ref{fig:gaus_homo}. Despite all these limitations, our method performs comparably to MFVB in terms of mean estimation for the simulation scheme presented in Scenario 1, and has a lower MSE in terms of variance estimation. For Scenario 2, our method outperforms MFVB in both mean and variance estimation. 
 
-Thus far, we have demonstrated that our method does a good job of mean and variance estimation for a variety of situations in the Gaussian case. As such, we now turn our attention to the Poisson case. For this simulation study, we considered different test functions and Poisson intensities for a given sample size of $n=1024$ as in \cite{Timmermann1999Multiscale}, \cite{Fryzlewicz2004HaarFisz} and \cite{Besbeas2004Comparative}, over 100 independent runs. Figure \ref{fig:pois_sim} compares the MISE of SMASH with Haar-Fisz (\cite{Fryzlewicz2004HaarFisz}) and BMSM (\cite{Kolaczyk1999Bayesian}), which are two popular and accurate Poisson denoising techniques, for the ``Bursts'' function with (min,max) intensities of (0.01,3) and (1/8,8). The low intensities are of primary interest in genomic applications, and so we focus our attention to these. Complete results, including a (min,max) intensity of (1/128, 128), are included in Supplementary Materials. It is clear from Figure \ref{fig:pois_sim} that SMASH outperforms both methods, and the claim holds true in general. As an exception, Haar-Fisz outperforms both SMASH and BMSM for certain test functions with a (min,max) intensity of (1/128,128) when the asmyptotic variance of 1 is assumed in the Gaussian wavelet thresholding stage of the Haar-Fisz algorithm, but underperforms when the variance is estimated from the data instead. Besides the somewhat strong assumption of unit variance, the inconsistent performance of Haar-Fisz could also be attributed to the choice of the primary resolution level used, which can substantially affect the performance of Haar-Fisz in general. Here we analyzed primary resolution levels of 4, 5, 6 and 7, similar to \cite{Besbeas2004Comparative}. On the other hand, SMASH outperforms BMSM consistently, even though our method is based on the same likelihood factorization used in the latter. We can thus conclude that the choice of ASH as the shrinkage procedure is superior to that used in BMSM. More importantly, using this formulation in SMASH also makes it easily extensible to multiple samples in the context of a (generalized) linear model, something we will briefly describe in the Discussion section.
+
+\subsubsection{Poisson Data}
+
+For this simulation study, we considered different test functions and Poisson intensities for a given sample size of $n=1024$ as in \cite{Timmermann1999Multiscale}, \cite{Fryzlewicz2004HaarFisz} and \cite{Besbeas2004Comparative}, over 100 independent runs. Figure \ref{fig:pois_sim} compares the MISE of SMASH with Haar-Fisz (\cite{Fryzlewicz2004HaarFisz}) and BMSM (\cite{Kolaczyk1999Bayesian}), which are two popular and accurate Poisson denoising techniques, for the ``Bursts'' function with (min,max) intensities of (0.01,3) and (1/8,8). The low intensities are of primary interest in genomic applications, and so we focus our attention to these. Complete results, including a (min,max) intensity of (1/128, 128), are included in Supplementary Materials. It is clear from Figure \ref{fig:pois_sim} that SMASH outperforms both methods, and the claim holds true in general. As an exception, Haar-Fisz outperforms both SMASH and BMSM for certain test functions with a (min,max) intensity of (1/128,128) when the asmyptotic variance of 1 is assumed in the Gaussian wavelet thresholding stage of the Haar-Fisz algorithm, but underperforms when the variance is estimated from the data instead. Besides the somewhat strong assumption of unit variance, the inconsistent performance of Haar-Fisz could also be attributed to the choice of the primary resolution level used, which can substantially affect the performance of Haar-Fisz. Here we analyzed primary resolution levels of 4, 5, 6 and 7, similar to \cite{Besbeas2004Comparative}. On the other hand, SMASH outperforms BMSM consistently, even though our method is based on the same likelihood factorization used in the latter. We can thus conclude that the choice of ASH as the shrinkage procedure is superior to that used in BMSM. More importantly, using this formulation in SMASH also makes it easily extensible to multiple samples in the context of a (generalized) linear model, something we will briefly describe in the Discussion section.
 \begin{figure}
 \centering
     \begin{subfigure}[b]{0.45\textwidth}
