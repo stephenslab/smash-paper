@@ -40,13 +40,13 @@ res.eth = smash.wrapper(x.ini.eth, y.ini.eth)
 
 
 
-pdf("paper/motorcycle.pdf", height = 6, width = 8)
-par(cex.axis = 1.3, cex.sub = 1.8, cex.lab = 1.5, mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
-plot(res.mc$x, res.mc$mu.est, type = 'l', ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)), max(res.mc$y + 2 * sqrt(res.mc$var.est))), xlab = "time (ms)", ylab = "acceleration (g)", lwd = 1.7)
-lines(res.mc$x, res.mc$mu.est + 2 * sqrt(res.mc$var.est), col = 2, lty = 5, lwd = 1.8)
-lines(res.mc$x, res.mc$mu.est - 2 * sqrt(res.mc$var.est), col = 2, lty = 5, lwd = 1.8)
-points(res.mc$x, res.mc$y, cex = 0.7, pch = 16, col = alpha("black", 0.5))
-dev.off()
+# pdf("paper/motorcycle.pdf", height = 6, width = 8)
+# par(cex.axis = 1.3, cex.sub = 1.8, cex.lab = 1.5, mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
+# plot(res.mc$x, res.mc$mu.est, type = 'l', ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)), max(res.mc$y + 2 * sqrt(res.mc$var.est))), xlab = "time (ms)", ylab = "acceleration (g)", lwd = 1.7)
+# lines(res.mc$x, res.mc$mu.est + 2 * sqrt(res.mc$var.est), col = 2, lty = 5, lwd = 1.8)
+# lines(res.mc$x, res.mc$mu.est - 2 * sqrt(res.mc$var.est), col = 2, lty = 5, lwd = 1.8)
+# points(res.mc$x, res.mc$y, cex = 0.7, pch = 16, col = alpha("black", 0.5))
+# dev.off()
 
 
 pdf("paper/motorcycle.pdf", height = 6, width = 8)

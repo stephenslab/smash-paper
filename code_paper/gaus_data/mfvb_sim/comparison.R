@@ -1,8 +1,5 @@
 library(smash)
-source("D:/Grad School/Spring 2013/mfvb/ZOSull.r")
-source("D:/Grad School/Spring 2013/mfvb/wait.r")
-source("D:/Grad School/Spring 2013/mfvb/meanVarMFVB.r")
-
+#source MFVB files here
 
 mse.mu.uneven.mfvb=0
 mse.mu.uneven.haar=0
@@ -363,10 +360,17 @@ save.image("comparison.RData")
 
 #################
 gTrue <- function(x) return(exp(0.1 + cos(4*pi*x)))
+xgrid = (0:10000)/10000
 
-pdf("mfvb_mean.pdf",width=8,height=5)
-plot(fTrue,ylim=c(-2,2),ylab="m(X)",xlab="X",main="mean function")
-dev.off()
-pdf("mfvb_var.pdf",width=8,height=5)
-plot(gTrue,ylim=c(0,3.5),ylab="var(X)",xlab="X",main="variance function")
+# pdf("mfvb_mean.pdf",width=8,height=5)
+# plot(fTrue,ylim=c(-2,2),ylab="m(X)",xlab="X",main="mean function")
+# dev.off()
+# pdf("mfvb_var.pdf",width=8,height=5)
+# plot(gTrue,ylim=c(0,3.5),ylab="var(X)",xlab="X",main="variance function")
+# dev.off()
+
+pdf("paper/mfvb_eg.pdf", width = 8, height = 5)
+plot(xgrid, fTrue(xgrid), type = "l", ylim = c(-5, 5), ylab = "y(X)", xlab = "X")
+lines(xgrid, fTrue(xgrid) + 2 * sqrt(gTrue(xgrid)), col = 2, lty = 2)
+lines(xgrid, fTrue(xgrid) - 2 * sqrt(gTrue(xgrid)), col = 2, lty = 2)
 dev.off()

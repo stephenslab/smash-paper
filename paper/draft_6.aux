@@ -121,9 +121,9 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Illustration}{8}{subsection.4.1}}
 \@writefile{brf}{\backcite{Gao1997Wavelet}{{8}{4.1}{subsection.4.1}}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Simulations}{8}{subsection.4.2}}
-\@writefile{brf}{\backcite{Antoniadis2001Wavelet}{{8}{4.2}{subsection.4.2}}}
-\@writefile{brf}{\backcite{Coifman1995Translationinvariant}{{8}{4.2}{subsection.4.2}}}
-\@writefile{brf}{\backcite{Johnstone2005Empirical}{{8}{4.2}{subsection.4.2}}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Gaussian mean estimation}{8}{subsubsection.4.2.1}}
+\@writefile{brf}{\backcite{Antoniadis2001Wavelet}{{8}{4.2.1}{subsubsection.4.2.1}}}
+\@writefile{brf}{\backcite{Coifman1995Translationinvariant}{{8}{4.2.1}{subsubsection.4.2.1}}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:simple_eg_1}{{1a}{9}{\relax }{figure.caption.1}{}}
 \newlabel{sub@fig:simple_eg_1}{{a}{9}{\relax }{figure.caption.1}{}}
@@ -135,16 +135,22 @@
 \newlabel{sub@fig:simple_eg_4}{{d}{9}{\relax }{figure.caption.1}{}}
 \newlabel{fig:simple_eg_5}{{1e}{9}{\relax }{figure.caption.1}{}}
 \newlabel{sub@fig:simple_eg_5}{{e}{9}{\relax }{figure.caption.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces shows both ASH and SMASH at work. (a) shows the mean and variance functions, as well as one realized dataset. (b) contrasts the difference in the distribution of the true wavelet coefficients at two different scales - one coarse (scale 1) and one fine (scale 7). (c) demonstrates the shrinkage properties of ASH for the two scales of interest (scales 1 and 7): the coefficients at the fine scale (scale 7) are substantially shrunk, but barely so for the coarse scale. (d) shows the shrinkage effect of ASH on the fine scale (scale 7) wavelet coefficients - wavelet coefficients are shrunk adaptively based on their precision. (e) plots the estimated mean functions from SMASH and TI-thresh against the true mean function; we see that TI-thresh has noticeable artifacts.\relax }}{9}{figure.caption.1}}
-\newlabel{fig:simple_eg}{{1}{9}{shows both ASH and SMASH at work. (a) shows the mean and variance functions, as well as one realized dataset. (b) contrasts the difference in the distribution of the true wavelet coefficients at two different scales - one coarse (scale 1) and one fine (scale 7). (c) demonstrates the shrinkage properties of ASH for the two scales of interest (scales 1 and 7): the coefficients at the fine scale (scale 7) are substantially shrunk, but barely so for the coarse scale. (d) shows the shrinkage effect of ASH on the fine scale (scale 7) wavelet coefficients - wavelet coefficients are shrunk adaptively based on their precision. (e) plots the estimated mean functions from SMASH and TI-thresh against the true mean function; we see that TI-thresh has noticeable artifacts.\relax }{figure.caption.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Compares various wavelet-based methods for denoising data with homoskedastic Gaussian errors for the ``Spikes'' mean function. Violin plots of MISEs for (from bottom to top) SMASH, SMASH with homoskedastic assumption, TI-thresholding with homoskedastic assumption, Ebayesthresh with homoskedastic assumption, and SMASH with known true variance are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. We note the performance gain of SMASH over both TI-thresholding and Ebayesthresh, and that SMASH with estimated variance can perform nearly as well as when it is given the true variance.\relax }}{10}{figure.caption.2}}
-\newlabel{fig:gaus_homo}{{2}{10}{Compares various wavelet-based methods for denoising data with homoskedastic Gaussian errors for the ``Spikes'' mean function. Violin plots of MISEs for (from bottom to top) SMASH, SMASH with homoskedastic assumption, TI-thresholding with homoskedastic assumption, Ebayesthresh with homoskedastic assumption, and SMASH with known true variance are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. We note the performance gain of SMASH over both TI-thresholding and Ebayesthresh, and that SMASH with estimated variance can perform nearly as well as when it is given the true variance.\relax }{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Shows both ASH and SMASH at work. (a) shows the mean function $\pm $2 standard deviations, as well as one realized dataset. (b) contrasts the difference in the distribution of the true wavelet coefficients at two different scales - one coarse (scale 1) and one fine (scale 7). (c) demonstrates the shrinkage properties of ASH for the two scales of interest (scales 1 and 7): the coefficients at the fine scale (scale 7) are substantially shrunk, but barely so for the coarse scale. (d) shows the shrinkage effect of ASH on the fine scale (scale 7) wavelet coefficients - wavelet coefficients are shrunk adaptively based on their precision. (e) plots the estimated mean functions from SMASH and TI-thresh against the true mean function; we see that TI-thresh has noticeable artifacts.\relax }}{9}{figure.caption.1}}
+\newlabel{fig:simple_eg}{{1}{9}{Shows both ASH and SMASH at work. (a) shows the mean function $\pm $2 standard deviations, as well as one realized dataset. (b) contrasts the difference in the distribution of the true wavelet coefficients at two different scales - one coarse (scale 1) and one fine (scale 7). (c) demonstrates the shrinkage properties of ASH for the two scales of interest (scales 1 and 7): the coefficients at the fine scale (scale 7) are substantially shrunk, but barely so for the coarse scale. (d) shows the shrinkage effect of ASH on the fine scale (scale 7) wavelet coefficients - wavelet coefficients are shrunk adaptively based on their precision. (e) plots the estimated mean functions from SMASH and TI-thresh against the true mean function; we see that TI-thresh has noticeable artifacts.\relax }{figure.caption.1}{}}
 \citation{Gao1997Wavelet}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Comparison of wavelet-based methods for mean estimation with homoskedastic Gaussian errors for the ``Spikes'' mean function. Violin plots of MISEs for (from bottom to top) SMASH, SMASH with homoskedastic assumption, TI-thresholding with homoskedastic assumption, Ebayesthresh with homoskedastic assumption, and SMASH with known true variance are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. SMASH outperforms both TI-thresholding and Ebayesthresh, and SMASH with estimated variance performs nearly as well as with true variance.\relax }}{10}{figure.caption.2}}
+\newlabel{fig:gaus_homo}{{2}{10}{Comparison of wavelet-based methods for mean estimation with homoskedastic Gaussian errors for the ``Spikes'' mean function. Violin plots of MISEs for (from bottom to top) SMASH, SMASH with homoskedastic assumption, TI-thresholding with homoskedastic assumption, Ebayesthresh with homoskedastic assumption, and SMASH with known true variance are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. SMASH outperforms both TI-thresholding and Ebayesthresh, and SMASH with estimated variance performs nearly as well as with true variance.\relax }{figure.caption.2}{}}
+\@writefile{brf}{\backcite{Johnstone2005Empirical}{{10}{4.2.1}{subsubsection.4.2.1}}}
+\@writefile{brf}{\backcite{Gao1997Wavelet}{{10}{4.2.1}{figure.caption.2}}}
 \citation{Menictas2015Variational}
 \citation{Menictas2015Variational}
-\@writefile{brf}{\backcite{Gao1997Wavelet}{{11}{2}{Item.2}}}
-\@writefile{brf}{\backcite{Menictas2015Variational}{{11}{4.2}{Item.4}}}
-\@writefile{brf}{\backcite{Menictas2015Variational}{{11}{4.2}{Item.4}}}
+\citation{Menictas2015Variational}
+\citation{Menictas2015Variational}
+\citation{Sardy1999Wavelet}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Gaussian variance estimation}{11}{subsubsection.4.2.2}}
+\newlabel{sec:mfvb}{{4.2.2}{11}{Gaussian variance estimation}{subsubsection.4.2.2}{}}
+\@writefile{brf}{\backcite{Menictas2015Variational}{{11}{4.2.2}{subsubsection.4.2.2}}}
+\@writefile{brf}{\backcite{Menictas2015Variational}{{11}{4.2.2}{subsubsection.4.2.2}}}
 \newlabel{fig:gaus_hetero_1}{{3a}{12}{\relax }{figure.caption.3}{}}
 \newlabel{sub@fig:gaus_hetero_1}{{a}{12}{\relax }{figure.caption.3}{}}
 \newlabel{fig:gaus_hetero_sd_1}{{3b}{12}{\relax }{figure.caption.3}{}}
@@ -153,33 +159,29 @@
 \newlabel{sub@fig:gaus_hetero_2}{{c}{12}{\relax }{figure.caption.3}{}}
 \newlabel{fig:gaus_hetero_sd_2}{{3d}{12}{\relax }{figure.caption.3}{}}
 \newlabel{sub@fig:gaus_hetero_sd_2}{{d}{12}{\relax }{figure.caption.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Compares various wavelet-based methods for denoising data with heteroskedastic Gaussian errors. Figures on the left show violin plots of MISEs for various methods in denoising data with homoskedastic Gaussian errors for two sets of mean-variance functions: ``Spikes'' mean function with ``Clipped Blocks'' variance function, and ``Corner'' mean function with ``Doppler'' variance function. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. Figures on the right plot the associated mean and variance functions. We note the performance gain of SMASH over TI-thresh with different variance options: variance estimated by RMAD, variance estimated by SMASH, and the true variance.\relax }}{12}{figure.caption.3}}
-\newlabel{fig:gaus_hetero}{{3}{12}{Compares various wavelet-based methods for denoising data with heteroskedastic Gaussian errors. Figures on the left show violin plots of MISEs for various methods in denoising data with homoskedastic Gaussian errors for two sets of mean-variance functions: ``Spikes'' mean function with ``Clipped Blocks'' variance function, and ``Corner'' mean function with ``Doppler'' variance function. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. Figures on the right plot the associated mean and variance functions. We note the performance gain of SMASH over TI-thresh with different variance options: variance estimated by RMAD, variance estimated by SMASH, and the true variance.\relax }{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Comparison of wavelet-based methods for mean estimation with heteroskedastic Gaussian errors. Figures on the left show violin plots of MISEs for various methods on two sets of mean-variance functions: ``Spikes'' mean function with ``Clipped Blocks'' variance function, and ``Corner'' mean function with ``Doppler'' variance function. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. Figures on the right plot the mean functions $\pm $2 standard deviations.\relax }}{12}{figure.caption.3}}
+\newlabel{fig:gaus_hetero}{{3}{12}{Comparison of wavelet-based methods for mean estimation with heteroskedastic Gaussian errors. Figures on the left show violin plots of MISEs for various methods on two sets of mean-variance functions: ``Spikes'' mean function with ``Clipped Blocks'' variance function, and ``Corner'' mean function with ``Doppler'' variance function. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. Figures on the right plot the mean functions $\pm $2 standard deviations.\relax }{figure.caption.3}{}}
 \citation{Menictas2015Variational}
-\citation{Menictas2015Variational}
-\citation{Sardy1999Wavelet}
-\newlabel{fig:mfvb_mean}{{4a}{13}{\relax }{figure.caption.4}{}}
-\newlabel{sub@fig:mfvb_mean}{{a}{13}{\relax }{figure.caption.4}{}}
-\newlabel{fig:mfvb_var}{{4b}{13}{\relax }{figure.caption.4}{}}
-\newlabel{sub@fig:mfvb_var}{{b}{13}{\relax }{figure.caption.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Mean (a) and variance (b) functions used in the simulation study comparing SMASH against MFVB. These functions correspond to mean and standard deviation functions (A) from \cite  {Menictas2015Variational}.\relax }}{13}{figure.caption.4}}
-\@writefile{brf}{\backcite{Menictas2015Variational}{{13}{4}{figure.caption.4}}}
-\newlabel{fig:mfvb_fn}{{4}{13}{Mean (a) and variance (b) functions used in the simulation study comparing SMASH against MFVB. These functions correspond to mean and standard deviation functions (A) from \cite {Menictas2015Variational}.\relax }{figure.caption.4}{}}
-\@writefile{brf}{\backcite{Sardy1999Wavelet}{{13}{4.2}{figure.caption.4}}}
 \citation{Timmermann1999Multiscale}
 \citation{Fryzlewicz2004HaarFisz}
 \citation{Besbeas2004Comparative}
 \citation{Fryzlewicz2004HaarFisz}
 \citation{Kolaczyk1999Bayesian}
 \citation{Besbeas2004Comparative}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Shows the mean function $m(x)$ $\pm $2 standard deviations $s(x)$ used in the simulation study comparing SMASH against MFVB. These functions correspond to mean and standard deviation functions (A) from \cite  {Menictas2015Variational}.\relax }}{13}{figure.caption.4}}
+\@writefile{brf}{\backcite{Menictas2015Variational}{{13}{4}{figure.caption.4}}}
+\newlabel{fig:mfvb_eg}{{4}{13}{Shows the mean function $m(x)$ $\pm $2 standard deviations $s(x)$ used in the simulation study comparing SMASH against MFVB. These functions correspond to mean and standard deviation functions (A) from \cite {Menictas2015Variational}.\relax }{figure.caption.4}{}}
+\@writefile{brf}{\backcite{Sardy1999Wavelet}{{13}{4.2.2}{figure.caption.4}}}
+\@writefile{brf}{\backcite{Menictas2015Variational}{{13}{4.2.2}{table.caption.5}}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Compares the performance (in MSE) of SMASH and MFVB for two simulation scenarios, with the mean and variance functions as shown in \ref  {fig:mfvb_fn}. SMASH is comparable to MFVB in mean estimation and outperforms the latter in variance estimation in Scenario 1, where the data are not equally spaced and not a power of 2. SMASH outperforms MFVB in both mean and variance estimation in Scenario 2, where the data are equally spaced and a power of 2.\relax }}{14}{table.caption.5}}
 \newlabel{table:mfvb_comp}{{1}{14}{Compares the performance (in MSE) of SMASH and MFVB for two simulation scenarios, with the mean and variance functions as shown in \ref {fig:mfvb_fn}. SMASH is comparable to MFVB in mean estimation and outperforms the latter in variance estimation in Scenario 1, where the data are not equally spaced and not a power of 2. SMASH outperforms MFVB in both mean and variance estimation in Scenario 2, where the data are equally spaced and a power of 2.\relax }{table.caption.5}{}}
-\@writefile{brf}{\backcite{Timmermann1999Multiscale}{{14}{4.2}{table.caption.5}}}
-\@writefile{brf}{\backcite{Fryzlewicz2004HaarFisz}{{14}{4.2}{table.caption.5}}}
-\@writefile{brf}{\backcite{Besbeas2004Comparative}{{14}{4.2}{table.caption.5}}}
-\@writefile{brf}{\backcite{Fryzlewicz2004HaarFisz}{{14}{4.2}{table.caption.5}}}
-\@writefile{brf}{\backcite{Kolaczyk1999Bayesian}{{14}{4.2}{table.caption.5}}}
-\@writefile{brf}{\backcite{Besbeas2004Comparative}{{14}{4.2}{table.caption.5}}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Poisson Data}{14}{subsubsection.4.2.3}}
+\@writefile{brf}{\backcite{Timmermann1999Multiscale}{{14}{4.2.3}{subsubsection.4.2.3}}}
+\@writefile{brf}{\backcite{Fryzlewicz2004HaarFisz}{{14}{4.2.3}{subsubsection.4.2.3}}}
+\@writefile{brf}{\backcite{Besbeas2004Comparative}{{14}{4.2.3}{subsubsection.4.2.3}}}
+\@writefile{brf}{\backcite{Fryzlewicz2004HaarFisz}{{14}{4.2.3}{subsubsection.4.2.3}}}
+\@writefile{brf}{\backcite{Kolaczyk1999Bayesian}{{14}{4.2.3}{subsubsection.4.2.3}}}
+\@writefile{brf}{\backcite{Besbeas2004Comparative}{{14}{4.2.3}{subsubsection.4.2.3}}}
 \citation{silverman1985some}
 \citation{silverman1985some}
 \citation{silverman1985some}
@@ -189,16 +191,16 @@
 \newlabel{sub@fig:pois_1}{{a}{15}{\relax }{figure.caption.6}{}}
 \newlabel{fig:pois_8}{{5b}{15}{\relax }{figure.caption.6}{}}
 \newlabel{sub@fig:pois_8}{{b}{15}{\relax }{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Compares various approaches for denoising Poisson data for the ``Bursts'' test function where a) corresponds to a (min,max) intensity of (0.01,3), and b) corresponds to a (min,max) intensity of (1/8,8). Violin plots of MISEs for (from bottom to top) SMASH, BMSM and Haar-Fisz are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. We note the performance gain of SMASH over both BMSM and Haar-Fisz.\relax }}{15}{figure.caption.6}}
-\newlabel{fig:pois_sim}{{5}{15}{Compares various approaches for denoising Poisson data for the ``Bursts'' test function where a) corresponds to a (min,max) intensity of (0.01,3), and b) corresponds to a (min,max) intensity of (1/8,8). Violin plots of MISEs for (from bottom to top) SMASH, BMSM and Haar-Fisz are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. We note the performance gain of SMASH over both BMSM and Haar-Fisz.\relax }{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Compares various approaches for denoising Poisson data for the ``Bursts'' test function where a) corresponds to a (min,max) intensity of (0.01,3), and b) corresponds to a (min,max) intensity of (1/8,8). Violin plots of MISEs for (from bottom to top) SMASH, BMSM and Haar-Fisz are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. We note the performance gain of SMASH over both BMSM and Haar-Fisz in these scenarios.\relax }}{15}{figure.caption.6}}
+\newlabel{fig:pois_sim}{{5}{15}{Compares various approaches for denoising Poisson data for the ``Bursts'' test function where a) corresponds to a (min,max) intensity of (0.01,3), and b) corresponds to a (min,max) intensity of (1/8,8). Violin plots of MISEs for (from bottom to top) SMASH, BMSM and Haar-Fisz are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. We note the performance gain of SMASH over both BMSM and Haar-Fisz in these scenarios.\relax }{figure.caption.6}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Application to real datasets}{15}{section.5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Motorcycle Acceleration Data}{15}{subsection.5.1}}
 \@writefile{brf}{\backcite{silverman1985some}{{15}{5.1}{figure.caption.7}}}
 \@writefile{brf}{\backcite{Delouille2004Smooth}{{15}{5.1}{figure.caption.7}}}
+\@writefile{brf}{\backcite{Delouille2004Smooth}{{15}{5.1}{figure.caption.7}}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Results from fitting SMASH to the motorcycle acceleration data discussed in \cite  {silverman1985some}. Both the mean curve (solid black line) and the variance around the mean curve (dashed red line) are shown. We note that SMASH does a good job of capturing both the mean as well as the variation in the data without requiring and parameter tuning.\relax }}{16}{figure.caption.7}}
 \@writefile{brf}{\backcite{silverman1985some}{{16}{6}{figure.caption.7}}}
 \newlabel{fig:motorcycle}{{6}{16}{Results from fitting SMASH to the motorcycle acceleration data discussed in \cite {silverman1985some}. Both the mean curve (solid black line) and the variance around the mean curve (dashed red line) are shown. We note that SMASH does a good job of capturing both the mean as well as the variation in the data without requiring and parameter tuning.\relax }{figure.caption.7}{}}
-\@writefile{brf}{\backcite{Delouille2004Smooth}{{16}{5.1}{figure.caption.7}}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}ChIP-Seq Data}{17}{subsection.5.2}}
 \citation{Kolaczyk1999Bayesian}
 \citation{Menictas2015Variational}
@@ -255,33 +257,35 @@
 \bibdata{smash}
 \bibcite{Antoniadis2001Wavelet}{1}
 \bibcite{Besbeas2004Comparative}{2}
-\bibcite{Bickel2008Covariance}{3}
-\bibcite{Brown2007Variance}{4}
-\bibcite{Cai2008Adaptive}{5}
-\bibcite{Clyde2000Flexible}{6}
+\bibcite{Beylkin1992Ontherepresentation}{3}
+\bibcite{Bickel2008Covariance}{4}
+\bibcite{Brown2007Variance}{5}
+\bibcite{Cai2008Adaptive}{6}
+\bibcite{Clyde2000Flexible}{7}
 \@writefile{brf}{\backcite{Coifman1995Translationinvariant}{{25}{B.2}{equation.a.B.47}}}
 \@writefile{brf}{\backcite{Kolaczyk1999Multiscale}{{25}{B.2}{equation.a.B.47}}}
 \newlabel{eq:TIapproxexp}{{49}{25}{Signal reconstruction}{equation.a.B.49}{}}
-\bibcite{Coifman1995Translationinvariant}{7}
-\bibcite{Delouille2004Smooth}{8}
-\bibcite{D93}{9}
-\bibcite{donoho95}{10}
-\bibcite{Donoho1994Ideal}{11}
-\bibcite{Fan1998Efficient}{12}
-\bibcite{Fryzlewicz2004HaarFisz}{13}
-\bibcite{Gao1997Wavelet}{14}
-\bibcite{Gart1967Bias}{15}
-\bibcite{Johnstone2005Empirical}{16}
-\bibcite{Kolaczyk1996NonParametric}{17}
-\bibcite{Kolaczyk1999Bayesian}{18}
-\bibcite{kolaczyk1999wavelet}{19}
-\bibcite{Menictas2015Variational}{20}
-\bibcite{Morris2006Waveletbased}{21}
-\bibcite{Nowak2000Statistical}{22}
-\bibcite{Nowak1999Multiscale}{23}
-\bibcite{Sardy1999Wavelet}{24}
-\bibcite{silverman1985some}{25}
-\bibcite{Silverman1999Wavelets}{26}
-\bibcite{Tibshirani1996Regression}{27}
-\bibcite{Timmermann1999Multiscale}{28}
+\bibcite{Coifman1995Translationinvariant}{8}
+\bibcite{Delouille2004Smooth}{9}
+\bibcite{D93}{10}
+\bibcite{donoho95}{11}
+\bibcite{Donoho1994Ideal}{12}
+\bibcite{Fan1998Efficient}{13}
+\bibcite{Fryzlewicz2004HaarFisz}{14}
+\bibcite{Gao1997Wavelet}{15}
+\bibcite{Gart1967Bias}{16}
+\bibcite{Johnstone2005Empirical}{17}
+\bibcite{Kolaczyk1996NonParametric}{18}
+\bibcite{Kolaczyk1999Bayesian}{19}
+\bibcite{kolaczyk1999wavelet}{20}
+\bibcite{Menictas2015Variational}{21}
+\bibcite{Morris2006Waveletbased}{22}
+\bibcite{Nason_wavethresh}{23}
+\bibcite{Nowak1999Multiscale}{24}
+\bibcite{Nowak2000Statistical}{25}
+\bibcite{Sardy1999Wavelet}{26}
+\bibcite{silverman1985some}{27}
+\bibcite{Silverman1999Wavelets}{28}
+\bibcite{Tibshirani1996Regression}{29}
+\bibcite{Timmermann1999Multiscale}{30}
 \bibstyle{plain}

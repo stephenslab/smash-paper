@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.16)  11 FEB 2016 15:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.11.16)  21 FEB 2016 18:07
 entering extended mode
 **draft_6.tex
 (draft_6.tex
@@ -493,211 +493,209 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 251.
-
-
-LaTeX Warning: Citation `Beylkin1992Ontherepresentation' on page 5 undefined on input line 262.
-
-
-LaTeX Warning: Citation `Nason_wavethresh' on page 5 undefined on input line 262.
-
-[5] [6]
+ [5] [6]
 
 LaTeX Warning: Reference `' on page 7 undefined on input line 390.
 
-[7] <simple_eg_1.pdf, id=218, 578.16pt x 433.62pt>
+[7]
+
+LaTeX Warning: Reference `' on page 8 undefined on input line 420.
+
+<simple_eg_1.pdf, id=234, 578.16pt x 433.62pt>
 File: simple_eg_1.pdf Graphic file (type pdf)
  <use simple_eg_1.pdf>
-Package pdftex.def Info: simple_eg_1.pdf used on input line 427.
+Package pdftex.def Info: simple_eg_1.pdf used on input line 436.
 (pdftex.def)             Requested size: 208.13574pt x 156.09647pt.
- <simple_eg_2.pdf, id=219, 578.16pt x 433.62pt>
+ <simple_eg_2.pdf, id=235, 578.16pt x 433.62pt>
 File: simple_eg_2.pdf Graphic file (type pdf)
 
 <use simple_eg_2.pdf>
-Package pdftex.def Info: simple_eg_2.pdf used on input line 434.
+Package pdftex.def Info: simple_eg_2.pdf used on input line 443.
 (pdftex.def)             Requested size: 208.13574pt x 156.09647pt.
- <simple_eg_3.pdf, id=220, 578.16pt x 433.62pt>
+ <simple_eg_3.pdf, id=236, 578.16pt x 433.62pt>
 File: simple_eg_3.pdf Graphic file (type pdf)
  <use simple_eg_3.pdf>
-Package pdftex.def Info: simple_eg_3.pdf used on input line 441.
+Package pdftex.def Info: simple_eg_3.pdf used on input line 450.
 (pdftex.def)             Requested size: 208.13574pt x 156.09647pt.
 
-<simple_eg_4.pdf, id=221, 578.16pt x 418.56375pt>
+<simple_eg_4.pdf, id=237, 578.16pt x 418.56375pt>
 File: simple_eg_4.pdf Graphic file (type pdf)
  <use simple_eg_4.pdf>
-Package pdftex.def Info: simple_eg_4.pdf used on input line 448.
+Package pdftex.def Info: simple_eg_4.pdf used on input line 457.
 (pdftex.def)             Requested size: 208.13574pt x 150.67644pt.
- <simple_eg_5.pdf, id=222, 578.16pt x 433.62pt>
+ <simple_eg_5.pdf, id=238, 578.16pt x 433.62pt>
 File: simple_eg_5.pdf Graphic file (type pdf)
 
 <use simple_eg_5.pdf>
-Package pdftex.def Info: simple_eg_5.pdf used on input line 455.
+Package pdftex.def Info: simple_eg_5.pdf used on input line 464.
 (pdftex.def)             Requested size: 208.13574pt x 156.09647pt.
- <violin_gaus_homo.pdf, id=227, 578.16pt x 578.16pt>
+ [8] [9 <./simple_eg_1.pdf> <./simple_eg_2.pdf> <./simple_eg_3.pdf> <./simple_eg_4.pdf> <./simple_eg_5.pdf>] <violin_gau
+s_homo.pdf, id=288, 578.16pt x 578.16pt>
 File: violin_gaus_homo.pdf Graphic file (type pdf)
  <use violin_gaus_homo.pdf>
-Package pdftex.def Info: violin_gaus_homo.pdf used on input line 481.
+Package pdftex.def Info: violin_gaus_homo.pdf used on input line 490.
 (pdftex.def)             Requested size: 281.85036pt x 281.84525pt.
- [8] [9 <./simple_eg_1.pdf> <./simple_eg_2.pdf> <./simple_eg_3.pdf> <./simple_eg_4.pdf> <./simple_eg_5.pdf>] [10 <./viol
-in_gaus_homo.pdf>]
-<violin_gaus_hetero_1.pdf, id=285, 578.16pt x 578.16pt>
+ [10 <./violin_gaus_homo.pdf>]
+Overfull \hbox (15.4907pt too wide) in paragraph at lines 504--505
+\OT1/cmr/m/n/12 racy of mean es-ti-ma-tion (com-pare SMASH with SMASH-homo and EbayesThresh). 
+ []
+
+<violin_gaus_hetero_1.pdf, id=303, 578.16pt x 578.16pt>
 File: violin_gaus_hetero_1.pdf Graphic file (type pdf)
  <use violin_gaus_hetero_1.pdf>
-Package pdftex.def Info: violin_gaus_hetero_1.pdf used on input line 493.
+Package pdftex.def Info: violin_gaus_hetero_1.pdf used on input line 517.
 (pdftex.def)             Requested size: 281.85036pt x 281.84525pt.
 
-<violin_gaus_hetero_sd_1.pdf, id=286, 578.16pt x 578.16pt>
+<violin_gaus_hetero_sd_1.pdf, id=304, 578.16pt x 578.16pt>
 File: violin_gaus_hetero_sd_1.pdf Graphic file (type pdf)
  <use violin_gaus_hetero_sd_1.pdf>
-Package pdftex.def Info: violin_gaus_hetero_sd_1.pdf used on input line 500.
+Package pdftex.def Info: violin_gaus_hetero_sd_1.pdf used on input line 524.
 (pdftex.def)             Requested size: 130.08733pt x 130.08038pt.
 
-<violin_gaus_hetero_2.pdf, id=287, 578.16pt x 578.16pt>
+<violin_gaus_hetero_2.pdf, id=305, 578.16pt x 578.16pt>
 File: violin_gaus_hetero_2.pdf Graphic file (type pdf)
  <use violin_gaus_hetero_2.pdf>
-Package pdftex.def Info: violin_gaus_hetero_2.pdf used on input line 507.
+Package pdftex.def Info: violin_gaus_hetero_2.pdf used on input line 531.
 (pdftex.def)             Requested size: 281.85036pt x 281.84525pt.
 
-<violin_gaus_hetero_sd_2.pdf, id=288, 578.16pt x 578.16pt>
+<violin_gaus_hetero_sd_2.pdf, id=306, 578.16pt x 578.16pt>
 File: violin_gaus_hetero_sd_2.pdf Graphic file (type pdf)
  <use violin_gaus_hetero_sd_2.pdf>
-Package pdftex.def Info: violin_gaus_hetero_sd_2.pdf used on input line 514.
+Package pdftex.def Info: violin_gaus_hetero_sd_2.pdf used on input line 538.
 (pdftex.def)             Requested size: 130.08733pt x 130.08038pt.
 
 
-LaTeX Warning: Float too large for page by 51.64056pt on input line 520.
+LaTeX Warning: Float too large for page by 32.64056pt on input line 544.
 
-[11] [12 <./violin_gaus_hetero_1.pdf> <./violin_gaus_hetero_sd_1.pdf> <./violin_gaus_hetero_2.pdf> <./violin_gaus_hetero
-_sd_2.pdf>]
-Overfull \hbox (9.4637pt too wide) in paragraph at lines 536--537
-\OT1/cmr/m/n/12 tic and equally spaced on (0,1), while the $\OML/cmm/m/it/12 Y[]$\OT1/cmr/m/n/12 's were dis-tributed as
- $\OML/cmm/m/it/12 N\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 m\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x[]\OT1/cmr/m/n/12 )\OML/cmm/m/
-it/12 ; sd\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x[]\OT1/cmr/m/n/12 ))$.
- []
+<mfvb_eg.pdf, id=311, 578.16pt x 361.35pt>
+File: mfvb_eg.pdf Graphic file (type pdf)
+ <use mfvb_eg.pdf>
+Package pdftex.def Info: mfvb_eg.pdf used on input line 566.
+(pdftex.def)             Requested size: 433.62001pt x 271.01184pt.
+ [11] [12 <./violin_gaus_hetero_1.pdf> <./violin_gaus_hetero_sd_1.pdf> <./violin_gaus_hetero_2.pdf> <./violin_gaus_heter
+o_sd_2.pdf>]
 
-<mfvb_mean.pdf, id=331, 578.16pt x 361.35pt>
-File: mfvb_mean.pdf Graphic file (type pdf)
- <use mfvb_mean.pdf>
-Package pdftex.def Info: mfvb_mean.pdf used on input line 542.
-(pdftex.def)             Requested size: 195.12767pt x 121.95311pt.
- <mfvb_var.pdf, id=332, 578.16pt x 361.35pt>
-File: mfvb_var.pdf Graphic file (type pdf)
+LaTeX Warning: Reference `fig:mfvb_fn' on page 13 undefined on input line 588.
 
-<use mfvb_var.pdf>
-Package pdftex.def Info: mfvb_var.pdf used on input line 549.
-(pdftex.def)             Requested size: 195.12767pt x 121.95311pt.
- [13 <./mfvb_mean.pdf> <./mfvb_var.pdf>] <violin_pois_1.pdf, id=369, 578.16pt x 578.16pt>
+
+LaTeX Warning: Reference `fig:mfvb_fn' on page 13 undefined on input line 588.
+
+<violin_pois_1.pdf, id=363, 578.16pt x 578.16pt>
 File: violin_pois_1.pdf Graphic file (type pdf)
-
-<use violin_pois_1.pdf>
-Package pdftex.def Info: violin_pois_1.pdf used on input line 580.
+ <use violin_pois_1.pdf>
+Package pdftex.def Info: violin_pois_1.pdf used on input line 602.
 (pdftex.def)             Requested size: 195.12767pt x 195.12498pt.
- <violin_pois_8.pdf, id=370, 578.16pt x 578.16pt>
+
+<violin_pois_8.pdf, id=364, 578.16pt x 578.16pt>
 File: violin_pois_8.pdf Graphic file (type pdf)
  <use violin_pois_8.pdf>
-Package pdftex.def Info: violin_pois_8.pdf used on input line 587.
+Package pdftex.def Info: violin_pois_8.pdf used on input line 609.
 (pdftex.def)             Requested size: 195.12767pt x 195.12498pt.
- [14]
-<motorcycle.pdf, id=376, 578.16pt x 433.62pt>
+ [13 <./mfvb_eg.pdf>] [14]
+<motorcycle.pdf, id=384, 578.16pt x 433.62pt>
 File: motorcycle.pdf Graphic file (type pdf)
  <use motorcycle.pdf>
-Package pdftex.def Info: motorcycle.pdf used on input line 647.
+Package pdftex.def Info: motorcycle.pdf used on input line 669.
 (pdftex.def)             Requested size: 281.85036pt x 211.38393pt.
- [15 <./violin_pois_1.pdf> <./violin_pois_8.pdf>]
-[16 <./motorcycle.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 657--669
+
+
+LaTeX Warning: Reference `sec:mfvb' on page 15 undefined on input line 674.
+
+[15 <./violin_pois_1.pdf> <./violin_pois_8.pdf>] [16 <./motorcycle.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 679--691
 
  []
 
-[17] <peaks_comp_a.png, id=418, 2007.5pt x 1003.75pt>
+[17] <peaks_comp_a.png, id=426, 2007.5pt x 1003.75pt>
 File: peaks_comp_a.png Graphic file (type png)
  <use peaks_comp_a.png>
-Package pdftex.def Info: peaks_comp_a.png used on input line 674.
+Package pdftex.def Info: peaks_comp_a.png used on input line 696.
 (pdftex.def)             Requested size: 368.57965pt x 184.28177pt.
 
-<peaks_comp_b.pdf, id=419, 722.7pt x 361.35pt>
+<peaks_comp_b.pdf, id=427, 722.7pt x 361.35pt>
 File: peaks_comp_b.pdf Graphic file (type pdf)
  <use peaks_comp_b.pdf>
-Package pdftex.def Info: peaks_comp_b.pdf used on input line 680.
+Package pdftex.def Info: peaks_comp_b.pdf used on input line 702.
 (pdftex.def)             Requested size: 368.57965pt x 184.29158pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 687--688
+Underfull \hbox (badness 10000) in paragraph at lines 709--710
 
  []
 
 [18] [19 <./peaks_comp_a.png> <./peaks_comp_b.pdf>] [20]
 
-LaTeX Warning: Reference `eq:likelihood' on page 21 undefined on input line 709.
+LaTeX Warning: Reference `eq:likelihood' on page 21 undefined on input line 731.
 
 [21]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 762.
+(hyperref)                removing `math shift' on input line 784.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\alpha' on input line 762.
+(hyperref)                removing `\alpha' on input line 784.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 762.
+(hyperref)                removing `subscript' on input line 784.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 762.
+(hyperref)                removing `math shift' on input line 784.
 
 [22] [23]
 
-LaTeX Warning: Citation `Kolaczyk1999Multiscale' on page 24 undefined on input line 833.
+LaTeX Warning: Citation `Kolaczyk1999Multiscale' on page 24 undefined on input line 855.
 
 [24] (draft_6.bbl (draft_6.brf)
 \tf@brf=\write4
  [25] [26])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 846.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 868.
  [27]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 846.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 868.
  (draft_6.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 846.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 846.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 868.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 868.
 Package rerunfilecheck Info: File `draft_6.out' has not changed.
-(rerunfilecheck)             Checksum: 28E5706D234E74E2EDFE36E23CC0E8A2;1409.
+(rerunfilecheck)             Checksum: 1A6494A526669EA756507D73B4E8E8D0;1656.
 
 
 Package rerunfilecheck Warning: File `draft_6.brf' has changed.
 (rerunfilecheck)                Rerun to get bibliographical references right.
 
 Package rerunfilecheck Info: Checksums for `draft_6.brf':
-(rerunfilecheck)             Before: DA6FE71AFECA99C7ABFE6106A46F8614;3886
-(rerunfilecheck)             After:  A42CAA5096DCDF020C39811929233325;4135.
+(rerunfilecheck)             Before: A5C67F1C6D51EEE1671E2486F18F8996;4239
+(rerunfilecheck)             After:  B0BAE53293B4498CA627537D41D7160D;4306.
 
 LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 846.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 868.
  ) 
 Here is how much of TeX's memory you used:
- 9066 strings out of 493673
- 137092 string characters out of 3143956
- 239046 words of memory out of 3000000
- 12121 multiletter control sequences out of 15000+200000
- 18442 words of font info for 68 fonts, out of 3000000 for 9000
+ 9080 strings out of 493673
+ 137344 string characters out of 3143956
+ 238777 words of memory out of 3000000
+ 12126 multiletter control sequences out of 15000+200000
+ 20003 words of font info for 74 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 42i,12n,38p,2246b,490s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,12n,38p,1993b,490s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/
-Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmmib10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program F
-iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10
-.pfb>
-Output written on draft_6.pdf (27 pages, 776991 bytes).
+/amsfonts/cm/cmbx8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/
+Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr
+8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb><
+C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on draft_6.pdf (27 pages, 916397 bytes).
 PDF statistics:
- 653 PDF objects out of 1000 (max. 8388607)
- 133 named destinations out of 1000 (max. 500000)
- 254 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 672 PDF objects out of 1000 (max. 8388607)
+ 138 named destinations out of 1000 (max. 500000)
+ 273 words of extra memory for PDF output out of 10000 (max. 10000000)
 
