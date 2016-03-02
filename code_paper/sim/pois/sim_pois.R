@@ -390,7 +390,7 @@ est.hf.ti.r.7.b.128=apply(sim.m.b.128,1,denoise.poisson,meth.1=hf.la10.ti7,cs.1=
 
 
 
-#load in results from matlab runs
+#load in results from matlab runs (anscombe - cv, universal, haar thresholding, BMSM, BMIE, l1 penalty )
 est.an.ti.cvh.2.s.1=data.matrix(read.csv('est_an_ti_cvh_2_s_1.csv',header=F))
 est.an.ti.cvh.3.s.1=data.matrix(read.csv('est_an_ti_cvh_3_s_1.csv',header=F))
 est.an.ti.cvh.4.s.1=data.matrix(read.csv('est_an_ti_cvh_4_s_1.csv',header=F))
@@ -2141,7 +2141,7 @@ mise.BMIE.7.b.128=mise((est.BMIE.7.b.128),mu.b.128)
 
 
 
-
+#collect mises for each test function and each intensity level
 mise.s.1=c(mean(mise.ash.s.1),
            mean(mise.BMSM.s.1),
            mean(c(mise.BMIE.4.s.1,mise.BMIE.5.s.1,mise.BMIE.6.s.1,mise.BMIE.7.s.1)),
@@ -2495,15 +2495,14 @@ names(mise.b.128)=c("ash",
                     "haar_h",
                     "l1_pen")
 
-
+#save data
 save.image("res_pois_full.RData")
 
 rm(list = setdiff(ls(), ls(pattern="^mise")))
 
-
 save.image("res_pois.RData")
 
-
+#look at results
 sort(mise.s.1)
 sort(mise.s.8)
 sort(mise.s.128)
