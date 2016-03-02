@@ -49,7 +49,8 @@ However, these methods are usually perceived to require context-specific impleme
 We show how this single shrinkage method can produce effective results for several denoising problems, including smoothing Gaussian means in the presence of heteroskedastic variance, smoothing of Gaussian variances, and smoothing Poisson means. These are all settings that are relatively underserved by existing EB implementations, and indeed  we are unaware of any existing EB implementation for smoothing either the mean or the variance in the heteroskedastic Gaussian case.
 Consistent with previous studies (\cite{Antoniadis2001Wavelet}, \cite{Besbeas2004Comparative}) we find these EB methods to be more accurate than commonly-used thresholding rules, and, in the Poisson case, competitive with a purpose-built EB method. 
 
-Methods for smoothing the variance of Gaussian data, or even for smoothing the mean in the presence of heteroskedastic errors, are uncommon, particularly compared with the well-studied homoskedastic case. Previous non-wavelet-based work includes \cite{Fan1998Efficient}, who estimated the variance by smoothing the squared residuals using local polynomial smoothing, \cite{Brown2007Variance}, who employed difference-based kernel estimators, and \cite{Menictas2015Variational}, who developed a Bayesian mean field variational methodology for both mean and variance estimation. The only wavelet-based method for variance estimation we have found is \cite{Cai2008Adaptive}, which applied a wavelet thresholding approach to first order differences. Unfortunately software implementation is only available in \cite{Menictas2015Variational}.
+Methods for smoothing the variance of Gaussian data, or even for smoothing the mean in the presence of heteroskedastic errors, are uncommon, particularly compared with the well-studied homoskedastic case. Previous non-wavelet-based work includes \cite{Fan1998Efficient}, who estimated the variance by smoothing the squared residuals using local polynomial smoothing, \cite{Brown2007Variance}, who employed difference-based kernel estimators, and \cite{Menictas2015Variational}, who developed a Bayesian mean field variational methodology for both mean and variance estimation. The only wavelet-based method for variance estimation we have found is \cite{Cai2008Adaptive}, which applied a wavelet thresholding approach to first order differences. In no case could we find publicly-available software implementations of these methods (but we did receive
+code by email from \cite{Menictas2015Variational}, which we use in our comparisons).
 
 For Poisson data, variance stabilizing techniques together with normal approximations have been proposed by \cite{D93} and \cite{Fryzlewicz2004HaarFisz}, by exploiting the mean-variance relationship of a Poisson distribution. \cite{Kolaczyk1996NonParametric} and \cite{kolaczyk1999wavelet} derived thresholds achieving optimal asymptotic properties in the context of wavelet transformations, similar to the thresholds in the i.i.d. Gaussian case.  However, \cite{Fryzlewicz2004HaarFisz} is computationally inefficient due to the presence of external cycle-spinning, and threshold-based methods may not result in satisfactory finite sample performance. Furthermore, all of these methods are sensitive to the choice of the primary resolution level as subsequent simulations will show. Multiscale analysis using recursive dyadic partitions within a Bayesian framework was later developed by \cite{Kolaczyk1999Bayesian} to make use of a particular form of likelihood factorization, but a relatively inflexible conjugate prior was chosen. 
 
@@ -300,7 +301,7 @@ A common approach is to assume that the variance is constant ($\sigma_t=\sigma$)
 \hat{\sigma}^2 = (1/2T) \sum_{t=1}^{T} (Y_t-Y_{t-1})^2
 \end{equation}
 with $Y_0:=Y_T$.
-Here we make the more flexible assumption that the variance function is spatially structured, and use wavelet shrinkage to estimate it. Our approach is similar in spirit to \cite{Cai2008Adaptive}, but we jointly estimate the mean and variance functions whereas they estimate only the variance function.
+Here we make the more flexible assumption that the variance function is spatially structured, and use wavelet shrinkage to estimate it. Our approach is similar in spirit to \cite{Delouille2004Smooth}, and also to \cite{Cai2008Adaptive} (although the latter estimates only the variance function).
 
 Assume initially that the mean $\mu_t$ is known, and define
 \begin{eqnarray}\label{eq:varobs1}
@@ -478,6 +479,7 @@ We conducted extensive simulation studies to compare the performance of our meth
 For the Gaussian case, we focus on mean estimation, initially with homoskedastic errors. We modelled our simulation study after
 \cite{Antoniadis2001Wavelet}, using many of the same test functions, a variety of sample sizes, two different signal to noise ratios (SNRs), and including
 the best-performing methods from their comparison. In particular their results showed that Translation Invariant (TI) thresholding (\cite{Coifman1995Translationinvariant}) performed the best for most of the test signals, where performance is measured by mean squared error (MSE). We also considered the Empirical Bayes shrinkage procedure (\cite{Johnstone2005Empirical}), named Ebayesthresh. 
+All the methods were applied using the Symmlet8 wavelet basis \cite{}.
 
 Figure \ref{fig:gaus_homo} compares the mean integrated squared errors (MISEs) of TI-thresholding and Ebayesthresh to SMASH for the ``Spikes'' mean function, with a signal to noise ratio of 3 and sample size 1024. We applied SMASH in three ways, the first (SMASH) estimating the variance function allowing for heteroskedasticity, the second estimating the variance assuming homoskedasticity (SMASH-homo) and the
 third using the true variance function (SMASH true variance), which could be viewed as a "gold standard". The results show that all three versions of SMASH outperform both EbayesThresh and TI-thresholding. Notably all three SMASH versions perform very similarly, demonstrating that
@@ -547,11 +549,11 @@ volatile.
 \subsubsection{Gaussian variance estimation}\label{sec:mfvb}
 
 One unusual feature of SMASH is that it performs joint mean and variance estimation.
-Indeed, we found only one other joint mean and variance estimation procedure for which we could obtain software (CHECK):
-the Mean Field Variational Bayes (MFVB) method for heteroskedastic Gaussian regression \cite{Menictas2015Variational}. 
+Indeed, we found no existing R packages aimed at doing this. However we were able to obtain code
+implementing the Mean Field Variational Bayes (MFVB) method for heteroskedastic Gaussian regression \cite{Menictas2015Variational} (M.~Menictas, personal communication). 
 This method is based on penalized splines, and so is not well suited to many standard test functions in the wavelet literature, which
 often contain ``spiky" local features not well captured by splines. Hence, we compared SMASH and MFVB on some
-smoother mean and variance (standard deviation) functions, specifically scenario A in Figure 5 from \cite{Menictas2015Variational} (shown in Figure \ref{fig:mfvb_eg}),
+smoother mean and variance (standard deviation) functions, specifically scenario A in Figure 5 from \cite{Menictas2015Variational} (Figure \ref{fig:mfvb_eg}),
 using scripts kindly provided by M.~Menictas.
 
 We simulated data under two different scenarios:
@@ -568,33 +570,56 @@ evaluated at 201 equally spaced points on $(X_{min},X_{max})$ for both the mean 
     \label{fig:mfvb_eg}
 \end{figure}
 
-The first scenario presents some issues for SMASH because the number of data points is not a power of two, nor are the point equally spaced. To deal with the first issue, following standard ideas in the wavelet literature, we first mirrored the data about the right edge and extract the first $2^{\lfloor\log_2(2n)\rfloor}$ sample points, so that the number of data points in the new ``dataset'' is a power of two, and the mean curve is continuous at the right edge. To further ensure that the input to SMASH is periodic, we reflected the new dataset about the right edge and used this as the final input. 
+The first scenario presents some issues for SMASH because the number of data points is not a power of two, nor are the points equally-spaced. To deal with the first issue, following standard ideas in the wavelet literature, we first mirrored the data about the right edge and extract the first $2^{\lfloor\log_2(2n)\rfloor}$ sample points, so that the number of data points in the new ``dataset'' is a power of two, and the mean curve is continuous at the right edge. To further ensure that the input to SMASH is periodic, we reflected the new dataset about the right edge and used this as the final input. 
 To deal with the second issue we follow the common practice of treating the observations as if they are evenly spaced (see \cite{Sardy1999Wavelet} for discussion). To estimate the original mean and variance functions, we extract the first $n$ points from the SMASH estimated mean and variance. 
 To evaluate MSE at the 201 equally spaced points (Scenario 1) we use simple linear interpolation between the estimated points. 
 
 Table \ref{table:mfvb_comp} shows mean MSEs over 100 independent runs for each scenario.
+Despite the fact that these simulation scenarios -- particularly Scenario 1 -- seem better suited to MFVB than SMASH, 
+SMASH performs comparably or better than MFVB for both mean and variance estimation in both Scenarios. 
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrrrr}
 \hline
 & \multicolumn{2}{c}{Scenario 1}&\multicolumn{2}{c}{Scenario 2}\\
 \cline{2-5}
-& mean & sd & mean & sd \\
+& MSE (for mean) & MSE (for sd) & MSE (for mean) & MSE (for sd) \\
 \hline
 MFVB & 0.0330 & 0.0199 & 0.0172 & 0.0085 \\
 SMASH & 0.0334 & 0.0187 & 0.0158 & 0.0065 \\
 \hline
 \end{tabular}
-\caption{Compares the performance (in MSE) of SMASH and MFVB for two simulation scenarios, with the mean and variance functions as shown in \ref{fig:mfvb_fn}. SMASH is comparable to MFVB in mean estimation and outperforms the latter in variance estimation in Scenario 1, where the data are not equally spaced and not a power of 2. SMASH outperforms MFVB in both mean and variance estimation in Scenario 2, where the data are equally spaced and a power of 2.}
+\caption{Comparison of accuracy (MSE) of SMASH and MFVB for two simulation scenarios.  True mean and sd functions are shown in \ref{fig:mfvb_fn}. 
+In Scenario 1 the data are not equally spaced and not a power of 2; here SMASH is comparable to MFVB in mean estimation and more accurate for sd estimation.
+In Scenario 2 the data are equally spaced and a power of 2; here SMASH outperforms MFVB in both mean and sd estimation.}
 \label{table:mfvb_comp}
 \end{table}
 
-In addition to the issues stated above for Scenario 1 with regards to wavelet-based methods (SMASH in particular), linear interpolation between sample points was also used in computing the MSE, further impacting the accuracy of SMASH. On the other hand, spline-based methods such as \cite{Menictas2015Variational} are well suited to dealing with smooth mean and variance functions presented in this particular simulation study. Despite all these limitations, SMASH performs comparably to MFVB in terms of mean estimation for Scenario 1, and has a lower MSE in terms of standard deviation estimation. For Scenario 2, SMASH outperforms MFVB in both mean and variance estimation. 
-
+ 
 
 \subsubsection{Poisson Data}
 
-For this simulation study, we considered different test functions and Poisson intensities for a given sample size of $n=1024$ as in \cite{Timmermann1999Multiscale}, \cite{Fryzlewicz2004HaarFisz} and \cite{Besbeas2004Comparative}, over 100 independent runs. Figure \ref{fig:pois_sim} compares the MISE of SMASH with Haar-Fisz (\cite{Fryzlewicz2004HaarFisz}) and BMSM (\cite{Kolaczyk1999Bayesian}) for the ``Bursts'' function with (min,max) intensities of (0.01,3) and (1/8,8). We focus our attention on low intensities as they are of primary interest in many genomic applications. Complete results, including a (min,max) intensity of (1/128, 128), are included in Supplementary Materials. Figure \ref{fig:pois_sim} demonstrates that SMASH outperforms both methods for this scenario, and the claim holds true in general. As an exception, Haar-Fisz outperforms both SMASH and BMSM for certain test functions with a (min,max) intensity of (1/128,128) when the asymptotic variance of 1 is assumed in the Gaussian wavelet thresholding stage of the Haar-Fisz algorithm, but underperforms when the variance is estimated from the data instead. Besides the somewhat strong assumption of unit variance, the inconsistent performance of Haar-Fisz could also be attributed to the choice of the primary resolution level used, which can substantially affect the performance of Haar-Fisz. Here we analyzed primary resolution levels of 4, 5, 6 and 7, similar to \cite{Besbeas2004Comparative}. On the other hand, SMASH outperforms BMSM consistently, even though it is based on the same likelihood factorization used in the latter. We can thus conclude that the choice of ASH as the shrinkage procedure is superior to that used in BMSM in the simulation study. More importantly, using this formulation in SMASH also makes it easily extensible to multiple samples in the context of a (generalized) linear model, something we will briefly describe in the Discussion section.
+To assess SMASH on Poisson data we simulated data from
+several different test functions from \cite{Timmermann1999Multiscale}, \cite{Fryzlewicz2004HaarFisz} and \cite{Besbeas2004Comparative}.
+We varied the minimum and maximum intensity of each test function, using (min,max) intensities of (0.01,3), (1/8,8) and (1/128,128).
+For each test function and intensity level we simulated 100 datasets, each with $n=1024$ data points.
+We focus on results for the first two intensity settings, which have smaller average intensity. These settings produce smaller average counts, making them more challenging, and also more representative of the kinds of genomic application that we consider below.
+Complete results are included in Supplementary Materials.
+
+We compared SMASH with eight other methods, but we focus here on the comparisons with the best-performing other methods, which are Haar-Fisz (HF) (\cite{Fryzlewicz2004HaarFisz}) and BMSM (\cite{Kolaczyk1999Bayesian}). The latter, like SMASH, is an Empirical Bayes method,  but with a less flexible prior distribution on the
+multi-scale coefficients. The HF method involves first performing a transformation on the Poisson counts, and applying Gaussian wavelet methods to the transformed data. 
+There are many choices for Gaussian wavelet methods, and the performance depends on these choices (and with different choices being optimal for different data sets). 
+The settings we used here are documented in Supplementary Information, and were chosen by us to optimize (average) performance through moderately extensive experimentation on a range of simulations.
+
+In summary, SMASH outperformed both HF and BMSM in the majority of simulations, with the gain in accuracy being strongest for the more challenging lower-intensity
+scenarios. A typical result is shown in Figure \ref{fig:pois_sim}, with complete results in Supplementary Information (\url{?}). 
+Among the other two methods, BMSM tends to be the more consistent performer. HF, with the settings
+we used here, performs quite variably, being worse than the other two in most scenarios, but occassionally performing the best (specifically for the Angles, Bursts and Spikes test functions,
+with (min,max) intensity (1/128,128)). As noted above, the HF transform can be used with many settings, so the results here should be viewed as a guide to the 
+performance that can be achieved in practice.
+
+
+%Besides the somewhat strong assumption of unit variance, the inconsistent performance of Haar-Fisz could also be attributed to the choice of the primary resolution level used, which can substantially affect the performance of Haar-Fisz. Here we analyzed primary resolution levels of 4, 5, 6 and 7, similar to \cite{Besbeas2004Comparative}. On the other hand, SMASH outperforms BMSM consistently, even though it is based on the same likelihood factorization used in the latter. We can thus conclude that the choice of ASH as the shrinkage procedure is superior to that used in BMSM in the simulation study. More importantly, using this formulation in SMASH also makes it easily extensible to multiple samples in the context of a (generalized) linear model, something we will briefly describe in the Discussion section.
 \begin{figure}
 \centering
     \begin{subfigure}[b]{0.45\textwidth}
@@ -610,16 +635,18 @@ For this simulation study, we considered different test functions and Poisson in
         \caption{}
         \label{fig:pois_8}
     \end{subfigure}
-    \caption{Compares various approaches for denoising Poisson data for the ``Bursts'' test function where a) corresponds to a (min,max) intensity of (0.01,3), and b) corresponds to a (min,max) intensity of (1/8,8). Violin plots of MISEs for (from bottom to top) SMASH, BMSM and Haar-Fisz are shown in the figure. Smaller MISE implies better performance; dashed green line indicates the median MISE for SMASH. We note the performance gain of SMASH over both BMSM and Haar-Fisz in these scenarios.}
+    \caption{Comparison of methods for denoising Poisson data (for the ``Bursts'' test function). The violin plots show distributions of MISE for each method over 100 datsets, with smaller values indicating better performance. The dashed green line indicates the median MISE for SMASH. Panel a) corresponds to a (min,max) intensity of (0.01,3), and b) corresponds to a (min,max) intensity of (1/8,8).}
     \label{fig:pois_sim}
 \end{figure}
 
-In terms of computation, SMASH is much more efficient than Haar-Fisz with external cyclespinning, as the latter must be rerun for each shift of the data. However, a direct comparison between SMASH and BMSM is uninformative, as they are coded in different programming environments. Nevertheless, similarities between the two methods imply that they should behave identically in this aspect, barring differences in actual implementation.
+One disadvantage of the HF transform is that, to achieve translation invariance (TI), the transform has to be done explicitly for each shift of the data: the tricks usually used to do this efficiently \cite{coifman.donoho.titable} do not work here. Thus, making HF fully translation invariant increases computation by a factor of $T$, rather than the factor of $\log(T)$ for the other methods. Here we follow advice in \cite{} to reduce the computational burden by averaging over 50 shifts of the data rather than $T$. Even so, HF was substantially slower than the other methods.
+ A direct comparison of computational efficiency between SMASH and BMSM is difficult, as they are coded in different programming environments. Nevertheless, similarities between the two methods suggest that they should have similar computational cost.
+ Both SMASH and BMSM took, typically, less than a second per dataset in our simulations.
 
-Overall, these simulation studies demonstrate the ability of SMASH to accurately recover the mean functions for both the Gaussian and Poisson cases, and highlight the flexibility and adaptivity of the shrinkage procedure ASH. Although we have considered an extensive range of scenarios here, including different SNRs, sample sizes, variance functions, test functions and mean intensities where applicable, the performance of our method on real data has yet to be determined. In the next section, we will apply our method to two example datasets that have been discussed in previous work, and comment on the resulting estimates.
+%Overall, these simulation studies demonstrate the ability of SMASH to accurately recover the mean functions for both the Gaussian and Poisson cases, and highlight the flexibility and adaptivity of the shrinkage procedure ASH. Although we have considered an extensive range of scenarios here, including different SNRs, sample sizes, variance functions, test functions and mean intensities where applicable, the performance of our method on real data has yet to be determined. In the next section, we will apply our method to two example datasets that have been discussed in previous work, and comment on the resulting estimates.
 
 
-\section{Application to real datasets}
+\section{Illustrative applications}
 %\subsection{Three-month Treasury Bill Yields}
 %In this section we apply the Gaussian and Poisson denoising techniques to one example dataset each. For the Gaussian case, we looked at yields of secondary market rates from three-month Treasure bills, which were recorded weekly on Fridays. These rates were quoted on a discount basis and annualized using a 360-day year of bank interest. To match the analysis in \cite{Fan1998Efficient}, we used 1735 weekly observations spanning Jan. 5 1962 to Mar. 31 1995. The data are plotted in Figure \ref{fig:tb_raw_data}. Similar to \cite{Fan1998Efficient}, we fit an autoregressive model of order 5 (AR(5)) to the data and obtained the following:
 %\begin{eqnarray}
@@ -667,16 +694,55 @@ Overall, these simulation studies demonstrate the ability of SMASH to accurately
 \begin{figure}
 \centering
     \includegraphics[width=0.65\textwidth]{motorcycle.pdf}
-    \caption{Results from fitting SMASH to the motorcycle acceleration data discussed in \cite{silverman1985some}. Both the mean curve (solid black line) and the variance around the mean curve (dashed red line) are shown. We note that SMASH does a good job of capturing both the mean as well as the variation in the data without requiring and parameter tuning.}
+    \caption{Results from fitting SMASH to the motorcycle acceleration data discussed in \cite{silverman1985some}. The figure shows the estimate mean curve (solid black line) with $\pm2$ the estimated standard deviation curve (dashed red line).}
     \label{fig:motorcycle}
 \end{figure}
 
-We first apply the Gaussian version of SMASH on the well known motorcycle acceleration dataset from \cite{silverman1985some}. The data consists of 133 observations measuring head acceleration in a simulated motorcycle accident which is used to test crash helmets. The dependent variable is $acceleration$ (in $g$), and the independent variable is $time$ (in ms). To deal with repeated measurements, we simply take the median of the measurements for acceleration for any given $time$ value. To address the issue of non-equal spacing between the data points, we applied the procedure described in \ref{sec:mfvb}. The fitted mean and variance curves are shown in Figure \ref{fig:motorcycle}. Comparing our fit with that of \cite{Delouille2004Smooth}, which also employs a wavelet-based approach, we note two advantages to using SMASH. First, our method provides a measure of uncertainty (through both the credible band for the mean curve as well as the variance curve itself), which is often of interest in many applications. Second, our method is able to produce a visually appealing fit when used without having to tune any parameters, while the approach in \cite{Delouille2004Smooth} requires an $adhoc$ removal of fine scale detail coefficients to avoid introducing artifacts into the fit.
+As a further illustration of the heteroskedastic Gaussian version of SMASH, we apply it to the motorcycle acceleration dataset from \cite{silverman1985some}. The data consist of 133 observations measuring head acceleration in a simulated motorcycle accident that is used to test crash helmets. The dependent variable is {\it acceleration} (in {\it g}), and the independent variable is {\it time} (in {\it ms}). To deal with repeated measurements, we take the median of the measurements for acceleration for any given {\it time} value. As in Section \ref{sec:mfvb} we treat the 
+data as if they are equally spaced although they are not. The fitted mean and variance curves (Figure \ref{fig:motorcycle})  
+provide a visually appealing fit to the data, and were achieved without hand tuning of any parameters. This contrasts with
+results in \cite{Delouille2004Smooth} -- which also uses a wavelet-based approach for heteroskedastic variance, but accounts for the unequal spacing of the data -- which required the {\it ad hoc} removal of high-resolution wavelet coefficients to produce a visual appealing fit.
 
-Although SMASH does a reasonably good job of performing nonparametric regression on the given dataset, we do recognize that there are better ways to deal with unequally spaced observations, which can then reveal the discontinuities in the first derivative around 15, 23 and 32 ms, as discussed in the literature. Nevertheless, we can use SMASH directly out of the box under most circumstances, making it an extremely versatile tool.
-\newpage
+
+
+%Although SMASH does a reasonably good job here, we recognize that there are better ways to deal with unequally spaced observations, which can 
+%reveal the discontinuities in the first derivative around 15, 23 and 32 ms, as discussed in \cite{xx}. 
+
+
 \subsection{ChIP-Seq Data}
-Here we apply our Poisson de-noising procedure to next generation sequencing data, commonly used in the field of genomics. Specifically, we chose an example dataset from the ENCODE (\textbf{Enc}yclopedia \textbf{O}f \textbf{D}NA \textbf{E}lements) project launched by the National Human Genome Research Institute. This dataset contains reads from chromatin immunoprecipitation sequencing (ChIP-seq) measuring transcription factor binding in two different cell types, with two samples for each cell type. Due to the massive size of the data, we selected a representative portion of the reads of length $2^{15}$ from chromosome 1.
+
+To further illustrate our Poisson de-noising procedure we applied it to data from genomic sequencing. Specifically we applied SMASH to chromatin immunoprecipitation sequencing (ChIP-seq) data for the transcription factor {\it YY1} in cell line GM12878
+collected by the ENCODE (\textbf{Enc}yclopedia \textbf{O}f \textbf{D}NA \textbf{E}lements) project. 
+The data (e.g.~Figure \ref{fig:seq_peak_data}) consist of counts of sequencing reads mapping to each location in genome. These can be treated as
+arising from an inhomogeneous Poisson process, whose intensity at base $b$ is related to the strength of the binding 
+of the transcription factor near $b$. Because binding tends to be quite localized, the intensity is low on average (the vast majority of 
+counts are 0), but has a small number of intense ``peaks". Identifying these peaks can help discover regions where 
+binding occurs, which is an important component of understanding gene regulation. Consequently there are
+many methods published for ``peak detection" in ChIP-Seq data \cite{wilbanks:2010}. 
+
+Our goal here is to outline how Poisson de-noising could provide an alternative approach to the analysis of ChIP-seq data.
+The idea is simply to estimate the underlying intensity function, and then identify ``peaks" as regions where the estimated intensity
+exceeds some threshold. 
+
+To illustrate this idea we applied SMASH to ChIP-seq data from a region of length $2^{15} (\approx 33k)$ basepairs from chromosome 1
+(hg18 (or 19?) chr1:880001-1011072). The estimated intensity is shown in Figure \ref{fig:seq_peak_est}, overlaid on peaks called by
+the popular peak calling software MACS \cite{}. We see that the locations with the strongest SMASH intensity estimates 
+corresponds to peaks found by MACS.
+However, the intensity estimate also suggests the presence of several additional weaker peaks not identified by MACS.
+
+The reliable calling of peaks in ChIP-seq data is a multi-faceted problem, and a full assessment lies outside the scope of this paper.
+Nonetheless, we believe that these illustrative results suggest that this approach could be worth pursuing further. 
+One nice feature of the multi-scale poisson approach is that it deals well with a range of intensity functions, and could
+perform well even in settings where peaks are broad and/or not especially well defined. In contrast, the performance of 
+different peak-finding algorithms is often reported to be quite sensitive to the ``kinds" of peak
+that are present, meaning that an algorithm that performs well in one setting may perform poorly in another.
+
+%One advantage compared with many peak-calling approaches is that the method would provide an estimated intensity at every base-pair.
+
+%Rather than calling peaks based on certain thresholds however, our method allows users to determine the relative strength and width of each peak, which provides a more comprehensive summary of the sequencing reads. At the same time, SMASH also provides the posterior variances for the intensity estimates, allowing for the option of calling peaks based on thresholds if desired.\\
+
+
+
 %Since we are looking mainly at univariate denoising here, we ran our method on each sample separately to produce the the plots in Figure \ref{fig:seq_smooth}.\\
 %\begin{figure}[h]
 %\centering
@@ -685,11 +751,10 @@ Here we apply our Poisson de-noising procedure to next generation sequencing dat
 %\label{fig:seq_smooth}
 %\end{figure}
 %\bigskip
-One goal of analyzing ChIP-seq data is to discover regions where transcription factors are likely to bind to DNA, thereby allowing us to better understand the mechanisms underlying gene regulation. These binding regions are often reflected in the data as ``peaks'', where more counts are present than background noise. Our method allows us to identify these peaks by looking at the estimated intensity function.
+ 
 %In Figure \ref{fig:seq_smooth}, we immediately notice the presence of several large peaks around position 895000 for the first three samples, and around position 952000 for the last two samples.
-To ensure that our method performs sensibly, we pooled the reads for just the GM12878 cell line and ran our method as well as a popular peak calling procedure MACS on the selected region. The results are shown in Figure \ref{fig:seq_peak}.\\
-\newpage
-\begin{figure}
+
+\begin{figure}[p]
 \centering
     \begin{subfigure}[b]{0.85\textwidth}
         \centering
@@ -703,23 +768,27 @@ To ensure that our method performs sensibly, we pooled the reads for just the GM
         \caption{}
         \label{fig:seq_peak_est}
     \end{subfigure}
-    \caption{Analysis of next-generation sequencing data from the ENCODE project, corresponding to sequencing reads from the GM12878 cell line and spanning positions 880001 to 1011072 on chromosome 1. (a) plots the actual sequencing counts (summed across both replicates). A rough signal can be visualized by looking at darker regions of the plot, which correspond to higher concentrations of data points. (b) plots the estimated intensity function obtained from SMASH (black solid line) and location of peaks called by MACS (red markers beneath the estimated intensity). We can observe not only the location of the peaks from the SMASH estimate (which MACS does provide), but also the amplitude of the signals, something which MACS fails to reveal. The plot also reveal weak signals that MACS fail to capture, but of interest nonetheless.}
+    \caption{Illustration of how SMASH could be used to identify peaks in ChIP-seq data.  Panel (a) shows counts (summed across two replicate experiments). Due to over-plotting, darker regions of the plot correspond to higher concentrations of data points. Panel (b) shows the estimated intensity function from SMASH (black solid line) and location of peaks called by MACS (red markers beneath the estimated intensity).}
     \label{fig:seq_peak}
 \end{figure}
-From Figure \ref{fig:seq_peak_est} it is clear that SMASH captures the peaks detected by MACS. Rather than calling peaks based on certain thresholds however, our method allows users to determine the relative strength and width of each peak, which provides a more comprehensive summary of the sequencing reads. At the same time, SMASH also provides the posterior variances for the intensity estimates, allowing for the option of calling peaks based on thresholds if desired.\\
 
 
 \section{Discussion}
-In this paper we have briefly introduced the adaptive shrinkage method ASH; while it was originally developed in the setting of FDR control for multiple comparisons, we have illustrated its usage as part of two wavelet denoising techniques. Both applications discussed in this paper relax the standard assumption of i.i.d. Gaussian noise, and are thus challenging tasks. Through these applications we are able to demonstrate the flexibility and accuracy of the shrinkage method, revealing its potential in many other applications.
+
+We have  adaptive shrinkage method ASH; while it was originally developed in the setting of FDR control for multiple comparisons, we have illustrated its usage as part of two wavelet denoising techniques. Both applications discussed in this paper relax the standard assumption of i.i.d. Gaussian noise, and are thus challenging tasks. Through these applications we are able to demonstrate the flexibility and accuracy of the shrinkage method, revealing its potential in many other applications.
+
+First, our method provides a measure of uncertainty (through both the credible band for the mean curve as well as the variance curve itself), which is often of interest in many applications. 
 
 In both the aforementioned applications, our software allows users to easily obtain point estimates for the mean function as well as their approximate posterior variances as a measure of uncertainty. In addition, the variance function can also be estimated, which would provide frequentist confidence intervals for other forms of mean estimation. To the best of our knowledge, there is no readily available software in the wavelet literature that implements joint mean and variance estimation. Simulations have also confirmed that our method is relatively robust to simple forms of autocorrelation between the errors (details needed). In the case of Poisson regression, we improved upon the conjugate Beta priors in \cite{Kolaczyk1999Bayesian} by using ASH as a shrinkage procedure, which allows for more flexibility and precision. %In addition, we have proposed a new procedure to assess the performance of a given method on real datasets without knowing the underlying truth, under the assumption that the data follow a Poisson distribution. 
 In both the applications, one further advantage of both our methods is that there is no tuning parameter other than the type of wavelet basis used. On the other hand, the primary resolution level in almost all of the other wavelet-based methods actually affects their performance in varying degrees, depending on the underlying mean and/or variance function. Hence, our fully adaptive procedure allows users to easily apply it to any given dataset, depending on the type of noise.
 
+potential to use likelihood to assess wavelet basis?
+
 We have also demonstrated through numerical studies that our methods mostly outperform their respective counterparts from the standard wavelet literature, in terms of pointwise accuracy (MSE in this case). Furthermore, the simplicity of the approximated Gaussian likelihoods as well as the conjugacy of the mixture Gaussian priors imply that our methods are computationally fast, since the posteriors can be computed analytically. In the Gaussian case, simulation results demonstrated that our method is competitive with standard wavelet methods in the case of i.i.d. errors (without explicitly assuming thus), whilst maintaining superior accuracy when heteroskedastic errors are present. Unfortunately, the lack of readily available software (except for MFVB, as described in \cite{Menictas2015Variational}) for variance estimation made it difficult to assess the performance of our method in that context. On the other hand, we were able to compare our method to some of the more popular denoising techniques in the Poisson case. Specifically, we have improved upon the conjugate Beta priors used in conjunction with the binomial likelihoods \cite{Kolaczyk1999Bayesian}) by using ASH as the shrinkage procedure, which allows for more flexibility and accuracy. This is particularly evident when the mean intensity is low, as is common in many high-throughput genomic sequencing datasets. Our method is also much faster and comparable in accuracy to the popular Haar-Fisz algorithm. Unfortunately, we were not able to directly compare the computational efficiency of our method to many other methods due to differences in the programming software involved.
 
-Although we have only focused on one-dimensional univariate denoising here, our methods can be extended to various scenarios. In the one-dimensional domain, our methods could be used in conjunction with multiple samples, otherwise known as regression analysis of functional data (see \cite{Morris2006Waveletbased}). Instead of dealing with a vector of observations, we perform regression analysis on a matrix of observations, each row of which encapsulates a sample with temporally or spatially structured data points. While \cite{Morris2006Waveletbased} proposed a way to solve a generic regression model, they implicitly assumed the same variance structure for each sample in the same group or category. Our work in the Gaussian case potentially allows for differing variance structures amongst all the samples, thereby relaxing their assumptions. In the simplest case, we could obtain spatially structured differences between groups by including a single covariate that categorizes each sample. In particular, the Poisson model is extremely useful for discovering regions in sequencing reads where structured differences are present between say, various cell lines, as per our sequencing example in the previous section. The Gaussian model could potentially be used in...(??).
+Although we focused on one-dimensional univariate denoising, our methods could be extended to more complex scenarios. In the one-dimensional domain, our methods could be used in conjunction with multiple samples, otherwise known as regression analysis of functional data (see \cite{Morris2006Waveletbased}). Instead of dealing with a vector of observations, we perform regression analysis on a matrix of observations, each row of which encapsulates a sample with temporally or spatially structured data points. While \cite{Morris2006Waveletbased} proposed a way to solve a generic regression model, they implicitly assumed the same variance structure for each sample in the same group or category. Our work in the Gaussian case potentially allows for differing variance structures amongst all the samples, thereby relaxing their assumptions. In the simplest case, we could obtain spatially structured differences between groups by including a single covariate that categorizes each sample. In particular, the Poisson model is extremely useful for discovering regions in sequencing reads where structured differences are present between say, various cell lines, as per our sequencing example in the previous section. The Gaussian model could potentially be used in...(??).
 
-With some work, our methods could also be extended to higher dimensions, where a wider range of applications is possible. For example, we could attempt a straight extension to the two dimensional case for both the Gaussian and the Poisson cases as described in \cite{Nowak1999Multiscale}. However, recent research in image denoising problems has shown that smooth curves present in many images such as photographs might render wavelet transformations undesirable. We could thus incorporate ASH into other types of transformations such as curvelets, which would be a potential direction for future work.
+With some work, our methods could also be extended to higher dimensions, where a wider range of applications is possible. For example, we could attempt a straight extension to the two dimensional case for both the Gaussian and the Poisson cases as described in \cite{Nowak1999Multiscale}. However, recent research in image denoising problems has shown that smooth curves present in many images such as photographs might render wavelet transformations undesirable \cite{}. We could thus incorporate ASH into other types of transformations such as curvelets \cite{}, which would be a potential direction for future work.
 \newpage
 \section{Reference}
 
