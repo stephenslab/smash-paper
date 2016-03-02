@@ -315,7 +315,7 @@ ndwt.mat = function(n, filter.number, family) {
 #' @keywords internal 
 shrink.wc = function(wc, wc.var.sqrt, prior, pointmass, nullcheck, VB, mixsd, mixcompdist, gridmult, jash, df, SGD) {
     if (jash == FALSE) {
-        zdat.ash = suppressWarnings(ash(wc, wc.var.sqrt, prior = prior, multiseqoutput = TRUE, pointmass = pointmass, 
+        zdat.ash = suppressWarnings(ash(wc, wc.var.sqrt, optmethod = "mixEM", prior = prior, multiseqoutput = TRUE, pointmass = pointmass, 
             nullcheck = nullcheck, VB = VB, mixsd = mixsd, mixcompdist = mixcompdist, gridmult = gridmult, lambda1 = 1, 
             lambda2 = 0, df = NULL, control = list(trace = FALSE)))
     } else {
@@ -495,6 +495,9 @@ setAshParam.gaus <- function(ashparam) {
         ashparam[["mixcompdist"]] = "normal"
     if (is.null(ashparam[["nullcheck"]])) 
         ashparam[["nullcheck"]] = TRUE
+    if (is.null(ashparam[["optmethod"]])) 
+        ashparam[["optmethod"]] = "mixEM"
+    
     
     if (!((is.null(ashparam[["mixsd"]])) | (is.numeric(ashparam[["mixsd"]]) & (length(ashparam[["mixsd"]]) < 2)))) 
         stop("Error: invalid parameter 'mixsd', 'mixsd'  must be null or a numeric vector of length >=2")

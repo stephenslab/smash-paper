@@ -13,3 +13,8 @@ intro: contains an .rmd file intro illustrating some simple simulations and data
 res_paper: contains .RData objects which contain simulation results for (almost) all the simulation studies conducted. Specifically, res_gaus_dscr.RData contains the results from Gaussian simulations with n = 1024 from the dscr framework, part of which is shown in the main paper. res_gaus_256.RData and res_gaus_512.RData contains results from Gaussian simulations with n = 256 and n = 512 respectively. These results are not shown in the main paper. res_pois contains the simulation results for the Poisson case, and results are partially presented in the main paper as well.
 
 code_paper: contains three sub-directories. gaus_data contains the code for several analyses for Gaussian data using SMASH. pois_data contains the code for running SMASH on the ChIP-seq experiment from ENCODE. sim contains several R scripts for generating figures and tables. Specifically, plot_gaus.R and plot_pois.R contain all the code for generating all the figures in the paper.
+
+
+
+(NB: ashr commit: bf9cca351d7cf804b67a56552f8057b3af7c11cb
+ashwave commit: e59bdebb61ae06a6459c9248a5167178fe0150df)
