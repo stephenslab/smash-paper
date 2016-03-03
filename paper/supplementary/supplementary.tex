@@ -1,0 +1,67 @@
+
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,fullpage,verbatim,bm,graphicx,enumerate,epstopdf,lscape,enumitem}
+\usepackage[titletoc,title]{appendix}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage[pdftex,pagebackref,colorlinks=true,pdfpagemode=UseNone,urlcolor=blue,linkcolor=blue,citecolor=BrickRed,pdfstartview=FitH,plainpages=true]{hyperref}
+\usepackage[top=1.15in,bottom=1.15in,left=1.25in,right=1.25in,letterpaper]{geometry}
+\usepackage[font=scriptsize]{caption}
+\usepackage{cite}
+\usepackage{caption,subcaption}
+
+\setlist{noitemsep}
+
+\def\CC{\mathbb{C}}
+\def\RR{\mathbb{R}}
+\def\ZZ{\mathbb{Z}}
+\def\PP{\mathbb{P}}
+\def\EE{\mathbb{E}}
+
+\newcommand{\Ga}{\alpha}
+\newcommand{\Gb}{\beta}
+\newcommand{\Gg}{\gamma}     \newcommand{\GG}{\Gamma}
+\newcommand{\Gd}{\delta}     \newcommand{\GD}{\Delta}
+\newcommand{\Ge}{\epsilon}
+\newcommand{\Gf}{\phi}       \newcommand{\GF}{\Phi}
+\newcommand{\Gh}{\theta}
+\newcommand{\Gi}{\iota}
+\newcommand{\Gk}{\kappa}
+\newcommand{\Gl}{\lambda}    \newcommand{\GL}{\Lambda}
+\newcommand{\Go}{\omega}     \newcommand{\GO}{\Omega}
+\newcommand{\Gs}{\sigma}     \newcommand{\GS}{\Sigma}
+\newcommand{\Gt}{\tau}
+\newcommand{\Gz}{\zeta}
+\newcommand{\s}{\sigma}
+\newcommand{\tr}{\triangle}
+
+
+\begin{document}
+
+\title{\textbf{Empirical Bayes shrinkage, and denoising of Poisson and heteroskedastic Gaussian signals}}
+\date{}
+\maketitle
+
+\section{Simulation study for Gaussian data}
+As noted in the main text, we performed an extensive simulation study for Gaussian errors using a variety of test functions (7 mean functions and 5 variance functions, including constant variance), signal-to-noise ratios (SNR = 1 and 3) and sample sizes ($T=256,512,1024$). The results for $T=256,512$ are saved under ~/res_paper/res_gaus_256.RData and ~/res_paper/res_gaus_512.RData respectively, while results for $T=1024$ are presented in a DSC framework (https://github.com/stephens999/dscr), saved under ~/res_paper/res_gaus_dscr.RData. In particular, we include an RShiny app as an interactive way to present the results for $T=1024$, the code for which can be found in the dscr-smash repo (https://github.com/zrxing/dscr-smash), under graphs.Rmd. In particular, users can view the boxplots of MISEs for the methods and test functions they are interested in by checking the appropriate boxes. For more details refer to graphs.Rmd.
+
+In addition to the performance of the various methods, Table \ref{} also provides additional information for each of the method that we used in the simulation study.
+
+
+\section{Simulation study for Poisson data}
+The results from the simulation study for Poisson noise are shown in the following tables. Each of the six tables presents results for the corresponding mean function, and includes results for all three (min,max) intensity levels ((0.01,3), (1/8,8), (1/128,128)).
+
+
+
+
+In addition we explore the results from trying out different Gaussian de-noising procedures for the second step of the Haar-Fisz (HF) algorithm.
+
+
+
+
+
+
+
+
+
+
+\end{document}
