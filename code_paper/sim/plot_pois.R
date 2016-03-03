@@ -37,3 +37,17 @@ vioplot.col(mise.ash.bur.8, mise.BMSM.bur.8, mise.hf.ti.r.bur.8, horizontal = TR
 title(xlab = "MISE", line = 4)
 abline(v = median(mise.ash.bur.8), lty = 3, col = 3)
 dev.off()
+
+
+#plot the bursts test function
+n=1024
+t=1:n/n
+
+I_1 = exp(-(abs(t-0.2)/0.01)^1.2)*(t<=0.2) + exp(-(abs(t-0.2)/0.03)^1.2)*(t>0.2);
+I_2 = exp(-(abs(t-0.3)/0.01)^1.2)*(t<=0.3) + exp(-(abs(t-0.3)/0.03)^1.2)*(t>0.3);
+I_3 = exp(-(abs(t-0.4)/0.01)^1.2)*(t<=0.4) + exp(-(abs(t-0.4)/0.03)^1.2)*(t>0.4);
+mu.bur = 2.99/4.51804*(4*I_1+3*I_2+4.5*I_3);
+
+pdf("paper/bursts_pois.pdf", height = 5, width = 8)
+plot(mu.bur, type = 'l', xlab = "position", ylab = "intensity")
+dev.off()
