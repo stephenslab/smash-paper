@@ -781,21 +781,46 @@ that are present, meaning that an algorithm that performs well in one setting ma
 
 \section{Discussion}
 
-We have  adaptive shrinkage method ASH; while it was originally developed in the setting of FDR control for multiple comparisons, we have illustrated its usage as part of two wavelet denoising techniques. Both applications discussed in this paper relax the standard assumption of i.i.d. Gaussian noise, and are thus challenging tasks. Through these applications we are able to demonstrate the flexibility and accuracy of the shrinkage method, revealing its potential in many other applications.
+\def\ash{\it ash}
 
-First, our method provides a measure of uncertainty (through both the credible band for the mean curve as well as the variance curve itself), which is often of interest in many applications. 
+Here we have demonstrated a flexible EB approach to shrinkage, which we call ``adaptive shrinkage" (\ash), in the context of wavelet denoising. 
+The adaptive shrinkage approach is built on the assumption that the distribution of
+true effects -- here, wavelet coefficients -- is unimodal about zero. By estimating this unimodal distribution from the observed data, \ash 
+adapts the amount of shrinkage to the data in hand, so that data that ``look smooth" are smoothed more strongly than data that do not. 
+In addition \ash accounts for the precision of each measurement (here, observed wavelet coefficients), 
+so that less precise measurements are shrunk more strongly than precise measurements. This means that, for example, in heteroskedastic non-parametric regression, 
+the mean gets smoothed more strongly in regions where the variance is bigger. 
 
-In both the aforementioned applications, our software allows users to easily obtain point estimates for the mean function as well as their approximate posterior variances as a measure of uncertainty. In addition, the variance function can also be estimated, which would provide frequentist confidence intervals for other forms of mean estimation. To the best of our knowledge, there is no readily available software in the wavelet literature that implements joint mean and variance estimation. Simulations have also confirmed that our method is relatively robust to simple forms of autocorrelation between the errors (details needed). In the case of Poisson regression, we improved upon the conjugate Beta priors in \cite{Kolaczyk1999Bayesian} by using ASH as a shrinkage procedure, which allows for more flexibility and precision. %In addition, we have proposed a new procedure to assess the performance of a given method on real datasets without knowing the underlying truth, under the assumption that the data follow a Poisson distribution. 
-In both the applications, one further advantage of both our methods is that there is no tuning parameter other than the type of wavelet basis used. On the other hand, the primary resolution level in almost all of the other wavelet-based methods actually affects their performance in varying degrees, depending on the underlying mean and/or variance function. Hence, our fully adaptive procedure allows users to easily apply it to any given dataset, depending on the type of noise.
+Notably, and unlike many wavelet shrinkage approaches, \ash is ``self-tuning", and requires no specification of a ``primary resolution level" \cite{}
+or other tuning parameters. This feature is due to the ``adaptive" nature of \ash noted above: when a particular resolution level shows no strong signal
+in the data, \ash learns this and adapts the amount of shrinkage/smoothing appropriately. Furthermore, because it is fundamentally a likelihood-based
+approach, \ash can also be used to automatically select an appropriate wavelet basis for each dataset -- which can have a strong impact on accuracy --
+by selecting the basis that achieves the highest likelihood. This self-tuning capability is important for two reasons.
+First it makes the method easy to use by non-experts, who may find appropriate specification of tuning parameters challenging. Second, it means that the
+method can be safely applied ``in production" to large numbers of datasets in settings, like genomics, where it is impractical to
+hand-select appropriate tuning parameters separately for every dataset. 
 
-potential to use likelihood to assess wavelet basis?
+Our results here demonstrate that \ash provides a flexible, fast and accurate approach to smoothing and denoising. We illustrated the flexibility by applying
+it to two challenging problems - Gaussian heteroskedastic regression, and smoothing of Poisson signals. In both cases the accuracy of our method is
+consistently competitive with existing approaches for which software implementations are available. And although, like most EB methods,
+\ash requires more computation than a simple thresholding rule, the computations are fast enough to be applied to large problems. 
+This is partly because
+optimizing over the unimodal prior distribution assumed by \ash results in a convex optimization problem that can be solved very stably and quickly \cite{stephens:2016}.
+(For example, our implementation typically takes approximately yyy for 100,000 observations.)
+Besides its accuracy for point estimation, \ash also has the advantage over simple thresholding rules that it naturally provides measures of uncertainty in estimated
+wavelet coefficients, which in turn provide measures of uncertainty (e.g. credible bands) for estimated mean and variance functions, which may be of interest in some applications.
 
-We have also demonstrated through numerical studies that our methods mostly outperform their respective counterparts from the standard wavelet literature, in terms of pointwise accuracy (MSE in this case). Furthermore, the simplicity of the approximated Gaussian likelihoods as well as the conjugacy of the mixture Gaussian priors imply that our methods are computationally fast, since the posteriors can be computed analytically. In the Gaussian case, simulation results demonstrated that our method is competitive with standard wavelet methods in the case of i.i.d. errors (without explicitly assuming thus), whilst maintaining superior accuracy when heteroskedastic errors are present. Unfortunately, the lack of readily available software (except for MFVB, as described in \cite{Menictas2015Variational}) for variance estimation made it difficult to assess the performance of our method in that context. On the other hand, we were able to compare our method to some of the more popular denoising techniques in the Poisson case. Specifically, we have improved upon the conjugate Beta priors used in conjunction with the binomial likelihoods \cite{Kolaczyk1999Bayesian}) by using ASH as the shrinkage procedure, which allows for more flexibility and accuracy. This is particularly evident when the mean intensity is low, as is common in many high-throughput genomic sequencing datasets. Our method is also much faster and comparable in accuracy to the popular Haar-Fisz algorithm. Unfortunately, we were not able to directly compare the computational efficiency of our method to many other methods due to differences in the programming software involved.
+Although we have focussed here on applications in one dimension, there is nothing to stop \ash being applied to multi-scale approaches in higher dimensions, such as image denoising, as in \cite{Nowak1999Multiscale} for example. For some types of images alternatives to wavelets, such as curvelets \cite{Cande00}, may produce better results,
+and applying \ash to those settings would be an interesting area for future work.
+%maybe discuss over-defined bases?
 
-Although we focused on one-dimensional univariate denoising, our methods could be extended to more complex scenarios. In the one-dimensional domain, our methods could be used in conjunction with multiple samples, otherwise known as regression analysis of functional data (see \cite{Morris2006Waveletbased}). Instead of dealing with a vector of observations, we perform regression analysis on a matrix of observations, each row of which encapsulates a sample with temporally or spatially structured data points. While \cite{Morris2006Waveletbased} proposed a way to solve a generic regression model, they implicitly assumed the same variance structure for each sample in the same group or category. Our work in the Gaussian case potentially allows for differing variance structures amongst all the samples, thereby relaxing their assumptions. In the simplest case, we could obtain spatially structured differences between groups by including a single covariate that categorizes each sample. In particular, the Poisson model is extremely useful for discovering regions in sequencing reads where structured differences are present between say, various cell lines, as per our sequencing example in the previous section. The Gaussian model could potentially be used in...(??).
+Unfortunately, the lack of readily available software (except for MFVB, as described in \cite{Menictas2015Variational}) for variance estimation made it difficult to assess the performance of our method in that context. On the other hand, we were able to compare our method to some of the more popular denoising techniques in the Poisson case. Specifically, we have improved upon the conjugate Beta priors used in conjunction with the binomial likelihoods \cite{Kolaczyk1999Bayesian}) by using ASH as the shrinkage procedure, which allows for more flexibility and accuracy. This is particularly evident when the mean intensity is low, as is common in many high-throughput genomic sequencing datasets. Our method is also much faster and comparable in accuracy to the popular Haar-Fisz algorithm. Unfortunately, we were not able to directly compare the computational efficiency of our method to many other methods due to differences in the programming software involved.
 
-With some work, our methods could also be extended to higher dimensions, where a wider range of applications is possible. For example, we could attempt a straight extension to the two dimensional case for both the Gaussian and the Poisson cases as described in \cite{Nowak1999Multiscale}. However, recent research in image denoising problems has shown that discontinuities along edges present in many images such as photographs might render wavelet transformations undesirable \cite{Cande00}. We could thus incorporate ASH into other types of transformations such as curvelets \cite{Cande00}, which would be a potential direction for future work.
-\newpage
+Software
+Despite the fact that these settings
+arise quite commonly, there is a paucity of software implementations for both these problems, and our software package (smash
+To the best of our knowledge, there is no readily available software in the wavelet literature that implements joint mean and variance estimation. 
+
 \section{Reference}
 
 \begin{appendices}
