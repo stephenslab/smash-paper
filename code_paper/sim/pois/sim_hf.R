@@ -1307,5 +1307,46 @@ colnames(mise.cb.128.table) = tex.col.names
 rownames(mise.b.128.table) = tex.row.names
 colnames(mise.b.128.table) = tex.col.names
 
-print(xtable(mise.s.8.table,caption="Comparison of different options for HF for the ``Spikes'' test function for (min,max) intensity = (1/8,8). Options BT + CV and Universal thresholding correspond to the two default oness used in {Fryzlewicz2004HaarFisz}, with primary resolution j0 =3. TI-universal corresponds to universal thresholding with translational invariance, with sd either estimated from the data or set to be 1 (which is the asymptotic variance). For TI-universal, we ran the HF with j0 = 4, 5, 6 and 7, corresponding to the first 4 rows, as well as the average of all 4 values, corresponding to the 5th row. Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_hf_sp_8",digits=2))
 
+mise.s.1.table = mise.s.1.table[, c(1, 4, 3, 2)]
+mise.ang.1.table = mise.ang.1.table[, c(1, 4, 3, 2)]
+mise.hs.1.table = mise.hs.1.table[, c(1, 4, 3, 2)]
+mise.bur.1.table = mise.bur.1.table[, c(1, 4, 3, 2)]
+mise.cb.1.table = mise.cb.1.table[, c(1, 4, 3, 2)]
+mise.b.1.table = mise.b.1.table[, c(1, 4, 3, 2)] 
+
+mise.s.8.table = mise.s.8.table[, c(1, 4, 3, 2)]
+mise.ang.8.table = mise.ang.8.table[, c(1, 4, 3, 2)]
+mise.hs.8.table = mise.hs.8.table[, c(1, 4, 3, 2)]
+mise.bur.8.table = mise.bur.8.table[, c(1, 4, 3, 2)]
+mise.cb.8.table = mise.cb.8.table[, c(1, 4, 3, 2)]
+mise.b.8.table = mise.b.8.table[, c(1, 4, 3, 2)]
+
+mise.s.128.table = mise.s.128.table[, c(1, 4, 3, 2)]
+mise.ang.128.table = mise.ang.128.table[, c(1, 4, 3, 2)]
+mise.hs.128.table = mise.hs.128.table[, c(1, 4, 3, 2)] 
+mise.bur.128.table = mise.bur.128.table[, c(1, 4, 3, 2)]
+mise.cb.128.table = mise.cb.128.table[, c(1, 4, 3, 2)]
+mise.b.128.table = mise.b.128.table[, c(1, 4, 3, 2)]
+
+
+print(round(mise.s.1.table, digits = 2)) 
+print(round(mise.ang.1.table, digits = 2)) 
+print(round(mise.hs.1.table, digits = 2)) 
+print(round(mise.bur.1.table, digits = 2)) 
+print(round(mise.cb.1.table, digits = 2)) 
+print(round(mise.b.1.table, digits = 2)) 
+
+print(round(mise.s.8.table, digits = 2)) 
+print(round(mise.ang.8.table, digits = 2)) 
+print(round(mise.hs.8.table, digits = 2)) 
+print(round(mise.bur.8.table, digits = 2)) 
+print(round(mise.cb.8.table, digits = 2)) 
+print(round(mise.b.8.table, digits = 2)) 
+
+print(round(mise.s.128.table, digits = 2)) 
+print(round(mise.ang.128.table, digits = 2)) 
+print(round(mise.hs.128.table, digits = 2)) 
+print(round(mise.bur.128.table, digits = 2)) 
+print(round(mise.cb.128.table, digits = 2)) 
+print(round(mise.b.128.table, digits = 2)) 
