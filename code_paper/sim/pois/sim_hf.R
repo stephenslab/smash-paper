@@ -242,6 +242,36 @@ hf.la10.est.ti7=function (x, filter.number = 10, family = "DaubLeAsymm", min.lev
 #some test functions converge with default options
 
 #default options
+est.hf.default.r.4.s.1=apply(sim.m.s.1,1,denoise.poisson) 
+# est.hf.default.r.5.s.1=apply(sim.m.s.1,1,denoise.poisson)
+# est.hf.default.r.6.s.1=apply(sim.m.s.1,1,denoise.poisson)
+# est.hf.default.r.7.s.1=apply(sim.m.s.1,1,denoise.poisson)
+
+est.hf.default.r.4.ang.1=apply(sim.m.ang.1,1,denoise.poisson)
+# est.hf.default.r.5.ang.1=apply(sim.m.ang.1,1,denoise.poisson)
+# est.hf.default.r.6.ang.1=apply(sim.m.ang.1,1,denoise.poisson)
+# est.hf.default.r.7.ang.1=apply(sim.m.ang.1,1,denoise.poisson)
+
+est.hf.default.r.4.cb.1=apply(sim.m.cb.1,1,denoise.poisson)
+# est.hf.default.r.5.cb.1=apply(sim.m.cb.1,1,denoise.poisson)
+# est.hf.default.r.6.cb.1=apply(sim.m.cb.1,1,denoise.poisson)
+# est.hf.default.r.7.cb.1=apply(sim.m.cb.1,1,denoise.poisson)
+
+est.hf.default.r.4.b.1=apply(sim.m.b.1,1,denoise.poisson)
+# est.hf.default.r.5.b.1=apply(sim.m.b.1,1,denoise.poisson)
+# est.hf.default.r.6.b.1=apply(sim.m.b.1,1,denoise.poisson)
+# est.hf.default.r.7.b.1=apply(sim.m.b.1,1,denoise.poisson)
+
+est.hf.default.r.4.hs.1=apply(sim.m.hs.1,1,denoise.poisson)
+# est.hf.default.r.5.hs.1=apply(sim.m.hs.1,1,denoise.poisson)
+# est.hf.default.r.6.hs.1=apply(sim.m.hs.1,1,denoise.poisson)
+# est.hf.default.r.7.hs.1=apply(sim.m.hs.1,1,denoise.poisson)
+
+est.hf.default.r.4.bur.1=apply(sim.m.bur.1,1,denoise.poisson)
+# est.hf.default.r.5.bur.1=apply(sim.m.bur.1,1,denoise.poisson)
+# est.hf.default.r.6.bur.1=apply(sim.m.bur.1,1,denoise.poisson)
+# est.hf.default.r.7.bur.1=apply(sim.m.bur.1,1,denoise.poisson)
+
 est.hf.default.r.4.s.8=apply(sim.m.s.8,1,denoise.poisson) 
 # est.hf.default.r.5.s.8=apply(sim.m.s.8,1,denoise.poisson)
 # est.hf.default.r.6.s.8=apply(sim.m.s.8,1,denoise.poisson)
@@ -304,6 +334,36 @@ est.hf.default.r.4.bur.128=apply(sim.m.bur.128,1,denoise.poisson)
 
 
 #universal thresholding, with noise estimated
+est.hf.u.r.4.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.5.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.6.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.7.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+
+est.hf.u.r.4.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.5.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.6.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.7.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+
+est.hf.u.r.4.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.5.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.6.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.7.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+
+est.hf.u.r.4.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.5.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.6.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.7.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+
+est.hf.u.r.4.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.5.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.6.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.7.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+
+est.hf.u.r.4.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.5.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.6.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+# est.hf.u.r.7.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
+
 est.hf.u.r.4.s.8=apply(sim.m.s.8,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
 # est.hf.u.r.5.s.8=apply(sim.m.s.8,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
 # est.hf.u.r.6.s.8=apply(sim.m.s.8,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
@@ -365,6 +425,36 @@ est.hf.u.r.4.bur.128=apply(sim.m.bur.128,1,denoise.poisson,meth.1=hf.u,cs.1=50,h
 # est.hf.u.r.7.bur.128=apply(sim.m.bur.128,1,denoise.poisson,meth.1=hf.u,cs.1=50,hybrid=F)
 
 #tiu, with noise level 1
+est.hf.ti.r.4.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.la10.ti4,cs.1=50,hybrid=F)
+est.hf.ti.r.5.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.la10.ti5,cs.1=50,hybrid=F)
+est.hf.ti.r.6.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.la10.ti6,cs.1=50,hybrid=F)
+est.hf.ti.r.7.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.la10.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.r.4.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.la10.ti4,cs.1=50,hybrid=F)
+est.hf.ti.r.5.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.la10.ti5,cs.1=50,hybrid=F)
+est.hf.ti.r.6.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.la10.ti6,cs.1=50,hybrid=F)
+est.hf.ti.r.7.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.la10.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.r.4.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.la10.ti4,cs.1=50,hybrid=F)
+est.hf.ti.r.5.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.la10.ti5,cs.1=50,hybrid=F)
+est.hf.ti.r.6.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.la10.ti6,cs.1=50,hybrid=F)
+est.hf.ti.r.7.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.la10.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.r.4.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.la10.ti4,cs.1=50,hybrid=F)
+est.hf.ti.r.5.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.la10.ti5,cs.1=50,hybrid=F)
+est.hf.ti.r.6.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.la10.ti6,cs.1=50,hybrid=F)
+est.hf.ti.r.7.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.la10.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.r.4.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.la10.ti4,cs.1=50,hybrid=F)
+est.hf.ti.r.5.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.la10.ti5,cs.1=50,hybrid=F)
+est.hf.ti.r.6.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.la10.ti6,cs.1=50,hybrid=F)
+est.hf.ti.r.7.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.la10.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.r.4.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.la10.ti4,cs.1=50,hybrid=F)
+est.hf.ti.r.5.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.la10.ti5,cs.1=50,hybrid=F)
+est.hf.ti.r.6.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.la10.ti6,cs.1=50,hybrid=F)
+est.hf.ti.r.7.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.la10.ti7,cs.1=50,hybrid=F)
+
 est.hf.ti.r.4.s.8=apply(sim.m.s.8,1,denoise.poisson,meth.1=hf.la10.ti4,cs.1=50,hybrid=F)
 est.hf.ti.r.5.s.8=apply(sim.m.s.8,1,denoise.poisson,meth.1=hf.la10.ti5,cs.1=50,hybrid=F)
 est.hf.ti.r.6.s.8=apply(sim.m.s.8,1,denoise.poisson,meth.1=hf.la10.ti6,cs.1=50,hybrid=F)
@@ -427,6 +517,36 @@ est.hf.ti.r.7.bur.128=apply(sim.m.bur.128,1,denoise.poisson,meth.1=hf.la10.ti7,c
 
 
 #tiu, with noise estimated
+est.hf.ti.est.r.4.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.la10.est.ti4,cs.1=50,hybrid=F)
+est.hf.ti.est.r.5.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.la10.est.ti5,cs.1=50,hybrid=F)
+est.hf.ti.est.r.6.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.la10.est.ti6,cs.1=50,hybrid=F)
+est.hf.ti.est.r.7.s.1=apply(sim.m.s.1,1,denoise.poisson,meth.1=hf.la10.est.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.est.r.4.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.la10.est.ti4,cs.1=50,hybrid=F)
+est.hf.ti.est.r.5.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.la10.est.ti5,cs.1=50,hybrid=F)
+est.hf.ti.est.r.6.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.la10.est.ti6,cs.1=50,hybrid=F)
+est.hf.ti.est.r.7.ang.1=apply(sim.m.ang.1,1,denoise.poisson,meth.1=hf.la10.est.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.est.r.4.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.la10.est.ti4,cs.1=50,hybrid=F)
+est.hf.ti.est.r.5.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.la10.est.ti5,cs.1=50,hybrid=F)
+est.hf.ti.est.r.6.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.la10.est.ti6,cs.1=50,hybrid=F)
+est.hf.ti.est.r.7.cb.1=apply(sim.m.cb.1,1,denoise.poisson,meth.1=hf.la10.est.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.est.r.4.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.la10.est.ti4,cs.1=50,hybrid=F)
+est.hf.ti.est.r.5.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.la10.est.ti5,cs.1=50,hybrid=F)
+est.hf.ti.est.r.6.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.la10.est.ti6,cs.1=50,hybrid=F)
+est.hf.ti.est.r.7.b.1=apply(sim.m.b.1,1,denoise.poisson,meth.1=hf.la10.est.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.est.r.4.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.la10.est.ti4,cs.1=50,hybrid=F)
+est.hf.ti.est.r.5.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.la10.est.ti5,cs.1=50,hybrid=F)
+est.hf.ti.est.r.6.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.la10.est.ti6,cs.1=50,hybrid=F)
+est.hf.ti.est.r.7.hs.1=apply(sim.m.hs.1,1,denoise.poisson,meth.1=hf.la10.est.ti7,cs.1=50,hybrid=F)
+
+est.hf.ti.est.r.4.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.la10.est.ti4,cs.1=50,hybrid=F)
+est.hf.ti.est.r.5.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.la10.est.ti5,cs.1=50,hybrid=F)
+est.hf.ti.est.r.6.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.la10.est.ti6,cs.1=50,hybrid=F)
+est.hf.ti.est.r.7.bur.1=apply(sim.m.bur.1,1,denoise.poisson,meth.1=hf.la10.est.ti7,cs.1=50,hybrid=F)
+
 est.hf.ti.est.r.4.s.8=apply(sim.m.s.8,1,denoise.poisson,meth.1=hf.la10.est.ti4,cs.1=50,hybrid=F)
 est.hf.ti.est.r.5.s.8=apply(sim.m.s.8,1,denoise.poisson,meth.1=hf.la10.est.ti5,cs.1=50,hybrid=F)
 est.hf.ti.est.r.6.s.8=apply(sim.m.s.8,1,denoise.poisson,meth.1=hf.la10.est.ti6,cs.1=50,hybrid=F)
@@ -490,6 +610,36 @@ est.hf.ti.est.r.7.bur.128=apply(sim.m.bur.128,1,denoise.poisson,meth.1=hf.la10.e
 
 
 #compute mises
+mise.hf.default.r.4.s.1=mise(t(est.hf.default.r.4.s.1),mu.s.1)
+# mise.hf.default.r.5.s.1=mise(t(est.hf.default.r.5.s.1),mu.s.1)
+# mise.hf.default.r.6.s.1=mise(t(est.hf.default.r.6.s.1),mu.s.1)
+# mise.hf.default.r.7.s.1=mise(t(est.hf.default.r.7.s.1),mu.s.1)
+
+mise.hf.default.r.4.ang.1=mise(t(est.hf.default.r.4.ang.1),mu.ang.1)
+# mise.hf.default.r.5.ang.1=mise(t(est.hf.default.r.5.ang.1),mu.ang.1)
+# mise.hf.default.r.6.ang.1=mise(t(est.hf.default.r.6.ang.1),mu.ang.1)
+# mise.hf.default.r.7.ang.1=mise(t(est.hf.default.r.7.ang.1),mu.ang.1)
+
+mise.hf.default.r.4.cb.1=mise(t(est.hf.default.r.4.cb.1),mu.cb.1)
+# mise.hf.default.r.5.cb.1=mise(t(est.hf.default.r.5.cb.1),mu.cb.1)
+# mise.hf.default.r.6.cb.1=mise(t(est.hf.default.r.6.cb.1),mu.cb.1)
+# mise.hf.default.r.7.cb.1=mise(t(est.hf.default.r.7.cb.1),mu.cb.1)
+
+mise.hf.default.r.4.b.1=mise(t(est.hf.default.r.4.b.1),mu.b.1)
+# mise.hf.default.r.5.b.1=mise(t(est.hf.default.r.5.b.1),mu.b.1)
+# mise.hf.default.r.6.b.1=mise(t(est.hf.default.r.6.b.1),mu.b.1)
+# mise.hf.default.r.7.b.1=mise(t(est.hf.default.r.7.b.1),mu.b.1)
+
+mise.hf.default.r.4.hs.1=mise(t(est.hf.default.r.4.hs.1),mu.hs.1)
+# mise.hf.default.r.5.hs.1=mise(t(est.hf.default.r.5.hs.1),mu.hs.1)
+# mise.hf.default.r.6.hs.1=mise(t(est.hf.default.r.6.hs.1),mu.hs.1)
+# mise.hf.default.r.7.hs.1=mise(t(est.hf.default.r.7.hs.1),mu.hs.1)
+
+mise.hf.default.r.4.bur.1=mise(t(est.hf.default.r.4.bur.1),mu.bur.1)
+# mise.hf.default.r.5.bur.1=mise(t(est.hf.default.r.5.bur.1),mu.bur.1)
+# mise.hf.default.r.6.bur.1=mise(t(est.hf.default.r.6.bur.1),mu.bur.1)
+# mise.hf.default.r.7.bur.1=mise(t(est.hf.default.r.7.bur.1),mu.bur.1)
+
 mise.hf.default.r.4.s.8=mise(t(est.hf.default.r.4.s.8),mu.s.8)
 # mise.hf.default.r.5.s.8=mise(t(est.hf.default.r.5.s.8),mu.s.8)
 # mise.hf.default.r.6.s.8=mise(t(est.hf.default.r.6.s.8),mu.s.8)
@@ -550,6 +700,36 @@ mise.hf.default.r.4.bur.128=mise(t(est.hf.default.r.4.bur.128),mu.bur.128)
 # mise.hf.default.r.6.bur.128=mise(t(est.hf.default.r.6.bur.128),mu.bur.128)
 # mise.hf.default.r.7.bur.128=mise(t(est.hf.default.r.7.bur.128),mu.bur.128)
 
+
+mise.hf.u.r.4.s.1=mise(t(est.hf.u.r.4.s.1),mu.s.1)
+# mise.hf.u.r.5.s.1=mise(t(est.hf.u.r.5.s.1),mu.s.1)
+# mise.hf.u.r.6.s.1=mise(t(est.hf.u.r.6.s.1),mu.s.1)
+# mise.hf.u.r.7.s.1=mise(t(est.hf.u.r.7.s.1),mu.s.1)
+
+mise.hf.u.r.4.ang.1=mise(t(est.hf.u.r.4.ang.1),mu.ang.1)
+# mise.hf.u.r.5.ang.1=mise(t(est.hf.u.r.5.ang.1),mu.ang.1)
+# mise.hf.u.r.6.ang.1=mise(t(est.hf.u.r.6.ang.1),mu.ang.1)
+# mise.hf.u.r.7.ang.1=mise(t(est.hf.u.r.7.ang.1),mu.ang.1)
+
+mise.hf.u.r.4.cb.1=mise(t(est.hf.u.r.4.cb.1),mu.cb.1)
+# mise.hf.u.r.5.cb.1=mise(t(est.hf.u.r.5.cb.1),mu.cb.1)
+# mise.hf.u.r.6.cb.1=mise(t(est.hf.u.r.6.cb.1),mu.cb.1)
+# mise.hf.u.r.7.cb.1=mise(t(est.hf.u.r.7.cb.1),mu.cb.1)
+
+mise.hf.u.r.4.b.1=mise(t(est.hf.u.r.4.b.1),mu.b.1)
+# mise.hf.u.r.5.b.1=mise(t(est.hf.u.r.5.b.1),mu.b.1)
+# mise.hf.u.r.6.b.1=mise(t(est.hf.u.r.6.b.1),mu.b.1)
+# mise.hf.u.r.7.b.1=mise(t(est.hf.u.r.7.b.1),mu.b.1)
+
+mise.hf.u.r.4.hs.1=mise(t(est.hf.u.r.4.hs.1),mu.hs.1)
+# mise.hf.u.r.5.hs.1=mise(t(est.hf.u.r.5.hs.1),mu.hs.1)
+# mise.hf.u.r.6.hs.1=mise(t(est.hf.u.r.6.hs.1),mu.hs.1)
+# mise.hf.u.r.7.hs.1=mise(t(est.hf.u.r.7.hs.1),mu.hs.1)
+
+mise.hf.u.r.4.bur.1=mise(t(est.hf.u.r.4.bur.1),mu.bur.1)
+# mise.hf.u.r.5.bur.1=mise(t(est.hf.u.r.5.bur.1),mu.bur.1)
+# mise.hf.u.r.6.bur.1=mise(t(est.hf.u.r.6.bur.1),mu.bur.1)
+# mise.hf.u.r.7.bur.1=mise(t(est.hf.u.r.7.bur.1),mu.bur.1)
 
 mise.hf.u.r.4.s.8=mise(t(est.hf.u.r.4.s.8),mu.s.8)
 # mise.hf.u.r.5.s.8=mise(t(est.hf.u.r.5.s.8),mu.s.8)
@@ -612,6 +792,37 @@ mise.hf.u.r.4.bur.128=mise(t(est.hf.u.r.4.bur.128),mu.bur.128)
 # mise.hf.u.r.7.bur.128=mise(t(est.hf.u.r.7.bur.128),mu.bur.128)
 
 
+
+mise.hf.ti.r.4.s.1=mise(t(est.hf.ti.r.4.s.1),mu.s.1)
+mise.hf.ti.r.5.s.1=mise(t(est.hf.ti.r.5.s.1),mu.s.1)
+mise.hf.ti.r.6.s.1=mise(t(est.hf.ti.r.6.s.1),mu.s.1)
+mise.hf.ti.r.7.s.1=mise(t(est.hf.ti.r.7.s.1),mu.s.1)
+
+mise.hf.ti.r.4.ang.1=mise(t(est.hf.ti.r.4.ang.1),mu.ang.1)
+mise.hf.ti.r.5.ang.1=mise(t(est.hf.ti.r.5.ang.1),mu.ang.1)
+mise.hf.ti.r.6.ang.1=mise(t(est.hf.ti.r.6.ang.1),mu.ang.1)
+mise.hf.ti.r.7.ang.1=mise(t(est.hf.ti.r.7.ang.1),mu.ang.1)
+
+mise.hf.ti.r.4.cb.1=mise(t(est.hf.ti.r.4.cb.1),mu.cb.1)
+mise.hf.ti.r.5.cb.1=mise(t(est.hf.ti.r.5.cb.1),mu.cb.1)
+mise.hf.ti.r.6.cb.1=mise(t(est.hf.ti.r.6.cb.1),mu.cb.1)
+mise.hf.ti.r.7.cb.1=mise(t(est.hf.ti.r.7.cb.1),mu.cb.1)
+
+mise.hf.ti.r.4.b.1=mise(t(est.hf.ti.r.4.b.1),mu.b.1)
+mise.hf.ti.r.5.b.1=mise(t(est.hf.ti.r.5.b.1),mu.b.1)
+mise.hf.ti.r.6.b.1=mise(t(est.hf.ti.r.6.b.1),mu.b.1)
+mise.hf.ti.r.7.b.1=mise(t(est.hf.ti.r.7.b.1),mu.b.1)
+
+mise.hf.ti.r.4.hs.1=mise(t(est.hf.ti.r.4.hs.1),mu.hs.1)
+mise.hf.ti.r.5.hs.1=mise(t(est.hf.ti.r.5.hs.1),mu.hs.1)
+mise.hf.ti.r.6.hs.1=mise(t(est.hf.ti.r.6.hs.1),mu.hs.1)
+mise.hf.ti.r.7.hs.1=mise(t(est.hf.ti.r.7.hs.1),mu.hs.1)
+
+mise.hf.ti.r.4.bur.1=mise(t(est.hf.ti.r.4.bur.1),mu.bur.1)
+mise.hf.ti.r.5.bur.1=mise(t(est.hf.ti.r.5.bur.1),mu.bur.1)
+mise.hf.ti.r.6.bur.1=mise(t(est.hf.ti.r.6.bur.1),mu.bur.1)
+mise.hf.ti.r.7.bur.1=mise(t(est.hf.ti.r.7.bur.1),mu.bur.1)
+
 mise.hf.ti.r.4.s.8=mise(t(est.hf.ti.r.4.s.8),mu.s.8)
 mise.hf.ti.r.5.s.8=mise(t(est.hf.ti.r.5.s.8),mu.s.8)
 mise.hf.ti.r.6.s.8=mise(t(est.hf.ti.r.6.s.8),mu.s.8)
@@ -673,6 +884,36 @@ mise.hf.ti.r.6.bur.128=mise(t(est.hf.ti.r.6.bur.128),mu.bur.128)
 mise.hf.ti.r.7.bur.128=mise(t(est.hf.ti.r.7.bur.128),mu.bur.128)
 
 
+mise.hf.ti.est.r.4.s.1=mise(t(est.hf.ti.est.r.4.s.1),mu.s.1)
+mise.hf.ti.est.r.5.s.1=mise(t(est.hf.ti.est.r.5.s.1),mu.s.1)
+mise.hf.ti.est.r.6.s.1=mise(t(est.hf.ti.est.r.6.s.1),mu.s.1)
+mise.hf.ti.est.r.7.s.1=mise(t(est.hf.ti.est.r.7.s.1),mu.s.1)
+
+mise.hf.ti.est.r.4.ang.1=mise(t(est.hf.ti.est.r.4.ang.1),mu.ang.1)
+mise.hf.ti.est.r.5.ang.1=mise(t(est.hf.ti.est.r.5.ang.1),mu.ang.1)
+mise.hf.ti.est.r.6.ang.1=mise(t(est.hf.ti.est.r.6.ang.1),mu.ang.1)
+mise.hf.ti.est.r.7.ang.1=mise(t(est.hf.ti.est.r.7.ang.1),mu.ang.1)
+
+mise.hf.ti.est.r.4.cb.1=mise(t(est.hf.ti.est.r.4.cb.1),mu.cb.1)
+mise.hf.ti.est.r.5.cb.1=mise(t(est.hf.ti.est.r.5.cb.1),mu.cb.1)
+mise.hf.ti.est.r.6.cb.1=mise(t(est.hf.ti.est.r.6.cb.1),mu.cb.1)
+mise.hf.ti.est.r.7.cb.1=mise(t(est.hf.ti.est.r.7.cb.1),mu.cb.1)
+
+mise.hf.ti.est.r.4.b.1=mise(t(est.hf.ti.est.r.4.b.1),mu.b.1)
+mise.hf.ti.est.r.5.b.1=mise(t(est.hf.ti.est.r.5.b.1),mu.b.1)
+mise.hf.ti.est.r.6.b.1=mise(t(est.hf.ti.est.r.6.b.1),mu.b.1)
+mise.hf.ti.est.r.7.b.1=mise(t(est.hf.ti.est.r.7.b.1),mu.b.1)
+
+mise.hf.ti.est.r.4.hs.1=mise(t(est.hf.ti.est.r.4.hs.1),mu.hs.1)
+mise.hf.ti.est.r.5.hs.1=mise(t(est.hf.ti.est.r.5.hs.1),mu.hs.1)
+mise.hf.ti.est.r.6.hs.1=mise(t(est.hf.ti.est.r.6.hs.1),mu.hs.1)
+mise.hf.ti.est.r.7.hs.1=mise(t(est.hf.ti.est.r.7.hs.1),mu.hs.1)
+
+mise.hf.ti.est.r.4.bur.1=mise(t(est.hf.ti.est.r.4.bur.1),mu.bur.1)
+mise.hf.ti.est.r.5.bur.1=mise(t(est.hf.ti.est.r.5.bur.1),mu.bur.1)
+mise.hf.ti.est.r.6.bur.1=mise(t(est.hf.ti.est.r.6.bur.1),mu.bur.1)
+mise.hf.ti.est.r.7.bur.1=mise(t(est.hf.ti.est.r.7.bur.1),mu.bur.1)
+
 mise.hf.ti.est.r.4.s.8=mise(t(est.hf.ti.est.r.4.s.8),mu.s.8)
 mise.hf.ti.est.r.5.s.8=mise(t(est.hf.ti.est.r.5.s.8),mu.s.8)
 mise.hf.ti.est.r.6.s.8=mise(t(est.hf.ti.est.r.6.s.8),mu.s.8)
@@ -733,17 +974,52 @@ mise.hf.ti.est.r.5.bur.128=mise(t(est.hf.ti.est.r.5.bur.128),mu.bur.128)
 mise.hf.ti.est.r.6.bur.128=mise(t(est.hf.ti.est.r.6.bur.128),mu.bur.128)
 mise.hf.ti.est.r.7.bur.128=mise(t(est.hf.ti.est.r.7.bur.128),mu.bur.128)
 
-#save data
-save.image("res_pois_hf_full.RData")
 
-rm(list = setdiff(ls(), ls(pattern = "^mise")))
-
-save.image("res_pois_hf.RData")
 
 #note: default option for denoise.poisson for intensity (1/8,8) not run for certain test functions
 #because of convergence issues
 
 #collect mises for each test function
+
+mise.s.1=c(mise.hf.default.r.4.s.1,
+           mean(c(mise.hf.ti.r.4.s.1,mise.hf.ti.r.5.s.1,mise.hf.ti.r.6.s.1,mise.hf.ti.r.7.s.1)),
+           mean(c(mise.hf.ti.est.r.4.s.1,mise.hf.ti.est.r.5.s.1,mise.hf.ti.est.r.6.s.1,mise.hf.ti.est.r.7.s.1)),
+           mise.hf.u.r.4.s.1)
+
+names(mise.s.1)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
+
+mise.ang.1=c(mean(c(mise.hf.ti.r.4.ang.1,mise.hf.ti.r.5.ang.1,mise.hf.ti.r.6.ang.1,mise.hf.ti.r.7.ang.1)),
+             mean(c(mise.hf.ti.est.r.4.ang.1,mise.hf.ti.est.r.5.ang.1,mise.hf.ti.est.r.6.ang.1,mise.hf.ti.est.r.7.ang.1)),
+             mise.hf.u.r.4.ang.1)
+
+names(mise.ang.1)=c("tiu_1","tiu_null","universal_null")
+
+mise.cb.1=c(mean(c(mise.hf.ti.r.4.cb.1,mise.hf.ti.r.5.cb.1,mise.hf.ti.r.6.cb.1,mise.hf.ti.r.7.cb.1)),
+            mean(c(mise.hf.ti.est.r.4.cb.1,mise.hf.ti.est.r.5.cb.1,mise.hf.ti.est.r.6.cb.1,mise.hf.ti.est.r.7.cb.1)),
+            mise.hf.u.r.4.cb.1)
+
+names(mise.cb.1)=c("tiu_1","tiu_null","universal_null")
+
+mise.b.1=c(mise.hf.default.r.4.b.1,
+           mean(c(mise.hf.ti.r.4.b.1,mise.hf.ti.r.5.b.1,mise.hf.ti.r.6.b.1,mise.hf.ti.r.7.b.1)),
+           mean(c(mise.hf.ti.est.r.4.b.1,mise.hf.ti.est.r.5.b.1,mise.hf.ti.est.r.6.b.1,mise.hf.ti.est.r.7.b.1)),
+           mise.hf.u.r.4.b.1)
+
+names(mise.b.1)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
+
+mise.hs.1=c(mise.hf.default.r.4.hs.1,
+            mean(c(mise.hf.ti.r.4.hs.1,mise.hf.ti.r.5.hs.1,mise.hf.ti.r.6.hs.1,mise.hf.ti.r.7.hs.1)),
+            mean(c(mise.hf.ti.est.r.4.hs.1,mise.hf.ti.est.r.5.hs.1,mise.hf.ti.est.r.6.hs.1,mise.hf.ti.est.r.7.hs.1)),
+            mise.hf.u.r.4.hs.1)
+
+names(mise.hs.1)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
+
+mise.bur.1=c(mise.hf.default.r.4.bur.1,
+             mean(c(mise.hf.ti.r.4.bur.1,mise.hf.ti.r.5.bur.1,mise.hf.ti.r.6.bur.1,mise.hf.ti.r.7.bur.1)),
+             mean(c(mise.hf.ti.est.r.4.bur.1,mise.hf.ti.est.r.5.bur.1,mise.hf.ti.est.r.6.bur.1,mise.hf.ti.est.r.7.bur.1)),
+             mise.hf.u.r.4.bur.1)
+
+names(mise.bur.1)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
 
 mise.s.8=c(mean(c(mise.hf.ti.r.4.s.8,mise.hf.ti.r.5.s.8,mise.hf.ti.r.6.s.8,mise.hf.ti.r.7.s.8)),
            mean(c(mise.hf.ti.est.r.4.s.8,mise.hf.ti.est.r.5.s.8,mise.hf.ti.est.r.6.s.8,mise.hf.ti.est.r.7.s.8)),
@@ -827,24 +1103,45 @@ mise.bur.128=c(mise.hf.default.r.4.bur.128,
 names(mise.bur.128)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
 
 
-#look at results
-mise.s.8
-mise.ang.8
-mise.cb.8
-mise.b.8
-mise.hs.8
-mise.bur.8
-
-mise.s.128
-mise.ang.128
-mise.cb.128
-mise.b.128
-mise.hs.128
-mise.bur.128
-
 
 
 #collect mises for each test function, with mises for each primary resolution level (4,5,6,7)
+mise.s.full.1=matrix(c(rep(mise.hf.default.r.4.s.1,4),mise.hf.ti.r.4.s.1,mise.hf.ti.r.5.s.1,mise.hf.ti.r.6.s.1,mise.hf.ti.r.7.s.1,
+                       mise.hf.ti.est.r.4.s.1,mise.hf.ti.est.r.5.s.1,mise.hf.ti.est.r.6.s.1,mise.hf.ti.est.r.7.s.1,
+                       rep(mise.hf.u.r.4.s.1,4)),nrow=4)
+
+colnames(mise.s.full.1)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
+
+mise.ang.full.1=matrix(c(mise.hf.ti.r.4.ang.1,mise.hf.ti.r.5.ang.1,mise.hf.ti.r.6.ang.1,mise.hf.ti.r.7.ang.1,
+                         mise.hf.ti.est.r.4.ang.1,mise.hf.ti.est.r.5.ang.1,mise.hf.ti.est.r.6.ang.1,mise.hf.ti.est.r.7.ang.1,
+                         rep(mise.hf.u.r.4.ang.1,4)),nrow=4)
+
+colnames(mise.ang.full.1)=c("tiu_1","tiu_null","universal_null")
+
+mise.cb.full.1=matrix(c(mise.hf.ti.r.4.cb.1,mise.hf.ti.r.5.cb.1,mise.hf.ti.r.6.cb.1,mise.hf.ti.r.7.cb.1,
+                        mise.hf.ti.est.r.4.cb.1,mise.hf.ti.est.r.5.cb.1,mise.hf.ti.est.r.6.cb.1,mise.hf.ti.est.r.7.cb.1,
+                        rep(mise.hf.u.r.4.cb.1,4)),nrow=4)
+
+colnames(mise.cb.full.1)=c("tiu_1","tiu_null","universal_null")
+
+mise.b.full.1=matrix(c(rep(mise.hf.default.r.4.b.1,4),mise.hf.ti.r.4.b.1,mise.hf.ti.r.5.b.1,mise.hf.ti.r.6.b.1,mise.hf.ti.r.7.b.1,
+                       mise.hf.ti.est.r.4.b.1,mise.hf.ti.est.r.5.b.1,mise.hf.ti.est.r.6.b.1,mise.hf.ti.est.r.7.b.1,
+                       rep(mise.hf.u.r.4.b.1,4)),nrow=4)
+
+colnames(mise.b.full.1)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
+
+mise.hs.full.1=matrix(c(rep(mise.hf.default.r.4.hs.1,4),mise.hf.ti.r.4.hs.1,mise.hf.ti.r.5.hs.1,mise.hf.ti.r.6.hs.1,mise.hf.ti.r.7.hs.1,
+                        mise.hf.ti.est.r.4.hs.1,mise.hf.ti.est.r.5.hs.1,mise.hf.ti.est.r.6.hs.1,mise.hf.ti.est.r.7.hs.1,
+                        rep(mise.hf.u.r.4.hs.1,4)),nrow=4)
+
+colnames(mise.hs.full.1)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
+
+mise.bur.full.1=matrix(c(rep(mise.hf.default.r.4.bur.1,4),mise.hf.ti.r.4.bur.1,mise.hf.ti.r.5.bur.1,mise.hf.ti.r.6.bur.1,mise.hf.ti.r.7.bur.1,
+                         mise.hf.ti.est.r.4.bur.1,mise.hf.ti.est.r.5.bur.1,mise.hf.ti.est.r.6.bur.1,mise.hf.ti.est.r.7.bur.1,
+                         rep(mise.hf.u.r.4.bur.1,4)),nrow=4)
+
+colnames(mise.bur.full.1)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
+
 mise.s.full.8=matrix(c(mise.hf.ti.r.4.s.8,mise.hf.ti.r.5.s.8,mise.hf.ti.r.6.s.8,mise.hf.ti.r.7.s.8,
                        mise.hf.ti.est.r.4.s.8,mise.hf.ti.est.r.5.s.8,mise.hf.ti.est.r.6.s.8,mise.hf.ti.est.r.7.s.8,
                        rep(mise.hf.u.r.4.s.8,4)),nrow=4)
@@ -880,9 +1177,6 @@ mise.bur.full.8=matrix(c(mise.hf.ti.r.4.bur.8,mise.hf.ti.r.5.bur.8,mise.hf.ti.r.
                          rep(mise.hf.u.r.4.bur.8,4)),nrow=4)
 
 colnames(mise.bur.full.8)=c("tiu_1","tiu_null","universal_null")
-
-
-
 
 mise.s.full.128=matrix(c(rep(mise.hf.default.r.4.s.128,4),mise.hf.ti.r.4.s.128,mise.hf.ti.r.5.s.128,mise.hf.ti.r.6.s.128,mise.hf.ti.r.7.s.128,
                          mise.hf.ti.est.r.4.s.128,mise.hf.ti.est.r.5.s.128,mise.hf.ti.est.r.6.s.128,mise.hf.ti.est.r.7.s.128,
@@ -921,17 +1215,97 @@ mise.bur.full.128=matrix(c(rep(mise.hf.default.r.4.bur.128,4),mise.hf.ti.r.4.bur
 colnames(mise.bur.full.128)=c("bt_cv_null","tiu_1","tiu_null","universal_null")
 
 
-#look at results
-mise.s.full.8
-mise.ang.full.8
-mise.cb.full.8
-mise.b.full.8
-mise.hs.full.8
-mise.bur.full.8
+#save data
+save.image("res_pois_hf_full.RData")
 
-mise.s.full.128
-mise.ang.full.128
-mise.cb.full.128
-mise.b.full.128
-mise.hs.full.128
-mise.bur.full.128
+rm(list = setdiff(ls(), ls(pattern = "^mise")))
+
+save.image("res_pois_hf.RData")
+
+
+load("res_paper/res_pois_hf.RData")
+mise.cb.1 = c(NA, mise.cb.1)
+mise.cb.full.1=cbind(NA,mise.cb.full.1)
+mise.ang.1 = c(NA, mise.ang.1)
+mise.ang.full.1=cbind(NA,mise.ang.full.1)
+
+mise.s.8 = c(NA, mise.s.8)
+mise.s.full.8=cbind(NA,mise.s.full.8)
+mise.bur.8 = c(NA, mise.bur.8)
+mise.bur.full.8=cbind(NA,mise.bur.full.8)
+mise.b.8 = c(NA, mise.b.8)
+mise.b.full.8=cbind(NA,mise.b.full.8)
+
+tex.row.names = c("j0 = 4 \n (where applicable)",
+                  "j0 = 5 \n (where applicable)",
+                  "j0 = 6 \n (where applicable)",
+                  "j0 = 7 \n (where applicable)",
+                  "Average \n (where applicable)")
+
+tex.col.names = c("BT + CV", "TI-universal, sd = 1", "TI-universal, sd estimated", "Universal thresholding")
+
+mise.s.1.table = rbind(mise.s.full.1, mise.s.1)
+mise.ang.1.table = rbind(mise.ang.full.1, mise.ang.1)
+mise.hs.1.table = rbind(mise.hs.full.1, mise.hs.1)
+mise.bur.1.table = rbind(mise.bur.full.1, mise.bur.1)
+mise.cb.1.table = rbind(mise.cb.full.1, mise.cb.1)
+mise.b.1.table = rbind(mise.b.full.1, mise.b.1)
+
+mise.s.8.table = rbind(mise.s.full.8, mise.s.8)
+mise.ang.8.table = rbind(mise.ang.full.8, mise.ang.8)
+mise.hs.8.table = rbind(mise.hs.full.8, mise.hs.8)
+mise.bur.8.table = rbind(mise.bur.full.8, mise.bur.8)
+mise.cb.8.table = rbind(mise.cb.full.8, mise.cb.8)
+mise.b.8.table = rbind(mise.b.full.8, mise.b.8)
+
+mise.s.128.table = rbind(mise.s.full.128, mise.s.128)
+mise.ang.128.table = rbind(mise.ang.full.128, mise.ang.128)
+mise.hs.128.table = rbind(mise.hs.full.128, mise.hs.128)
+mise.bur.128.table = rbind(mise.bur.full.128, mise.bur.128)
+mise.cb.128.table = rbind(mise.cb.full.128, mise.cb.128)
+mise.b.128.table = rbind(mise.b.full.128, mise.b.128)
+
+
+rownames(mise.s.1.table) = tex.row.names
+colnames(mise.s.1.table) = tex.col.names
+rownames(mise.ang.1.table) = tex.row.names
+colnames(mise.ang.1.table) = tex.col.names
+rownames(mise.hs.1.table) = tex.row.names
+colnames(mise.hs.1.table) = tex.col.names
+rownames(mise.bur.1.table) = tex.row.names
+colnames(mise.bur.1.table) = tex.col.names
+rownames(mise.cb.1.table) = tex.row.names
+colnames(mise.cb.1.table) = tex.col.names
+rownames(mise.b.1.table) = tex.row.names
+colnames(mise.b.1.table) = tex.col.names
+
+
+rownames(mise.s.8.table) = tex.row.names
+colnames(mise.s.8.table) = tex.col.names
+rownames(mise.ang.8.table) = tex.row.names
+colnames(mise.ang.8.table) = tex.col.names
+rownames(mise.hs.8.table) = tex.row.names
+colnames(mise.hs.8.table) = tex.col.names
+rownames(mise.bur.8.table) = tex.row.names
+colnames(mise.bur.8.table) = tex.col.names
+rownames(mise.cb.8.table) = tex.row.names
+colnames(mise.cb.8.table) = tex.col.names
+rownames(mise.b.8.table) = tex.row.names
+colnames(mise.b.8.table) = tex.col.names
+
+
+rownames(mise.s.128.table) = tex.row.names
+colnames(mise.s.128.table) = tex.col.names
+rownames(mise.ang.128.table) = tex.row.names
+colnames(mise.ang.128.table) = tex.col.names
+rownames(mise.hs.128.table) = tex.row.names
+colnames(mise.hs.128.table) = tex.col.names
+rownames(mise.bur.128.table) = tex.row.names
+colnames(mise.bur.128.table) = tex.col.names
+rownames(mise.cb.128.table) = tex.row.names
+colnames(mise.cb.128.table) = tex.col.names
+rownames(mise.b.128.table) = tex.row.names
+colnames(mise.b.128.table) = tex.col.names
+
+print(xtable(mise.s.8.table,caption="Comparison of different options for HF for the ``Spikes'' test function for (min,max) intensity = (1/8,8). Options BT + CV and Universal thresholding correspond to the two default oness used in {Fryzlewicz2004HaarFisz}, with primary resolution j0 =3. TI-universal corresponds to universal thresholding with translational invariance, with sd either estimated from the data or set to be 1 (which is the asymptotic variance). For TI-universal, we ran the HF with j0 = 4, 5, 6 and 7, corresponding to the first 4 rows, as well as the average of all 4 values, corresponding to the 5th row. Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_hf_sp_8",digits=2))
+

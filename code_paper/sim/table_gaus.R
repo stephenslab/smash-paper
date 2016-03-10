@@ -1,6 +1,6 @@
 #This script produces supplementary tables for Gaussian simulations
 
-
+#The follow portion generates Tex tables for Gaussian simulations
 library(xtable)
 
 load("res_paper/res_gaus_dscr.RData")
@@ -91,7 +91,8 @@ print(xtable(table.3.v5.short,caption="Relative MSE of various methods for the C
 print(xtable(table.1.v4.short,caption="Relative MSE of various methods for the Bumps variance function, SNR=1, Gaussian errors",digits=ndigits))
 print(xtable(table.3.v4.short,caption="Relative MSE of various methods for the Bumps variance function, SNR=3, Gaussian errors",digits=ndigits))
 
-#####
+#####################
+#The following table includes additional information on the methods used in the simulations
 row.names.all = c("BAMS, homo, Symm8",
                   "BlockJS, homo, Symm8",
                   "Ebayes, homo, Symm8",

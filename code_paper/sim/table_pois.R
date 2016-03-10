@@ -10,12 +10,12 @@ tex.row.names=c("SMASH",
                 "BMSM",
                 "BMMIM",
                 "Haar-Fisz",
-                "Anscombe, universal",
+                "Anscombe",
                 "Haar thresholds",
                 "L1_penalty"
 )
 
-tex.col.names=c("(0.01,3)","(1/8,8)","(1/128,128)")
+tex.col.names=c("intensity (0.01,3)","intensity (1/8,8)","intensity (1/128,128)")
 
 
 # mise.s.1.table=mise.s.1[c(1,4,8,7,9,5,3,2)]
@@ -113,13 +113,17 @@ rownames(mise.bur.table)=tex.row.names
 colnames(mise.bur.table)=tex.col.names
 
 
-mise.ang.table=apply(mise.ang.table,2,scale.baseline)
-mise.b.table=apply(mise.b.table,2,scale.baseline)
-mise.cb.table=apply(mise.cb.table,2,scale.baseline)
-mise.s.table=apply(mise.s.table,2,scale.baseline)
-mise.hs.table=apply(mise.hs.table,2,scale.baseline)
-mise.bur.table=apply(mise.bur.table,2,scale.baseline)
+# mise.ang.table=apply(mise.ang.table,2,scale.baseline)
+# mise.b.table=apply(mise.b.table,2,scale.baseline)
+# mise.cb.table=apply(mise.cb.table,2,scale.baseline)
+# mise.s.table=apply(mise.s.table,2,scale.baseline)
+# mise.hs.table=apply(mise.hs.table,2,scale.baseline)
+# mise.bur.table=apply(mise.bur.table,2,scale.baseline)
 
-print(xtable(mise.b.table,caption="Relative MSE of various methods for the Bumps function for Poisson data",digits=2))
-print(xtable(mise.cb.table,caption="Relative MSE of various methods for the Clipped Blocks function for Poisson data",digits=2))
+print(xtable(mise.s.table,caption="Comparison of methods for denoising Poisson data for the ``Spikes'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_sp",digits=2))
+print(xtable(mise.ang.table,caption="Comparison of methods for denoising Poisson data for the ``Angles'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_ang",digits=2))
+print(xtable(mise.hs.table,caption="Comparison of methods for denoising Poisson data for the ``Heavisine'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_hs",digits=2))
+print(xtable(mise.bur.table,caption="Comparison of methods for denoising Poisson data for the ``Bursts'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_bur",digits=2))
+print(xtable(mise.cb.table,caption="Comparison of methods for denoising Poisson data for the ``Clipped Blocks'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_cb",digits=2))
+print(xtable(mise.b.table,caption="Comparison of methods for denoising Poisson data for the ``Bumps'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_b",digits=2))
 
