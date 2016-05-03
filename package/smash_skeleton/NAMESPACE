@@ -1,3 +1,0 @@
-useDynLib(smash)
-exportPattern("^[[:alpha:]]+")
-importFrom(Rcpp, evalCpp)
