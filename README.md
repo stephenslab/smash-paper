@@ -13,7 +13,7 @@ This repo contains the following directories:
 * `res_pois_hf.RData` contains results from experimenting with different Gaussian denoising techniques in the second stage of the Haar-Fisz Poisson de-noising algorithm.
 
 `code_paper`: contains three sub-directories. 
-* `gaus_data` contains the code for several analyses for Gaussian data using SMASH. 
+* `gaus_data` contains the code for several analyses for Gaussian data using SMASH, including examples not covered in the main paper. 
 * `pois_data` contains the code for running SMASH on the ChIP-seq experiment from ENCODE. 
 * `sim` contains several R scripts for generating figures and tables used in the paper and the supplementary materials. 
   + `pois` contains R and Matlab code for generating the simulation results for Poisson observations (`sim_pois.R` and `sim_pois.m`), as well as an R script to test out different Haar-Fisz options (`sim_hf.R`).    
