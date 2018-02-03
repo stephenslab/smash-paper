@@ -1,11 +1,9 @@
-This repository contains the companion paper and supplementary materials for the R package ```smashr```. For more information regarding the usage of the package see https://github.com/stephenslab/smashr. For details on an easily reproducible framework for the Gaussian simulations performed in dscr refer to https://github.com/zrxing/dscr-smash.
+This repository contains supplementary code and files for Xing, Carbonetto and Stephens (2018). For more information regarding the usage of the package detailed in the paper see https://github.com/stephenslab/smashr. For details on an easily reproducible framework for the Gaussian simulations performed in dscr refer to https://github.com/zrxing/dscr-smash.
 
 
-#Description
+# Description
 
 This repo contains the following directories:
-
-`intro`: contains an .rmd file intro illustrating some simple simulations and data analyses using SMASH. More detailed than the readme in the ```smashr``` repo.
 
 `res_paper`: .RData objects which contain simulation results for all the simulation studies conducted. Specifically:     
 
