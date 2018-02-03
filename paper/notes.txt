@@ -1,1 +1,0 @@
-ebayesthresh: a=0.5, marginal ML produces numerical issues
