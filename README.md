@@ -1,5 +1,9 @@
-This repository contains supplementary code and files for Xing, Carbonetto and Stephens (2018). For more information regarding the usage of the package detailed in the paper see https://github.com/stephenslab/smashr. For details on an easily reproducible framework for the Gaussian simulations performed in dscr refer to https://github.com/zrxing/dscr-smash.
-
+This repository contains supplementary code and files for Xing,
+Carbonetto and Stephens (2018). For more information regarding the
+usage of the package detailed in the paper see
+https://github.com/stephenslab/smashr. For details on an easily
+reproducible framework for the Gaussian simulations performed in dscr
+refer to https://github.com/zrxing/dscr-smash.
 
 # Description
 
