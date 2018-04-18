@@ -16,3 +16,6 @@ This code has been tested in ...
 
 * In README, fill out information about computing environment used to
   run/test code.
+
+* Add sessionInfo to the end of the README.
+

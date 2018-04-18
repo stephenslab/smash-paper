@@ -1,9 +1,17 @@
-This repository contains supplementary code and files for Xing,
-Carbonetto and Stephens (2018). For more information regarding the
-usage of the package detailed in the paper see
-https://github.com/stephenslab/smashr. For details on an easily
-reproducible framework for the Gaussian simulations performed in dscr
-refer to https://github.com/zrxing/dscr-smash.
+# Source to reproduce results from Gerard & Stephens (2017)
+
+This repository contains source code and data to reproduce some of the
+empirical results presented in
+[Xing & Stephens (2016)](http://arxiv.org/abs/1605.07787). The new
+methods can be found in the
+[smashr](https://github.com/stephenslab/smashr) package. See also the
+[dscr-smash](https://github.com/zrxing/dscr-smash) for additional
+source code.
+
+If you find a bug, please post an
+[issue](https://github.com/stephenslab/smash-paper/issues).
+
+This code has been tested in...
 
 ## Citing this work
 
@@ -23,11 +31,16 @@ under the terms of the
 [MIT license](https://opensource.org/licenses/mit-license.html). See
 the [LICENSE](LICENSE) file for the full text of the license.
 
-# Description
+## Instructions
+
+To reproduce the results of Xing & Stephens (2016), you need
+to... Please read below for details on each of these steps.
+
+## What's included
 
 This repo contains the following directories:
 
-`res_paper`: .RData objects which contain simulation results for all the simulation studies conducted. Specifically:     
+`res_paper`: .RData objects which contain simulation results for all the simulation studies conducted. Specifically:
 
 * `res_gaus_dscr.RData` : Gaussian simulations with n = 1024 (run in dsc framework; code at https://github.com/zrxing/dscr-smash) 
 * `res_gaus_256.RData`, `res_gaus_512.RData` : Gaussian simulations with n = 256 and n = 512 respectively. 
@@ -43,7 +56,14 @@ This repo contains the following directories:
   + `table_gaus.R` generates Tex tables containing the MISE for each simulation scenario, as well as an additional table detailing additional information about the various methods used; 
   + `table_pois` generates the full results for the Poisson simulation study which are shown in supplementary materials.
 
-
-
 (NB: stable ashr commit: bf9cca351d7cf804b67a56552f8057b3af7c11cb;
 stable smash-paper commit: e59bdebb61ae06a6459c9248a5167178fe0150df)
+
+## Credits
+
+This project was developed by
+[Zhengrong Xing](https://github.com/zrxing) at the University of
+Chicago, with support and contributions by from
+[Peter Carbonetto](http://pcarbo.github.io) and
+[Matthew Stephens](http://stephenslab.uchicago.edu).
+
