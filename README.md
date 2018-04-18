@@ -1,4 +1,4 @@
-# Source to reproduce results from Gerard & Stephens (2017)
+# Source to reproduce results from Xing & Stephens (2016)
 
 This repository contains source code and data to reproduce some of the
 empirical results presented in
