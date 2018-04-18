@@ -5,6 +5,24 @@ https://github.com/stephenslab/smashr. For details on an easily
 reproducible framework for the Gaussian simulations performed in dscr
 refer to https://github.com/zrxing/dscr-smash.
 
+## Citing this work
+
+If you find any of the source code in this repository useful for your
+work, please cite our paper:
+
+> Zhengrong Xing and Matthew Stephens (2016). *Smoothing via Adaptive
+Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian
+signals.* [arXiv:1709.10066](http://arxiv.org/abs/1605.07787).
+
+## License
+
+Copyright (c) 2016-2018, Zhengrong Xing.
+
+All source code and software in this repository are made available
+under the terms of the
+[MIT license](https://opensource.org/licenses/mit-license.html). See
+the [LICENSE](LICENSE) file for the full text of the license.
+
 # Description
 
 This repo contains the following directories:
