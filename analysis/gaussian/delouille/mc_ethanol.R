@@ -4,7 +4,8 @@ library(lattice)
 library(scales)
 library(EbayesThresh)
 
-#Wrapper function to return estimated mean and variance function given raw data
+# Wrapper function to return estimated mean and variance function
+# given raw data.
 smash.wrapper = function(x.ini, y.ini){
   #Take the median of observations with repeated x values
   x = unique(x.ini)
@@ -39,17 +40,6 @@ y.ini.eth = ethanol$NOx[order(ethanol$E)]
 #Get estimates
 res.eth = smash.wrapper(x.ini.eth, y.ini.eth)
 
-
-
-# pdf("paper/motorcycle.pdf", height = 6, width = 8)
-# par(cex.axis = 1.3, cex.sub = 1.8, cex.lab = 1.5, mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
-# plot(res.mc$x, res.mc$mu.est, type = 'l', ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)), max(res.mc$y + 2 * sqrt(res.mc$var.est))), xlab = "time (ms)", ylab = "acceleration (g)", lwd = 1.7)
-# lines(res.mc$x, res.mc$mu.est + 2 * sqrt(res.mc$var.est), col = 2, lty = 5, lwd = 1.8)
-# lines(res.mc$x, res.mc$mu.est - 2 * sqrt(res.mc$var.est), col = 2, lty = 5, lwd = 1.8)
-# points(res.mc$x, res.mc$y, cex = 0.7, pch = 16, col = alpha("black", 0.5))
-# dev.off()
-
-
 pdf("paper/motorcycle.pdf", height = 6, width = 8)
 par(cex.axis = 1.5, cex.sub = 1.8, cex.lab = 1.5, mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
 plot(res.mc$x, res.mc$mu.est, type = 'l', ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)), max(res.mc$y + 2 * sqrt(res.mc$var.est))), xlab = "time (ms)", ylab = "acceleration (g)", lwd = 1.7)
@@ -57,17 +47,6 @@ lines(res.mc$x, res.mc$mu.est + 2 * sqrt(res.mc$var.est), col = 2, lty = 5, lwd 
 lines(res.mc$x, res.mc$mu.est - 2 * sqrt(res.mc$var.est), col = 2, lty = 5, lwd = 1.8)
 points(res.mc$x, res.mc$y, cex = 0.7, pch = 16, col = alpha("black", 0.5))
 dev.off()
-
-
-# pdf("paper/ethanol.pdf", height = 6, width = 8)
-# par(cex.axis = 1.5, cex.sub = 1.8, cex.lab = 1.5, mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
-# plot(res.eth$x, res.eth$mu.est, type = 'l', ylim = c(min(res.eth$y - 2 * sqrt(res.eth$var.est)), max(res.eth$y + 2 * sqrt(res.eth$var.est))), xlab = "Equivalence Ratio", ylab = "NOx", lwd = 1.7)
-# lines(res.eth$x, res.eth$mu.est + 2 * sqrt(res.eth$var.est), col = 2, lty = 5, lwd = 1.8)
-# lines(res.eth$x, res.eth$mu.est - 2 * sqrt(res.eth$var.est), col = 2, lty = 5, lwd = 1.8)
-# points(res.eth$x, res.eth$y, cex = 0.7, pch = 16, col = alpha("black", 0.5))
-# dev.off()
-
-
 
 waveti.ebayes=function (x, filter.number = 10, family = "DaubLeAsymm", min.level = 3, noise.level){
   n = length(x)
@@ -83,7 +62,8 @@ waveti.ebayes=function (x, filter.number = 10, family = "DaubLeAsymm", min.level
 
 sig.est.func = function(x, n) sqrt(2/(3*(n - 2)) * sum((1/2 * x[1:(n - 2)]-x[2:(n - 1)] + 1/2 * x[3:n])^2))
 
-#Wrapper function to return estimated mean given raw data for TI thresholding with Empirical Bayes shrinkage
+# Wrapper function to return estimated mean given raw data for TI
+# thresholding with Empirical Bayes shrinkage
 tithresh.cons.wrapper = function(x.ini, y.ini){
   #Take the median of observations with repeated x values
   x = unique(x.ini)
@@ -167,8 +147,6 @@ x.ini.ti.mc = sort(mcycle$times)
 y.ini.ti.mc = mcycle$accel[order(mcycle$times)]
 #Get estimates
 res.ti.mc = tithresh.wrapper(x.ini.mc, y.ini.mc)
-
-
 
 pdf("paper/motorcycle_2.pdf", height = 6, width = 8)
 par(cex.axis = 1.5, cex.sub = 1.8, cex.lab = 1.5, mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
