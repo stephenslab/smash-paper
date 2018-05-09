@@ -4,7 +4,7 @@
 # SET UP ENVIRONMENT
 # ------------------
 # Load the lattice and smashr packages. The lattice package is loaded
-# only for the Ethanol dat aset.
+# only for the Ethanol data set.
 library(smashr)
 library(lattice)
 

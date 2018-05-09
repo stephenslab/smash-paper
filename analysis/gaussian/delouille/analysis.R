@@ -1,7 +1,7 @@
-source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth.R"))
-source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_alt2.R"))
-
 library(lattice)
+
+# source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth.R"))
+# source(file.path("D:/Grad School/Spring 2013/multiscale_ash/ash/bayesmooth_alt2.R"))
 
 x.ini=sort(ethanol$E)
 y.ini=ethanol$NOx[order(ethanol$E)]
@@ -11,7 +11,6 @@ y=0
 for(i in 1:length(x)){
   y[i]=median(y.ini[x.ini==x[i]])
 }
-
 
 y.exp=c(y,y[length(y):(2*length(y)-128+1)])
 y.final=c(y.exp,y.exp[length(y.exp):1])
