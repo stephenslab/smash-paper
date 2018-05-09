@@ -36,6 +36,15 @@ the [LICENSE](LICENSE) file for the full text of the license.
 To reproduce the results of Xing & Stephens (2016), you need
 to... Please read below for details on each of these steps.
 
+1. Install the scales and EbayesThresh packages from CRAN:
+
+   ```R
+   install.packages(c("scales","EbayesThresh"))
+   ```
+
+2. Install the smashr package from GitHub. *To do: Give instructions
+   on how to do that using devtools.*
+
 ## What's included
 
 This repo contains the following directories:

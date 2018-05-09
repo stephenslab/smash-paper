@@ -27,7 +27,7 @@ waveti.ebayes = function (x, filter.number = 10, family = "DaubLeAsymm",
                           min.level = 3, noise.level) {
   n = length(x)
   J = log2(n)
-  x.w <- wd(x, filter.number, family, type = "station")
+  x.w <- wavethresh::wd(x, filter.number, family, type = "station")
   for (j in min.level:(J - 1)) {
     x.pm = ebayesthresh(accessD(x.w, j), sdev=noise.level)
     x.w = putD(x.w, j, x.pm)
@@ -59,6 +59,53 @@ tithresh.cons.wrapper = function (x.ini, y.ini) {
   
   # Run TI thresholding with emprical bayes thresholding.
   y.est = waveti.ebayes(y.final, min.level = 2, noise.level = y.noise)
+  
+  y.mu.est = y.est[1:length(y)]
+  return(list(x = x, y = y, mu.est = y.mu.est))
+}
+
+# Wrapper function to return estimated mean given raw data using
+# SMASH, assuming constant variance.
+smash.cons.wrapper = function (x.ini, y.ini) {
+    
+  # Take the median of observations with repeated x values.
+  x = unique(x.ini)
+  y = 0
+  for(i in 1:length(x)){
+    y[i] = median(y.ini[x.ini == x[i]])
+  }
+  
+  # Mirror the data twice to make it periodic and a power of 2.
+  y.exp = c(y, y[length(y):(2*length(y) - 2^ceiling(log2(length(y))) + 1)])
+  y.final = c(y.exp, y.exp[length(y.exp):1])
+  
+  y.noise = sig.est.func(y.final, length(y.final))
+  
+  # Run SMASH.
+  y.est = smash.gaus(y.final, sigma = y.noise, v.est=FALSE,
+                     family = "DaubLeAsymm", filter.number = 8)
+  
+  y.mu.est = y.est[1:length(y)]
+  return(list(x = x, y = y, mu.est = y.mu.est))
+}
+
+# Wrapper function to return estimated mean given raw data for TI
+# thresholding with variance estimated using SMASH.
+tithresh.wrapper = function (x.ini, y.ini) {
+    
+  # Take the median of observations with repeated x values.
+  x = unique(x.ini)
+  y = 0
+  for(i in 1:length(x)){
+    y[i] = median(y.ini[x.ini == x[i]])
+  }
+  
+  # Mirror the data twice to make it periodic and a power of 2.
+  y.exp = c(y, y[length(y):(2*length(y) - 2^ceiling(log2(length(y))) + 1)])
+  y.final = c(y.exp, y.exp[length(y.exp):1])
+  
+  # Run TI thresholding with emprical bayes thresholding.
+  y.est = ti.thresh(y.final, method = 'smash', min.level = 2)
   
   y.mu.est = y.est[1:length(y)]
   return(list(x = x, y = y, mu.est = y.mu.est))
