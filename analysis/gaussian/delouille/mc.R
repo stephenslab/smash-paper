@@ -1,4 +1,4 @@
-
+# Note sure what this script is for? It seems that it is incomplete.
 
 library(smashr)
 library(MASS)
