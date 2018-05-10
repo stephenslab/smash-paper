@@ -1,10 +1,12 @@
-# TO DO: Summarize this script.
+# An illustration of "smoothing via adaptive shrinkage" applied to the
+# Motorcycle Accident data set. Compare the first plot against 
 
 # SET UP ENVIRONMENT
 # ------------------
-# Load the MASS, lattice and smashr packages. The MASS and lattice
-# packages are loaded only for the Motorcycle Accident and Ethanol
-# data sets.
+# Load the MASS, scales, wavethresh, EbayesThresh and smashr
+# packages. The MASS package is loaded only for the Motorcycle
+# Accident data. Some additional functions are defined in
+# functions_mc.R.
 library(MASS)
 library(lattice)
 library(smashr)
