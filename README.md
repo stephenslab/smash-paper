@@ -34,16 +34,26 @@ the [LICENSE](LICENSE) file for the full text of the license.
 ## Instructions
 
 To reproduce the results of Xing & Stephens (2016), you need
-to... Please read below for details on each of these steps.
+to...
 
-1. Install the scales and EbayesThresh packages from CRAN:
+1. Install the devtools, scales, wavethresh and EbayesThresh packages
+   from CRAN:
 
    ```R
-   install.packages(c("scales","EbayesThresh"))
+   install.packages(c("devtools","scales","wavethresh","EbayesThresh"))
    ```
 
-2. Install the smashr package from GitHub. *To do: Give instructions
-   on how to do that using devtools.*
+2. Install the [smashr](https://github.com/stephenslab/smashr) package
+   from GitHub:
+
+   ```R
+   library(devtools)
+   install_github("stephenslab/smashr")
+   ```
+
+   The `install_github` command should automatically attempt to
+   download and install from CRAN any additional packages that are
+   needed for smashr.
 
 ## What's included
 
