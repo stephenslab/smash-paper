@@ -1,17 +1,18 @@
-data=read.csv("D:/Grad School/Spring 2013/multiscale_ash/gaus_data/treas_bill/treas_bill_ave.csv",header=FALSE)
-data=as.numeric(data[,1])
+# TO DO: Summarize the script here.
 
+# SET UP ENVIRONMENT
+# ------------------
+library(smashr)
 
-library(smash)
-
+# LOAD DATA
+# ---------
+data=read.csv("../../../data/treas_bill_ave.csv",header=FALSE)
+data = as.numeric(data[,1])
 
 y=ar(data,FALSE,5)$res
 y=y[!is.na(y)]
 x=sort(data[5:(length(data)-1)])
 y=y[order(data[5:(length(data)-1)])]
-
-
-#coef=c(1.0733,-0.0423,0.0165,0.0228,-0.0773)
 
 resid.comp=function(data,coef){
   smean=mean(data)
@@ -23,15 +24,8 @@ resid.comp=function(data,coef){
   return(res)
 }
 
-#y=resid.comp(data,coef)
-#x=sort(data[5:(length(data)-1)])
-#y=y[order(data[5:(length(data)-1)])]
-
-
 plot(x,y)
 
-
-####
 xmin=min(x)
 xmax=max(x)
 
@@ -54,7 +48,6 @@ y.est.var.approx=bayesmooth(y.approx,v.est=TRUE)
 
 plot(x,y)
 lines(x.approx,y.est.approx,col=2)
-####
 
 x.mod=unique(x)
 y.mod=0
@@ -62,19 +55,21 @@ for(i in 1:length(x.mod)){
   y.mod[i]=median(y[x==x.mod[i]])
 }
 
-
 y.exp=c(y.mod,y.mod[length(y.mod):(2*length(y.mod)-2^10+1)])
 y.final=c(y.exp,y.exp[length(y.exp):1])
 
 y.est=ashsmooth.gaus(y.final,v.est=TRUE,joint=TRUE,post.var=TRUE)
 
-
-
 mu.est.final=y.est$mu.res$mu.est[1:(length(y.mod))]
-mu.est.ci=list(y.est$mu.res$mu.est[1:(length(y.mod))]+2*sqrt(y.est$mu.res$mu.est.var[1:(length(y.mod))]),y.est$mu.res$mu.est[1:(length(y.mod))]-2*sqrt(y.est$mu.res$mu.est.var[1:(length(y.mod))]))
-var.est.final=y.est$var.res$var.est[1:(length(y.mod))]
-var.est.ci=list(pmax(0,y.est$var.res$var.est[1:(length(y.mod))]-2*sqrt(y.est$var.res$var.est.var[1:(length(y.mod))])),y.est$var.res$var.est[1:(length(y.mod))]+2*sqrt(y.est$var.res$var.est.var[1:(length(y.mod))]))
-
+mu.est.ci=list(y.est$mu.res$mu.est[1:(length(y.mod))] +
+                 2*sqrt(y.est$mu.res$mu.est.var[1:(length(y.mod))]),
+               y.est$mu.res$mu.est[1:(length(y.mod))] -
+                 2*sqrt(y.est$mu.res$mu.est.var[1:(length(y.mod))]))
+var.est.final = y.est$var.res$var.est[1:(length(y.mod))]
+var.est.ci = list(pmax(0,y.est$var.res$var.est[1:(length(y.mod))] -
+                    2*sqrt(y.est$var.res$var.est.var[1:(length(y.mod))])),
+                  y.est$var.res$var.est[1:(length(y.mod))] +
+                    2*sqrt(y.est$var.res$var.est.var[1:(length(y.mod))]))
 
 pdf("figures_treasury_a.pdf")
 plot(data,type='l',axes=FALSE,xlab="Year",ylab="Interest Rate (%)")
@@ -88,21 +83,20 @@ lines(x.mod,mu.est.final,col=2)
 dev.off()
 
 pdf("figures_treasury_c.pdf")
-plot(x.mod,mu.est.final,type='l',ylim=c(-0.4,0.4),xlab="X",ylab="Esimated mean")
+plot(x.mod,mu.est.final,type='l',ylim=c(-0.4,0.4),xlab="X",
+     ylab="Esimated mean")
 lines(x.mod,mu.est.ci[[1]],lty=2)
 lines(x.mod,mu.est.ci[[2]],lty=2)
 dev.off()
 
 pdf("figures_treasury_d.pdf")
-plot(x.mod,var.est.final,type='l',ylim=c(0,0.6),xlab="X",ylab="Estimated variance")
+plot(x.mod,var.est.final,type='l',ylim=c(0,0.6),xlab="X",
+     ylab="Estimated variance")
 lines(x.mod,var.est.ci[[1]],lty=2)
 lines(x.mod,var.est.ci[[2]],lty=2)
 dev.off()
-
 
 lv=log(sqrt(var.est.final))
 lx=log(x.mod)
 cor(lv,lx)
 lm(lv~lx)
-
-

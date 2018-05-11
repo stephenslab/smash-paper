@@ -10,3 +10,4 @@ to do
 
 * Create ashr release used for reproducing the smashr results.
 
+* Rearrange scripts in analysis folder.
