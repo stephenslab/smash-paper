@@ -1,19 +1,20 @@
 # An illustration of "smoothing via adaptive shrinkage" applied to the
-# Motorcycle Accident data set. Compare the first plot against 
+# Motorcycle Accident data set. Compare the first plot against the
+# figure in the "Motorcycle Acceleration Data" section of the paper.
 
 # SET UP ENVIRONMENT
 # ------------------
 # Load the MASS, scales, wavethresh, EbayesThresh and smashr
 # packages. The MASS package is loaded only for the Motorcycle
 # Accident data. Some additional functions are defined in
-# functions_mc.R.
+# functions_motorcycle.R.
 library(MASS)
 library(lattice)
 library(smashr)
 library(scales)
 library(wavethresh)
 library(EbayesThresh)
-source("functions_mc.R")
+source("functions_motorcycle.R")
 
 # PREPARE DATA FOR SMASH
 # ----------------------
