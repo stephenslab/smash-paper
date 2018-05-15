@@ -177,6 +177,8 @@ mean(mse.sd.uneven.s8)
 mean(mse.sd.uneven.j)
 mean(mse.sd.uneven.s8.j)
 
+stop()
+
 ############################################################################
 
 mse.mu.even.mfvb=0
