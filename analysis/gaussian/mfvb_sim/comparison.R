@@ -123,8 +123,8 @@ for(i in 1:length(x.mod)){
 y.exp=c(y.mod,y.mod[length(y.mod):(2*length(y.mod)-2^9+1)])
 y.final=c(y.exp,y.exp[length(y.exp):1])
 
-mu.est=bayesmooth(y.final,filter.number=1,family="DaubExPhase")
-var.est=bayesmooth(y.final,v.est=TRUE)
+mu.est=smash.gaus(y.final,filter.number=1,family="DaubExPhase")
+var.est=smash.gaus(y.final,v.est=TRUE)
 mu.est=mu.est[1:500]
 var.est=var.est[1:500]
 
@@ -139,12 +139,12 @@ mse.sd.uneven.haar[j]=mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
 lmse.sd.uneven.mfvb[j]=mean((log(sqrtghatMFVBgOrig)-(loggTrue(xgOrig))/2)^2)
 lmse.sd.uneven.haar[j]=mean((log(sqrt(var.est.inter))-(loggTrue(xgOrig))/2)^2)
 
-mu.est=bayesmooth(y.final,filter.number=8,family="DaubLeAsymm")
-var.est=bayesmooth(y.final,v.est=TRUE,v.basis=TRUE,filter.number=8,
+mu.est=smash.gaus(y.final,filter.number=8,family="DaubLeAsymm")
+var.est=smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,filter.number=8,
                    family="DaubLeAsymm")
-var.est.s8.j=bayesmooth(y.final,v.est=TRUE,v.basis=TRUE,jash=TRUE,
+var.est.s8.j=smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,jash=TRUE,
                         filter.number=8,family="DaubLeAsymm")
-var.est.j=bayesmooth(y.final,v.est=TRUE,jash=TRUE)
+var.est.j=smash.gaus(y.final,v.est=TRUE,jash=TRUE)
 mu.est=mu.est[1:500]
 var.est=var.est[1:500]
 var.est.j=var.est.j[1:500]
@@ -296,8 +296,8 @@ sqrtghatMFVBgOrig <- sqrtghatMFVBg*sd.y
 
 
 
-mu.est=bayesmooth(yOrig,filter.number=1,family="DaubExPhase")
-var.est=bayesmooth(yOrig,v.est=TRUE)
+mu.est=smash.gaus(yOrig,filter.number=1,family="DaubExPhase")
+var.est=smash.gaus(yOrig,v.est=TRUE)
 
 
 mse.mu.even.mfvb[j]=mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
@@ -308,10 +308,10 @@ mse.sd.even.haar[j]=mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
 lmse.sd.even.mfvb[j]=mean((log(sqrtghatMFVBgOrig)-(loggTrue(xgOrig))/2)^2)
 lmse.sd.even.haar[j]=mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
 
-mu.est=bayesmooth(yOrig,filter.number=8,family="DaubLeAsymm")
-var.est=bayesmooth(yOrig,v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm")
-var.est.s8.j=bayesmooth(yOrig,v.est=TRUE,v.basis=TRUE,jash=TRUE,filter.number=8,family="DaubLeAsymm")
-var.est.j=bayesmooth(yOrig,v.est=TRUE,jash=TRUE)
+mu.est=smash.gaus(yOrig,filter.number=8,family="DaubLeAsymm")
+var.est=smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm")
+var.est.s8.j=smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,jash=TRUE,filter.number=8,family="DaubLeAsymm")
+var.est.j=smash.gaus(yOrig,v.est=TRUE,jash=TRUE)
 
 mse.mu.even.s8[j]=mean((mu.est-fTrue(xgOrig))^2)
 mse.sd.even.s8[j]=mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
