@@ -6,6 +6,9 @@
 # The figure and table generated at the end of this script should
 # match up with the figure and table shown in the paper.
 #
+# Note that this script could take longer than an hour to complete as
+# it runs the two methods on 200 simulated data sets.
+#
 # We thank Menictas and Wand for generously sharing code that was used
 # to implement these experiments.
 #
@@ -361,6 +364,3 @@ mse.table=rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
 rownames(mse.table)=c("MFVB","SMASH")
 colnames(mse.table)=c("mean","sd","mean","sd")
 print(mse.table)
-
-
-
