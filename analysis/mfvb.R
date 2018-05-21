@@ -1,10 +1,20 @@
-# TO DO: Explain here what this script is for.
+# This script implements the "Gaussian variance estimation" simulation
+# experiments in the paper. In particular, we compare the Mean Field
+# Variational Bayes method (MFVB) against SMASH in two scenarios. See
+# the paper for the full description of these scenarios.
+#
+# The figure and table generated at the end of this script should
+# match up with the figure and table shown in the paper.
+#
+# We thank Menictas and Wand for generously sharing code that was used
+# to implement these experiments.
+#
 
 # SET UP ENVIRONMENT
 # ------------------
-# TO DO: Explain here what these lines of code are doing.
+# Load the smashr package and some functions used in the analysis below.
 library(smashr)
-source("functions.R")
+source("functions_mfvb.R")
 
 # SCRIPT PARAMETERS
 # -----------------
@@ -26,7 +36,8 @@ cex.mainVal <- 1.7
 cex.labVal  <- 1.3
 xlabVal     <- "x"
 
-# Source MFVB files here.
+# FIRST SCENARIO
+# ==============
 mse.mu.uneven.mfvb=0
 mse.mu.uneven.haar=0
 mse.mu.uneven.s8=0
@@ -43,8 +54,10 @@ lmse.sd.uneven.s8=0
 lmse.sd.uneven.j=0
 lmse.sd.uneven.s8.j=0
 
+cat("FIRST SCENARIO.\n")
 for (j in 1:100) {
-
+cat(sprintf("%d ",j))
+    
 # GENERATE DATA SET
 # -----------------
 n <- 500
@@ -114,6 +127,8 @@ sqrtghatMFVBg <- exp(0.5*Cvg%*%mu.q.omega
 
 sqrtghatMFVBgOrig <- sqrtghatMFVBg*sd.y
 
+# RUN SMASH
+# ---------
 x.mod=unique(sort(xOrig))
 y.mod=0
 for(i in 1:length(x.mod)){
@@ -141,7 +156,7 @@ lmse.sd.uneven.haar[j]=mean((log(sqrt(var.est.inter))-(loggTrue(xgOrig))/2)^2)
 
 mu.est=smash.gaus(y.final,filter.number=8,family="DaubLeAsymm")
 var.est=smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,filter.number=8,
-                   family="DaubLeAsymm")
+    family="DaubLeAsymm")
 var.est.s8.j=smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,jash=TRUE,
                         filter.number=8,family="DaubLeAsymm")
 var.est.j=smash.gaus(y.final,v.est=TRUE,jash=TRUE)
@@ -164,23 +179,20 @@ lmse.sd.uneven.s8[j]=mean((log(sqrt(var.est.inter))-(loggTrue(xgOrig))/2)^2)
 lmse.sd.uneven.j[j]=mean((log(sqrt(var.est.inter.j))-(loggTrue(xgOrig))/2)^2)
 lmse.sd.uneven.s8.j[j] =
   mean((log(sqrt(var.est.inter.s8.j))-(loggTrue(xgOrig))/2)^2)
-
-print(j)
 }
+cat("\n")
 
-mean(mse.mu.uneven.mfvb)
-mean(mse.mu.uneven.haar)
-mean(mse.mu.uneven.s8)
-mean(mse.sd.uneven.mfvb)
-mean(mse.sd.uneven.haar)
-mean(mse.sd.uneven.s8)
-mean(mse.sd.uneven.j)
-mean(mse.sd.uneven.s8.j)
+print(mean(mse.mu.uneven.mfvb))
+print(mean(mse.mu.uneven.haar))
+print(mean(mse.mu.uneven.s8))
+print(mean(mse.sd.uneven.mfvb))
+print(mean(mse.sd.uneven.haar))
+print(mean(mse.sd.uneven.s8))
+print(mean(mse.sd.uneven.j))
+print(mean(mse.sd.uneven.s8.j))
 
-stop()
-
-############################################################################
-
+# SECOND SCENARIO
+# ===============
 mse.mu.even.mfvb=0
 mse.mu.even.haar=0
 mse.mu.even.s8=0
@@ -190,13 +202,16 @@ mse.sd.even.haar=0
 mse.sd.even.s8=0
 mse.sd.even.j=0
 mse.sd.even.s8.j=0
+
 lmse.sd.even.mfvb=0
 lmse.sd.even.haar=0
 lmse.sd.even.s8=0
 lmse.sd.even.j=0
 lmse.sd.even.s8.j=0
 
-for(j in 1:100){
+cat("SECOND SCENARIO.\n")
+for (j in 1:100) {
+cat(sprintf("%d ",j))
 
 # Set hyperparameters:
 
@@ -220,8 +235,8 @@ cex.labVal <- 1.3
 
 xlabVal <- "x"
 
-# Generate data:
-
+# GENERATE DATA SET
+# -----------------
 n <- 2^10
 xOrig <- (1:n)/n
 set.seed(30*j)
@@ -234,8 +249,6 @@ mean.y <- mean(yOrig) ; sd.y <- sd(yOrig)
 a <- (aOrig - mean.x)/sd.x ; b <- (bOrig - mean.x)/sd.x
 x <- (xOrig - mean.x)/sd.x ; y <- (yOrig - mean.y)/sd.y
 
-
-
 numIntKnotsU <- 17
 intKnotsU <- quantile(x,seq(0,1,length=numIntKnotsU+2)[-c(1,numIntKnotsU+2)])
 Zu <- ZOSull(x,intKnots=intKnotsU,range.x=c(a,b))
@@ -246,8 +259,8 @@ intKnotsV <- quantile(x,seq(0,1,length=numIntKnotsV+2)[-c(1,numIntKnotsV+2)])
 Zv <- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
 numKnotsV <- ncol(Zv) 
 
-# Do mean field variational Bayes:
-
+# RUN MEAN FIELD VARIATIONAL BAYES
+# --------------------------------
 X <- cbind(rep(1,n),x)
 Cumat <- cbind(X,Zu)
 Cvmat <- cbind(X,Zv)
@@ -275,12 +288,10 @@ mu.q.omega <- MFVBfit$mu.q.omega
 Sigma.q.nu <- MFVBfit$Sigma.q.nu
 Sigma.q.omega <- MFVBfit$Sigma.q.omega
 
-# Plot the mean function estimate.
-
+# Get the mean function estimate.
 fhatMFVBg <- Cug%*%mu.q.nu
 
 fhatMFVBgOrig <- fhatMFVBg*sd.y + mean.y
-
 
 logghatMFVBg <- Cvg%*%mu.q.omega 
 logghatMFVBgOrig <- logghatMFVBg + 2*log(sd.y)
@@ -294,11 +305,10 @@ sqrtghatMFVBg <- exp(0.5*Cvg%*%mu.q.omega
 
 sqrtghatMFVBgOrig <- sqrtghatMFVBg*sd.y
 
-
-
+# RUN SMASH
+# ---------
 mu.est=smash.gaus(yOrig,filter.number=1,family="DaubExPhase")
 var.est=smash.gaus(yOrig,v.est=TRUE)
-
 
 mse.mu.even.mfvb[j]=mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
 mse.mu.even.haar[j]=mean((mu.est-fTrue(xgOrig))^2)
@@ -320,28 +330,37 @@ mse.sd.even.s8.j[j]=mean((sqrt(var.est.s8.j)-exp((loggTrue(xgOrig))/2))^2)
 lmse.sd.even.s8[j]=mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
 lmse.sd.even.j[j]=mean((log(sqrt(var.est.j))-(loggTrue(xgOrig))/2)^2)
 lmse.sd.even.s8.j[j]=mean((log(sqrt(var.est.s8.j))-(loggTrue(xgOrig))/2)^2)
-
-print(j)
 }
+cat("\n")
 
-mean(mse.mu.even.mfvb)
-mean(mse.mu.even.haar)
-mean(mse.mu.even.s8)
-mean(mse.sd.even.mfvb)
-mean(mse.sd.even.haar)
-mean(mse.sd.even.s8)
-mean(mse.sd.even.j)
-mean(mse.sd.even.s8.j)
+print(mean(mse.mu.even.mfvb))
+print(mean(mse.mu.even.haar))
+print(mean(mse.mu.even.s8))
+print(mean(mse.sd.even.mfvb))
+print(mean(mse.sd.even.haar))
+print(mean(mse.sd.even.s8))
+print(mean(mse.sd.even.j))
+print(mean(mse.sd.even.s8.j))
 
-save.image("comparison.RData")
-
-#################
-
+# SHOW MEAN AND VARIANCE FUNCTIONS USED TO SIMULATE DATA
+# ------------------------------------------------------
+# Compare this plot against the one shown in the paper.
 xgrid = (0:10000)/10000
-
-pdf("paper/mfvb_eg.pdf", width = 8, height = 5)
 plot(xgrid, fTrue(xgrid), type = "l", ylim = c(-5, 5), ylab = "y(X)",
      xlab = "X")
 lines(xgrid, fTrue(xgrid) + 2 * sqrt(gTrue(xgrid)), col = 2, lty = 2)
 lines(xgrid, fTrue(xgrid) - 2 * sqrt(gTrue(xgrid)), col = 2, lty = 2)
-dev.off()
+
+# SUMMARIZE RESULTS
+# -----------------
+# Compare this table against the one given in the paper.
+mse.table=rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
+                  mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
+                c(mean(mse.mu.uneven.s8),mean(mse.sd.uneven.s8),
+                  mean(mse.mu.even.s8),mean(mse.sd.even.s8)))
+rownames(mse.table)=c("MFVB","SMASH")
+colnames(mse.table)=c("mean","sd","mean","sd")
+print(mse.table)
+
+
+
