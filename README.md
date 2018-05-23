@@ -2,16 +2,12 @@
 
 This repository contains source code and data to reproduce some of the
 empirical results presented in
-[Xing & Stephens (2016)](http://arxiv.org/abs/1605.07787). For
-additional source code, see the
-[dscr-smash](https://github.com/zrxing/dscr-smash) repository. The
-new methods can be found in the
-[smashr package](https://github.com/stephenslab/smashr).
+[Xing & Stephens (2016)][smashr-preprint]. For additional source code,
+see the [dscr-smash][dscr-smash]
+repository. The new methods can be found in the
+[smashr package][smashr].
 
-If you find a bug, please post an
-[issue](https://github.com/stephenslab/smash-paper/issues).
-
-This code has been tested in...
+If you find a bug, please post an [issue][issues].
 
 ## Citing this work
 
@@ -87,9 +83,14 @@ stable smash-paper commit: e59bdebb61ae06a6459c9248a5167178fe0150df)
 
 ## Credits
 
-This project was developed by
-[Zhengrong Xing](https://github.com/zrxing) at the University of
-Chicago, with support and contributions from
-[Peter Carbonetto](http://pcarbo.github.io) and
-[Matthew Stephens](http://stephenslab.uchicago.edu).
+This project was developed by [Zhengrong Xing][zhengrong] at the
+University of Chicago, with support and contributions from
+[Peter Carbonetto][peter] and [Matthew Stephens][matthew].
 
+[smashr]: https://github.com/stephenslab/smashr
+[smashr-preprint]: http://arxiv.org/abs/1605.07787
+[dscr-smash]: https://github.com/stephenslab/dscr-smash
+[issues]: https://github.com/stephenslab/smash-paper/issues
+[zhengrong]: https://github.com/zrxing
+[peter]: http://pcarbo.github.io
+[matthew]: http://stephenslab.uchicago.edu

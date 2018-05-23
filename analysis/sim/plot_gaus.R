@@ -1,4 +1,4 @@
-#This script produces the plots for the Gaussian simulations in the paper
+#This script produces the plots for the Gaussian simulations in the paper.
 
 
 library(dplyr)
