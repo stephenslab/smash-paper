@@ -40,7 +40,7 @@ res = smash.poiss(M[1,]+M[2,],post.var=TRUE)
 # data points.
 plot(bppos,M[1,]+M[2,],xlab="position",ylab="counts",pch=16,cex=0.5,
      col=alpha("black",0.04))
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to view next plot... "))
 
 # The second plot shows the estimated intensity function from smash
 # (black line) and the location of the peaks called by MACS (red
