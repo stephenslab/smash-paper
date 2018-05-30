@@ -2,12 +2,9 @@ to do
 =====
 
 * In README, fill out information about computing environment used to
-  run/test code.
+  run/test code, including versions of R packages used. (This can be
+  done with the help of sessionInfo.)
 
 * Fill out instructions in README to reproduce results of paper.
-
-* Add sessionInfo to the end of the README.
-
-* Create ashr release used for reproducing the smashr results.
 
 * Rearrange scripts in analysis folder.
