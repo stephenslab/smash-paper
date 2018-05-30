@@ -1,4 +1,4 @@
-n=1024;
+n = 1024;
 est_an_ti_uh_s_1_2=zeros(100,n);
 est_an_ti_uh_s_8_2=zeros(100,n);
 est_an_ti_uh_s_128_2=zeros(100,n);
@@ -300,10 +300,6 @@ est_an_ti_us_b_8_7=zeros(100,n);
 est_an_ti_us_b_128_7=zeros(100,n);
 est_an_ti_us_b_nz_7=zeros(100,n);
 
-
-%cpu_an_ti_uh_s_1=zeros(100,1);
-%cpu_an_ti_uh_s_8=zeros(100,1);
-
 est_an_ti_cvh_s_1_2=zeros(100,n);
 est_an_ti_cvh_s_8_2=zeros(100,n);
 est_an_ti_cvh_s_128_2=zeros(100,n);
@@ -455,9 +451,6 @@ est_an_ti_cvh_b_8_7=zeros(100,n);
 est_an_ti_cvh_b_128_7=zeros(100,n);
 est_an_ti_cvh_b_nz_7=zeros(100,n);
 
-
-%cpu_an_ti_cvh_s_1=zeros(100,1);
-%cpu_an_ti_cvh_s_8=zeros(100,1);
 est_haar_h_s_1_2=zeros(100,n);
 est_haar_h_s_8_2=zeros(100,n);
 est_haar_h_s_128_2=zeros(100,n);
@@ -558,8 +551,6 @@ est_haar_h_bur_8_7=zeros(100,n);
 est_haar_h_bur_128_7=zeros(100,n);
 est_haar_h_bur_nz_7=zeros(100,n);
 
-
-
 est_haar_h_cb_1_2=zeros(100,n);
 est_haar_h_cb_8_2=zeros(100,n);
 est_haar_h_cb_128_2=zeros(100,n);
@@ -609,24 +600,6 @@ est_haar_h_b_1_7=zeros(100,n);
 est_haar_h_b_8_7=zeros(100,n);
 est_haar_h_b_128_7=zeros(100,n);
 est_haar_h_b_nz_7=zeros(100,n);
-
-%cpu_haar_h_s_1=zeros(100,1);
-%cpu_haar_h_s_8=zeros(100,1);
-
-
-% est_cor_h_s_1_5=zeros(100,n);
-% est_cor_h_s_8_5=zeros(100,n);
-% est_cor_h_s_1_6=zeros(100,n);
-% est_cor_h_s_8_6=zeros(100,n);
-% est_cor_h_s_1_7=zeros(100,n);
-% est_cor_h_s_8_7=zeros(100,n);
-% cpu_cor_h_s_1=zeros(100,1);
-% cpu_cor_h_s_8=zeros(100,1);
-
-% est_mod_s_1=zeros(100,n);
-% est_mod_s_8=zeros(100,n);
-% cpu_mod_s_1=zeros(100,1);
-% cpu_mod_s_8=zeros(100,1);
 
 est_pen_s_1=zeros(100,n);
 est_pen_s_8=zeros(100,n);
