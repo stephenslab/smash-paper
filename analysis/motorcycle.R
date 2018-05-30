@@ -47,7 +47,7 @@ lines(res.mc$x, res.mc$mu.est - 2 * sqrt(res.mc$var.est), col = 2,
       lty = 5, lwd = 1.8)
 points(res.mc$x, res.mc$y, cex = 0.7, pch = 16, col = alpha("black", 0.5))
 
-invisible(readline(prompt="Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue analysis... "))
 
 # PREPARE DATA FOR SMASH WITH HOMOGENEOUS VARIANCES
 # -------------------------------------------------
