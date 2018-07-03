@@ -13,7 +13,6 @@ ebayesthresh.wrapper <- function (input, args) {
     args$filter.number <- 8
   if (is.null(args$family)) 
     args$family <- "DaubLeAsymm"
-  
   n   <- length(input$x)
   J   <- log2(n)
   cat("     - Computing discrete wavelet transform.\n")

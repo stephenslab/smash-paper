@@ -1,1 +1,5 @@
 dsc/code/Wavelab850/MEXSource/*.mex*
+dsc/results/meta
+dsc/results/input
+dsc/results/output
+dsc/results/temp

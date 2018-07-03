@@ -14,8 +14,12 @@ matlab.exec <- "matlab -nodisplay -nodesktop"
 # DEFINE THE DSC
 # --------------
 cat("Creating DSC.\n")
+if (!dir.exists("results"))
+  dir.create("results")
+if (!dir.exists("results/temp"))
+  dir.create("results/temp")
 dscr.path <- getwd()
-dsc_smash <- new_dsc("mean_function_estimation","output")
+dsc_smash <- new_dsc("mean_function_estimation","results")
 source_dir("code/methods")
 source("code/datamaker.R")
 source("code/scenarios.R")

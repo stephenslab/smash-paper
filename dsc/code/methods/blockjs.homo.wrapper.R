@@ -1,13 +1,18 @@
+# I'm assuming that this code is being run from the "dsc" directory
+# inside this git repository; that is, when this code is called, the
+# working directory is the "dsc" directory.
 blockjs.homo.wrapper <- function(input, args) {
-  write(input$x, "input/ml_in.txt", ncolumns = length(input$x))
-  system(paste(matlab.exec,"-r \"run('methods/blockjs_matlab.m')\""),
+  in.file  <- "results/temp/ml_in.txt"
+  out.file <- "results/temp/ml_out.csv"
+  cat("     - Writing data to file.\n")
+  write(input$x,in.file,ncolumns = length(input$x))
+  cat("     - Running recblockJS from WavLab in MATLAB.\n")
+  system(paste(matlab.exec,"-r \"run('methods/blockjs.m')\""),
          ignore.stdout = TRUE)
-  if (Sys.info()["sysname"] == "Windows") {
-    while (!file.exists("input/ml_out.csv")) {
-      Sys.sleep(5)
-    }
-  }
-  mu.est = as.vector(read.csv("input/ml_out.csv", header = FALSE))
-  system("rm input/ml_in.txt input/ml_out.csv")
+  while (!file.exists(out.file))
+    Sys.sleep(5)
+  cat("     - Loading recblockJS estimate from file.\n")
+  mu.est <- as.vector(read.csv(out.file, header = FALSE))
+  file.remove(c(in.file,out.file))
   return(mu.est)
 } 
