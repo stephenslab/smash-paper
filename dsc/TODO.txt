@@ -1,10 +1,8 @@
 to do 
 =====
 
-* Merge this code with smash-paper, and re-organize.
-
-* Is graphs.Rmd needed? If so, add packages used in graphs.Rmd to
-  setup instructions.
+* Is graphs.Rmd needed? (I think it is!) If so, add packages used in
+  graphs.Rmd to setup instructions.
 
 * Add sessionInfo() to README.
 
