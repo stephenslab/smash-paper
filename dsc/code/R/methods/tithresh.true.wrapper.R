@@ -1,10 +1,14 @@
-#runs wavelet denoising with TI-thresholding in matlab with the true variance known
-#inputs:
-#input: a list containing x: the data, sig.true the true sigma values, and sig.est: the estimated sigma values
-#args: a list containing family and filter.number, which determine the wavelet basis used
+# Runs wavelet denoising with TI-thresholding with the true
+# variance known. The inputs are:
 #
-#returns the estimated mean function
-tithresh.true.wrapper = function(input, args) {
-  mu.est = ti.thresh(input$x, sigma = input$sig.true, filter.number = args$filter.number, family = args$family)
-  return(mu.est)
-} 
+#   input, a list containing the data (x), the true sigma values
+#   (sig.true), and the estimated sigma values (sig.est);
+#
+#   args, a list containing family and filter.number, which determine
+#   the wavelet basis used.
+#
+# The return value is the estimated mean function.
+tithresh.true.wrapper <- function(input, args)
+  ti.thresh(input$x,sigma = input$sig.true,filter.number = args$filter.number,
+            family = args$family)
+

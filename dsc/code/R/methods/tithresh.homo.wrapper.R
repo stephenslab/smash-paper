@@ -1,4 +1,4 @@
-tithresh.homo.wrapper = function(input, args) {
+tithresh.homo.wrapper <- function (input, args) {
   write(input$x, "input/ml_in.txt", ncolumns = length(input$x))
   system(paste(matlab.exec,"-r \"run('methods/tithresh_matlab.m')\""),
          ignore.stdout = TRUE)
