@@ -16,10 +16,11 @@ matlab.exec <- "matlab -nodisplay -nodesktop"
 cat("Creating DSC.\n")
 dscr.path <- getwd()
 dsc_smash <- new_dsc("mean_function_estimation","output")
+source_dir("code/R/methods")
 source("code/R/datamaker.R")
 source("code/R/scenarios.R")
+source("code/R/methods.R")
 stop()
-source("methods.R")
 source("score.R")
 
 # RUN THE DSC

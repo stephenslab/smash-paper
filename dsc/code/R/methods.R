@@ -1,60 +1,51 @@
-source_dir("methods")
+parse.period.delimited.name <- function (name)
+  return(strsplit(name,".",fixed = TRUE)[[1]])
 
-parse.period.delimited.name <- function(name) {
-  return(strsplit(name, ".", fixed = TRUE)[[1]])
-}
+build.period.delimited.name <- function (words)
+  return(paste(words,collapse = "."))
 
-build.period.delimited.name <- function(words) {
-  return(paste(words, collapse = "."))
-}
-
-suffix <- function(name) {
+suffix <- function (name) {
   words <- parse.period.delimited.name(name)
   return(words[length(words)])
 }
 
-remove.suffix <- function(name) {
+remove.suffix <- function (name) {
   words <- parse.period.delimited.name(name)
   return(build.period.delimited.name(words[1:(length(words) - 1)]))
 }
 
-fxn.wrapper <- function(name, named.method) {
-    if ((suffix(name) == "s8") || (suffix(name) == "haar")) {
-        if (named.method) {
-            stem <- remove.suffix(remove.suffix(name))
-        } else {
-            stem <- remove.suffix(name)
-        }
+fxn.wrapper <- function (name, named.method) {
+  if ((suffix(name) == "s8") || (suffix(name) == "haar")) {
+    if (named.method)
+      stem <- remove.suffix(remove.suffix(name))
+    else
+      stem <- remove.suffix(name)
+  } else
+    stem <- name
+  return(parse(text = paste(stem,"wrapper",sep = ".")))
+}
+
+arg.list <- function (name, named.method, blank.arglist) {
+  args <- list()
+  if (!blank.arglist) {
+    if (named.method)
+      args$method <- suffix(remove.suffix(name))
+    if (suffix(name) == "haar") {
+      args$filter.number <- 1
+      args$family <- "DaubExPhase"
     } else {
-        stem <- name
-    }
-    return(parse(text = paste(stem, "wrapper", sep = ".")))
-}
-
-arg.list <- function(name, named.method, blank.arglist) {
-    args <- list()
-
-    if (!blank.arglist) {
-        if (named.method) {
-            args$method <- suffix(remove.suffix(name))
-        }
-
-        if (suffix(name) == "haar") {
-            args$filter.number <- 1
-            args$family <- "DaubExPhase"
-        } else {
             
-            # This covers a suffix of "s8" but also the case
-            # "smash.jash".
-            args$filter.number <- 8
-            args$family <- "DaubLeAsymm"
-        }
+      # This covers a suffix of "s8" but also the case
+      # "smash.jash".
+      args$filter.number <- 8
+      args$family <- "DaubLeAsymm"
     }
-
-    return(args)
+  }
+  
+  return(args)
 }
 
-add.method.by.flags <- function(row) {
+add.method.by.flags <- function (row) {
   method.name <- as.character(row$name)
   add_method(dsc_smash,
              name = method.name,
@@ -63,8 +54,8 @@ add.method.by.flags <- function(row) {
 }
 
 # Define methods and flags used to name the function wrappers and
-# argument lists. The first seven of this list use a blank argument
-# list. The tithresh.rmad and tithresh.smash methods put the
+# argument lists. The first seven items in this list use a blank
+# argument list. The tithresh.rmad and tithresh.smash methods put the
 # penultimate word in the argument list instead of using separate
 # wrappers.
 methods <- data.frame(list(name = c("ebayesthresh",
