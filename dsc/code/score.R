@@ -1,6 +1,3 @@
-score = function(data, output) {
-  mise = 10000 * sum((output - data$meta$mu)^2)/sum(data$meta$mu^2)
-  return(list(mise = mise))
-}
-
-add_score(dsc_smash, score, "mise") 
+score <- function (data, output)
+  list(mise = 10000 * sum((output - data$meta$mu)^2)/sum(data$meta$mu^2))
+add_score(dsc_smash,score,"mise") 

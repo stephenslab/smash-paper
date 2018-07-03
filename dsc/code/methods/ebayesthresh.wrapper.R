@@ -16,9 +16,12 @@ ebayesthresh.wrapper <- function (input, args) {
   
   n   <- length(input$x)
   J   <- log2(n)
+  cat("     - Computing discrete wavelet transform.\n")
   x.w <- wd(input$x,args$filter.number,args$family,type = "station")
+  cat("     - Running Empirical Bayes thresholding.\n")
   x.w <- ebayesthresh.wavelet(x.w,vscale = input$sig.est,prior = "laplace",
                               threshrule = "mean")
   mu.est <- AvBasis(convert(x.w))
+  cat("     - Outputting posterior mean estimate.\n")
   return(mu.est)
 } 

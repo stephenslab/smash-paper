@@ -20,14 +20,15 @@ source_dir("code/methods")
 source("code/datamaker.R")
 source("code/scenarios.R")
 source("code/methods.R")
-stop()
-source("score.R")
+source("code/score.R")
 
 # RUN THE DSC
 # -----------
 cat("Running DSC.\n")
 timing <- system.time(res <- run_dsc(dsc_smash))
 cat(sprintf("Computation took %d seconds.\n",round(timing["elapsed"])))
+
+stop()
 
 # SAVE RESULTS TO FILE
 # --------------------

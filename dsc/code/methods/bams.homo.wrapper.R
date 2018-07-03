@@ -1,4 +1,5 @@
 bams.homo.wrapper = function (input, args) {
+  stop("Error!")
   write(input$x, "input/ml_in.txt", ncolumns = length(input$x))
   system(paste(matlab.exec,"-r \"run('methods/bams_matlab.m')\""),
          ignore.stdout = TRUE)
