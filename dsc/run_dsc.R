@@ -1,3 +1,4 @@
+# TO DO: Explain what this script does, and how to use it.
 library(dscr)
 library(AlgDesign)
 library(EbayesThresh)
@@ -12,10 +13,11 @@ matlab.exec <- "matlab -nodisplay -nodesktop"
 
 # DEFINE THE DSC
 # --------------
-cat("Constructing DSC.\n")
+cat("Creating DSC.\n")
 dscr.path <- getwd()
-dsc_smash <- new_dsc("mean_function_estimation","dscr-smash-output")
-source("scenarios.R")
+dsc_smash <- new_dsc("mean_function_estimation","output")
+source("data/R/datamarker.R")
+source("code/R/scenarios.R")
 source("methods.R")
 source("score.R")
 

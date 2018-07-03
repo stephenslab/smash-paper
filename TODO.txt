@@ -8,3 +8,15 @@ to do
 * Fill out instructions in README to reproduce results of paper.
 
 * Rearrange scripts in analysis folder.
+
+* Add WavDen info, including license info, to README.
+
+* Add Wavelab info, including license info, to README. Also point to
+  instructions for building/installing MEX files.
+
+* Add sessionInfo() to README.
+
+* Is graphs.Rmd needed? (I think it is!) If so, add packages used in
+  graphs.Rmd to setup instructions.
+
+* Add brief comments to top of run_dsc.R to explain what it does.

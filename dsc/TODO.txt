@@ -1,19 +1,8 @@
 to do 
 =====
 
-* Is graphs.Rmd needed? (I think it is!) If so, add packages used in
-  graphs.Rmd to setup instructions.
-
-* Add sessionInfo() to README.
-
 * Fix system statements that use 'rm' command.
 
 * Add more verbose to running methods, particularly methods that call
   MATLAB, so we know what is going on when things go wrong.
 
-* Add WavDen info, including license info, to README.
-
-* Add Wavelab info, including license info, to README. Also point to
-  instructions for building/installing MEX files.
-
- 
