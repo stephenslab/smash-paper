@@ -1,5 +1,5 @@
 spikes.fn <- function (t, type) {
-  spike.f <- function(x) (0.75*exp(-500*(x - 0.23)^2) +
+  spike.f <- function (x) (0.75*exp(-500*(x - 0.23)^2) +
                           1.5*exp(-2000*(x - 0.33)^2) +
                           3*exp(-8000*(x - 0.47)^2) +
                           2.25*exp(-16000*(x - 0.69)^2) +
@@ -39,7 +39,7 @@ blocks.fn <- function (t, type) {
   return(NULL)
 }
 
-angles.fn <- function(t,type) {
+angles.fn <- function (t, type) {
   sig <- ((2 * t + 0.5) * (t <= 0.15)) +
          ((-12 * (t - 0.15) + 0.8) * (t > 0.15 & t <= 0.2)) +
          0.2 * (t > 0.2 & t <= 0.5) +
@@ -55,8 +55,8 @@ angles.fn <- function(t,type) {
   return(NULL)
 }
 
-doppler.fn <- function(t,type) {
-  dop.f <- function(x) sqrt(x * (1 - x)) * sin((2 * pi * 1.05)/(x + 0.05))
+doppler.fn <- function (t, type) {
+  dop.f <- function (x) sqrt(x * (1 - x)) * sin((2 * pi * 1.05)/(x + 0.05))
   fn    <- dop.f(t)
   if (type == "mean") {
     fn <- 3/(max(fn) - min(fn)) * (fn - min(fn))
@@ -69,7 +69,7 @@ doppler.fn <- function(t,type) {
   return(NULL)
 }
 
-blip.fn <- function(t,type) {
+blip.fn <- function (t, type) {
   fn <- (0.32 + 0.6 * t + 0.3 * exp(-100 * (t - 0.3)^2)) * (t >= 0 & t <= 0.8) + (-0.28 + 0.6 * t + 0.3 * exp(-100 * (t - 1.3)^2)) * (t > 0.8 & t <= 1)
   if (type == "mean")
     return(fn)
@@ -78,7 +78,7 @@ blip.fn <- function(t,type) {
   return(NULL)
 }
 
-cor.fn <- function(t,type) {
+cor.fn <- function(t, type) {
   fn <- 623.87 * t^3 * (1 - 2 * t) * (t >= 0 & t <= 0.5) +
         187.161 * (0.125 - t^3) * t^4 * (t > 0.5 & t <= 0.8) +
         3708.470441 * (t - 1)^3 * (t > 0.8 & t <= 1)
@@ -91,7 +91,7 @@ cor.fn <- function(t,type) {
   return(NULL)
 }
 
-cblocks.fn <- function(t,type) {
+cblocks.fn <- function (t, type) {
   pos <- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)
   hgt <- 2.88/5 * c(4,(-5),3,(-4),5,(-4.2),2.1,4.3,(-3.1),2.1,(-4.2))
   fn  <- rep(0,length(t))
@@ -106,7 +106,7 @@ cblocks.fn <- function(t,type) {
   return(NULL)
 }
 
-texp.fn <- function(t,type) {
+texp.fn <- function (t, type) {
   fn <- 1e-04 + 4 * (exp(-550 * (t - 0.2)^2) +
         exp(-200 * (t - 0.5)^2) + exp(-950 * (t - 0.8)^2))
   if (type == "mean")
@@ -116,7 +116,7 @@ texp.fn <- function(t,type) {
   return(NULL)
 }
 
-cons.fn <- function(t,type) {
+cons.fn <- function (t, type) {
   fn <- rep(1,length(t))
   if (type == "mean")
     return(NULL)
@@ -125,7 +125,7 @@ cons.fn <- function(t,type) {
   return(NULL)
 }
 
-gaussian.1d <- function(args) {
+gaussian.1d <- function (args) {
   n      <- args$n
   rsnr   <- args$rsnr
   meanfn <- args$meanfn
@@ -145,7 +145,5 @@ gaussian.1d <- function(args) {
   
   meta  <- list(mu = mu)
   input <- list(x = x.data,sig.true = sig.true,sig.est = sig.est)
-  data  <- list(meta = meta,input = input)
-  
-  return(data)
+  return(list(meta = meta,input = input))
 } 

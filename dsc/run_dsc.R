@@ -16,8 +16,9 @@ matlab.exec <- "matlab -nodisplay -nodesktop"
 cat("Creating DSC.\n")
 dscr.path <- getwd()
 dsc_smash <- new_dsc("mean_function_estimation","output")
-source("data/R/datamarker.R")
+source("code/R/datamaker.R")
 source("code/R/scenarios.R")
+stop()
 source("methods.R")
 source("score.R")
 
@@ -31,3 +32,9 @@ cat(sprintf("Computation took %d seconds.\n",round(timing["elapsed"])))
 # --------------------
 cat("Saving DSC results to file.\n")
 save(list = c("dsc_smash","res"),file = "res.RData")
+
+# SESSION INFORMATION
+# -------------------
+# This is the version of R and the packages that were used to generate
+# these results.
+sessionInfo()
