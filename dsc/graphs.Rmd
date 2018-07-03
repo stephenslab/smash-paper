@@ -1,0 +1,73 @@
+---
+title: "Graphs"
+runtime: shiny
+output: html_document
+---
+
+The following code generates an RShiny app which displays boxplots of MISEs from the full simulation study comparing SMASH to other wavelet-based methods for denoising Gaussian data. As mentioned in the companion paper, the results for a variety of test functions (both mean and variance functions) and 2 signal-to-noise ratios (SNRs), 1 and 3, are presented here. 
+
+Scenarios denote a combination of mean function, SNR and variance function. Specifically, each scenario is named as [mean_function].[SNR].[variance_function], where the abbreviations are given by:
+Mean function:  
+Spikes - sp  
+Bumps - bump  
+Blocks - blk  
+Angles - ang  
+Doppler - dop  
+Blip - blip  
+Corner - cor 
+
+Variance function:  
+Constant function - v1  
+Triple exponential - v2  
+Doppler - v3  
+Bumps - v4  
+Clipped Blocks - v5  
+
+On the other hand, we also ran a variety of methods in the simulation study. The methods are abbreviated as follows:  
+EbayesThresh - ebayesthresh  
+BAMS - bams  
+BlockJS - blockjs 
+Neighblock - neighblock  
+SureShrink - sure  
+Bayesian Posterior Mean - postmean  
+TI thresholding - tithresh  
+SMASH - smash  
+
+In addition, EbayeThresh, BAMS, BlockJS, Neighblock, Sureshrink and Bayesian Posterior Mean all assume homoskedastic noise and use the Symm8 basis by default. TI thresholding was run with both the homoskedastic (tithresh.homo) using the Symm8 (.s8) basis, as well as an estimated variance using RMAD (tithresh.rmad) and SMASH (tithresh.smash), with both the Haar (.haar) and the Symm8 (.s8) bases. In addition, TI thresholding was also run with the true variance provided (tithresh.true) using both the Haar (.haar) and the Symm8 (.s8) bases.
+
+We ran SMASH with the homoskedatic (smash.homo) assumption using both Haar (haar) and Symm8 (.s8). In addition, SMASH was also run with the variance jointly estimated, using either the JASH procedure (smash.jash) or the ASH procedure (smash.haar and smash.s8 for the two different bases). Paralleling TI thresholding, we also ran SMASH with the true variance provided (smash.true) using both the Haar (.haar) and the Symm8 (.s8) bases.
+
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(dplyr)
+load("res.RData")
+scenario_names = as.character(unique(res$scenario))
+method_names = as.character(unique(res$method))
+#numeric_criteria = names(res)[unlist(lapply(res,is.numeric))]
+
+inputPanel(    
+    # Create the checkboxes and select them all by default
+    checkboxGroupInput("scen.subset", "Choose Scenarios", 
+                        choices  = scenario_names,
+                        selected = "sp.1.v2"),
+    
+    checkboxGroupInput("method.subset", "Choose Methods", 
+                        choices  = method_names,
+                        selected = method_names),
+    
+    selectInput("criteria", "Choose Criteria", 
+                        choices  = "mise",
+                        selected = "mise")
+)
+
+
+renderPlot({
+  res.filter = filter(res,scenario %in% input$scen.subset & method %in% input$method.subset)
+  print(input)
+  res.filter$value = res.filter[[input$criteria]]
+  ggplot(res.filter, aes(method, value, color = method)) + geom_boxplot() + facet_grid(.~scenario) + 
+    theme(axis.ticks = element_blank(), axis.text.x = element_blank())
+})
+```
+

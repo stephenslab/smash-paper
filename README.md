@@ -1,11 +1,8 @@
 # Source to reproduce results from Xing & Stephens (2016)
 
 This repository contains source code and data to reproduce some of the
-empirical results presented in
-[Xing & Stephens (2016)][smashr-preprint]. For additional source code,
-see the [dscr-smash][dscr-smash]
-repository. The new methods can be found in the
-[smashr package][smashr].
+empirical results presented in [Xing & Stephens (2016)][smashr-preprint].
+The new methods can be found in the [smashr package][smashr].
 
 If you find a bug, please post an [issue][issues].
 
@@ -20,7 +17,8 @@ signals.* [arXiv:1709.10066](http://arxiv.org/abs/1605.07787).
 
 ## License
 
-Copyright (c) 2016-2018, Zhengrong Xing.
+Copyright (c) 2016-2018, Zhengrong Xing, Peter Carbonetto and Matthew
+Stephens.
 
 All source code and software in this repository are made available
 under the terms of the

@@ -1,0 +1,31 @@
+notes
+=====
+
++ How long is run_dsc expected to run for?
+
++ Is ashr needed? It is mentioned in the README, but doesn't seem to
+  be used anywhere in the code.
+
++ Are any special MATLAB toolboxes needed?
+
++ I'm using R 3.4.3 and MATLAB R2016b (9.1.0.441655).
+
++ I'm using these R packages:
+
+   - AlgDesign 1.1-7.3
+   - ashr 2.2-7
+   - dscr 0.1-7
+   - EbayesThresh 1.4-12
+   - smashr 1.2-0
+   - wavethresh 4.6.8
+
++ I'm using these MATLAB packages:
+   - WaveLab 850
+   - WavDen (no version number is given)
+
++ Note that there was a bug in blockJS.m; I've included the MALTAB
+  code with the bug fix.m.
+
++ Steps I took to run code:
+   - Launch R.
+   - Make sure working directory is the root of the git repository.

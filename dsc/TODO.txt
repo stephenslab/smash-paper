@@ -1,0 +1,18 @@
+to do 
+=====
+
+* Merge this code with smash-paper, and re-organize.
+
+* Is graphs.Rmd needed? If so, add packages used in graphs.Rmd to
+  setup instructions.
+
+* Add sessionInfo() to README.
+
+* Fix system statements that use 'rm' command.
+
+* Add more verbose to running methods, particularly methods that call
+  MATLAB, so we know what is going on when things go wrong.
+
+* Add Wavelab and WavDen code to this repo.
+
+  
