@@ -9,7 +9,8 @@ to do
 
 * Rearrange scripts in analysis folder.
 
-* Add WavDen info, including license info, to README.
+* Add WavDen info, including license info, to README. Also mention
+  that a bug in blockJS.m was fixed.
 
 * Add Wavelab info, including license info, to README. Also point to
   instructions for building/installing MEX files.

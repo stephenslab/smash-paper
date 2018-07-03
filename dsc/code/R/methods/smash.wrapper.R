@@ -8,6 +8,6 @@
 #   determine the wavelet basis used.
 #
 # The return value is the estimated (posterior) mean function.
-smash.wrapper = function (input, args)
+smash.wrapper <- function (input, args)
   smash.gaus(input$x,filter.number = args$filter.number,family = args$family)
 
