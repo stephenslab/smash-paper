@@ -11,6 +11,9 @@ to do
 * Add more verbose to running methods, particularly methods that call
   MATLAB, so we know what is going on when things go wrong.
 
-* Add Wavelab and WavDen code to this repo.
+* Add WavDen info, including license info, to README.
 
-  
+* Add Wavelab info, including license info, to README. Also point to
+  instructions for building/installing MEX files.
+
+ 
