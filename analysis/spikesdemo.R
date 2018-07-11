@@ -1,6 +1,6 @@
-# TO DO: Explain here what this code does, and how to use it.
+# This script illustrates key features of the smash method on a small,
+# simulated data set.
 source("../code/plotting.R")
-# source("code_paper/sim/image.scale.R")
 
 # SET UP ENVIROMENT
 # -----------------
