@@ -122,11 +122,13 @@ p <- ggplot(data.frame(observed = wc.sim[4,],
 print(p)
 invisible(readline(prompt = "Press [enter] to continue analysis... "))
 
-# Plot ...
+# Plot the ground-truth signal (mean function) and the signals
+# recovered by the TI thresholding and smash methods.
 par(cex.axis = 0.8)
-plot(mu.sp,type = "l",lty = 2,ylim = c(-0.05,0.85),xlab = "",ylab = "")
-title(xlab = "position",ylab = "reconstructed mean",line = 4)
-lines(mu.ti,col = "blue")
-lines(mu.smash,col = "#FF8C00")
+plot(mu.sp,type = "l",col = "black",lwd = 2,xlab = "position",ylab = "",
+     ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu.ti,col = "dodgerblue",lwd = 1.5)
+lines(mu.smash,col = "orangered",lwd = 1.5)
+cat("Demo is over.\n")
 
 
