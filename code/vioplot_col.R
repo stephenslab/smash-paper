@@ -1,13 +1,12 @@
 # DISCLAIMER: This function is modified and adapted from the "vioplot"
-# function in package "vioplot", designed to be able to allow for
-# varying colors for the violin plots, as well as dealing with
-# horizontal violin plots in a more appealing manner.
-
+# function in package "vioplot". This function here is designed to be
+# able to allow for varying colors for the violin plots, as well as
+# dealing with horizontal violin plots in a more appealing manner.
 vioplot.col <-
-  function(x,...,range=1.5,h=NULL,ylim=NULL,names=NULL, horizontal=FALSE,
-           col="magenta", border="black", lty=1, lwd=1, rectCol="black",
-           colMed="white", pchMed=19, at, add=FALSE, wex=1,
-           drawRect=TRUE) {
+  function(x, ..., range = 1.5, h = NULL, ylim = NULL, names = NULL,
+           horizontal = FALSE, col = "magenta", border = "black", lty = 1,
+           lwd = 1, rectCol = "black", colMed = "white", pchMed = 19, at,
+           add = FALSE, wex = 1, drawRect = TRUE) {
       
   # process multiple datas
   datas <- list(x,...)
@@ -55,7 +54,6 @@ vioplot.col <-
     #       xmin = min(lower, data.min))
     #       ymax = max(upper, data.max))
     #
-    
     est.xlim <- c( min(lower[i], data.min), max(upper[i], data.max) )
     
     # estimate density curve
@@ -114,12 +112,14 @@ vioplot.col <-
     
     box()
     for(i in 1:n) {
+        
       # plot left/right density curve
       polygon( c(at[i]-height[[i]], rev(at[i]+height[[i]])),
                c(base[[i]], rev(base[[i]])),
                col = col[i], border=border, lty=lty, lwd=lwd)
       
       if(drawRect){
+          
         # plot IQR
         lines( at[c( i, i)], c(lower[i], upper[i]) ,lwd=lwd, lty=lty)
         
@@ -141,12 +141,14 @@ vioplot.col <-
     
     box()
     for(i in 1:n) {
+        
       # plot left/right density curve
       polygon( c(base[[i]], rev(base[[i]])),
                c(at[i]-height[[i]], rev(at[i]+height[[i]])),
                col = col[i], border=border, lty=lty, lwd=lwd)
       
       if(drawRect){
+          
         # plot IQR
         lines( c(lower[i], upper[i]), at[c(i,i)] ,lwd=lwd, lty=lty)
         
@@ -158,5 +160,5 @@ vioplot.col <-
       }
     }
   }
-  invisible (list( upper=upper, lower=lower, median=med, q1=q1, q3=q3))
+  invisible(list(upper = upper,lower = lower,median = med,q1 = q1,q3 = q3))
 }
