@@ -137,4 +137,3 @@ cat("Demo is over.\n")
 # version of R and the attached R packages, used to generate these
 # results.
 print(sessionInfo())
-

@@ -1,12 +1,14 @@
-#DISCLAIMER: This function is modified and adapted from the "vioplot" function  in package "vioplot", designed to be able to allow for varying colors for the violin plots, as well as
-#dealing with horizontal violin plots in a more appealing manner.
+# DISCLAIMER: This function is modified and adapted from the "vioplot"
+# function in package "vioplot", designed to be able to allow for
+# varying colors for the violin plots, as well as dealing with
+# horizontal violin plots in a more appealing manner.
 
-
-library(sm)
-vioplot.col <- function(x,...,range=1.5,h=NULL,ylim=NULL,names=NULL, horizontal=FALSE,
-                    col="magenta", border="black", lty=1, lwd=1, rectCol="black", colMed="white", pchMed=19, at, add=FALSE, wex=1,
-                    drawRect=TRUE)
-{
+vioplot.col <-
+  function(x,...,range=1.5,h=NULL,ylim=NULL,names=NULL, horizontal=FALSE,
+           col="magenta", border="black", lty=1, lwd=1, rectCol="black",
+           colMed="white", pchMed=19, at, add=FALSE, wex=1,
+           drawRect=TRUE) {
+      
   # process multiple datas
   datas <- list(x,...)
   n <- length(datas)
