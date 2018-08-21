@@ -21,3 +21,6 @@ to do
   graphs.Rmd to setup instructions.
 
 * Add brief comments to top of run_dsc.R to explain what it does.
+
+* Add text to top of spikesdemo.R explaining how this code accompanies
+  the paper.

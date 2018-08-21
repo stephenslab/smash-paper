@@ -1,0 +1,40 @@
+> source("spikesdemo.R")
+Generating data.
+Press [enter] to continue analysis...
+Running smash and TI thresholding on simulated data.
+Press [enter] to continue analysis...
+Press [enter] to continue analysis...
+Press [enter] to continue analysis...
+Demo is over.
+R version 3.4.3 (2017-11-30)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base
+
+other attached packages:
+[1] cowplot_0.9.3 ggplot2_3.0.0 scales_0.5.0  smashr_1.2-0  ashr_2.2-9
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_0.12.17      compiler_3.4.3    pillar_1.2.1      plyr_1.8.4
+ [5] bindr_0.1.1       bitops_1.0-6      iterators_1.0.9   digest_0.6.15
+ [9] tibble_1.4.2      gtable_0.2.0      lattice_0.20-35   pkgconfig_2.0.1
+[13] rlang_0.2.1       Matrix_1.2-12     foreach_1.4.4     parallel_3.4.3
+[17] bindrcpp_0.2.2    withr_2.1.2       dplyr_0.7.5       caTools_1.17.1
+[21] REBayes_1.3       grid_3.4.3        tidyselect_0.2.4  glue_1.2.0
+[25] data.table_1.11.4 R6_2.2.2          mixSQP_0.1-6      purrr_0.2.5
+[29] magrittr_1.5      codetools_0.2-15  MASS_7.3-48       assertthat_0.2.0
+[33] colorspace_1.4-0  labeling_0.3      wavethresh_4.6.8  Rmosek_8.0.69
+[37] lazyeval_0.2.1    pscl_1.5.2        doParallel_1.0.11 munsell_0.4.3
+[41] truncnorm_1.0-8   SQUAREM_2017.10-1
+Warning messages:
+1: package ‘ggplot2’ was built under R version 3.4.4
+2: package ‘cowplot’ was built under R version 3.4.4

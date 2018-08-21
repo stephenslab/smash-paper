@@ -131,4 +131,10 @@ lines(mu.ti,col = "dodgerblue",lwd = 1.5)
 lines(mu.smash,col = "orangered",lwd = 1.5)
 cat("Demo is over.\n")
 
+# SESSIONINFO
+# -----------
+# Print out information on the computing environment, including the
+# version of R and the attached R packages, used to generate these
+# results.
+print(sessionInfo())
 
