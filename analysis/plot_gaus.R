@@ -18,6 +18,9 @@ source("../code/vioplot_col.R")
 cat("Loading simulation results.\n")
 load("../output/gaus-dscr.RData")
 
+# PLOT #1
+# -------
+# Extract the data used to generate the first plot.
 homo.data.smash <-
   res[res$.id    == "sp.3.v1" &
       res$method == "smash.s8",]
@@ -39,8 +42,6 @@ homo.data <-
    res$method == "ebayesthresh" |
    res$method == "tithresh.homo.s8"),]
 
-# PLOT #1
-# -------
 # This reproduces Fig. 2 of the manuscript (comparison of accuracy of
 # estimated mean curves for data simulated with homoskedastic Gaussian
 # errors.)
@@ -72,23 +73,11 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
      scale_fill_manual(values = c("darkorange","dodgerblue","gold"),
                        guide = FALSE) +
      coord_flip() +
-     labs(x = "MISE",y = "") +
+     labs(x = "",y = "MISE") +
      theme(axis.line = element_blank(),
            axis.ticks.y = element_blank())
 print(p)
-        par(cex.axis = 0.75,cex.lab = 1,cex.sub = 1)
-vioplot.col(homo.data.smash$mise,
-            homo.data.smash.homo$mise,
-            homo.data.tithresh$mise,
-            homo.data.ebayes$mise,
-            homo.data.smash.true$mise,horizontal = TRUE,ylim = c(5,18),
-            col = c("magenta","gold","gold","gold","purple"))
-axis(2,1:5,las = 2,
-     labels = c("SMASH","SMASH (homo)","TI-thresholding (homo)",
-                "EbayesThresh (homo)","SMASH (true variance)"))
-title(xlab = "MISE", line = 3.5)
-abline(v = median(homo.data.smash$mise),lty = 3,col = 3)
-abline(h = 4.5, lty = 3)
+invisible(readline(prompt = "Press [enter] to continue analysis... "))
 
 stop()
 
