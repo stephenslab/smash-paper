@@ -191,8 +191,7 @@ strongly toward zero.
 
 Finally, we plot the ground-truth signal (the mean function, drawn as
 a black line) and the signals recovered by TI thresholding (light blue
-line) and SMASH (the red line). The TI thresholding estimate shows
-notable artifacts.
+line) and SMASH (the red line). 
 
 ```{r plot-mean-signal-vs-estimates, fig.height=5, fig.width=10}
 par(cex.axis = 1)
@@ -201,3 +200,8 @@ plot(mu.sp,type = "l",col = "black",lwd = 2,xlab = "position",ylab = "",
 lines(mu.ti,col = "dodgerblue",lwd = 2)
 lines(mu.smash,col = "orangered",lwd = 2)
 ```
+
+In this example, the smoothed signal from SMASH is noticeably more
+accurate than using TI thresholding (with variance estimated by
+running median absolute deviation, RMAD. The TI thresholding estimate
+shows notable artifacts.
