@@ -5,16 +5,18 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "About"
-      href: about.html
-    - text: "License"
-      href: license.html
   right:
     - icon: fa-github
-      href: https://github.com/jdblischak/workflowr
+      href: https://github.com/stephenslab/smash-paper
 output:
   workflowr::wflow_html:
-    toc: true
-    toc_float: true
-    theme: cosmo
+    toc: yes
+    toc_float: yes
+    theme: readable
     highlight: textmate
+    code_folding: none
+    lib_dir: site_libs
+    self_contained: no
+    include:
+      before_body: include/header.html
+      after_body: include/footer.html
