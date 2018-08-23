@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Zhengrong Xing, Peter Carbonetto and Matthew Stephens" />
+
+
+<title>Spikes demo</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">smash</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/smash-paper">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Spikes demo</h1>
+<h4 class="author"><em>Zhengrong Xing, Peter Carbonetto and Matthew Stephens</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-08-23</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(1)</code> </summary></p>
+<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/822ab98a675e4da6de03482bf33fd77ad52a97d1" target="_blank">822ab98</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    docs/figure/
+    Ignored:    dsc/code/R/
+    Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FCPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/LMIRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/MedRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/WPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
+
+Unstaged changes:
+    Modified:   code/misc.R
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/822ab98a675e4da6de03482bf33fd77ad52a97d1/analysis/spikesdemo.Rmd" target="_blank">822ab98</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-08-23
+</td>
+<td style="text-align:left;">
+wflow_publish(“spikesdemo.Rmd”)
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<p>This script illustrates key features of the smash method on a small, simulated data set.</p>
+<div id="set-up-environment" class="section level2">
+<h2>Set up environment</h2>
+<p>We begin by loading the ashr, smashr, scales, ggplot2 and cowplot packages, as well as some additional functions used in the code below.</p>
+<pre class="r"><code>library(ashr)
+library(smashr)
+library(scales)
+library(ggplot2)</code></pre>
+<pre><code>Warning: package &#39;ggplot2&#39; was built under R version 3.4.4</code></pre>
+<pre class="r"><code>suppressMessages(library(cowplot))</code></pre>
+<pre><code>Warning: package &#39;cowplot&#39; was built under R version 3.4.4</code></pre>
+<pre class="r"><code>source(&quot;../code/misc.R&quot;)</code></pre>
+</div>
+<div id="define-the-spikes-mean-function" class="section level2">
+<h2>Define the “spikes” mean function</h2>
+<p>Function <code>spike.f</code> defines the mean signal.</p>
+<pre class="r"><code>n &lt;- 1024
+t &lt;- 1:n/n
+spike.f &lt;-
+  function (x) (0.75 * exp(-500   * (x - 0.23)^2) +
+                1.5  * exp(-2000  * (x - 0.33)^2) +
+                3    * exp(-8000  * (x - 0.47)^2) +
+                2.25 * exp(-16000 * (x - 0.69)^2) +
+                0.5  * exp(-32000 * (x - 0.83)^2))
+mu.sp &lt;- spike.f(t)
+mu.sp &lt;- (1 + mu.sp)/5</code></pre>
+</div>
+<div id="simulate-data" class="section level2">
+<h2>Simulate data</h2>
+<p><em>Add text here.</em></p>
+<pre class="r"><code>pos &lt;- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)
+hgt &lt;- 2.88/5 * c(4,-5,3,-4,5,-4.2,2.1,4.3,-3.1,2.1,-4.2)
+sig.cb &lt;- rep(0,length(t))
+for (j in 1:length(pos)) 
+  sig.cb &lt;- sig.cb + (1 + sign(t - pos[j])) * (hgt[j]/2)
+sig.cb[sig.cb &lt; 0] &lt;- 0
+sig.cb &lt;- 0.1 + (sig.cb - min(sig.cb))/max(sig.cb)
+rsnr   &lt;- sqrt(3)
+sig.cb &lt;- sig.cb/mean(sig.cb) * sd(mu.sp)/rsnr^2
+x.sim  &lt;- rnorm(n,mu.sp,sig.cb)</code></pre>
+<p>Plot the simulated data set.</p>
+<pre class="r"><code>par(cex.axis = 0.8,cex.sub = 1,cex.lab = 1)
+plot(mu.sp,type = &#39;l&#39;,ylim = c(-0.05,1),xlab = &quot;position&quot;,
+     ylab = &quot;&quot;,lwd = 1.7,xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu.sp + 2*sig.cb,col = &quot;darkorange&quot;,lty = 5,lwd = 1.8)
+lines(mu.sp - 2*sig.cb,col = &quot;darkorange&quot;,lty = 5,lwd = 1.8)
+points(x.sim,cex = 0.7,pch = 16,col = &quot;darkblue&quot;)</code></pre>
+<p><img src="figure/spikesdemo.Rmd/plot-simulated-data-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="run-smash-and-ti-thresholding" class="section level2">
+<h2>Run SMASH and TI thresholding</h2>
+<p>Apply smash and translation invariant (TI) thresholding to the “spikes” data. Here, we run the TI thresholding twice—once when the standard deviation (s.d.) function is provided, and once when it is estimated using the MAD algorithm.</p>
+<pre class="r"><code>sig.est  &lt;- sqrt(2/(3 * (n - 2)) *
+                 sum((1/2 * x.sim[1:(n-2)] - x.sim[2:(n-1)] + x.sim[3:n])^2/2))
+mu.smash &lt;- smash(x.sim,family = &quot;DaubLeAsymm&quot;,filter.number = 8)
+mu.ti    &lt;- ti.thresh(x.sim,method = &quot;rmad&quot;,family = &quot;DaubLeAsymm&quot;,
+                      filter.number = 8)
+mu.ti.homo &lt;- ti.thresh(x.sim,sigma = sig.est,family = &quot;DaubLeAsymm&quot;,
+                        filter.number = 8)</code></pre>
+<p>Get the wavelet coefficients and their variances.</p>
+<pre class="r"><code>wc.sim     &lt;- titable(x.sim)$difftable
+wc.var.sim &lt;- titable(sig.cb^2)$sumtable
+wc.true    &lt;- titable(mu.sp)$difftable</code></pre>
+<p>Get shrunken estimates of the wavelet coefficients.</p>
+<pre class="r"><code>wc.sim.shrunk &lt;- vector(&quot;list&quot;,10)
+wc.pres       &lt;- vector(&quot;list&quot;,10)
+for(j in 0:(log2(n) - 1)){
+  wc.sim.shrunk[[j+1]] &lt;-
+    ash(wc.sim[j+2,],sqrt(wc.var.sim[j+2,]),prior = &quot;nullbiased&quot;,
+        pointmass = TRUE,mixsd = NULL,mixcompdist = &quot;normal&quot;,
+        gridmult = 2,df = NULL)$result
+  wc.pres[[j+1]] &lt;- 1/sqrt(wc.var.sim[j+2,])
+}</code></pre>
+</div>
+<div id="summarize-results" class="section level2">
+<h2>Summarize results</h2>
+<p>Plot the distribution of observed wavelet coefficients.</p>
+<pre class="r"><code>par(cex.axis = 0.8,cex.lab = 0.8)
+hist(wc.sim[4,],breaks = 2,xlab = &quot;observed wavelet coefficients&quot;,
+     xlim = c(-25,25),ylim = c(0,600),col = &quot;darkblue&quot;,xaxp = c(-25,25,10),
+     yaxp = c(0,600,6),main = &quot;&quot;)
+hist(wc.sim[10,],breaks = 40,add = TRUE,col = &quot;darkorange&quot;)</code></pre>
+<p><img src="figure/spikesdemo.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Plot the observed wavelet coefficients (at scales 1 and 7 only) vs. the “shrunken” wavelet coefficients estimated by adaptive shrinkage.</p>
+<pre class="r"><code>par(cex.axis = 0.8,cex.lab = 0.8)
+plot(c(),c(),xlab = &quot;observed wavelet coefficients&quot;,
+     ylab = &quot;shrunken wavelet coefficients&quot;,
+     xlim = c(-2.5,2.5),ylim = c(-2.5,2.5))
+abline(0,1,lty = 1,col = &quot;gray&quot;,lwd = 1)
+points(wc.sim[10,],wc.sim.shrunk[[9]]$PosteriorMean,pch = 20,cex = 0.6,
+       col = &quot;darkorange&quot;)
+points(wc.sim[4,],wc.sim.shrunk[[3]]$PosteriorMean,pch = 20,cex = 0.6,
+       col = &quot;darkblue&quot;)</code></pre>
+<p><img src="figure/spikesdemo.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Plot the observed wavelet coefficients (at scale 7 only) vs. the “shrunken” wavelet coefficients estimated by adaptive shrinkage, and how how the amount of shrinkage depends on the standard error (s.e.) in the observations.</p>
+<pre class="r"><code>wc.sig.3 &lt;- 1/wc.pres[[3]]
+p &lt;- ggplot(data.frame(observed = wc.sim[4,],
+                       shrunken = wc.sim.shrunk[[3]]$PosteriorMean,
+                       se       = wc.sig.3),
+            aes(x = observed,y = shrunken,col = se)) +
+  geom_point() +
+  xlim(c(-1,1)) +
+  ylim(c(-1,1)) +
+  scale_color_gradientn(colors = c(&quot;deepskyblue&quot;,&quot;darkblue&quot;)) +
+  theme_cowplot()
+print(p)</code></pre>
+<pre><code>Warning: Removed 3 rows containing missing values (geom_point).</code></pre>
+<p><img src="figure/spikesdemo.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Plot the ground-truth signal (mean function) and the signals recovered by the TI thresholding and smash methods.</p>
+<pre class="r"><code>par(cex.axis = 0.8)
+plot(mu.sp,type = &quot;l&quot;,col = &quot;black&quot;,lwd = 2,xlab = &quot;position&quot;,ylab = &quot;&quot;,
+     ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu.ti,col = &quot;dodgerblue&quot;,lwd = 1.5)
+lines(mu.smash,col = &quot;orangered&quot;,lwd = 1.5)</code></pre>
+<p><img src="figure/spikesdemo.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cat(&quot;Demo is over.\n&quot;)</code></pre>
+<pre><code>Demo is over.</code></pre>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.3 (2017-11-30)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] cowplot_0.9.3 ggplot2_3.0.0 scales_0.5.0  smashr_1.2-0  ashr_2.2-9   
+
+loaded via a namespace (and not attached):
+ [1] wavethresh_4.6.8  tidyselect_0.2.4  purrr_0.2.5      
+ [4] lattice_0.20-35   Rmosek_8.0.69     colorspace_1.4-0 
+ [7] htmltools_0.3.6   yaml_2.1.19       rlang_0.2.1      
+[10] R.oo_1.21.0       pillar_1.2.1      glue_1.2.0       
+[13] withr_2.1.2       R.utils_2.6.0     REBayes_1.3      
+[16] bindrcpp_0.2.2    foreach_1.4.4     plyr_1.8.4       
+[19] bindr_0.1.1       stringr_1.3.0     munsell_0.4.3    
+[22] gtable_0.2.0      workflowr_1.1.1   R.methodsS3_1.7.1
+[25] caTools_1.17.1    codetools_0.2-15  evaluate_0.10.1  
+[28] labeling_0.3      knitr_1.20        pscl_1.5.2       
+[31] doParallel_1.0.11 parallel_3.4.3    Rcpp_0.12.17     
+[34] backports_1.1.2   truncnorm_1.0-8   digest_0.6.15    
+[37] stringi_1.1.7     dplyr_0.7.5       grid_3.4.3       
+[40] rprojroot_1.3-2   tools_3.4.3       bitops_1.0-6     
+[43] magrittr_1.5      lazyeval_0.2.1    tibble_1.4.2     
+[46] whisker_0.3-2     pkgconfig_2.0.1   MASS_7.3-48      
+[49] Matrix_1.2-12     SQUAREM_2017.10-1 data.table_1.11.4
+[52] mixSQP_0.1-6      assertthat_0.2.0  rmarkdown_1.9    
+[55] iterators_1.0.9   R6_2.2.2          git2r_0.21.0     
+[58] compiler_3.4.3   </code></pre>
+</div>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
