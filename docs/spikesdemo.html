@@ -340,7 +340,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/297fcc1ab8049b72c32b2e7c8c3694b0f52ef5f1" target="_blank">297fcc1</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/3f6e340b7b0a802503f7a96bad4e225b01d082b9" target="_blank">3f6e340</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -406,6 +406,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/3f6e340b7b0a802503f7a96bad4e225b01d082b9/analysis/spikesdemo.Rmd" target="_blank">3f6e340</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-08-23
+</td>
+<td style="text-align:left;">
+wflow_publish(“spikesdemo.Rmd”)
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -501,7 +518,7 @@ rsnr   &lt;- sqrt(3)
 sig.cb &lt;- sig.cb/mean(sig.cb) * sd(mu.sp)/rsnr^2
 x.sim  &lt;- rnorm(n,mu.sp,sig.cb)</code></pre>
 <p>Plot the simulated data set.</p>
-<pre class="r"><code>par(cex.axis = 1,cex.lab = 1.5)
+<pre class="r"><code>par(cex.axis = 1,cex.lab = 1.25)
 plot(mu.sp,type = &#39;l&#39;,ylim = c(-0.05,1),xlab = &quot;position&quot;,
      ylab = &quot;&quot;,lwd = 1.7,xaxp = c(0,1024,4),yaxp = c(0,1,4))
 lines(mu.sp + 2*sig.cb,col = &quot;darkorange&quot;,lty = 5,lwd = 1.8)
@@ -556,7 +573,7 @@ mu.ti    &lt;- ti.thresh(x.sim,method = &quot;rmad&quot;,family = &quot;DaubLeAs
 <pre class="r"><code>wc.sim     &lt;- titable(x.sim)$difftable
 wc.var.sim &lt;- titable(sig.cb^2)$sumtable
 wc.true    &lt;- titable(mu.sp)$difftable</code></pre>
-<p>Get shrunken estimates of the wavelet coefficients.</p>
+<p>Get the shrunken estimates of the wavelet coefficients.</p>
 <pre class="r"><code>wc.sim.shrunk &lt;- vector(&quot;list&quot;,10)
 wc.pres       &lt;- vector(&quot;list&quot;,10)
 for(j in 0:(log2(n) - 1)){
@@ -570,7 +587,7 @@ for(j in 0:(log2(n) - 1)){
 <div id="summarize-results" class="section level2">
 <h2>Summarize results</h2>
 <p>Plot the distribution of the observed wavelet coefficients at a coarser scale (scale = 1, orange) and at a finer scale (scale = 7, dark blue).</p>
-<pre class="r"><code>par(cex.axis = 1,cex.lab = 1.5)
+<pre class="r"><code>par(cex.axis = 1,cex.lab = 1.25)
 hist(wc.sim[4,],breaks = 2,xlab = &quot;observed wavelet coefficients&quot;,
      xlim = c(-25,25),ylim = c(0,600),col = &quot;darkblue&quot;,xaxp = c(-25,25,10),
      yaxp = c(0,600,6),main = &quot;&quot;)
@@ -578,7 +595,7 @@ hist(wc.sim[10,],breaks = 40,add = TRUE,col = &quot;darkorange&quot;)</code></pr
 <p><img src="figure/spikesdemo.Rmd/plot-wc-histogram-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Observe that the scale = 7 WCs are much more concentrated near zero because the signal is smoother at this finer scale.</p>
 <p>Plot the observed wavelet coefficients (at scales 1 and 7 only) vs. the “shrunken” wavelet coefficients estimated by adaptive shrinkage.</p>
-<pre class="r"><code>par(cex.axis = 1,cex.lab = 1.5)
+<pre class="r"><code>par(cex.axis = 1,cex.lab = 1.25)
 plot(c(),c(),xlab = &quot;observed wavelet coefficients&quot;,
      ylab = &quot;shrunken wavelet coefficients&quot;,
      xlim = c(-2.5,2.5),ylim = c(-2.5,2.5))
@@ -588,6 +605,7 @@ points(wc.sim[10,],wc.sim.shrunk[[9]]$PosteriorMean,pch = 20,cex = 1,
 points(wc.sim[4,],wc.sim.shrunk[[3]]$PosteriorMean,pch = 20,cex = 1,
        col = &quot;darkblue&quot;)</code></pre>
 <p><img src="figure/spikesdemo.Rmd/wc-scatterplot-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Observe that the scale = 7 WCs are strongly shrunk toward zero, whereas the scale = 1 WCs are not shrunk nearly as much; SMASH infers from the data that the scale = 7 WCs are heavily concentrated around zero, and consequently SMASH shrinks them more strongly.</p>
 <p>Plot the observed wavelet coefficients (at scale 7 only) vs. the “shrunken” wavelet coefficients estimated by adaptive shrinkage, and how how the amount of shrinkage depends on the standard error (s.e.) in the observations.</p>
 <pre class="r"><code>wc.sig.3 &lt;- 1/wc.pres[[3]]
 p &lt;- ggplot(data.frame(observed = wc.sim[4,],
@@ -600,77 +618,15 @@ p &lt;- ggplot(data.frame(observed = wc.sim[4,],
   scale_color_gradientn(colors = c(&quot;deepskyblue&quot;,&quot;darkblue&quot;)) +
   theme_cowplot()
 print(p)</code></pre>
-<p><img src="figure/spikesdemo.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-1-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/04e9900cfa04c97adda63cec4f5ef4df2ed23116/docs/figure/spikesdemo.Rmd/unnamed-chunk-1-1.png" target="_blank">04e9900</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-08-23
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<p>The scale = 7 WCs are strongly shrunk toward zero, whereas the scale = 1 WCs are not shrunk nearly as much; SMASH infers from the data that the scale = 7 WCs are heavily concentrated around zero, and consequently SMASH shrinks them more strongly.</p>
-<p>Plot the ground-truth signal (mean function) and the signals recovered by the TI thresholding and smash methods.</p>
-<pre class="r"><code>par(cex.axis = 0.8)
+<p><img src="figure/spikesdemo.Rmd/wc-scatterplot-2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>From this plot, we see that SMASH shrinks WCs differently depending on their precision; specifically, WCs that are less precise—i.e., higher standard error (s.e.)—are shrunk more strongly toward zero.</p>
+<p>Finally, we plot the ground-truth signal (the mean function, drawn as a black line) and the signals recovered by TI thresholding (light blue line) and SMASH (the red line). The TI thresholding estimate shows notable artifacts.</p>
+<pre class="r"><code>par(cex.axis = 1)
 plot(mu.sp,type = &quot;l&quot;,col = &quot;black&quot;,lwd = 2,xlab = &quot;position&quot;,ylab = &quot;&quot;,
      ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4))
-lines(mu.ti,col = &quot;dodgerblue&quot;,lwd = 1.5)
-lines(mu.smash,col = &quot;orangered&quot;,lwd = 1.5)</code></pre>
-<p><img src="figure/spikesdemo.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of unnamed-chunk-2-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/04e9900cfa04c97adda63cec4f5ef4df2ed23116/docs/figure/spikesdemo.Rmd/unnamed-chunk-2-1.png" target="_blank">04e9900</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-08-23
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
-<pre class="r"><code>cat(&quot;Demo is over.\n&quot;)
-# Demo is over.</code></pre>
+lines(mu.ti,col = &quot;dodgerblue&quot;,lwd = 2)
+lines(mu.smash,col = &quot;orangered&quot;,lwd = 2)</code></pre>
+<p><img src="figure/spikesdemo.Rmd/plot-mean-signal-vs-estimates-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
