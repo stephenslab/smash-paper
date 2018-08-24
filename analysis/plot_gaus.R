@@ -167,13 +167,6 @@ abline(v = median(hetero.data.smash.2$mise), lty = 3, col = 3)
 abline(h = 4.5, lty = 3)
 abline(h = 6.5, lty = 3)
 
-#par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5, mar = c(6.1, 3.1, 4.1, 2.1))
-# plot(mu, type = 'l', ylim = c(0, 1), axes = FALSE, xlab = "", ylab = "")
-# lines(mu + 2* sd.fn.2, col = 2, lty = 5)
-# lines(mu - 2* sd.fn.2, col = 2, lty = 5)
-# axis(1, labels = FALSE, tick = FALSE)
-# axis(2)
-
 # SESSIONINFO
 # -----------
 # Print out information on the computing environment, including the

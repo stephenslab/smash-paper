@@ -26,3 +26,6 @@ to do
   the paper.
 
 + Convert plot_gaus.R script to an R Markdown file.
+
++ Remove vioplot_col.R if it is no longer needed.
+
