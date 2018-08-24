@@ -31,3 +31,5 @@ to do
 
 + Create PNGs showing the mean, variance & intensity functions using
   the plots from plot.gaussian.signals.R and plot.poisson.signals.R.
+
++ Polish up R Markdown file containing Shiny app.

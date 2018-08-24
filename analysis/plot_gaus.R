@@ -40,9 +40,9 @@ homo.data <-
    res$method == "ebayesthresh" |
    res$method == "tithresh.homo.s8"),]
 
-# This reproduces Fig. 2 of the manuscript (comparison of accuracy of
+# This reproduces Fig. 2 of the manuscript comparing the accuracy of
 # estimated mean curves for data simulated with homoskedastic Gaussian
-# errors.)
+# errors.
 pdat <-
   rbind(data.frame(method      = "smash",
                    method.type = "est",
@@ -77,35 +77,40 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
 print(p)
 invisible(readline(prompt = "Press [enter] to continue analysis... "))
 
+# PLOT #2
+# -------
 t = (1:1024)/1024
-
-hetero.data.smash = res[res$.id == "sp.3.v5" & res$method == "smash.s8" , ]
-hetero.data.smash.homo = res[res$.id == "sp.3.v5" &
-    res$method == "smash.homo.s8" , ]
-hetero.data.tithresh.homo = res[res$.id == "sp.3.v5" &
-    res$method == "tithresh.homo.s8" , ]
-hetero.data.tithresh.rmad = res[res$.id == "sp.3.v5" &
-    res$method == "tithresh.rmad.s8" , ]
-hetero.data.tithresh.smash = res[res$.id == "sp.3.v5" &
-    res$method == "tithresh.smash.s8" , ]
-hetero.data.tithresh.true = res[res$.id == "sp.3.v5" &
-    res$method == "tithresh.true.s8" , ]
-hetero.data.ebayes = res[res$.id == "sp.3.v5" &
-    res$method == "ebayesthresh" , ]
-hetero.data.smash.true = res[res$.id == "sp.3.v5" &
-    res$method == "smash.true.s8" , ]
-
-vioplot(hetero.data.smash$mise, hetero.data.tithresh.rmad$mise,
-        hetero.data.tithresh.smash$mise, hetero.data.smash.homo$mise,
-        hetero.data.tithresh.homo$mise, hetero.data.ebayes$mise,
-        hetero.data.smash.true$mise, hetero.data.tithresh.true$mise)
-
 mu = spikes.fn(t, "mean")
 sigma.ini = sqrt(cblocks.fn(t, "var"))
 sd.fn = sigma.ini/mean(sigma.ini) * sd(mu)/3
 
+par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5, mar = c(6.1, 3.1, 4.1, 2.1))
+plot(mu, type = 'l', ylim = c(0, 1), axes = FALSE, xlab = "", ylab = "")
+lines(mu + 2* sd.fn, col = 2, lty = 5)
+lines(mu - 2* sd.fn, col = 2, lty = 5)
+axis(1, labels = FALSE, tick = FALSE)
+axis(2)
+
+# Extract the data used to generate the second plot.
+hetero.data.smash <-
+  res[res$.id == "sp.3.v5" & res$method == "smash.s8",]
+hetero.data.smash.homo <-
+  res[res$.id == "sp.3.v5" & res$method == "smash.homo.s8",]
+hetero.data.tithresh.homo <-
+  res[res$.id == "sp.3.v5" & res$method == "tithresh.homo.s8",]
+hetero.data.tithresh.rmad <-
+  res[res$.id == "sp.3.v5" & res$method == "tithresh.rmad.s8",]
+hetero.data.tithresh.smash <-
+  res[res$.id == "sp.3.v5" & res$method == "tithresh.smash.s8",]
+hetero.data.tithresh.true <-
+  res[res$.id == "sp.3.v5" & res$method == "tithresh.true.s8",]
+hetero.data.ebayes <-
+  res[res$.id == "sp.3.v5" & res$method == "ebayesthresh",]
+hetero.data.smash.true <-
+  res[res$.id == "sp.3.v5" & res$method == "smash.true.s8",]
+
 #horizontal
-par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5,
+par(cex.axis = 1, cex.lab = 1, cex.sub = 1,
     mar = c(6.1, 11.1, 4.1, 0.5), mgp = c(3, 1.5, 0))
 vioplot.col(hetero.data.smash$mise, hetero.data.tithresh.rmad$mise,
             hetero.data.tithresh.smash$mise, hetero.data.tithresh.true$mise,
@@ -122,15 +127,6 @@ title(xlab = "MISE", line = 4)
 abline(v = median(hetero.data.smash$mise), lty = 3, col = 3)
 abline(h = 4.5, lty = 3)
 abline(h = 6.5, lty = 3)
-
-stop()
-
-par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5, mar = c(6.1, 3.1, 4.1, 2.1))
-plot(mu, type = 'l', ylim = c(0, 1), axes = FALSE, xlab = "", ylab = "")
-lines(mu + 2* sd.fn, col = 2, lty = 5)
-lines(mu - 2* sd.fn, col = 2, lty = 5)
-axis(1, labels = FALSE, tick = FALSE)
-axis(2)
 
 stop()
 
