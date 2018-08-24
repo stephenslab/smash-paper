@@ -102,6 +102,8 @@ invisible(readline(prompt = "Press [enter] to continue analysis... "))
 
 # PLOT THE SIGNAL VARIANCES
 # -------------------------
+# These are rescaled in the simulations to achieve the desired signal
+# to noise ratios.
 plot(t,var1,xlab = "",ylab = "",ylim = c(0,1),type = "l",
      main = "Constant variance function")
 invisible(readline(prompt = "Press [enter] to continue analysis... "))
