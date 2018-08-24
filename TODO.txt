@@ -29,3 +29,5 @@ to do
 
 + Remove vioplot_col.R if it is no longer needed.
 
++ Create PNGs showing the mean, variance & intensity functions using
+  the plots from plot.gaussian.signals.R and plot.poisson.signals.R.
