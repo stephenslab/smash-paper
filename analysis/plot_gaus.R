@@ -77,8 +77,6 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
 print(p)
 invisible(readline(prompt = "Press [enter] to continue analysis... "))
 
-stop()
-
 t = (1:1024)/1024
 
 hetero.data.smash = res[res$.id == "sp.3.v5" & res$method == "smash.s8" , ]
@@ -125,12 +123,16 @@ abline(v = median(hetero.data.smash$mise), lty = 3, col = 3)
 abline(h = 4.5, lty = 3)
 abline(h = 6.5, lty = 3)
 
+stop()
+
 par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5, mar = c(6.1, 3.1, 4.1, 2.1))
 plot(mu, type = 'l', ylim = c(0, 1), axes = FALSE, xlab = "", ylab = "")
 lines(mu + 2* sd.fn, col = 2, lty = 5)
 lines(mu - 2* sd.fn, col = 2, lty = 5)
 axis(1, labels = FALSE, tick = FALSE)
 axis(2)
+
+stop()
 
 hetero.data.smash.2 = res[res$.id == "cor.3.v3" & res$method == "smash.s8" , ]
 hetero.data.smash.homo.2 = res[res$.id == "cor.3.v3" &
