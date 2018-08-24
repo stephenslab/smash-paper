@@ -1,4 +1,4 @@
-#This script contains some useful code for creating the plots.
+# This file defines a few functions used in some of the analyses.
 
 # Interleave two vectors
 # @param x,y: two vectors of the same length

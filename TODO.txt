@@ -22,5 +22,7 @@ to do
 
 * Add brief comments to top of run_dsc.R to explain what it does.
 
-* Add text to top of spikesdemo.R explaining how this code accompanies
+* Add text to top of spikesdemo.R explaining how this code relates to
   the paper.
+
++ Convert plot_gaus.R script to an R Markdown file.
