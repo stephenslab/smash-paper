@@ -1,5 +1,15 @@
-# This file defines some of the mean and variance functions used to
-# simulate data sets.
+# This file defines some of the mean, variance and intensity functions
+# used to simulate Gaussian and Poisson data sets.
+
+spike.f <- function(x)
+  (0.75 * exp(-500   * (x - 0.23)^2) +
+   1.5  * exp(-2000  * (x - 0.33)^2) +
+   3    * exp(-8000  * (x - 0.47)^2) + 
+   2.25 * exp(-16000 * (x - 0.69)^2) +
+   0.5  * exp(-32000 * (x - 0.83)^2))
+
+dop.f <- function(x)
+  sqrt(x * (1 - x)) * sin((2 * pi * 1.05)/(x + 0.05))
 
 cblocks.fn <- function(t, type) {
   pos = c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)

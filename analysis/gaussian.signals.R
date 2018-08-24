@@ -1,19 +1,15 @@
 # This script creates plots showing the mean and variance functions
-# used to simulate the data.
+# used to simulate the Gaussian data.
 
 # SCRIPT PARAMETERS
 # -----------------
 n = 1024
 t = 1:n/n
 
-# GENERATE THE SIGNALS
-# --------------------
-spike.f = function(x)
-  (0.75 * exp(-500 * (x - 0.23)^2) +
-   1.5  * exp(-2000 * (x - 0.33)^2) +
-   3    * exp(-8000 * (x - 0.47)^2) + 
-   2.25 * exp(-16000 * (x - 0.69)^2) +
-   0.5 * exp(-32000 * (x - 0.83)^2))
+# GENERATE THE TRUE SIGNALS
+# -------------------------
+# Some of the mean and variance functions are defined in signals.R.
+source("../code/signals.R")
 mu.s = spike.f(t)
 
 pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
@@ -23,7 +19,6 @@ mu.b = rep(0, n)
 for (j in 1:length(pos))
   mu.b = mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
 
-dop.f      = function(x) sqrt(x * (1 - x)) * sin((2 * pi * 1.05)/(x + 0.05))
 mu.dop     = dop.f(t)
 mu.dop     = 3/(max(mu.dop) - min(mu.dop)) * (mu.dop - min(mu.dop))
 mu.dop.var = 10 * dop.f(t)
