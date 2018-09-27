@@ -13,7 +13,11 @@ Main text
 + Sec. 2, Background: mostly complete, except for a few comments that
   need to be addressed.
 
-+ 
++ Sec. 3, Methods: complete.
+
++ Sec. 4, Results
+
++ Sec. 4.1, Illustration:
 
 Supplement
 ----------
