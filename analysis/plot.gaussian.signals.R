@@ -81,19 +81,19 @@ var5 = var5/max(var5)
 # PLOT THE SIGNAL MEANS
 # ---------------------
 plot(t,mu.sp,xlab = "",ylab = "",type = "l",main = "Spikes mean function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,mu.bump,xlab = "",ylab = "",type = "l",main = "Bumps mean function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,mu.blk,xlab = "",ylab = "",type = "l",main = "Blocks mean function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,mu.ang,xlab = "",ylab = "",type = "l",main = "Angles mean function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,mu.dop,xlab = "",ylab = "",type = "l",main = "Doppler mean function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,mu.blip,xlab = "",ylab = "",type = "l",main = "Blip mean function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,mu.cor,xlab = "",ylab = "",type = "l",main = "Corner mean function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 
 # PLOT THE SIGNAL VARIANCES
 # -------------------------
@@ -101,12 +101,12 @@ invisible(readline(prompt = "Press [enter] to continue analysis... "))
 # to noise ratios.
 plot(t,var1,xlab = "",ylab = "",ylim = c(0,1),type = "l",
      main = "Constant variance function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,var2,xlab = "",ylab = "",type = "l",
      main = "Triple exponential variance function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,var3,xlab = "",ylab = "",type = "l",main = "Doppler variance function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,var4,xlab = "",ylab = "",type = "l",main = "Bumps variance function")
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 plot(t,var5,xlab = "",ylab = "",type = "l",main = "Clipped variance function")
