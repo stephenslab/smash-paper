@@ -316,7 +316,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-08-23</p>
+<p><strong>Last updated:</strong> 2018-09-27</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -340,10 +340,11 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/c4b2d0b1dc31c513ca7b61af1c310ea9f9f13c1a" target="_blank">c4b2d0b</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/3d5c837c730f4a9d920f9f4960d09df14ce37707" target="_blank">3d5c837</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    analysis/figure/
     Ignored:    dsc/code/R/
     Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
@@ -373,12 +374,6 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
-Untracked files:
-    Untracked:  analysis/spikesdemo.R
-
-Unstaged changes:
-    Modified:   code/misc.R
-
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
@@ -406,6 +401,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/3d5c837c730f4a9d920f9f4960d09df14ce37707/analysis/spikesdemo.Rmd" target="_blank">3d5c837</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-09-27
+</td>
+<td style="text-align:left;">
+wflow_publish(“spikesdemo.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/af743b71ce106c3260cdd79ae28432c58655890f/analysis/spikesdemo.Rmd" target="_blank">af743b7</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-09-27
+</td>
+<td style="text-align:left;">
+A few minor revisions to the spikes demo.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -668,7 +697,7 @@ Peter Carbonetto
 </tbody>
 </table>
 <p></details></p>
-<p>Observe that the scale = 7 WCs are much more concentrated near zero because the signal is smoother at this finer scale.</p>
+<p>Observe that the scale = 7 WCs (dark blue) are much more concentrated near zero because the signal is smoother at this finer scale.</p>
 <p>Plot the observed wavelet coefficients (at scales 1 and 7 only) vs. the “shrunken” wavelet coefficients estimated by adaptive shrinkage.</p>
 <pre class="r"><code>par(cex.axis = 1,cex.lab = 1.25)
 plot(c(),c(),xlab = &quot;observed wavelet coefficients&quot;,
@@ -710,8 +739,8 @@ Peter Carbonetto
 </tbody>
 </table>
 <p></details></p>
-<p>Observe that the scale = 7 WCs are strongly shrunk toward zero, whereas the scale = 1 WCs are not shrunk nearly as much; SMASH infers from the data that the scale = 7 WCs are heavily concentrated around zero, and consequently SMASH shrinks them more strongly.</p>
-<p>Plot the observed wavelet coefficients (at scale 7 only) vs. the “shrunken” wavelet coefficients estimated by adaptive shrinkage, and how how the amount of shrinkage depends on the standard error (s.e.) in the observations.</p>
+<p>Observe that the scale = 7 WCs (dark blue) are strongly shrunk toward zero, whereas the scale = 1 WCs (orange) are not shrunk nearly as much; SMASH infers from the data that the scale = 7 WCs are heavily concentrated around zero, and consequently SMASH shrinks them more strongly.</p>
+<p>Plot the observed wavelet coefficients (at scale 7 only) vs. the “shrunken” wavelet coefficients estimated by adaptive shrinkage in order to see how the amount of shrinkage depends on the standard error (s.e.) in the observations.</p>
 <pre class="r"><code>wc.sig.3 &lt;- 1/wc.pres[[3]]
 p &lt;- ggplot(data.frame(observed = wc.sim[4,],
                        shrunken = wc.sim.shrunk[[3]]$PosteriorMean,
@@ -754,13 +783,13 @@ Peter Carbonetto
 </tbody>
 </table>
 <p></details></p>
-<p>From this plot, we see that SMASH shrinks WCs differently depending on their precision; specifically, WCs that are less precise—i.e., higher standard error (s.e.)—are shrunk more strongly toward zero.</p>
+<p>From this plot, it is evident that SMASH shrinks WCs differently depending on their precision; specifically, WCs that are less precise—i.e., higher standard error (s.e.)—are shrunk more strongly toward zero.</p>
 <p>Finally, we plot the ground-truth signal (the mean function, drawn as a black line) and the signals recovered by TI thresholding (light blue line) and SMASH (the red line).</p>
 <pre class="r"><code>par(cex.axis = 1)
-plot(mu.sp,type = &quot;l&quot;,col = &quot;black&quot;,lwd = 2,xlab = &quot;position&quot;,ylab = &quot;&quot;,
+plot(mu.sp,type = &quot;l&quot;,col = &quot;black&quot;,lwd = 3,xlab = &quot;position&quot;,ylab = &quot;&quot;,
      ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4))
-lines(mu.ti,col = &quot;dodgerblue&quot;,lwd = 2)
-lines(mu.smash,col = &quot;orangered&quot;,lwd = 2)</code></pre>
+lines(mu.ti,col = &quot;dodgerblue&quot;,lwd = 3)
+lines(mu.smash,col = &quot;orangered&quot;,lwd = 3)</code></pre>
 <p><img src="figure/spikesdemo.Rmd/plot-mean-signal-vs-estimates-1.png" width="960" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of plot-mean-signal-vs-estimates-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -792,7 +821,7 @@ Peter Carbonetto
 </tbody>
 </table>
 <p></details></p>
-<p>In this example, the smoothed signal from SMASH is noticeably more accurate than using TI thresholding (with variance estimated by running median absolute deviation, RMAD. The TI thresholding estimate shows notable artifacts.</p>
+<p>In this example, the smoothed signal from SMASH is noticeably more accurate than using TI thresholding (in which the variance is estimated by running the median absolute deviation, or “RMAD”, method). The TI thresholding estimate shows notable artifacts.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
@@ -817,7 +846,7 @@ Peter Carbonetto
 # loaded via a namespace (and not attached):
 #  [1] wavethresh_4.6.8  tidyselect_0.2.4  purrr_0.2.5      
 #  [4] lattice_0.20-35   Rmosek_8.0.69     colorspace_1.4-0 
-#  [7] htmltools_0.3.6   yaml_2.1.19       rlang_0.2.1      
+#  [7] htmltools_0.3.6   yaml_2.2.0        rlang_0.2.1      
 # [10] R.oo_1.21.0       pillar_1.2.1      glue_1.2.0       
 # [13] withr_2.1.2       R.utils_2.6.0     REBayes_1.3      
 # [16] bindrcpp_0.2.2    foreach_1.4.4     plyr_1.8.4       
@@ -825,14 +854,14 @@ Peter Carbonetto
 # [22] gtable_0.2.0      workflowr_1.1.1   R.methodsS3_1.7.1
 # [25] caTools_1.17.1    codetools_0.2-15  evaluate_0.10.1  
 # [28] labeling_0.3      knitr_1.20        pscl_1.5.2       
-# [31] doParallel_1.0.11 parallel_3.4.3    Rcpp_0.12.17     
-# [34] backports_1.1.2   truncnorm_1.0-8   digest_0.6.15    
+# [31] doParallel_1.0.11 parallel_3.4.3    Rcpp_0.12.18     
+# [34] backports_1.1.2   truncnorm_1.0-8   digest_0.6.16    
 # [37] stringi_1.1.7     dplyr_0.7.5       grid_3.4.3       
 # [40] rprojroot_1.3-2   tools_3.4.3       bitops_1.0-6     
 # [43] magrittr_1.5      lazyeval_0.2.1    tibble_1.4.2     
 # [46] whisker_0.3-2     pkgconfig_2.0.1   MASS_7.3-48      
 # [49] Matrix_1.2-12     SQUAREM_2017.10-1 data.table_1.11.4
-# [52] mixSQP_0.1-6      assertthat_0.2.0  rmarkdown_1.9    
+# [52] mixSQP_0.1-17     assertthat_0.2.0  rmarkdown_1.9    
 # [55] iterators_1.0.9   R6_2.2.2          git2r_0.21.0     
 # [58] compiler_3.4.3</code></pre>
 </div>
