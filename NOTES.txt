@@ -15,9 +15,13 @@ Main text
 
 + Sec. 3, Methods: complete.
 
-+ Sec. 4, Results
++ Sec. 4, Results: Need to fill out the beginning of this section.
 
-+ Sec. 4.1, Illustration:
++ Sec. 4.1, Illustration: Mostly complete, except for a couple
+  comments that need to be addressed. Source code accompanying this
+  section: spikesdemo.Rmd.
+
++ Sec. 4.2, Gaussian mean estimation: 
 
 Supplement
 ----------
