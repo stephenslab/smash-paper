@@ -2,3 +2,18 @@ Notes
 =====
 
 This is a my summary of the current state of the manuscript.
+
+Main text
+---------
++ Title & abstract: complete.
+
++ Sec. 1, Introduction: mostly complete (only one comment to be
+  addressed).
+
++ Sec. 2, Background: mostly complete, except for a few comments that
+  need to be addressed.
+
++ 
+
+Supplement
+----------
