@@ -196,7 +196,7 @@ line) and SMASH (the red line).
 
 ```{r plot-mean-signal-vs-estimates, fig.height=5, fig.width=10}
 par(cex.axis = 1)
-plot(mu.sp,type = "l",col = "black",lwd = ,xlab = "position",ylab = "",
+plot(mu.sp,type = "l",col = "black",lwd = 3,xlab = "position",ylab = "",
      ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4))
 lines(mu.ti,col = "dodgerblue",lwd = 3)
 lines(mu.smash,col = "orangered",lwd = 3)
