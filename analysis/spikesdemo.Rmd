@@ -49,7 +49,7 @@ Simulate data
 
 Simulate the noisy observations from the normal distribution with
 means that are given by the "spikes" function, and with
-spatially-structured variances.
+spatially-structured variances given by the "clipped blocks" function.
 
 ```{r simulate-data}
 pos <- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)

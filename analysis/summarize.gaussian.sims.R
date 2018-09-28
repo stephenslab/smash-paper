@@ -1,6 +1,6 @@
 # TO DO: Explain here what this script does, and how to use it.
 #
-# TO DO: Change the name of this file.
+# TO DO: (Perhaps) change the name of this file.
 #
 # SET UP ENVIROMENT
 # -----------------
@@ -18,6 +18,11 @@ load("../output/gaus-dscr.RData")
 
 # PLOT #1
 # -------
+# This reproduces the plot in Fig. 2 of the manuscript comparing the
+# accuracy of estimated mean curves in the data sets simulated from
+# the "spikes" mean function with constant variance.  function.
+cat("Generating the first plot.\n")
+
 # Extract the data used to generate the first plot.
 homo.data.smash <-
   res[res$.id    == "sp.3.v1" &
@@ -40,9 +45,7 @@ homo.data <-
    res$method == "ebayesthresh" |
    res$method == "tithresh.homo.s8"),]
 
-# This reproduces Fig. 2 of the manuscript comparing the accuracy of
-# estimated mean curves for data simulated with homoskedastic Gaussian
-# errors.
+# Transform these data into a data frame suitable for ggplot2.
 pdat <-
   rbind(data.frame(method      = "smash",
                    method.type = "est",
@@ -64,6 +67,8 @@ pdat <-
             method = factor(method,
                             names(sort(tapply(pdat$mise,pdat$method,mean),
                                        decreasing = TRUE))))
+
+# Create the combined boxplot and violin plot using ggplot2.
 p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
      geom_violin(fill = "skyblue",color = "skyblue") +
      geom_boxplot(width = 0.15,outlier.shape = NA) +
@@ -75,21 +80,12 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
      theme(axis.line = element_blank(),
            axis.ticks.y = element_blank())
 print(p)
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
 
 # PLOT #2
 # -------
-t = (1:1024)/1024
-mu = spikes.fn(t, "mean")
-sigma.ini = sqrt(cblocks.fn(t, "var"))
-sd.fn = sigma.ini/mean(sigma.ini) * sd(mu)/3
-
-par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5, mar = c(6.1, 3.1, 4.1, 2.1))
-plot(mu, type = 'l', ylim = c(0, 1), axes = FALSE, xlab = "", ylab = "")
-lines(mu + 2* sd.fn, col = 2, lty = 5)
-lines(mu - 2* sd.fn, col = 2, lty = 5)
-axis(1, labels = FALSE, tick = FALSE)
-axis(2)
+# TO DO: Explain here what is shown in the second plot.
+cat("Generating the second plot.\n")
 
 # Extract the data used to generate the second plot.
 hetero.data.smash <-
@@ -110,6 +106,8 @@ hetero.data.smash.true <-
   res[res$.id == "sp.3.v5" & res$method == "smash.true.s8",]
 
 #horizontal
+library(vioplot)
+source("../code/vioplot_col.R")
 par(cex.axis = 1, cex.lab = 1, cex.sub = 1,
     mar = c(6.1, 11.1, 4.1, 0.5), mgp = c(3, 1.5, 0))
 vioplot.col(hetero.data.smash$mise, hetero.data.tithresh.rmad$mise,
@@ -127,10 +125,19 @@ title(xlab = "MISE", line = 4)
 abline(v = median(hetero.data.smash$mise), lty = 3, col = 3)
 abline(h = 4.5, lty = 3)
 abline(h = 6.5, lty = 3)
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
+
+# SESSIONINFO
+# -----------
+# Print out information on the computing environment, including the
+# version of R and the attached R packages, used to generate these
+# results.
+cat("Retrieving session information.\n")
+print(sessionInfo())
 
 stop()
 
-hetero.data.smash.2 = res[res$.id == "cor.3.v3" & res$method == "smash.s8" , ]
+hetero.data.smash.2 = res[res$.id == "cor.3.v3" & res$method == "smash.s8",]
 hetero.data.smash.homo.2 = res[res$.id == "cor.3.v3" &
     res$method == "smash.homo.s8" , ]
 hetero.data.tithresh.homo.2 = res[res$.id == "cor.3.v3" &
@@ -164,10 +171,3 @@ title(xlab = "MISE", line = 4)
 abline(v = median(hetero.data.smash.2$mise), lty = 3, col = 3)
 abline(h = 4.5, lty = 3)
 abline(h = 6.5, lty = 3)
-
-# SESSIONINFO
-# -----------
-# Print out information on the computing environment, including the
-# version of R and the attached R packages, used to generate these
-# results.
-print(sessionInfo())

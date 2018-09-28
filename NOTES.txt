@@ -19,9 +19,12 @@ Main text
 
 + Sec. 4.1, Illustration: Mostly complete, except for a couple
   comments that need to be addressed. Source code accompanying this
-  section: spikesdemo.Rmd.
+  section: analysis/spikesdemo.Rmd (also code/misc.R).
 
-+ Sec. 4.2, Gaussian mean estimation: 
++ Sec. 4.2: Simulations: Need to fill out the beginning of this
+  subsection.
+
++ Sec. 4.2.1, Gaussian mean estimation: 
 
 Supplement
 ----------
