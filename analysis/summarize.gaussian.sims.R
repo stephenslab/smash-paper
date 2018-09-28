@@ -105,26 +105,47 @@ hetero.data.ebayes <-
 hetero.data.smash.true <-
   res[res$.id == "sp.3.v5" & res$method == "smash.true.s8",]
 
-#horizontal
-library(vioplot)
-source("../code/vioplot_col.R")
-par(cex.axis = 1, cex.lab = 1, cex.sub = 1,
-    mar = c(6.1, 11.1, 4.1, 0.5), mgp = c(3, 1.5, 0))
-vioplot.col(hetero.data.smash$mise, hetero.data.tithresh.rmad$mise,
-            hetero.data.tithresh.smash$mise, hetero.data.tithresh.true$mise,
-            hetero.data.smash.homo$mise, hetero.data.ebayes$mise,
-            hetero.data.smash.true$mise, ylim = c(10, 80), horizontal = TRUE,
-            names=NULL, col = c("magenta", rep("red", 3), rep("gold", 2),
-                            "purple"))
-par(lheight = 0.8)
-axis(side = 2, at = 1:7,
-     labels = c("SMASH", "TI-thresh\nRMAD variance",
-         "TI-thresh\nSMASH variance", "TI-thresh\ntrue variance",
-         "SMASH\nhomo", "EbayesThresh\nhomo", "SMASH\ntrue variance"), las = 2)
-title(xlab = "MISE", line = 4)
-abline(v = median(hetero.data.smash$mise), lty = 3, col = 3)
-abline(h = 4.5, lty = 3)
-abline(h = 6.5, lty = 3)
+# Transform these data into a data frame suitable for ggplot2.
+pdat <-
+  rbind(data.frame(method      = "smash",
+                   method.type = "est",
+                   mise        = hetero.data.smash$mise),
+        data.frame(method      = "smash.homo",
+                   method.type = "homo",
+                   mise        = hetero.data.smash.homo$mise),
+        data.frame(method      = "tithresh.rmad",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.rmad$mise),
+        data.frame(method      = "tithresh.smash",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.smash$mise),
+        data.frame(method      = "tithresh.true",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.true$mise),
+        data.frame(method      = "ebayesthresh",
+                   method.type = "homo",
+                   mise        = hetero.data.ebayes$mise),
+        data.frame(method      = "smash.true",
+                   method.type = "true",
+                   mise        = hetero.data.smash.true$mise))
+pdat <-
+  transform(pdat,
+            method = factor(method,
+                            names(sort(tapply(pdat$mise,pdat$method,mean),
+                                       decreasing = TRUE))))
+
+# Create the combined boxplot and violin plot using ggplot2.
+p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
+     geom_violin(fill = "skyblue",color = "skyblue") +
+     geom_boxplot(width = 0.15,outlier.shape = NA) +
+     scale_fill_manual(values=c("darkorange","dodgerblue","limegreen","gold"),
+                       guide = FALSE) +
+     coord_flip() +
+     scale_y_continuous(breaks = seq(10,70,10)) +
+     labs(x = "",y = "MISE") +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+print(p)
 invisible(readline(prompt = "Press [enter] to continue plotting... "))
 
 # SESSIONINFO
