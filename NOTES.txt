@@ -21,10 +21,12 @@ Main text
   comments that need to be addressed. Source code accompanying this
   section: analysis/spikesdemo.Rmd (also code/misc.R).
 
-+ Sec. 4.2: Simulations: Need to fill out the beginning of this
++ Sec. 4.2, Simulations: Need to fill out the beginning of this
   subsection.
 
-+ Sec. 4.2.1, Gaussian mean estimation: NEED TO WORK ON THIS.
++ Sec. 4.2.1, Gaussian mean estimation: NEED TO WORK ON THIS.  Source
+  code accompanying this section: analysis/gaussian.mean.est.Rmd (also
+  code/signals.R). Data files used: output/gaus-dscr.RData.
 
 + Sec. 4.2.2, Gaussian variance estimation: NEED TO WORK ON THIS.
 

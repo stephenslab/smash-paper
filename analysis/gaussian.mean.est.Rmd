@@ -4,7 +4,7 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-TO DO: Give overview of this report.
+*TO DO: Give overview of this report.*
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
 Load the ggplot2 and cowplot packages, and the functions definining
 the mean and variances used to simulate the data.
 
-```{r load-pkgs}
+```{r load-pkgs, message=FALSE, warning=FALSE}
 library(ggplot2)
 library(cowplot)
 source("../code/signals.R")
@@ -29,13 +29,13 @@ Load the results of the simulation experiments.
 load("../output/gaus-dscr.RData")
 ```
 
-## Summarize results on data sets with constant variances
+## Simulated data with constant variances
 
 This plot reproduces Fig. 2 of the manuscript comparing the
 accuracy of estimated mean curves in the data sets simulated from
 the "Spikes" mean function with constant variance.
 
-First extract the data used to generate this plot.
+First, extract the results used to generate this plot.
 
 ```{r plot-1-extract-data}
 homo.data.smash <-
@@ -60,9 +60,9 @@ homo.data <-
    res$method == "tithresh.homo.s8"),]
 ```
 
-Transform these data into a data frame suitable for ggplot2.
+Transform these results into a data frame suitable for ggplot2.
 
-```{r plot-2-transform-data}
+```{r plot-1-transform-data}
 pdat <-
   rbind(data.frame(method      = "smash",
                    method.type = "est",
@@ -88,7 +88,7 @@ pdat <-
 
 Create the combined boxplot and violin plot using ggplot2.
 
-```{r plot-1-create}
+```{r plot-1-create, fig.height=4, fig.width=5}
 p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
      geom_violin(fill = "skyblue",color = "skyblue") +
      geom_boxplot(width = 0.15,outlier.shape = NA) +
@@ -102,3 +102,192 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
 print(p)
 ```
 
+From this plot, we see that three versions of SMASH outperformed
+EbayesThresh and TI thresholding.
+
+Next, we compare the same methods in simulated data sets with
+heteroskedastic errors.
+
+## Simulated data with heteroskedastic errors: "Spikes" mean signal and "Clipped Blocks" variance
+
+In this scenario, data sets are simulated using the "Spikes" mean
+function and the "Clipped Blocks" variance function. This plot shows
+the mean function as a block line, and the +/- 2 standard deviations
+as orange lines:
+
+```{r spikes-signal, fig.height=4, fig.width=6}
+t         <- (1:1024)/1024
+mu        <- spikes.fn(t,"mean")
+sigma.ini <- sqrt(cblocks.fn(t,"var"))
+sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
+par(cex.axis = 1,cex.lab = 1.25)
+plot(mu,type = "l", ylim = c(-0.05,1),xlab = "position",ylab = "",
+     lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
+lines(mu - 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
+```
+
+Extract the results from running these simulations.
+
+```{r plot-2-extract-data}
+hetero.data.smash <-
+  res[res$.id == "sp.3.v5" & res$method == "smash.s8",]
+hetero.data.smash.homo <-
+  res[res$.id == "sp.3.v5" & res$method == "smash.homo.s8",]
+hetero.data.tithresh.homo <-
+  res[res$.id == "sp.3.v5" & res$method == "tithresh.homo.s8",]
+hetero.data.tithresh.rmad <-
+  res[res$.id == "sp.3.v5" & res$method == "tithresh.rmad.s8",]
+hetero.data.tithresh.smash <-
+  res[res$.id == "sp.3.v5" & res$method == "tithresh.smash.s8",]
+hetero.data.tithresh.true <-
+  res[res$.id == "sp.3.v5" & res$method == "tithresh.true.s8",]
+hetero.data.ebayes <-
+  res[res$.id == "sp.3.v5" & res$method == "ebayesthresh",]
+hetero.data.smash.true <-
+  res[res$.id == "sp.3.v5" & res$method == "smash.true.s8",]
+```
+
+Transform these results into a data frame suitable for ggplot2.
+
+```{r plot-2-transform-data}
+pdat <-
+  rbind(data.frame(method      = "smash",
+                   method.type = "est",
+                   mise        = hetero.data.smash$mise),
+        data.frame(method      = "smash.homo",
+                   method.type = "homo",
+                   mise        = hetero.data.smash.homo$mise),
+        data.frame(method      = "tithresh.rmad",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.rmad$mise),
+        data.frame(method      = "tithresh.smash",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.smash$mise),
+        data.frame(method      = "tithresh.true",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.true$mise),
+        data.frame(method      = "ebayesthresh",
+                   method.type = "homo",
+                   mise        = hetero.data.ebayes$mise),
+        data.frame(method      = "smash.true",
+                   method.type = "true",
+                   mise        = hetero.data.smash.true$mise))
+pdat <-
+  transform(pdat,
+            method = factor(method,
+                            names(sort(tapply(pdat$mise,pdat$method,mean),
+                                       decreasing = TRUE))))
+```
+
+Create the combined boxplot and violin plot using ggplot2.
+
+```{r plot-2-create, fig.height=4, fig.width=5}
+p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
+     geom_violin(fill = "skyblue",color = "skyblue") +
+     geom_boxplot(width = 0.15,outlier.shape = NA) +
+     scale_fill_manual(values=c("darkorange","dodgerblue","limegreen","gold"),
+                       guide = FALSE) +
+     coord_flip() +
+     scale_y_continuous(breaks = seq(10,70,10)) +
+     labs(x = "",y = "MISE") +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+print(p)
+```
+
+In this scenario, we see that SMASH, allowing for heteroskedastic
+errors, outperforms EbayesThresh and all variants of TI thresholding
+(including TI thresholding with the true variance). Further, SMASH
+performs almost as well when estimating the variance compared to when
+provided with the true variance.
+
+## Simulated data with heteroskedastic errors: "Corner" mean signal and "Doppler" variance
+
+In this next scenario, data sets are simulated using the "Corner" mean
+function and the "Doppler" variance function. This plot shows the mean
+function as a block line, and the +/- 2 standard deviations as orange
+lines:
+
+```{r corner-signal, fig.height=4, fig.width=6}
+mu        <- cor.fn(t,"mean") 
+sigma.ini <- sqrt(doppler.fn(t,"var"))
+sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
+plot(mu,type = "l", ylim = c(-0.05,1),xlab = "position",ylab = "",
+     lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
+lines(mu - 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
+```
+
+Extract the results from running these simulations.
+
+```{r plot-3-extract-data}
+hetero.data.smash.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "smash.s8",]
+hetero.data.smash.homo.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "smash.homo.s8",]
+hetero.data.tithresh.homo.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "tithresh.homo.s8",]
+hetero.data.tithresh.rmad.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "tithresh.rmad.s8",]
+hetero.data.tithresh.smash.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "tithresh.smash.s8",]
+hetero.data.tithresh.true.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "tithresh.true.s8",]
+hetero.data.ebayes.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "ebayesthresh",]
+hetero.data.smash.true.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "smash.true.s8",]
+```
+
+Transform these results into a data frame suitable for ggplot2.
+
+```{r plot-3-transform-data}
+pdat <-
+  rbind(data.frame(method      = "smash",
+                   method.type = "est",
+                   mise        = hetero.data.smash.2$mise),
+        data.frame(method      = "smash.homo",
+                   method.type = "homo",
+                   mise        = hetero.data.smash.homo.2$mise),
+        data.frame(method      = "tithresh.rmad",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.rmad.2$mise),
+        data.frame(method      = "tithresh.smash",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.smash.2$mise),
+        data.frame(method      = "tithresh.true",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.true.2$mise),
+        data.frame(method      = "ebayesthresh",
+                   method.type = "homo",
+                   mise        = hetero.data.ebayes.2$mise),
+        data.frame(method      = "smash.true",
+                   method.type = "true",
+                   mise        = hetero.data.smash.true.2$mise))
+pdat <-
+  transform(pdat,
+            method = factor(method,
+                            names(sort(tapply(pdat$mise,pdat$method,mean),
+                                       decreasing = TRUE))))
+```
+
+Create the combined boxplot and violin plot using ggplot2.
+
+```{r plot-3-create, fig.height=4, fig.width=5}
+p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
+     geom_violin(fill = "skyblue",color = "skyblue") +
+     geom_boxplot(width = 0.15,outlier.shape = NA) +
+     scale_fill_manual(values=c("darkorange","dodgerblue","limegreen","gold"),
+                       guide = FALSE) +
+     coord_flip() +
+     scale_y_continuous(breaks = seq(1,5)) +
+     labs(x = "",y = "MISE") +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+print(p)
+```
+
+Similar to the "spikes" data sets, we see that the SMASH method
+allowing for heteroskedastic variances outperforms the TI thresholding
+and EbayesThresh approaches.
