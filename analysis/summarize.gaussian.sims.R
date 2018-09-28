@@ -148,6 +148,68 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
 print(p)
 invisible(readline(prompt = "Press [enter] to continue plotting... "))
 
+# PLOT #3
+# -------
+# TO DO: Explain here what is shown in the third plot.
+hetero.data.smash.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "smash.s8",]
+hetero.data.smash.homo.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "smash.homo.s8",]
+hetero.data.tithresh.homo.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "tithresh.homo.s8",]
+hetero.data.tithresh.rmad.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "tithresh.rmad.s8",]
+hetero.data.tithresh.smash.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "tithresh.smash.s8",]
+hetero.data.tithresh.true.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "tithresh.true.s8",]
+hetero.data.ebayes.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "ebayesthresh",]
+hetero.data.smash.true.2 <-
+  res[res$.id == "cor.3.v3" & res$method == "smash.true.s8",]
+
+# Transform these data into a data frame suitable for ggplot2.
+pdat <-
+  rbind(data.frame(method      = "smash",
+                   method.type = "est",
+                   mise        = hetero.data.smash.2$mise),
+        data.frame(method      = "smash.homo",
+                   method.type = "homo",
+                   mise        = hetero.data.smash.homo.2$mise),
+        data.frame(method      = "tithresh.rmad",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.rmad.2$mise),
+        data.frame(method      = "tithresh.smash",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.smash.2$mise),
+        data.frame(method      = "tithresh.true",
+                   method.type = "tithresh",
+                   mise        = hetero.data.tithresh.true.2$mise),
+        data.frame(method      = "ebayesthresh",
+                   method.type = "homo",
+                   mise        = hetero.data.ebayes.2$mise),
+        data.frame(method      = "smash.true",
+                   method.type = "true",
+                   mise        = hetero.data.smash.true.2$mise))
+pdat <-
+  transform(pdat,
+            method = factor(method,
+                            names(sort(tapply(pdat$mise,pdat$method,mean),
+                                       decreasing = TRUE))))
+
+# Create the combined boxplot and violin plot using ggplot2.
+p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
+     geom_violin(fill = "skyblue",color = "skyblue") +
+     geom_boxplot(width = 0.15,outlier.shape = NA) +
+     scale_fill_manual(values=c("darkorange","dodgerblue","limegreen","gold"),
+                       guide = FALSE) +
+     coord_flip() +
+     scale_y_continuous(breaks = seq(10,70,10)) +
+     labs(x = "",y = "MISE") +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+print(p)
+
 # SESSIONINFO
 # -----------
 # Print out information on the computing environment, including the
@@ -155,40 +217,3 @@ invisible(readline(prompt = "Press [enter] to continue plotting... "))
 # results.
 cat("Retrieving session information.\n")
 print(sessionInfo())
-
-stop()
-
-hetero.data.smash.2 = res[res$.id == "cor.3.v3" & res$method == "smash.s8",]
-hetero.data.smash.homo.2 = res[res$.id == "cor.3.v3" &
-    res$method == "smash.homo.s8" , ]
-hetero.data.tithresh.homo.2 = res[res$.id == "cor.3.v3" &
-    res$method == "tithresh.homo.s8" , ]
-hetero.data.tithresh.rmad.2 = res[res$.id == "cor.3.v3" &
-    res$method == "tithresh.rmad.s8" , ]
-hetero.data.tithresh.smash.2 = res[res$.id == "cor.3.v3" &
-    res$method == "tithresh.smash.s8" , ]
-hetero.data.tithresh.true.2 = res[res$.id == "cor.3.v3" &
-    res$method == "tithresh.true.s8" , ]
-hetero.data.ebayes.2 = res[res$.id == "cor.3.v3" &
-    res$method == "ebayesthresh" , ]
-hetero.data.smash.true.2 = res[res$.id == "cor.3.v3" &
-    res$method == "smash.true.s8" , ]
-
-#horizontal
-par(cex.axis = 1.5, cex.lab = 1.5, cex.sub = 1.5,
-    mar = c(6.1, 11.1, 4.1, 0.5), mgp = c(3, 1.5, 0))
-vioplot.col(hetero.data.smash.2$mise, hetero.data.tithresh.rmad.2$mise,
-            hetero.data.tithresh.smash.2$mise,
-            hetero.data.tithresh.true.2$mise, hetero.data.smash.homo.2$mise,
-            hetero.data.ebayes.2$mise, hetero.data.smash.true.2$mise,
-            horizontal = TRUE, ylim = c(0.5,5),
-            col = c("magenta", rep("red", 3), rep("gold", 2), "purple"))
-par(lheight = 0.8)
-axis(side = 2, at = 1:7,
-     labels = c("SMASH", "TI-thresh\nRMAD variance",
-         "TI-thresh\nSMASH variance", "TI-thresh\ntrue variance",
-         "SMASH\nhomo", "EbayesThresh\nhomo", "SMASH\ntrue variance"), las = 2)
-title(xlab = "MISE", line = 4)
-abline(v = median(hetero.data.smash.2$mise), lty = 3, col = 3)
-abline(h = 4.5, lty = 3)
-abline(h = 6.5, lty = 3)
