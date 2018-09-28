@@ -1,0 +1,104 @@
+---
+title: "Gaussian mean estimation in simulated data sets"
+author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
+output: workflowr::wflow_html
+---
+
+TO DO: Give overview of this report.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
+```
+
+## Set up environment
+
+Load the ggplot2 and cowplot packages, and the functions definining
+the mean and variances used to simulate the data.
+
+```{r load-pkgs}
+library(ggplot2)
+library(cowplot)
+source("../code/signals.R")
+```
+
+## Load results
+
+Load the results of the simulation experiments.
+
+```{r load-results}
+load("../output/gaus-dscr.RData")
+```
+
+## Summarize results on data sets with constant variances
+
+This plot reproduces Fig. 2 of the manuscript comparing the
+accuracy of estimated mean curves in the data sets simulated from
+the "Spikes" mean function with constant variance.
+
+First extract the data used to generate this plot.
+
+```{r plot-1-extract-data}
+homo.data.smash <-
+  res[res$.id    == "sp.3.v1" &
+      res$method == "smash.s8",]
+homo.data.smash.homo <-
+  res[res$.id    == "sp.3.v1" &
+      res$method == "smash.homo.s8",]
+homo.data.tithresh <-
+  res[res$.id == "sp.3.v1" &
+      res$method == "tithresh.homo.s8",]
+homo.data.ebayes <-
+  res[res$.id    == "sp.3.v1" &
+      res$method == "ebayesthresh",]
+homo.data.smash.true <-
+  res[res$.id == "sp.3.v1" &
+  res$method  == "smash.true.s8",]
+homo.data <-
+  res[res$.id == "sp.3.v1" &
+  (res$method == "smash.s8" |
+   res$method == "ebayesthresh" |
+   res$method == "tithresh.homo.s8"),]
+```
+
+Transform these data into a data frame suitable for ggplot2.
+
+```{r plot-2-transform-data}
+pdat <-
+  rbind(data.frame(method      = "smash",
+                   method.type = "est",
+                   mise        = homo.data.smash$mise),
+        data.frame(method      = "smash.homo",
+                   method.type = "homo",
+                   mise        = homo.data.smash.homo$mise),
+        data.frame(method      = "tithresh",
+                   method.type = "homo",
+                   mise        = homo.data.tithresh$mise),
+        data.frame(method      = "ebayesthresh",
+                   method.type = "homo",
+                   mise        = homo.data.ebayes$mise),
+        data.frame(method      = "smash.true",
+                   method.type = "true",
+                   mise        = homo.data.smash.true$mise))
+pdat <-
+  transform(pdat,
+            method = factor(method,
+                            names(sort(tapply(pdat$mise,pdat$method,mean),
+                                       decreasing = TRUE))))
+```
+
+Create the combined boxplot and violin plot using ggplot2.
+
+```{r plot-1-create}
+p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
+     geom_violin(fill = "skyblue",color = "skyblue") +
+     geom_boxplot(width = 0.15,outlier.shape = NA) +
+     scale_y_continuous(breaks = seq(6,16,2)) +
+     scale_fill_manual(values = c("darkorange","dodgerblue","gold"),
+                       guide = FALSE) +
+     coord_flip() +
+     labs(x = "",y = "MISE") +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+print(p)
+```
+
