@@ -213,13 +213,27 @@ invisible(readline(prompt = "Press [enter] to continue plotting... "))
 
 # PLOT #4
 # -------
-# Show the "spikes" mean function (the black line) and +/- 2 standard
+# Show the "spikes" mean function (the black line), and +/- 2 standard
 # deviations (orange lines) as determined by the "clipped blocks" function.
 t         <- (1:1024)/1024
-mu        <- spikes.fn(t, "mean")
-sigma.ini <- sqrt(cblocks.fn(t, "var"))
+mu        <- spikes.fn(t,"mean")
+sigma.ini <- sqrt(cblocks.fn(t,"var"))
 sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
 par(cex.axis = 1,cex.lab = 1.25)
+plot(mu,type = "l", ylim = c(-0.05,1),xlab = "position",ylab = "",
+     lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
+lines(mu - 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
+invisible(readline(prompt = "Press [enter] to continue plotting... "))
+
+# PLOT #5
+# -------
+# Show the "corner" mean function (the black line), and +/- 2 standard
+# deviations (orange lines) as determined by the "doppler" variance
+# function.
+mu        <- cor.fn(t,"mean") 
+sigma.ini <- sqrt(doppler.fn(t,"var"))
+sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
 plot(mu,type = "l", ylim = c(-0.05,1),xlab = "position",ylab = "",
      lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
 lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
