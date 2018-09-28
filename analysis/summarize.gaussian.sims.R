@@ -204,7 +204,7 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
      scale_fill_manual(values=c("darkorange","dodgerblue","limegreen","gold"),
                        guide = FALSE) +
      coord_flip() +
-     scale_y_continuous(breaks = seq(10,70,10)) +
+     scale_y_continuous(breaks = seq(1,5)) +
      labs(x = "",y = "MISE") +
      theme(axis.line = element_blank(),
            axis.ticks.y = element_blank())
