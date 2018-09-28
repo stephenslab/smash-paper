@@ -24,7 +24,9 @@ Main text
 + Sec. 4.2: Simulations: Need to fill out the beginning of this
   subsection.
 
-+ Sec. 4.2.1, Gaussian mean estimation: need to work on this.
++ Sec. 4.2.1, Gaussian mean estimation: NEED TO WORK ON THIS.
+
++ Sec. 4.2.2, Gaussian variance estimation: NEED TO WORK ON THIS.
 
 + Sec. 6, Discussion: need to work on this.
 
