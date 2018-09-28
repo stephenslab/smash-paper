@@ -24,7 +24,17 @@ Main text
 + Sec. 4.2: Simulations: Need to fill out the beginning of this
   subsection.
 
-+ Sec. 4.2.1, Gaussian mean estimation: 
++ Sec. 4.2.1, Gaussian mean estimation: need to work on this.
+
++ Sec. 6, Discussion: need to work on this.
+
++ Appendix A: complete.
+
++ Appendix B: mostly complete, aside from a few minor comments that
+  need to be addressed.
+
++ References: all references have been verified and corrected as
+  needed.
 
 Supplement
 ----------
