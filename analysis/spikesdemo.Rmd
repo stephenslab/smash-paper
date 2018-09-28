@@ -75,9 +75,9 @@ lines(mu.sp - 2*sig.cb,col = "darkorange",lty = 5,lwd = 1.8)
 points(x.sim,cex = 0.7,pch = 16,col = "darkblue")
 ```
 
-This plot shows the "spikes" mean function (the black line),
-+/- 2 standard deviations (the yellow lines), and
-the simulated data (the blue points).
+This plot shows the "spikes" mean function (the black line), +/- 2
+standard deviations (the orange lines), and the simulated data (the
+blue points).
   
 Run SMASH and TI thresholding
 -----------------------------
