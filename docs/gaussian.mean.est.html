@@ -320,7 +320,8 @@ div.section {
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </details>
 </li>
 <li>
@@ -339,7 +340,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/68612732fd8849f21e51020514bab47cde13a471" target="_blank">6861273</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/49dc15de2b8fbc70ff5f39c99443af577edf6319" target="_blank">49dc15d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -371,11 +372,6 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
-Unstaged changes:
-    Modified:   NOTES.txt
-    Modified:   analysis/gaussian.mean.est.Rmd
-    Modified:   analysis/temp.R
-
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
@@ -403,6 +399,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/49dc15de2b8fbc70ff5f39c99443af577edf6319/analysis/gaussian.mean.est.Rmd" target="_blank">49dc15d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-09-28
+</td>
+<td style="text-align:left;">
+I have a complete first draft of the gaussian.mean.est.Rmd analysis.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/49dc15de2b8fbc70ff5f39c99443af577edf6319/docs/gaussian.mean.est.html" target="_blank">49dc15d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-09-28
+</td>
+<td style="text-align:left;">
+I have a complete first draft of the gaussian.mean.est.Rmd analysis.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -532,6 +562,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/49dc15de2b8fbc70ff5f39c99443af577edf6319/docs/figure/gaussian.mean.est.Rmd/plot-1-create-1.png" target="_blank">49dc15d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-09-28
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 <a href="https://github.com/stephenslab/smash-paper/blob/68612732fd8849f21e51020514bab47cde13a471/docs/figure/gaussian.mean.est.Rmd/plot-1-create-1.png" target="_blank">6861273</a>
 </td>
 <td style="text-align:left;">
@@ -622,7 +663,7 @@ print(p)</code></pre>
 </div>
 <div id="simulated-data-with-heteroskedastic-errors-corner-mean-signal-and-doppler-variance" class="section level2">
 <h2>Simulated data with heteroskedastic errors: “Corner” mean signal and “Doppler” variance</h2>
-<p>In this scenario, data sets are simulated using the “Corner” mean function and the “Doppler” variance function. This plot shows the mean function as a block line, and the +/- 2 standard deviations as orange lines:</p>
+<p>In this next scenario, data sets are simulated using the “Corner” mean function and the “Doppler” variance function. This plot shows the mean function as a block line, and the +/- 2 standard deviations as orange lines:</p>
 <pre class="r"><code>mu        &lt;- cor.fn(t,&quot;mean&quot;) 
 sigma.ini &lt;- sqrt(doppler.fn(t,&quot;var&quot;))
 sd.fn     &lt;- sigma.ini/mean(sigma.ini) * sd(mu)/3
@@ -689,7 +730,7 @@ pdat &lt;-
            axis.ticks.y = element_blank())
 print(p)</code></pre>
 <p><img src="figure/gaussian.mean.est.Rmd/plot-3-create-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>As before, we see that the SMASH method allowing for heteroskedastic variances outperforms the TI thresholding and EbayesThresh approaches.</p>
+<p>Similar to the “spikes” data sets, we see that the SMASH method allowing for heteroskedastic variances outperforms the TI thresholding and EbayesThresh approaches.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
