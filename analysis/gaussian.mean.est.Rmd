@@ -4,7 +4,16 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-*TO DO: Give overview of this report.*
+In this analysis, we assess the ability of different signal denoising
+methods to recover the true signal after being provided with
+Gaussian-distributed observations of the signal. We consider scenarios
+in which the data have homoskedastic errors (constant variance) and
+heteroskedastic errors (non-constant variance).
+
+Since the simulation experiments are very computationally intensive,
+they are implemented separately (see the "dsc" directory in this git
+repository), and here we only create plots to summarize the results of
+these experiments.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
@@ -110,10 +119,12 @@ heteroskedastic errors.
 
 ## Simulated data with heteroskedastic errors: "Spikes" mean signal and "Clipped Blocks" variance
 
-In this scenario, data sets are simulated using the "Spikes" mean
-function and the "Clipped Blocks" variance function. This plot shows
-the mean function as a block line, and the +/- 2 standard deviations
-as orange lines:
+In this scenario, data sets were simulated using the "Spikes" mean
+function and the "Clipped Blocks" variance function. The next couple
+plots reproduce part of Fig. 3 in the manuscript.
+
+This plot shows the mean function as a block line, and the +/- 2
+standard deviations as orange lines:
 
 ```{r spikes-signal, fig.height=4, fig.width=6}
 t         <- (1:1024)/1024
@@ -127,7 +138,7 @@ lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
 lines(mu - 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
 ```
 
-Extract the results from running these simulations.
+Extract the results from running the simulations.
 
 ```{r plot-2-extract-data}
 hetero.data.smash <-
@@ -196,18 +207,20 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
 print(p)
 ```
 
-In this scenario, we see that SMASH, allowing for heteroskedastic
-errors, outperforms EbayesThresh and all variants of TI thresholding
-(including TI thresholding with the true variance). Further, SMASH
-performs almost as well when estimating the variance compared to when
-provided with the true variance.
+In the "Spikes" scenario, we see that SMASH, when allowing for
+heteroskedastic errors, outperforms EbayesThresh and all variants of
+TI thresholding (including TI thresholding with the true variance).
+Further, SMASH performs almost as well when estimating the variance
+compared to when provided with the true variance.
 
 ## Simulated data with heteroskedastic errors: "Corner" mean signal and "Doppler" variance
 
-In this next scenario, data sets are simulated using the "Corner" mean
-function and the "Doppler" variance function. This plot shows the mean
-function as a block line, and the +/- 2 standard deviations as orange
-lines:
+In this next scenario, the data sets were simulated using the "Corner"
+mean function and the "Doppler" variance function. These plots were
+also used for Fig. 3 of the manuscript.
+
+This plot shows the mean function as a block line, and the +/- 2
+standard deviations as orange lines:
 
 ```{r corner-signal, fig.height=4, fig.width=6}
 mu        <- cor.fn(t,"mean") 
@@ -288,6 +301,6 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
 print(p)
 ```
 
-Similar to the "spikes" data sets, we see that the SMASH method
-allowing for heteroskedastic variances outperforms the TI thresholding
-and EbayesThresh approaches.
+Similar to the "Spikes" scenario, we see that the SMASH method, when
+allowing for heteroskedastic variances, outperforms both the TI
+thresholding and EbayesThresh approaches.
