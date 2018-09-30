@@ -24,21 +24,30 @@ Main text
 + Sec. 4.2, Simulations: Need to fill out the beginning of this
   subsection.
 
-+ Sec. 4.2.1, Gaussian mean estimation: NEED TO WORK ON THIS.  Source
-  code accompanying this section: analysis/gaussian.mean.est.Rmd (also
-  code/signals.R). Data files used: output/gaus-dscr.RData.
++ Sec. 4.2.1, Gaussian mean estimation: mostly complete, except a few
+  comments that need to be addressed. Source code accompanying this
+  section: analysis/gaussian.mean.est.Rmd (also code/signals.R). Data
+  files used: output/gaus-dscr.RData.
 
 + Sec. 4.2.2, Gaussian variance estimation: NEED TO WORK ON THIS.
 
-+ Sec. 6, Discussion: need to work on this.
++ Sec. 4.2.3, Poisson data: NEED TO WORK ON THIS.
+
++ Sec. 5, Illustrative applications: NEED TO WORK ON THIS.
+
++ Sec. 5.1, Motorcycle acceleration data: NEED TO WORK ON THIS.
+
++ Sec. 5.2, ChIP-Seq data: NEED TO WORK ON THIS.
+
++ Sec. 6, Discussion: mostly complete, aside from one comment that
+needs to be addressed.
 
 + Appendix A: complete.
 
 + Appendix B: mostly complete, aside from a few minor comments that
   need to be addressed.
 
-+ References: all references have been verified and corrected as
-  needed.
++ References: I double-checked all the references.
 
 Supplement
 ----------
