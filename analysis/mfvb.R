@@ -17,7 +17,7 @@
 # ------------------
 # Load the smashr package and some functions used in the analysis below.
 library(smashr)
-source("functions_mfvb.R")
+source("../code/mfvb.functions.R")
 
 # SCRIPT PARAMETERS
 # -----------------
@@ -349,10 +349,10 @@ print(mean(mse.sd.even.s8.j))
 # ------------------------------------------------------
 # Compare this plot against the one shown in the paper.
 xgrid = (0:10000)/10000
-plot(xgrid, fTrue(xgrid), type = "l", ylim = c(-5, 5), ylab = "y(X)",
-     xlab = "X")
-lines(xgrid, fTrue(xgrid) + 2 * sqrt(gTrue(xgrid)), col = 2, lty = 2)
-lines(xgrid, fTrue(xgrid) - 2 * sqrt(gTrue(xgrid)), col = 2, lty = 2)
+plot(xgrid, fTrue(xgrid), type = "l", ylim = c(-5, 5), ylab = "y",
+     xlab = "X", lwd = 2)
+lines(xgrid,fTrue(xgrid) + 2*sqrt(gTrue(xgrid)),col = "darkorange",lwd = 2)
+lines(xgrid,fTrue(xgrid) - 2*sqrt(gTrue(xgrid)),col = "darkorange",lwd = 2)
 
 # SUMMARIZE RESULTS
 # -----------------

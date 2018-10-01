@@ -33,3 +33,6 @@ to do
   the plots from plot.gaussian.signals.R and plot.poisson.signals.R.
 
 + Polish up R Markdown file containing Shiny app.
+
++ Convert mfvb.R to R Markdown, and split into long-running
+vs. non-long-running portions.
