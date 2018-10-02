@@ -24,8 +24,8 @@ source("../code/mfvb.functions.R")
 # -----------------
 # Number of data sets simulated in the first (nsim1) and second
 # (nsim2) simulation scenarios.
-nsim1 <- 10 # 100
-nsim2 <- 10 # 100
+nsim1 <- 100
+nsim2 <- 100
 
 # Set hyperparameters.
 Au.hyp      <- 1e5
@@ -320,23 +320,28 @@ for (j in 1:nsim2) {
 }
 cat("\n")
 
-# PLOT MEAN AND VARIANCE FUNCTIONS USED TO SIMULATE DATA
-# ------------------------------------------------------
+# PLOT MEAN & VARIANCE FUNCTIONS USED TO SIMULATE DATA
+# ----------------------------------------------------
 # Compare this plot against the one shown in Fig. 4 of the paper.
 cat("Plotting mean and variance functions used to simulate data.\n")
-xgrid = (0:10000)/10000
-plot(xgrid, fTrue(xgrid), type = "l", ylim = c(-5, 5), ylab = "y",
-     xlab = "X", lwd = 2)
+xgrid <- (0:10000)/10000
+plot(xgrid,fTrue(xgrid),type = "l",ylim = c(-5,5),ylab = "y",xlab = "X",
+     lwd = 2)
 lines(xgrid,fTrue(xgrid) + 2*sqrt(gTrue(xgrid)),col = "darkorange",lwd = 2)
 lines(xgrid,fTrue(xgrid) - 2*sqrt(gTrue(xgrid)),col = "darkorange",lwd = 2)
 
 # SUMMARIZE RESULTS
 # -----------------
 # Compare this table against Table 1 in the paper.
-mse.table=rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
-                  mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
-                c(mean(mse.mu.uneven.s8),mean(mse.sd.uneven.s8),
-                  mean(mse.mu.even.s8),mean(mse.sd.even.s8)))
-rownames(mse.table)=c("MFVB","SMASH")
-colnames(mse.table)=c("mean","sd","mean","sd")
+cat("Summarizing results of simulations.\n")
+cat(sprintf("MSE averaged across %d simulations in Scenario 1,\n",nsim1))
+cat(sprintf("and averaged across %d simulations in Scenario 2:\n",nsim2))
+mse.table <- rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
+                     mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
+                   c(mean(mse.mu.uneven.s8),mean(mse.sd.uneven.s8),
+                     mean(mse.mu.even.s8),mean(mse.sd.even.s8)))
+rownames(mse.table) <- c("MFVB","SMASH")
+colnames(mse.table) <- c("mean","sd","mean","sd")
+cat("         Scenario 1      Scenario 2   \n")
+cat("      --------------- ----------------\n")
 print(mse.table)

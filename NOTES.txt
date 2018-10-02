@@ -29,7 +29,10 @@ Main text
   section: analysis/gaussian.mean.est.Rmd (also code/signals.R). Data
   files used: output/gaus-dscr.RData.
 
-+ Sec. 4.2.2, Gaussian variance estimation: NEED TO WORK ON THIS.
++ Sec. 4.2.2, Gaussian variance estimation: mostly complete, aside
+  from a few comments that need to be addressed and details that need
+  to be filled out. Source code accompanying this section:
+  analysis/mfvb.R (also code/mfvb.functions.R).
 
 + Sec. 4.2.3, Poisson data: NEED TO WORK ON THIS.
 
