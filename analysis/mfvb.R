@@ -211,8 +211,8 @@ mse.sd.even.s8.j <- 0
 lmse.sd.even.mfvb <- 0
 lmse.sd.even.haar <- 0
 lmse.sd.even.s8   <- 0
-lmse.sd.even.j=0
-lmse.sd.even.s8.j=0
+lmse.sd.even.j    <- 0
+lmse.sd.even.s8.j <- 0
 
 # Repeat for each data set simulated in the second simulation scenario.
 cat(sprintf("Running %d simulations for Simulation Scenario 2.\n",nsim2))
@@ -290,46 +290,40 @@ for (j in 1:nsim2) {
                            + 0.125*diag(Cvg%*%Sigma.q.omega%*%t(Cvg)))
   sqrtghatMFVBgOrig <- sqrtghatMFVBg*sd.y
 
-# RUN SMASH
-# ---------
-mu.est=smash.gaus(yOrig,filter.number=1,family="DaubExPhase")
-var.est=smash.gaus(yOrig,v.est=TRUE)
+  # Run SMASH
+  # ---------
+  mu.est  <- smash.gaus(yOrig,filter.number=1,family="DaubExPhase")
+  var.est <- smash.gaus(yOrig,v.est=TRUE)
+  
+  mse.mu.even.mfvb[j] <- mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
+  mse.mu.even.haar[j] <- mean((mu.est-fTrue(xgOrig))^2)
 
-mse.mu.even.mfvb[j]=mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
-mse.mu.even.haar[j]=mean((mu.est-fTrue(xgOrig))^2)
+  mse.sd.even.mfvb[j]  <- mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
+  mse.sd.even.haar[j]  <- mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
+  lmse.sd.even.mfvb[j] <- mean((log(sqrtghatMFVBgOrig)-(loggTrue(xgOrig))/2)^2)
+  lmse.sd.even.haar[j] <- mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
 
-mse.sd.even.mfvb[j]=mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
-mse.sd.even.haar[j]=mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
-lmse.sd.even.mfvb[j]=mean((log(sqrtghatMFVBgOrig)-(loggTrue(xgOrig))/2)^2)
-lmse.sd.even.haar[j]=mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
+  mu.est       <- smash.gaus(yOrig,filter.number=8,family="DaubLeAsymm")
+  var.est      <- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,filter.number=8,
+                             family="DaubLeAsymm")
+  var.est.s8.j <- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,jash=TRUE,
+                             filter.number=8,family="DaubLeAsymm")
+  var.est.j    <- smash.gaus(yOrig,v.est=TRUE,jash=TRUE)
 
-mu.est=smash.gaus(yOrig,filter.number=8,family="DaubLeAsymm")
-var.est=smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,filter.number=8,family="DaubLeAsymm")
-var.est.s8.j=smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,jash=TRUE,filter.number=8,family="DaubLeAsymm")
-var.est.j=smash.gaus(yOrig,v.est=TRUE,jash=TRUE)
-
-mse.mu.even.s8[j]=mean((mu.est-fTrue(xgOrig))^2)
-mse.sd.even.s8[j]=mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
-mse.sd.even.j[j]=mean((sqrt(var.est.j)-exp((loggTrue(xgOrig))/2))^2)
-mse.sd.even.s8.j[j]=mean((sqrt(var.est.s8.j)-exp((loggTrue(xgOrig))/2))^2)
-lmse.sd.even.s8[j]=mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
-lmse.sd.even.j[j]=mean((log(sqrt(var.est.j))-(loggTrue(xgOrig))/2)^2)
-lmse.sd.even.s8.j[j]=mean((log(sqrt(var.est.s8.j))-(loggTrue(xgOrig))/2)^2)
+  mse.mu.even.s8[j]   <-mean((mu.est-fTrue(xgOrig))^2)
+  mse.sd.even.s8[j]   <-mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
+  mse.sd.even.j[j]    <-mean((sqrt(var.est.j)-exp((loggTrue(xgOrig))/2))^2)
+  mse.sd.even.s8.j[j] <-mean((sqrt(var.est.s8.j)-exp((loggTrue(xgOrig))/2))^2)
+  lmse.sd.even.s8[j]  <-mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
+  lmse.sd.even.j[j]   <-mean((log(sqrt(var.est.j))-(loggTrue(xgOrig))/2)^2)
+  lmse.sd.even.s8.j[j]<-mean((log(sqrt(var.est.s8.j))-(loggTrue(xgOrig))/2)^2)
 }
 cat("\n")
 
-print(mean(mse.mu.even.mfvb))
-print(mean(mse.mu.even.haar))
-print(mean(mse.mu.even.s8))
-print(mean(mse.sd.even.mfvb))
-print(mean(mse.sd.even.haar))
-print(mean(mse.sd.even.s8))
-print(mean(mse.sd.even.j))
-print(mean(mse.sd.even.s8.j))
-
-# SHOW MEAN AND VARIANCE FUNCTIONS USED TO SIMULATE DATA
+# PLOT MEAN AND VARIANCE FUNCTIONS USED TO SIMULATE DATA
 # ------------------------------------------------------
-# Compare this plot against the one shown in the paper.
+# Compare this plot against the one shown in Fig. 4 of the paper.
+cat("Plotting mean and variance functions used to simulate data.\n")
 xgrid = (0:10000)/10000
 plot(xgrid, fTrue(xgrid), type = "l", ylim = c(-5, 5), ylab = "y",
      xlab = "X", lwd = 2)
@@ -338,7 +332,7 @@ lines(xgrid,fTrue(xgrid) - 2*sqrt(gTrue(xgrid)),col = "darkorange",lwd = 2)
 
 # SUMMARIZE RESULTS
 # -----------------
-# Compare this table against the one given in the paper.
+# Compare this table against Table 1 in the paper.
 mse.table=rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
                   mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
                 c(mean(mse.mu.uneven.s8),mean(mse.sd.uneven.s8),
