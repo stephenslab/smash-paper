@@ -6,21 +6,27 @@
 # The figure and table generated at the end of this script should
 # match up with the figure and table shown in the paper.
 #
-# Note that this script could take longer than an hour to complete as
-# it runs the two methods on 200 simulated data sets.
+# Note that this script could take an hour or several hours to
+# complete as it runs the two methods on 100 simulated data sets for
+# each of the two scenarios.
 #
-# We thank Menictas and Wand for generously sharing code that was used
+# We thank Menictas & Wand for generously sharing code that was used
 # to implement these experiments.
 #
 
 # SET UP ENVIRONMENT
 # ------------------
-# Load the smashr package and some functions used in the analysis below.
+# Load the smashr package, and some functions used in the analysis.
 library(smashr)
 source("../code/mfvb.functions.R")
 
 # SCRIPT PARAMETERS
 # -----------------
+# Number of data sets simulated in the first (nsim1) and second
+# (nsim2) simulation scenarios.
+nsim1 <- 10 # 100
+nsim2 <- 10 # 100
+
 # Set hyperparameters.
 Au.hyp      <- 1e5
 Av.hyp      <- 1e5
@@ -39,274 +45,250 @@ cex.mainVal <- 1.7
 cex.labVal  <- 1.3
 xlabVal     <- "x"
 
-# FIRST SCENARIO
-# ==============
-mse.mu.uneven.mfvb=0
-mse.mu.uneven.haar=0
-mse.mu.uneven.s8=0
+# FIRST SIMULATION SCENARIO
+# -------------------------
+mse.mu.uneven.mfvb <- 0
+mse.mu.uneven.haar <- 0
+mse.mu.uneven.s8   <- 0
 
-mse.sd.uneven.mfvb=0
-mse.sd.uneven.haar=0
-mse.sd.uneven.s8=0
-mse.sd.uneven.j=0
-mse.sd.uneven.s8.j=0
+mse.sd.uneven.mfvb <- 0
+mse.sd.uneven.haar <- 0
+mse.sd.uneven.s8   <- 0
+mse.sd.uneven.j    <- 0
+mse.sd.uneven.s8.j <- 0
 
-lmse.sd.uneven.mfvb=0
-lmse.sd.uneven.haar=0
-lmse.sd.uneven.s8=0
-lmse.sd.uneven.j=0
-lmse.sd.uneven.s8.j=0
+lmse.sd.uneven.mfvb <- 0
+lmse.sd.uneven.haar <- 0
+lmse.sd.uneven.s8   <- 0
+lmse.sd.uneven.j    <- 0
+lmse.sd.uneven.s8.j <- 0
 
-cat("FIRST SCENARIO.\n")
-for (j in 1:100) {
-cat(sprintf("%d ",j))
+# Repeat for each data set simulated in the first simulation scenario.
+cat(sprintf("Running %d simulations for Simulation Scenario 1.\n",nsim1))
+for (j in 1:nsim1) {
+  cat(sprintf("%d ",j))
     
-# GENERATE DATA SET
-# -----------------
-n <- 500
-set.seed(3*j)
-xOrig <- runif(n)
-set.seed(3*j)
-yOrig <- fTrue(xOrig) + sqrt(exp(loggTrue(xOrig)))*rnorm(n)
+  # Create the simulated data set
+  # -----------------------------
+  set.seed(3*j)
+  n     <- 500
+  xOrig <- runif(n)
+  set.seed(3*j)
+  yOrig <- fTrue(xOrig) + sqrt(exp(loggTrue(xOrig)))*rnorm(n)
 
-aOrig <- min(xOrig) ; bOrig <- max(xOrig)
-mean.x <- mean(xOrig) ; sd.x <- sd(xOrig)
-mean.y <- mean(yOrig) ; sd.y <- sd(yOrig)
+  aOrig  <- min(xOrig)
+  bOrig  <- max(xOrig)
+  mean.x <- mean(xOrig)
+  sd.x   <- sd(xOrig)
+  mean.y <- mean(yOrig)
+  sd.y   <- sd(yOrig)
 
-a <- (aOrig - mean.x)/sd.x ; b <- (bOrig - mean.x)/sd.x
-x <- (xOrig - mean.x)/sd.x ; y <- (yOrig - mean.y)/sd.y
+  a <- (aOrig - mean.x)/sd.x
+  b <- (bOrig - mean.x)/sd.x
+  x <- (xOrig - mean.x)/sd.x
+  y <- (yOrig - mean.y)/sd.y
 
-numIntKnotsU <- 17
-intKnotsU <- quantile(x,seq(0,1,length=numIntKnotsU+2)[-c(1,numIntKnotsU+2)])
-Zu <- ZOSull(x,intKnots=intKnotsU,range.x=c(a,b))
-numKnotsU <- ncol(Zu)
+  numIntKnotsU <- 17
+  intKnotsU <- quantile(x,seq(0,1,length=numIntKnotsU+2)[-c(1,numIntKnotsU+2)])
+  Zu        <- ZOSull(x,intKnots=intKnotsU,range.x=c(a,b))
+  numKnotsU <- ncol(Zu)
 
-numIntKnotsV <- numIntKnotsU 
-intKnotsV <- quantile(x,seq(0,1,length=numIntKnotsV+2)[-c(1,numIntKnotsV+2)])
-Zv <- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
-numKnotsV <- ncol(Zv) 
+  numIntKnotsV <- numIntKnotsU 
+  intKnotsV <-
+    quantile(x,seq(0,1,length = numIntKnotsV + 2)[-c(1,numIntKnotsV+2)])
+  Zv        <- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
+  numKnotsV <- ncol(Zv) 
 
-# RUN MEAN FIELD VARIATIONAL BAYES
-# --------------------------------
-X <- cbind(rep(1,n),x)
-Cumat <- cbind(X,Zu)
-Cvmat <- cbind(X,Zv)
-ncX <- ncol(X)
-ncZu <- ncol(Zu)
-ncZv <- ncol(Zv)
-ncCu <- ncol(Cumat)
-ncCv <- ncol(Cvmat)
+  # Run Mean Field Variational Bayes (MFVB)
+  # ---------------------------------------
+  X     <- cbind(rep(1,n),x)
+  Cumat <- cbind(X,Zu)
+  Cvmat <- cbind(X,Zv)
+  ncX   <- ncol(X)
+  ncZu  <- ncol(Zu)
+  ncZv  <- ncol(Zv)
+  ncCu  <- ncol(Cumat)
+  ncCv  <- ncol(Cvmat)
 
-MFVBfit <- meanVarMFVB(y,X,ncZu,ncZv,Au.hyp,Av.hyp,
-                       sigsq.gamma,sigsq.beta)
+  MFVBfit <- meanVarMFVB(y,X,ncZu,ncZv,Au.hyp,Av.hyp,
+                         sigsq.gamma,sigsq.beta)
 
-ng <- 201
-xgOrig <- seq(aOrig,bOrig,length=ng)
-xg <- (xgOrig - mean.x)/sd.x
-Xg <- cbind(rep(1,ng),xg)
-Zug <- ZOSull(xg,intKnots=intKnotsU,range.x=c(a,b))
-Cug <- cbind(Xg,Zug)
-Zvg <- ZOSull(xg,intKnots=intKnotsV,range.x=c(a,b))
-Cvg <- cbind(Xg,Zvg)
+  ng     <- 201
+  xgOrig <- seq(aOrig,bOrig,length=ng)
+  xg     <- (xgOrig - mean.x)/sd.x
+  Xg     <- cbind(rep(1,ng),xg)
+  Zug    <- ZOSull(xg,intKnots=intKnotsU,range.x=c(a,b))
+  Cug    <- cbind(Xg,Zug)
+  Zvg    <- ZOSull(xg,intKnots=intKnotsV,range.x=c(a,b))
+  Cvg    <- cbind(Xg,Zvg)
 
-mu.q.nu <- MFVBfit$mu.q.nu
-mu.q.omega <- MFVBfit$mu.q.omega
-Sigma.q.nu <- MFVBfit$Sigma.q.nu
-Sigma.q.omega <- MFVBfit$Sigma.q.omega
+  mu.q.nu       <- MFVBfit$mu.q.nu
+  mu.q.omega    <- MFVBfit$mu.q.omega
+  Sigma.q.nu    <- MFVBfit$Sigma.q.nu
+  Sigma.q.omega <- MFVBfit$Sigma.q.omega
 
-fhatMFVBg <- Cug%*%mu.q.nu
+  fhatMFVBg        <- Cug%*%mu.q.nu
+  fhatMFVBgOrig    <- fhatMFVBg*sd.y + mean.y
+  logghatMFVBg     <- Cvg%*%mu.q.omega 
+  logghatMFVBgOrig <- logghatMFVBg + 2*log(sd.y)
 
-fhatMFVBgOrig <- fhatMFVBg*sd.y + mean.y
+  sdloggMFVBgOrig      <- sqrt(diag(Cvg%*%Sigma.q.omega%*%t(Cvg))) 
+  credLowloggMFVBgOrig <- logghatMFVBgOrig - qnorm(0.975)*sdloggMFVBgOrig
+  credUpploggMFVBgOrig <- logghatMFVBgOrig + qnorm(0.975)*sdloggMFVBgOrig
 
-logghatMFVBg <- Cvg%*%mu.q.omega 
-logghatMFVBgOrig <- logghatMFVBg + 2*log(sd.y)
+  sqrtghatMFVBg     <- exp(0.5*Cvg %*% mu.q.omega 
+                           + 0.125*diag(Cvg%*%Sigma.q.omega%*%t(Cvg)))
+  sqrtghatMFVBgOrig <- sqrtghatMFVBg*sd.y
 
-sdloggMFVBgOrig <- sqrt(diag(Cvg%*%Sigma.q.omega%*%t(Cvg))) 
-credLowloggMFVBgOrig <- logghatMFVBgOrig - qnorm(0.975)*sdloggMFVBgOrig
-credUpploggMFVBgOrig <- logghatMFVBgOrig + qnorm(0.975)*sdloggMFVBgOrig
+  # Run SMASH
+  # ---------
+  x.mod <- unique(sort(xOrig))
+  y.mod <- 0
+  for(i in 1:length(x.mod))
+    y.mod[i] <- median(yOrig[xOrig == x.mod[i]])
 
-sqrtghatMFVBg <- exp(0.5*Cvg%*%mu.q.omega 
-                   + 0.125*diag(Cvg%*%Sigma.q.omega%*%t(Cvg)))
+  y.exp   <- c(y.mod,y.mod[length(y.mod):(2*length(y.mod)-2^9+1)])
+  y.final <- c(y.exp,y.exp[length(y.exp):1])
 
-sqrtghatMFVBgOrig <- sqrtghatMFVBg*sd.y
+  mu.est  <- smash.gaus(y.final,filter.number=1,family="DaubExPhase")
+  var.est <- smash.gaus(y.final,v.est=TRUE)
+  mu.est  <- mu.est[1:500]
+  var.est <- var.est[1:500]
 
-# RUN SMASH
-# ---------
-x.mod=unique(sort(xOrig))
-y.mod=0
-for(i in 1:length(x.mod)){
-  y.mod[i]=median(yOrig[xOrig==x.mod[i]])
-}
+  mu.est.inter  <- approx(x.mod,mu.est,xgOrig,'linear')$y
+  var.est.inter <- approx(x.mod,var.est,xgOrig,'linear')$y
 
-y.exp=c(y.mod,y.mod[length(y.mod):(2*length(y.mod)-2^9+1)])
-y.final=c(y.exp,y.exp[length(y.exp):1])
+  mse.mu.uneven.mfvb[j] <- mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
+  mse.mu.uneven.haar[j] <- mean((mu.est.inter-fTrue(xgOrig))^2)
 
-mu.est=smash.gaus(y.final,filter.number=1,family="DaubExPhase")
-var.est=smash.gaus(y.final,v.est=TRUE)
-mu.est=mu.est[1:500]
-var.est=var.est[1:500]
+  mse.sd.uneven.mfvb[j]=mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
+  mse.sd.uneven.haar[j]=mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
+  lmse.sd.uneven.mfvb[j]=mean((log(sqrtghatMFVBgOrig)-(loggTrue(xgOrig))/2)^2)
+  lmse.sd.uneven.haar[j]=
+    mean((log(sqrt(var.est.inter))-(loggTrue(xgOrig))/2)^2)
 
-mu.est.inter=approx(x.mod,mu.est,xgOrig,'linear')$y
-var.est.inter=approx(x.mod,var.est,xgOrig,'linear')$y
+  mu.est       <- smash.gaus(y.final,filter.number=8,family="DaubLeAsymm")
+  var.est      <- smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,filter.number=8,
+                             family="DaubLeAsymm")
+  var.est.s8.j <- smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,jash=TRUE,
+                             filter.number=8,family="DaubLeAsymm")
+  var.est.j    <- smash.gaus(y.final,v.est=TRUE,jash=TRUE)
+  
+  mu.est       <- mu.est[1:500]
+  var.est      <- var.est[1:500]
+  var.est.j    <- var.est.j[1:500]
+  var.est.s8.j <- var.est.s8.j[1:500]
 
-mse.mu.uneven.mfvb[j]=mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
-mse.mu.uneven.haar[j]=mean((mu.est.inter-fTrue(xgOrig))^2)
+  mu.est.inter       <- approx(x.mod,mu.est,xgOrig,'linear')$y
+  var.est.inter      <- approx(x.mod,var.est,xgOrig,'linear')$y
+  var.est.inter.j    <- approx(x.mod,var.est.j,xgOrig,'linear')$y
+  var.est.inter.s8.j <- approx(x.mod,var.est.s8.j,xgOrig,'linear')$y
 
-mse.sd.uneven.mfvb[j]=mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
-mse.sd.uneven.haar[j]=mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
-lmse.sd.uneven.mfvb[j]=mean((log(sqrtghatMFVBgOrig)-(loggTrue(xgOrig))/2)^2)
-lmse.sd.uneven.haar[j]=mean((log(sqrt(var.est.inter))-(loggTrue(xgOrig))/2)^2)
-
-mu.est=smash.gaus(y.final,filter.number=8,family="DaubLeAsymm")
-var.est=smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,filter.number=8,
-    family="DaubLeAsymm")
-var.est.s8.j=smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,jash=TRUE,
-                        filter.number=8,family="DaubLeAsymm")
-var.est.j=smash.gaus(y.final,v.est=TRUE,jash=TRUE)
-mu.est=mu.est[1:500]
-var.est=var.est[1:500]
-var.est.j=var.est.j[1:500]
-var.est.s8.j=var.est.s8.j[1:500]
-
-mu.est.inter=approx(x.mod,mu.est,xgOrig,'linear')$y
-var.est.inter=approx(x.mod,var.est,xgOrig,'linear')$y
-var.est.inter.j=approx(x.mod,var.est.j,xgOrig,'linear')$y
-var.est.inter.s8.j=approx(x.mod,var.est.s8.j,xgOrig,'linear')$y
-
-mse.mu.uneven.s8[j]=mean((mu.est.inter-fTrue(xgOrig))^2)
-mse.sd.uneven.s8[j]=mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
-mse.sd.uneven.j[j]=mean((sqrt(var.est.inter.j)-exp((loggTrue(xgOrig))/2))^2)
-mse.sd.uneven.s8.j[j] =
-  mean((sqrt(var.est.inter.s8.j) - exp((loggTrue(xgOrig))/2))^2)
-lmse.sd.uneven.s8[j]=mean((log(sqrt(var.est.inter))-(loggTrue(xgOrig))/2)^2)
-lmse.sd.uneven.j[j]=mean((log(sqrt(var.est.inter.j))-(loggTrue(xgOrig))/2)^2)
-lmse.sd.uneven.s8.j[j] =
-  mean((log(sqrt(var.est.inter.s8.j))-(loggTrue(xgOrig))/2)^2)
+  mse.mu.uneven.s8[j]=mean((mu.est.inter-fTrue(xgOrig))^2)
+  mse.sd.uneven.s8[j]=mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
+  mse.sd.uneven.j[j] =mean((sqrt(var.est.inter.j)-exp((loggTrue(xgOrig))/2))^2)
+  mse.sd.uneven.s8.j[j] =
+    mean((sqrt(var.est.inter.s8.j) - exp((loggTrue(xgOrig))/2))^2)
+  lmse.sd.uneven.s8[j]=mean((log(sqrt(var.est.inter))-(loggTrue(xgOrig))/2)^2)
+  lmse.sd.uneven.j[j]=mean((log(sqrt(var.est.inter.j))-(loggTrue(xgOrig))/2)^2)
+  lmse.sd.uneven.s8.j[j] =
+    mean((log(sqrt(var.est.inter.s8.j))-(loggTrue(xgOrig))/2)^2)
 }
 cat("\n")
 
-print(mean(mse.mu.uneven.mfvb))
-print(mean(mse.mu.uneven.haar))
-print(mean(mse.mu.uneven.s8))
-print(mean(mse.sd.uneven.mfvb))
-print(mean(mse.sd.uneven.haar))
-print(mean(mse.sd.uneven.s8))
-print(mean(mse.sd.uneven.j))
-print(mean(mse.sd.uneven.s8.j))
+# SECOND SIMULATION SCENARIO
+# --------------------------
+mse.mu.even.mfvb <- 0
+mse.mu.even.haar <- 0
+mse.mu.even.s8   <- 0
 
-# SECOND SCENARIO
-# ===============
-mse.mu.even.mfvb=0
-mse.mu.even.haar=0
-mse.mu.even.s8=0
+mse.sd.even.mfvb <- 0
+mse.sd.even.haar <- 0
+mse.sd.even.s8   <- 0
+mse.sd.even.j    <- 0
+mse.sd.even.s8.j <- 0
 
-mse.sd.even.mfvb=0
-mse.sd.even.haar=0
-mse.sd.even.s8=0
-mse.sd.even.j=0
-mse.sd.even.s8.j=0
-
-lmse.sd.even.mfvb=0
-lmse.sd.even.haar=0
-lmse.sd.even.s8=0
+lmse.sd.even.mfvb <- 0
+lmse.sd.even.haar <- 0
+lmse.sd.even.s8   <- 0
 lmse.sd.even.j=0
 lmse.sd.even.s8.j=0
 
-cat("SECOND SCENARIO.\n")
-for (j in 1:100) {
-cat(sprintf("%d ",j))
+# Repeat for each data set simulated in the second simulation scenario.
+cat(sprintf("Running %d simulations for Simulation Scenario 2.\n",nsim2))
+for (j in 1:nsim2) {
+  cat(sprintf("%d ",j))
 
-# Set hyperparameters:
+  # Create the simulated data set
+  # -----------------------------
+  n      <- 2^10
+  xOrig  <- (1:n)/n
+  set.seed(30*j)
+  yOrig  <- fTrue(xOrig) + sqrt(exp(loggTrue(xOrig)))*rnorm(n)
+  aOrig  <- min(xOrig)
+  bOrig  <- max(xOrig)
+  mean.x <- mean(xOrig)
+  sd.x   <- sd(xOrig)
+  mean.y <- mean(yOrig)
+  sd.y   <- sd(yOrig)
 
-Au.hyp <- 1e5
-Av.hyp <- 1e5
-sigsq.gamma <- 1e10
-sigsq.beta <- 1e10
+  a <- (aOrig - mean.x)/sd.x
+  b <- (bOrig - mean.x)/sd.x
+  x <- (xOrig - mean.x)/sd.x
+  y <- (yOrig - mean.y)/sd.y
 
-# Set colours:
+  numIntKnotsU <- 17
+  intKnotsU <- quantile(x,seq(0,1,length=numIntKnotsU+2)[-c(1,numIntKnotsU+2)])
+  Zu        <- ZOSull(x,intKnots=intKnotsU,range.x=c(a,b))
+  numKnotsU <- ncol(Zu)
 
-mainCol <- "darkslateblue"
-ptCol <- "paleturquoise3"
-lineCol <- "skyblue"
-axisCol <- "black"
+  numIntKnotsV <- numIntKnotsU 
+  intKnotsV <- quantile(x,seq(0,1,length=numIntKnotsV+2)[-c(1,numIntKnotsV+2)])
+  Zv        <- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
+  numKnotsV <- ncol(Zv) 
 
-# Set plotting size parameters:
+  # Run Mean Field Variational Bayes (MFVB)
+  # ---------------------------------------
+  X     <- cbind(rep(1,n),x)
+  Cumat <- cbind(X,Zu)
+  Cvmat <- cbind(X,Zv)
+  ncX   <- ncol(X)
+  ncZu  <- ncol(Zu)
+  ncZv  <- ncol(Zv)
+  ncCu  <- ncol(Cumat)
+  ncCv  <- ncol(Cvmat)
 
-cex.pt <- 0.75
-cex.mainVal <- 1.7
-cex.labVal <- 1.3
-
-xlabVal <- "x"
-
-# GENERATE DATA SET
-# -----------------
-n <- 2^10
-xOrig <- (1:n)/n
-set.seed(30*j)
-yOrig <- fTrue(xOrig) + sqrt(exp(loggTrue(xOrig)))*rnorm(n)
-
-aOrig <- min(xOrig) ; bOrig <- max(xOrig)
-mean.x <- mean(xOrig) ; sd.x <- sd(xOrig)
-mean.y <- mean(yOrig) ; sd.y <- sd(yOrig)
-
-a <- (aOrig - mean.x)/sd.x ; b <- (bOrig - mean.x)/sd.x
-x <- (xOrig - mean.x)/sd.x ; y <- (yOrig - mean.y)/sd.y
-
-numIntKnotsU <- 17
-intKnotsU <- quantile(x,seq(0,1,length=numIntKnotsU+2)[-c(1,numIntKnotsU+2)])
-Zu <- ZOSull(x,intKnots=intKnotsU,range.x=c(a,b))
-numKnotsU <- ncol(Zu)
-
-numIntKnotsV <- numIntKnotsU 
-intKnotsV <- quantile(x,seq(0,1,length=numIntKnotsV+2)[-c(1,numIntKnotsV+2)])
-Zv <- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
-numKnotsV <- ncol(Zv) 
-
-# RUN MEAN FIELD VARIATIONAL BAYES
-# --------------------------------
-X <- cbind(rep(1,n),x)
-Cumat <- cbind(X,Zu)
-Cvmat <- cbind(X,Zv)
-ncX <- ncol(X)
-ncZu <- ncol(Zu)
-ncZv <- ncol(Zv)
-ncCu <- ncol(Cumat)
-ncCv <- ncol(Cvmat)
-
-MFVBfit <- meanVarMFVB(y,X,ncZu,ncZv,Au.hyp,Av.hyp,
+  MFVBfit <- meanVarMFVB(y,X,ncZu,ncZv,Au.hyp,Av.hyp,
                        sigsq.gamma,sigsq.beta)
 
+  ng     <- 2^10
+  xgOrig <- seq(aOrig,bOrig,length=ng)
+  xg  <- (xgOrig - mean.x)/sd.x
+  Xg  <- cbind(rep(1,ng),xg)
+  Zug <- ZOSull(xg,intKnots=intKnotsU,range.x=c(a,b))
+  Cug <- cbind(Xg,Zug)
+  Zvg <- ZOSull(xg,intKnots=intKnotsV,range.x=c(a,b))
+  Cvg <- cbind(Xg,Zvg)
 
-ng <- 2^10
-xgOrig <- seq(aOrig,bOrig,length=ng)
-xg <- (xgOrig - mean.x)/sd.x
-Xg <- cbind(rep(1,ng),xg)
-Zug <- ZOSull(xg,intKnots=intKnotsU,range.x=c(a,b))
-Cug <- cbind(Xg,Zug)
-Zvg <- ZOSull(xg,intKnots=intKnotsV,range.x=c(a,b))
-Cvg <- cbind(Xg,Zvg)
+  mu.q.nu       <- MFVBfit$mu.q.nu
+  mu.q.omega    <- MFVBfit$mu.q.omega
+  Sigma.q.nu    <- MFVBfit$Sigma.q.nu
+  Sigma.q.omega <- MFVBfit$Sigma.q.omega
 
-mu.q.nu <- MFVBfit$mu.q.nu
-mu.q.omega <- MFVBfit$mu.q.omega
-Sigma.q.nu <- MFVBfit$Sigma.q.nu
-Sigma.q.omega <- MFVBfit$Sigma.q.omega
+  # Get the mean function estimate.
+  fhatMFVBg     <- Cug %*% mu.q.nu
+  fhatMFVBgOrig <- fhatMFVBg*sd.y + mean.y
 
-# Get the mean function estimate.
-fhatMFVBg <- Cug%*%mu.q.nu
+  logghatMFVBg     <- Cvg%*%mu.q.omega 
+  logghatMFVBgOrig <- logghatMFVBg + 2*log(sd.y)
 
-fhatMFVBgOrig <- fhatMFVBg*sd.y + mean.y
+  sdloggMFVBgOrig      <- sqrt(diag(Cvg%*%Sigma.q.omega%*%t(Cvg))) 
+  credLowloggMFVBgOrig <- logghatMFVBgOrig - qnorm(0.975)*sdloggMFVBgOrig
+  credUpploggMFVBgOrig <- logghatMFVBgOrig + qnorm(0.975)*sdloggMFVBgOrig
 
-logghatMFVBg <- Cvg%*%mu.q.omega 
-logghatMFVBgOrig <- logghatMFVBg + 2*log(sd.y)
-
-sdloggMFVBgOrig <- sqrt(diag(Cvg%*%Sigma.q.omega%*%t(Cvg))) 
-credLowloggMFVBgOrig <- logghatMFVBgOrig - qnorm(0.975)*sdloggMFVBgOrig
-credUpploggMFVBgOrig <- logghatMFVBgOrig + qnorm(0.975)*sdloggMFVBgOrig
-
-sqrtghatMFVBg <- exp(0.5*Cvg%*%mu.q.omega 
-                   + 0.125*diag(Cvg%*%Sigma.q.omega%*%t(Cvg)))
-
-sqrtghatMFVBgOrig <- sqrtghatMFVBg*sd.y
+  sqrtghatMFVBg     <- exp(0.5*Cvg%*%mu.q.omega 
+                           + 0.125*diag(Cvg%*%Sigma.q.omega%*%t(Cvg)))
+  sqrtghatMFVBgOrig <- sqrtghatMFVBg*sd.y
 
 # RUN SMASH
 # ---------

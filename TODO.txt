@@ -34,5 +34,4 @@ to do
 
 + Polish up R Markdown file containing Shiny app.
 
-+ Convert mfvb.R to R Markdown, and split into long-running
-vs. non-long-running portions.
++ Polish up mfvb.R, and add more detailed console output.
