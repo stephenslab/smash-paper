@@ -1,53 +1,70 @@
-# An illustration of "smoothing via adaptive shrinkage" applied to the
-# Motorcycle Accident data set. Compare the first plot against the
-# figure in the "Motorcycle Acceleration Data" section of the paper.
+---
+title: "Motorcycle Acceleration example"
+author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
+output: workflowr::wflow_html
+---
 
-# SET UP ENVIRONMENT
-# ------------------
-# Load the MASS, scales, wavethresh, EbayesThresh and smashr
-# packages. The MASS package is loaded only for the Motorcycle
-# Accident data. Some additional functions are defined in
-# functions_motorcycle.R.
+An illustration of "smoothing via adaptive shrinkage" applied to the
+Motorcycle Accident data. This implements the illustration application
+described in Sec. 5.1 of the manuscript.
+
+Set up environment
+------------------
+
+Load the MASS, scales, wavethresh, EbayesThresh and smashr
+packages. The MASS package is loaded only for the Motorcycle
+Accident data. Some additional functions are defined in
+`functions.motorcycle.R`.
+
+```{r load-pkgs}
 library(MASS)
 library(lattice)
 library(smashr)
 library(scales)
 library(wavethresh)
 library(EbayesThresh)
-source("functions_motorcycle.R")
+source("../code/motorcycle.functions.R")
+```
 
-# PREPARE DATA FOR SMASH
-# ----------------------
-# Load the motorcycle data.
-cat("Preparing Motorcycle Accident data for smash analysis.\n")
+Prepare data for SMASH
+----------------------
+
+Load the motorcycle data, and order the data points by time.
+
+```{r load-data}
 data(mcycle)
-x.ini.mc = sort(mcycle$times)
-y.ini.mc = mcycle$accel[order(mcycle$times)]
+x.ini.mc <- sort(mcycle$times)
+y.ini.mc <- mcycle$accel[order(mcycle$times)]
+```
 
-# RUN SMASH
-# ---------
-# Apply smash to the Motorcycle Accident data set.
-cat("Running smash on Motorcycle Accident data set.\n")
-res.mc = smash.wrapper(x.ini.mc, y.ini.mc)
+Run SMASH
+---------
 
-# SUMMARIZE RESULTS OF SMASH ANALYSIS
-# -----------------------------------
-# Create a plot showing the Motorcycle Accident data and the smash
-# estimates (with the dashed red lines showing the confidence
-# intervals).
-par(cex.axis = 1.5, cex.sub = 1.8, cex.lab = 1.5,
-    mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
-plot(res.mc$x, res.mc$mu.est, type = 'l',
+Apply smash to the Motorcycle Accident data set.
+
+```{r run-smash}
+res.mc <- smash.wrapper(x.ini.mc,y.ini.mc)
+```
+
+Summarize results of SMASH analysis
+-----------------------------------
+
+Create a plot showing the Motorcycle Accident data and the smash
+estimates (with the dashed red lines showing the confidence
+intervals).
+
+```{r plot-smash-estimates}
+plot(res.mc$x,res.mc$mu.est,type = "l",
      ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
               max(res.mc$y + 2 * sqrt(res.mc$var.est))),
-     xlab = "time (ms)", ylab = "acceleration (g)", lwd = 1.7)
-lines(res.mc$x, res.mc$mu.est + 2 * sqrt(res.mc$var.est), col = 2,
-      lty = 5, lwd = 1.8)
-lines(res.mc$x, res.mc$mu.est - 2 * sqrt(res.mc$var.est), col = 2,
-      lty = 5, lwd = 1.8)
-points(res.mc$x, res.mc$y, cex = 0.7, pch = 16, col = alpha("black", 0.5))
-
-invisible(readline(prompt = "Press [enter] to continue analysis... "))
+     xlab = "time (ms)", ylab = "acceleration (g)",lwd = 2,
+	 col = "darkorange")
+lines(res.mc$x, res.mc$mu.est + 2*sqrt(res.mc$var.est),lty = 5,
+	 lwd = 2,col = "dodgerblue")
+lines(res.mc$x,res.mc$mu.est - 2*sqrt(res.mc$var.est),
+      lty = 5,lwd = 2,col = "dodgerblue")
+points(res.mc$x,res.mc$y,pch = 1,cex = 1,col = "black")
+```
 
 # PREPARE DATA FOR SMASH WITH HOMOGENEOUS VARIANCES
 # -------------------------------------------------

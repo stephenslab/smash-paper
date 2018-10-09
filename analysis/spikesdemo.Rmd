@@ -4,8 +4,9 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-This script illustrates key features of the SMASH method on a small,
-simulated data set with heteroskedastic variances.
+This small demonstration illustrates key features of the SMASH method
+on a small, simulated data set with heteroskedastic variances. This
+code implements the example given in Sec. 4.1 of the paper.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
