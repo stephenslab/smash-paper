@@ -4,9 +4,13 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-An illustration of "smoothing via adaptive shrinkage" applied to the
-Motorcycle Accident data. This implements the illustration application
-described in Sec. 5.1 of the manuscript.
+An illustration of "smoothing via adaptive shrinkage" (SMASH) applied to the
+Motorcycle Accident data. This implements the "illustrative application"
+presented in Sec. 5.1 of the manuscript.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
+```
 
 Set up environment
 ------------------
@@ -16,7 +20,7 @@ packages. The MASS package is loaded only for the Motorcycle
 Accident data. Some additional functions are defined in
 `functions.motorcycle.R`.
 
-```{r load-pkgs}
+```{r load-pkgs, message=FALSE}
 library(MASS)
 library(lattice)
 library(smashr)
@@ -29,9 +33,10 @@ source("../code/motorcycle.functions.R")
 Prepare data for SMASH
 ----------------------
 
-Load the motorcycle data, and order the data points by time.
+Load the motorcycle data from the MASS package, and order the data
+points by time.
 
-```{r load-data}
+```{r prepare-data}
 data(mcycle)
 x.ini.mc <- sort(mcycle$times)
 y.ini.mc <- mcycle$accel[order(mcycle$times)]
@@ -40,7 +45,7 @@ y.ini.mc <- mcycle$accel[order(mcycle$times)]
 Run SMASH
 ---------
 
-Apply smash to the Motorcycle Accident data set.
+Apply SMASH to the Motorcycle Accident data set.
 
 ```{r run-smash}
 res.mc <- smash.wrapper(x.ini.mc,y.ini.mc)
@@ -53,12 +58,12 @@ Create a plot showing the Motorcycle Accident data and the smash
 estimates (with the dashed red lines showing the confidence
 intervals).
 
-```{r plot-smash-estimates}
+```{r plot-smash-estimates, fig.height=5, fig.width=7}
 plot(res.mc$x,res.mc$mu.est,type = "l",
      ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
               max(res.mc$y + 2 * sqrt(res.mc$var.est))),
      xlab = "time (ms)", ylab = "acceleration (g)",lwd = 2,
-	 col = "darkorange")
+	 col = "darkorange",xlim = c(0,60),xaxp = c(0,60,6))
 lines(res.mc$x, res.mc$mu.est + 2*sqrt(res.mc$var.est),lty = 5,
 	 lwd = 2,col = "dodgerblue")
 lines(res.mc$x,res.mc$mu.est - 2*sqrt(res.mc$var.est),
@@ -66,46 +71,39 @@ lines(res.mc$x,res.mc$mu.est - 2*sqrt(res.mc$var.est),
 points(res.mc$x,res.mc$y,pch = 1,cex = 1,col = "black")
 ```
 
-# PREPARE DATA FOR SMASH WITH HOMOGENEOUS VARIANCES
-# -------------------------------------------------
-# Load the motorcycle data for Empirical Bayes thresholding.
-cat("Preparing Motorcycle data for Empirical Bayes thresholding.\n")
-x.ini.ti.cons.mc = sort(mcycle$times)
-y.ini.ti.cons.mc = mcycle$accel[order(mcycle$times)]
+Apply SMASH again, this time assuming equal variances
+-----------------------------------------------------
 
-# Load the motorcycle data once more for the second smash analysis.
-cat("Preparing Motorcycle data for smash analysis (with equal variances).\n")
-x.ini.cons.mc = sort(mcycle$times)
-y.ini.cons.mc = mcycle$accel[order(mcycle$times)]
+Apply SMASH (assuming with equal variances) to the Motorcycle Accident
+data set.
 
-# Apply Empirical Bayes thresholding to the Motorcycle Accident data set.
-cat("Running Empirical Bayes thresholding on Motorcycle Accident data set.\n")
-res.ti.cons.mc = tithresh.cons.wrapper(x.ini.mc, y.ini.mc)
+```{r run-smash-homo}
+res.cons.mc <- smash.cons.wrapper(x.ini.mc,y.ini.mc)
+```
 
-# Apply smash (with equal variances) to the Motorcycle Accident data set.
-cat("Running smash (with equal variances) on Motorcycle Accident data set.\n")
-res.cons.mc = smash.cons.wrapper(x.ini.mc, y.ini.mc)
+Apply other methods to the Motorcycle Accident data
+---------------------------------------------------
 
-# PREPARE DATA FOR EMPIRICAL BAYES WITH SMASH-ESTIMATED VARIANCES
-# ---------------------------------------------------------------
-# Load the motorcycle data for Empirical Bayes thresholding (with
-# smash-estimated variances).
-cat("Preparing data for EbayesThresh (with smash-estimated variances).\n")
-x.ini.ti.mc = sort(mcycle$times)
-y.ini.ti.mc = mcycle$accel[order(mcycle$times)]
+Apply Empirical Bayes thresholding to the Motorcycle Accident data set.
 
-# Apply Empirical Bayes thresholding to the Motorcycle Accident data,
-# with variances estimated by smash.
-cat(paste("Running EbayesThresh (with smash-estimated variances) on",
-          "Motorcycle data.\n"))
-res.ti.mc = tithresh.wrapper(x.ini.mc, y.ini.mc)
+```{r run-tithresh}
+res.ti.cons.mc <- tithresh.cons.wrapper(x.ini.mc, y.ini.mc)
+```
 
-# SUMMARIZE RESULTS FROM ALL METHODS
-# ----------------------------------
-# Create another plot showing the Motorcycle Accident data and the
-# estimates provided by the four methods.
-par(cex.axis = 1.5, cex.sub = 1.8, cex.lab = 1.5,
-    mar = c(5.1, 5.1, 2.1, 2.1), mgp = c(3, 1.3, 0))
+Apply Empirical Bayes thresholding to the Motorcycle Accident data,
+this time using the variances estimated by SMASH.
+
+```{r run-tithresh-with-smash-var}
+res.ti.mc <- tithresh.wrapper(x.ini.mc,y.ini.mc)
+```
+
+SUMMARIZE RESULTS FROM ALL METHODS
+----------------------------------
+
+Create another plot showing the Motorcycle Accident data and the
+estimates provided by the four methods.
+
+```{r}
 plot(res.mc$x, res.mc$mu.est, type = 'l',
      ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
               max(res.mc$y + 2 * sqrt(res.mc$var.est))),
@@ -123,3 +121,4 @@ legend('bottomright',
                   'TI-EBthresh, homo'),
        lty = c(1, 1, 1, 1), lwd = c(2, 2, 2, 2),
        col = c(1, 'brown', 'darkgreen', 4))
+```
