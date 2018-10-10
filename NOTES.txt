@@ -38,7 +38,9 @@ Main text
 
 + Sec. 5, Illustrative applications: NEED TO WORK ON THIS.
 
-+ Sec. 5.1, Motorcycle acceleration data: NEED TO WORK ON THIS.
++ Sec. 5.1, Motorcycle acceleration data: Mostly complete, except for
+  a couple comments that need to be addressed. Source code accompanying
+  this section: analysis/motorcycle.Rmd (also code/motorcycle.functions.R).
 
 + Sec. 5.2, ChIP-Seq data: NEED TO WORK ON THIS.
 
