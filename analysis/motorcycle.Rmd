@@ -81,44 +81,40 @@ data set.
 res.cons.mc <- smash.cons.wrapper(x.ini.mc,y.ini.mc)
 ```
 
-Apply other methods to the Motorcycle Accident data
+Apply TI thresholding to the Motorcycle Accident data
 ---------------------------------------------------
 
-Apply Empirical Bayes thresholding to the Motorcycle Accident data set.
+Apply TI thresholding to the Motorcycle Accident data set.
 
 ```{r run-tithresh}
-res.ti.cons.mc <- tithresh.cons.wrapper(x.ini.mc, y.ini.mc)
+res.ti.cons.mc <- tithresh.cons.wrapper(x.ini.mc,y.ini.mc)
 ```
 
-Apply Empirical Bayes thresholding to the Motorcycle Accident data,
-this time using the variances estimated by SMASH.
+Apply TI thresholding to the Motorcycle Accident data, this time using
+the variances estimated by SMASH.
 
 ```{r run-tithresh-with-smash-var}
 res.ti.mc <- tithresh.wrapper(x.ini.mc,y.ini.mc)
 ```
 
-SUMMARIZE RESULTS FROM ALL METHODS
-----------------------------------
+Compare results from all methods
+--------------------------------
 
-Create another plot showing the Motorcycle Accident data and the
-estimates provided by the four methods.
+In this second plot, we compare the mean estimate provided by SMASH
+(with heteroskedastic variances; orange line) against homoskedastic
+SMASH (dotted magenta line), TI thresholding (dark blue line), and TI
+thresholding when the variances have been estimated by SMASH (dotted
+green line).
 
-```{r}
-plot(res.mc$x, res.mc$mu.est, type = 'l',
+```{r plot-all-estimates, fig.height=5, fig.width=7}
+plot(res.mc$x,res.mc$mu.est,type = "l",
      ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
               max(res.mc$y + 2 * sqrt(res.mc$var.est))),
-     xlab = "time (ms)", ylab = "acceleration (g)", lwd = 2)
-lines(res.mc$x, res.mc$mu.est + 2 * sqrt(res.mc$var.est), col = 2,
-      lty = 5, lwd = 1.8)
-lines(res.mc$x, res.mc$mu.est - 2 * sqrt(res.mc$var.est), col = 2,
-      lty = 5, lwd = 1.8)
-lines(res.ti.cons.mc$x, res.ti.cons.mc$mu.est, lwd = 2, col = 4)
-lines(res.cons.mc$x, res.cons.mc$mu.est, lwd = 2, col = 'brown')
-lines(res.ti.mc$x, res.ti.mc$mu.est, lwd = 2, col = 'darkgreen')
-points(res.mc$x, res.mc$y, cex = 0.7, pch = 16, col = alpha("black", 0.5))
-legend('bottomright',
-       legend = c('SMASH', 'SMASH, homo', 'TI-thresh, SMASH est',
-                  'TI-EBthresh, homo'),
-       lty = c(1, 1, 1, 1), lwd = c(2, 2, 2, 2),
-       col = c(1, 'brown', 'darkgreen', 4))
+	 xlab = "time (ms)",ylab = "acceleration (g)",lwd = 2,
+	 col = "darkorange",xlim = c(0,60),xaxp = c(0,60,6))
+lines(res.cons.mc$x,res.cons.mc$mu.est,lwd = 2,lty = "dotted",col = "magenta")
+lines(res.ti.cons.mc$x,res.ti.cons.mc$mu.est,lwd = 2,lty = "solid",
+      col = "darkblue")
+lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = "limegreen",lty = "dotted")
+points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 ```
