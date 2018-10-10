@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Zhengrong Xing, Peter Carbonetto and Matthew Stephens" />
+
+
+<title>Motorcycle Acceleration example</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">smash</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/smash-paper">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Motorcycle Acceleration example</h1>
+<h4 class="author"><em>Zhengrong Xing, Peter Carbonetto and Matthew Stephens</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-10-10</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(1)</code> </summary></p>
+<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/7f2ef79eee1a716d35dab617abe74a0ae83d9e2e" target="_blank">7f2ef79</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FCPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/LMIRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/MedRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/WPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/7f2ef79eee1a716d35dab617abe74a0ae83d9e2e/analysis/motorcycle.Rmd" target="_blank">7f2ef79</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-10-10
+</td>
+<td style="text-align:left;">
+wflow_publish(“motorcycle.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/3b3d3738cde2fbcb3a271a51afc80a3e34fda0a7/analysis/motorcycle.Rmd" target="_blank">3b3d373</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-10-09
+</td>
+<td style="text-align:left;">
+Some more improvements to the motorcycle example.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/757462cb31ff4d9419459f78d6abbee39d65ab6f/analysis/motorcycle.Rmd" target="_blank">757462c</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-10-09
+</td>
+<td style="text-align:left;">
+Working on motorcycle .Rmd example.
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<p>An illustration of “smoothing via adaptive shrinkage” (SMASH) applied to the Motorcycle Accident data. This implements the “illustrative application” presented in Sec. 5.1 of the manuscript.</p>
+<div id="set-up-environment" class="section level2">
+<h2>Set up environment</h2>
+<p>Load the MASS, scales, wavethresh, EbayesThresh and smashr packages. The MASS package is loaded only for the Motorcycle Accident data. Some additional functions are defined in <code>functions.motorcycle.R</code>.</p>
+<pre class="r"><code>library(MASS)
+library(lattice)
+library(smashr)
+library(scales)
+library(wavethresh)
+library(EbayesThresh)
+source(&quot;../code/motorcycle.functions.R&quot;)</code></pre>
+</div>
+<div id="prepare-data-for-smash" class="section level2">
+<h2>Prepare data for SMASH</h2>
+<p>Load the motorcycle data from the MASS package, and order the data points by time.</p>
+<pre class="r"><code>data(mcycle)
+x.ini.mc &lt;- sort(mcycle$times)
+y.ini.mc &lt;- mcycle$accel[order(mcycle$times)]</code></pre>
+</div>
+<div id="run-smash" class="section level2">
+<h2>Run SMASH</h2>
+<p>Apply SMASH to the Motorcycle Accident data set.</p>
+<pre class="r"><code>res.mc &lt;- smash.wrapper(x.ini.mc,y.ini.mc)</code></pre>
+</div>
+<div id="summarize-results-of-smash-analysis" class="section level2">
+<h2>Summarize results of SMASH analysis</h2>
+<p>Create a plot showing the Motorcycle Accident data and the smash estimates (with the dashed red lines showing the confidence intervals).</p>
+<pre class="r"><code>plot(res.mc$x,res.mc$mu.est,type = &quot;l&quot;,
+     ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
+              max(res.mc$y + 2 * sqrt(res.mc$var.est))),
+     xlab = &quot;time (ms)&quot;, ylab = &quot;acceleration (g)&quot;,lwd = 2,
+     col = &quot;darkorange&quot;,xlim = c(0,60),xaxp = c(0,60,6))
+lines(res.mc$x, res.mc$mu.est + 2*sqrt(res.mc$var.est),lty = 5,
+     lwd = 2,col = &quot;dodgerblue&quot;)
+lines(res.mc$x,res.mc$mu.est - 2*sqrt(res.mc$var.est),
+      lty = 5,lwd = 2,col = &quot;dodgerblue&quot;)
+points(res.mc$x,res.mc$y,pch = 1,cex = 1,col = &quot;black&quot;)</code></pre>
+<p><img src="figure/motorcycle.Rmd/plot-smash-estimates-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="apply-smash-again-this-time-assuming-equal-variances" class="section level2">
+<h2>Apply SMASH again, this time assuming equal variances</h2>
+<p>Apply SMASH (assuming with equal variances) to the Motorcycle Accident data set.</p>
+<pre class="r"><code>res.cons.mc &lt;- smash.cons.wrapper(x.ini.mc,y.ini.mc)</code></pre>
+</div>
+<div id="apply-ti-thresholding-to-the-motorcycle-accident-data" class="section level2">
+<h2>Apply TI thresholding to the Motorcycle Accident data</h2>
+<p>Apply TI thresholding to the Motorcycle Accident data set.</p>
+<pre class="r"><code>res.ti.cons.mc &lt;- tithresh.cons.wrapper(x.ini.mc,y.ini.mc)</code></pre>
+<p>Apply TI thresholding to the Motorcycle Accident data, this time using the variances estimated by SMASH.</p>
+<pre class="r"><code>res.ti.mc &lt;- tithresh.wrapper(x.ini.mc,y.ini.mc)</code></pre>
+</div>
+<div id="compare-results-from-all-methods" class="section level2">
+<h2>Compare results from all methods</h2>
+<p>In this second plot, we compare the mean estimate provided by SMASH (with heteroskedastic variances; orange line) against homoskedastic SMASH (dotted magenta line), TI thresholding (dark blue line), and TI thresholding when the variances have been estimated by SMASH (dotted green line).</p>
+<pre class="r"><code>plot(res.mc$x,res.mc$mu.est,type = &quot;l&quot;,
+     ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
+              max(res.mc$y + 2 * sqrt(res.mc$var.est))),
+     xlab = &quot;time (ms)&quot;,ylab = &quot;acceleration (g)&quot;,lwd = 2,
+     col = &quot;darkorange&quot;,xlim = c(0,60),xaxp = c(0,60,6))
+lines(res.cons.mc$x,res.cons.mc$mu.est,lwd = 2,lty = &quot;dotted&quot;,col = &quot;magenta&quot;)
+lines(res.ti.cons.mc$x,res.ti.cons.mc$mu.est,lwd = 2,lty = &quot;solid&quot;,
+      col = &quot;darkblue&quot;)
+lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = &quot;limegreen&quot;,lty = &quot;dotted&quot;)
+points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = &quot;black&quot;)</code></pre>
+<p><img src="figure/motorcycle.Rmd/plot-all-estimates-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()
+# R version 3.4.3 (2017-11-30)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS High Sierra 10.13.6
+# 
+# Matrix products: default
+# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] EbayesThresh_1.3.2 wavethresh_4.6.8   scales_0.5.0      
+# [4] smashr_1.2-0       lattice_0.20-35    MASS_7.3-48       
+# 
+# loaded via a namespace (and not attached):
+#  [1] Rcpp_0.12.19      compiler_3.4.3    git2r_0.23.0     
+#  [4] plyr_1.8.4        workflowr_1.1.1   R.methodsS3_1.7.1
+#  [7] R.utils_2.6.0     bitops_1.0-6      iterators_1.0.9  
+# [10] tools_3.4.3       digest_0.6.17     evaluate_0.11    
+# [13] Matrix_1.2-12     foreach_1.4.4     yaml_2.2.0       
+# [16] parallel_3.4.3    stringr_1.3.1     knitr_1.20       
+# [19] REBayes_1.3       caTools_1.17.1    rprojroot_1.3-2  
+# [22] grid_3.4.3        data.table_1.11.4 rmarkdown_1.10   
+# [25] ashr_2.2-15       magrittr_1.5      whisker_0.3-2    
+# [28] backports_1.1.2   codetools_0.2-15  htmltools_0.3.6  
+# [31] assertthat_0.2.0  colorspace_1.4-0  stringi_1.2.4    
+# [34] Rmosek_8.0.69     doParallel_1.0.11 pscl_1.5.2       
+# [37] munsell_0.4.3     truncnorm_1.0-8   SQUAREM_2017.10-1
+# [40] R.oo_1.21.0</code></pre>
+</div>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
