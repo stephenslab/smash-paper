@@ -10,6 +10,8 @@
 #
 library(smashr)
 library(scales)
+library(ggplot2)
+library(cowplot)
 
 # LOAD DATA
 # ---------
@@ -20,27 +22,44 @@ load("../data/reg_880000_1011072.RData")
 # PREPARE DATA
 # ------------
 # Prepare the data for analysis with smash.
-bppos = 880001:1011072
-peaks=read.table("../data/Gm1287peaks_chr1_sorted.txt")
-peaks=peaks[order(peaks[,2]),]
-all.base=1:peaks[dim(peaks)[1],3]
-peaks.start=peaks[,2][peaks[,2]>=880000&peaks[,2]<=1011072]
-peaks.end=peaks[,3][peaks[,3]>=880000&peaks[,3]<=1011072]
+bppos <- 880001:1011072
 
 # RUN SMASH
 # ---------
 # Apply smash to the Motorcycle Accident data set.
 cat("Running smash on ChIP-seq data.\n")
-res = smash.poiss(M[1,]+M[2,],post.var=TRUE)
+counts <- M[1,] + M[,2]
+res <- smash.poiss(counts,post.var = TRUE)
 
 # PLOT RESULTS
 # ------------
 # The first plot shows counts (summed across two replicate
 # experiments), with darker areas corresponding to higher numbers of
 # data points.
-plot(bppos,M[1,]+M[2,],xlab="position",ylab="counts",pch=16,cex=0.5,
+plot(bppos,counts,xlab="position",ylab="counts",pch=16,cex=0.5,
      col=alpha("black",0.04))
+
+breaks <- seq(880000,1011073,length.out = 80)
+x      <- cut(bppos,breaks)
+n      <- table(x,factor(counts))
+ggplot(data.frame(position = rep(breaks[-80],times = 8),
+                  count    = rep(0:7,each = 79),
+                  n        = as.vector(n),
+                  is.zero  = as.vector(n) == 0),
+       aes(x = position,y = count,size = sqrt(n),color = is.zero)) +
+  geom_point(shape = 1) +
+  scale_color_manual(values = c("black","white")) +
+  scale_size_area(max_size = 2.5)
+
 invisible(readline(prompt = "Press [enter] to view next plot... "))
+
+
+
+peaks       <- read.table("../data/Gm1287peaks_chr1_sorted.txt")
+peaks       <- peaks[order(peaks[,2]),]
+all.base    <- 1:peaks[dim(peaks)[1],3]
+peaks.start <- peaks[,2][peaks[,2] >= 880000&peaks[,2]<=1011072]
+peaks.end   <- peaks[,3][peaks[,3] >= 880000&peaks[,3]<=1011072]
 
 # The second plot shows the estimated intensity function from smash
 # (black line) and the location of the peaks called by MACS (red

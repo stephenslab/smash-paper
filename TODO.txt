@@ -31,4 +31,4 @@ to do
 
 + Polish up R Markdown file containing Shiny app.
 
-+ Convert motorcycle.R to R Markdown.
++ Convert chipseq.R script to R Markdown.
