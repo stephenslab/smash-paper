@@ -42,7 +42,10 @@ Main text
   a couple comments that need to be addressed. Source code accompanying
   this section: analysis/motorcycle.Rmd (also code/motorcycle.functions.R).
 
-+ Sec. 5.2, ChIP-Seq data: NEED TO WORK ON THIS.
++ Sec. 5.2, ChIP-Seq data: NEED TO WORK ON THIS. Source code
+  accompanying this section: analysis/chipseq.Rmd (also
+  code/chipseq.functions.R). Data files used: reg_880000_1011072.RData
+  and Gm1287peaks_chr1_sorted.txt in the "data" folder.
 
 + Sec. 6, Discussion: mostly complete, aside from one comment that
 needs to be addressed.
