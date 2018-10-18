@@ -68,7 +68,7 @@ peaks <- read.macs.peaks(macs.file,min(bppos),max(bppos))
 
 TO DO: Describe what is being shown in the plot.
 
-```{r plot-smash-estimates, fig.height=4, fig.width=8}
+```{r plot-smash-estimates, fig.height=3, fig.width=9}
 create.chipseq.plot(bppos/1e6,counts,res$est,(peaks$start + peaks$end)/2e6,
                     nbreaks = 80) +
   scale_x_continuous(limits = c(0.88,1.02),breaks = seq(0.88,1.02,0.02)) +
