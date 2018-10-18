@@ -6,7 +6,7 @@ navbar:
     - text: "Home"
       href: index.html
   right:
-    - icon: fa-github
+    - text: source
       href: https://github.com/stephenslab/smash-paper
 output:
   workflowr::wflow_html:
