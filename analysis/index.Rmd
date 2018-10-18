@@ -1,9 +1,18 @@
 ---
-title: "Home"
+title: "SMASH companion code resources"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
     toc: false
 ---
 
-Welcome to my research website.
+## Contents
+
++ [Illustration of SMASH on "spikes" data set.](spikesdemo.html)
+
++ [Comparison of signal denoising methods in Gaussian-distributed data
+  sets.](gaussian.mean.est.html)
+
++ [Application of SMASH to motorcycle acceleration data.](motorcycle.html)
+
++ [Application of SMASH to ChIP-seq data.](chipseq.html)
