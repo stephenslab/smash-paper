@@ -45,9 +45,10 @@ and R packages that were used to generate the results shown below.
 Set up R environment
 --------------------
 
-Load the MASS, wavethresh, EbayesThresh and smashr packages. The MASS
-package is loaded only for the Motorcycle Accident data. Some
-additional functions are defined in `functions.motorcycle.R`.
+Load the MASS, lattice wavethresh, EbayesThresh and smashr
+packages. The MASS package is loaded only for the Motorcycle Accident
+data. Some additional functions are defined in
+`functions.motorcycle.R`.
 
 ```{r load-pkgs, message=FALSE}
 library(MASS)
@@ -134,21 +135,38 @@ Compare results from all methods
 
 In this second plot, we compare the mean estimate provided by SMASH
 (with heteroskedastic variances; orange line) against homoskedastic
-SMASH (dotted magenta line), TI thresholding (dark blue line), and TI
-thresholding when the variances have been estimated by SMASH (dotted
-green line).
+SMASH (dotted magenta line).
 
-```{r plot-all-estimates, fig.height=5, fig.width=7}
+```{r plot-homo-smash-estimates, fig.height=5, fig.width=7}
 plot(res.mc$x,res.mc$mu.est,type = "l",
      ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
               max(res.mc$y + 2 * sqrt(res.mc$var.est))),
 	 xlab = "time (ms)",ylab = "acceleration (g)",lwd = 2,
 	 col = "darkorange",xlim = c(0,60),xaxp = c(0,60,6))
 lines(res.cons.mc$x,res.cons.mc$mu.est,lwd = 2,lty = "dotted",col = "magenta")
+#  lines(res.ti.cons.mc$x,res.ti.cons.mc$mu.est,lwd = 2,lty = "solid",
+#        col = "darkblue")
+#  lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = "limegreen",lty = "dotted")
+points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
+```
+
+And in this next plot, we compare the SMASH estimates (orange line)
+against the the mean estimates obtained by TI thresholding (dark blue
+line), and TI thresholding when the variances have been estimated by
+SMASH (dotted green line).
+
+```{r plot-ti-thresh-estimates, fig.height=5, fig.width=7}
+plot(res.mc$x,res.mc$mu.est,type = "l",
+     ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
+              max(res.mc$y + 2 * sqrt(res.mc$var.est))),
+	 xlab = "time (ms)",ylab = "acceleration (g)",lwd = 2,
+	 col = "darkorange",xlim = c(0,60),xaxp = c(0,60,6))
 lines(res.ti.cons.mc$x,res.ti.cons.mc$mu.est,lwd = 2,lty = "solid",
       col = "darkblue")
 lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = "limegreen",lty = "dotted")
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 ```
+
+*Add text here.*
 
 [smash-github]: https://github.com/stephenslab/smash-paper
