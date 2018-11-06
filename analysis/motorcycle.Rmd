@@ -135,7 +135,7 @@ Compare results from all methods
 
 In this second plot, we compare the mean estimate provided by SMASH
 (with heteroskedastic variances; orange line) against homoskedastic
-SMASH (dotted magenta line).
+SMASH (dotted, light blue line).
 
 ```{r plot-homo-smash-estimates, fig.height=5, fig.width=7}
 plot(res.mc$x,res.mc$mu.est,type = "l",
@@ -143,10 +143,8 @@ plot(res.mc$x,res.mc$mu.est,type = "l",
               max(res.mc$y + 2 * sqrt(res.mc$var.est))),
 	 xlab = "time (ms)",ylab = "acceleration (g)",lwd = 2,
 	 col = "darkorange",xlim = c(0,60),xaxp = c(0,60,6))
-lines(res.cons.mc$x,res.cons.mc$mu.est,lwd = 2,lty = "dotted",col = "magenta")
-#  lines(res.ti.cons.mc$x,res.ti.cons.mc$mu.est,lwd = 2,lty = "solid",
-#        col = "darkblue")
-#  lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = "limegreen",lty = "dotted")
+lines(res.cons.mc$x,res.cons.mc$mu.est,lwd = 2,lty = "dotted",
+      col = "dodgerblue")
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 ```
 
@@ -167,6 +165,9 @@ lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = "limegreen",lty = "dotted")
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 ```
 
-*Add text here.*
+The TI thresholding estimate and the SMASH estimate with homoskedastic
+variances both show notable artifacts. When the TI thresholding method
+is provided with the SMASH variance estimates, the mean signal is much
+more smooth.
 
 [smash-github]: https://github.com/stephenslab/smash-paper
