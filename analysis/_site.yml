@@ -1,9 +1,9 @@
-name: "smash"
+name: "SMASH code resources"
 output_dir: "../docs"
 navbar:
   title: "smash"
   left:
-    - text: "Home"
+    - text: "Overview"
       href: index.html
   right:
     - text: source
