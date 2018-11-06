@@ -99,7 +99,7 @@ Plot the simulated data set.
 ```{r plot-simulated-data, fig.height=5, fig.width=10}
 par(cex.axis = 1,cex.lab = 1.25)
 plot(mu.sp,type = 'l',ylim = c(-0.05,1),xlab = "position",
-     ylab = "",lwd = 2,xaxp = c(0,1024,4),yaxp = c(0,1,4))
+     ylab = "",lwd = 3,xaxp = c(0,1024,4),yaxp = c(0,1,4))
 lines(mu.sp + 2*sig.cb,col = "darkorange",lty = 5,lwd = 1.8)
 lines(mu.sp - 2*sig.cb,col = "darkorange",lty = 5,lwd = 1.8)
 points(x.sim,cex = 0.7,pch = 16,col = "dodgerblue")
