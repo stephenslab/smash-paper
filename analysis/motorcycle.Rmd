@@ -51,6 +51,7 @@ additional functions are defined in `functions.motorcycle.R`.
 
 ```{r load-pkgs, message=FALSE}
 library(MASS)
+library(scales)
 library(lattice)
 library(smashr)
 library(wavethresh)
@@ -59,7 +60,8 @@ source("../code/motorcycle.functions.R")
 ```
 
 Note that the MASS and lattice packages are included in most standard
-R installations.
+R installations, so you probably don't need to install these packages
+separately.
 
 Prepare data for SMASH
 ----------------------
