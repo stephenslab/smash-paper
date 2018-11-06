@@ -6,22 +6,17 @@ output:
     toc: false
 ---
 
-This repository contains source code and data accompanying our manuscript,
+This repository contains data and R source code accompanying our
+manuscript,
 
 > Zhengrong Xing and Matthew Stephens (2016). *Smoothing via Adaptive
 Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian
-signals.* [arXiv:1709.10066](http://arxiv.org/abs/1605.07787).
-
-The new methods can be found in the [smashr package][smashr].
-
-## Citing this work
+signals.* [arXiv:1709.10066][smash-preprint].
 
 If you find any of the source code in this repository useful for your
-work, please cite our paper:
+work, please cite our paper.
 
-> Zhengrong Xing and Matthew Stephens (2016). *Smoothing via Adaptive
-> Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian
-> signals.* [arXiv:1709.10066][smash-preprint].
+The new methods can be found in the [smashr package][smashr].
 
 ## License
 
@@ -35,7 +30,7 @@ under the terms of the [MIT license][mit-license]. See the
 ## Contents
 
 The following analyses generate some of the empirical results
-presented in [Xing & Stephens (2016)][smashr-preprint]. If you
+presented in [Xing & Stephens (2016)][smash-preprint]. If you
 encounter a problem running any of the R code in these examples,
 please post an [issue][issues].
 
