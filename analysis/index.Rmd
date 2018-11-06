@@ -1,22 +1,34 @@
 ---
-title: "SMASH companion source code repository"
+title: "SMASH companion code resources"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
     toc: false
 ---
 
-This repository contains source code and data accompanying our manuscript:
+This repository contains source code and data accompanying our manuscript,
 
 > Zhengrong Xing and Matthew Stephens (2016). *Smoothing via Adaptive
 Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian
 signals.* [arXiv:1709.10066](http://arxiv.org/abs/1605.07787).
 
-reproduce some of the
-empirical results presented in [Xing & Stephens (2016)][smashr-preprint].
 The new methods can be found in the [smashr package][smashr].
 
-If you find a bug, please post an [issue][issues].
+## Contents
+
+The following analyses generate some of the empirical results
+presented in [Xing & Stephens (2016)][smashr-preprint]. If you
+encounter a problem running any of the R code in these examples,
+please post an [issue][issues].
+
++ [Illustration of SMASH applied to the "spikes" data set.](spikesdemo.html)
+
++ [Comparison of signal denoising methods in Gaussian-distributed data
+  sets.](gaussian.mean.est.html)
+
++ [Application of SMASH to motorcycle acceleration data.](motorcycle.html)
+
++ [Application of SMASH to ChIP-seq data.](chipseq.html)
 
 ## Citing this work
 
@@ -24,18 +36,17 @@ If you find any of the source code in this repository useful for your
 work, please cite our paper:
 
 > Zhengrong Xing and Matthew Stephens (2016). *Smoothing via Adaptive
-Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian
-signals.* [arXiv:1709.10066](http://arxiv.org/abs/1605.07787).
+> Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian
+> signals.* [arXiv:1709.10066][smash-preprint].
 
 ## License
 
-Copyright (c) 2016-2018, Zhengrong Xing, Peter Carbonetto * Matthew
+Copyright (c) 2016-2018, Zhengrong Xing, Peter Carbonetto & Matthew
 Stephens.
 
 All source code and software in this repository are made available
-under the terms of the
-[MIT license](https://opensource.org/licenses/mit-license.html). See
-the [LICENSE](LICENSE) file for the full text of the license.
+under the terms of the [MIT license][mit-license]. See the
+[LICENSE](LICENSE) file for the full text of the license.
 
 ## Credits
 
@@ -44,20 +55,9 @@ University of Chicago, with support and contributions from
 [Peter Carbonetto][peter] and [Matthew Stephens][matthew].
 
 [smashr]: https://github.com/stephenslab/smashr
-[smashr-preprint]: http://arxiv.org/abs/1605.07787
-[dscr-smash]: https://github.com/stephenslab/dscr-smash
+[smash-preprint]: http://arxiv.org/abs/1605.07787
 [issues]: https://github.com/stephenslab/smash-paper/issues
+[mit-license]: https://opensource.org/licenses/mit-license.html
 [zhengrong]: https://github.com/zrxing
 [peter]: http://pcarbo.github.io
 [matthew]: http://stephenslab.uchicago.edu
-
-## Contents
-
-+ [Illustration of SMASH on "spikes" data set.](spikesdemo.html)
-
-+ [Comparison of signal denoising methods in Gaussian-distributed data
-  sets.](gaussian.mean.est.html)
-
-+ [Application of SMASH to motorcycle acceleration data.](motorcycle.html)
-
-+ [Application of SMASH to ChIP-seq data.](chipseq.html)
