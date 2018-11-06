@@ -224,7 +224,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/7fb8609eb2734afe35b5f919ed47a92ab64630c2" target="_blank">7fb8609</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/f2efe243e7ab7ccfa6667fbfc9e4cfa07c9ad81e" target="_blank">f2efe24</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -256,8 +256,10 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
-Staged changes:
-    Deleted:    analysis/setup.Rmd
+Untracked files:
+    Untracked:  analysis/#spikesdemo.Rmd#
+    Untracked:  analysis/.#spikesdemo.Rmd
+    Untracked:  analysis/motorcycle.R
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -286,6 +288,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/f2efe243e7ab7ccfa6667fbfc9e4cfa07c9ad81e/analysis/index.Rmd" target="_blank">f2efe24</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+<td style="text-align:left;">
+wflow_publish(“index.Rmd”)
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -492,12 +511,12 @@ Start workflowr project with wflow_start().
 <div id="contents" class="section level2">
 <h2>Contents</h2>
 <p>The following analyses generate some of the empirical results presented in <a href="http://arxiv.org/abs/1605.07787">Xing &amp; Stephens (2016)</a>. If you encounter a problem running any of the R code in these examples, please post an <a href="https://github.com/stephenslab/smash-paper/issues">issue</a>.</p>
-<ul>
+<ol style="list-style-type: decimal">
 <li><p><a href="spikesdemo.html">Illustration of SMASH applied to the “spikes” data set.</a></p></li>
 <li><p><a href="gaussian.mean.est.html">Comparison of signal denoising methods in Gaussian-distributed data sets.</a></p></li>
 <li><p><a href="motorcycle.html">Application of SMASH to motorcycle acceleration data.</a></p></li>
 <li><p><a href="chipseq.html">Application of SMASH to ChIP-seq data.</a></p></li>
-</ul>
+</ol>
 </div>
 <div id="whats-included-in-the-git-repository" class="section level2">
 <h2>What’s included in the git repository</h2>
