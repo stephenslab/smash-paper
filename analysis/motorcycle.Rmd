@@ -4,31 +4,62 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-An illustration of "smoothing via adaptive shrinkage" (SMASH) applied to the
-Motorcycle Accident data. This implements the "illustrative application"
-presented in Sec. 5.1 of the manuscript.
+This is an illustration of "smoothing via adaptive shrinkage" (SMASH)
+applied to the Motorcycle Accident data. This implements the
+"illustrative application" presented in Sec. 5.1 of the manuscript.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
 ```
 
-Set up environment
-------------------
+Initial setup instructions
+--------------------------
 
-Load the MASS, scales, wavethresh, EbayesThresh and smashr
-packages. The MASS package is loaded only for the Motorcycle
-Accident data. Some additional functions are defined in
-`functions.motorcycle.R`.
+To run this example on your own computer, please follow these setup
+instructions. These instructions assume you already have R and/or
+RStudio installed on your computer.
+
+Download or clone the [git repository][smash-github] on your computer.
+
+Launch R, and change the working directory to be the "analysis" folder
+inside your local copy of the git repository.
+
+Install the devtools, wavethresh and EbayesThresh packages used here
+and in the code below:
+
+```{r install-pkgs-1, eval=FALSE}
+install.packages(c("devtools","wavethresh","EbayesThresh"))
+```
+
+Finally, install the ashr and smashr packages from GitHub:
+
+```{r install-pkgs-2, eval=FALSE}
+library(devtools)
+install_github("stephens999/ashr",upgrade_dependencies = FALSE)
+install_github("stephenslab/smashr",upgrade_dependencies = FALSE)
+```
+
+See the "Session Info" at the bottom for the versions of the software
+and R packages that were used to generate the results shown below.
+
+Set up R environment
+--------------------
+
+Load the MASS, wavethresh, EbayesThresh and smashr packages. The MASS
+package is loaded only for the Motorcycle Accident data. Some
+additional functions are defined in `functions.motorcycle.R`.
 
 ```{r load-pkgs, message=FALSE}
 library(MASS)
 library(lattice)
 library(smashr)
-library(scales)
 library(wavethresh)
 library(EbayesThresh)
 source("../code/motorcycle.functions.R")
 ```
+
+Note that the MASS and lattice packages are included in most standard
+R installations.
 
 Prepare data for SMASH
 ----------------------
@@ -74,15 +105,15 @@ points(res.mc$x,res.mc$y,pch = 1,cex = 1,col = "black")
 Apply SMASH again, this time assuming equal variances
 -----------------------------------------------------
 
-Apply SMASH (assuming with equal variances) to the Motorcycle Accident
-data set.
+Apply SMASH (assuming equal variances) to the Motorcycle Accident data
+set.
 
 ```{r run-smash-homo}
 res.cons.mc <- smash.cons.wrapper(x.ini.mc,y.ini.mc)
 ```
 
 Apply TI thresholding to the Motorcycle Accident data
----------------------------------------------------
+-----------------------------------------------------
 
 Apply TI thresholding to the Motorcycle Accident data set.
 
