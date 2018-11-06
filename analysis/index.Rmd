@@ -1,5 +1,5 @@
 ---
-title: "SMASH companion code resources"
+title: "SMASH companion source code repository"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
@@ -13,22 +13,6 @@ Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian
 signals.* [arXiv:1709.10066](http://arxiv.org/abs/1605.07787).
 
 The new methods can be found in the [smashr package][smashr].
-
-## Contents
-
-The following analyses generate some of the empirical results
-presented in [Xing & Stephens (2016)][smashr-preprint]. If you
-encounter a problem running any of the R code in these examples,
-please post an [issue][issues].
-
-+ [Illustration of SMASH applied to the "spikes" data set.](spikesdemo.html)
-
-+ [Comparison of signal denoising methods in Gaussian-distributed data
-  sets.](gaussian.mean.est.html)
-
-+ [Application of SMASH to motorcycle acceleration data.](motorcycle.html)
-
-+ [Application of SMASH to ChIP-seq data.](chipseq.html)
 
 ## Citing this work
 
@@ -48,12 +32,36 @@ All source code and software in this repository are made available
 under the terms of the [MIT license][mit-license]. See the
 [LICENSE](LICENSE) file for the full text of the license.
 
+## Contents
+
+The following analyses generate some of the empirical results
+presented in [Xing & Stephens (2016)][smashr-preprint]. If you
+encounter a problem running any of the R code in these examples,
+please post an [issue][issues].
+
++ [Illustration of SMASH applied to the "spikes" data set.](spikesdemo.html)
+
++ [Comparison of signal denoising methods in Gaussian-distributed data
+  sets.](gaussian.mean.est.html)
+
++ [Application of SMASH to motorcycle acceleration data.](motorcycle.html)
+
++ [Application of SMASH to ChIP-seq data.](chipseq.html)
+
+## What's included in the git repository
+
+See here for the source repository. This is what you will find in the
+repository:
+
+*Fill out this section.*
+
 ## Credits
 
 This project was developed by [Zhengrong Xing][zhengrong] at the
 University of Chicago, with support and contributions from
 [Peter Carbonetto][peter] and [Matthew Stephens][matthew].
 
+[smash-github]: https://github.com/stephenslab/smash-paper
 [smashr]: https://github.com/stephenslab/smashr
 [smash-preprint]: http://arxiv.org/abs/1605.07787
 [issues]: https://github.com/stephenslab/smash-paper/issues
