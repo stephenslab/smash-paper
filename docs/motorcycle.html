@@ -26,9 +26,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -283,15 +280,12 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">Overview</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/stephenslab/smash-paper">
-    <span class="fa fa-github"></span>
-     
-  </a>
+  <a href="https://github.com/stephenslab/smash-paper">source</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -321,7 +315,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-10-10</p>
+<p><strong>Last updated:</strong> 2018-11-06</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -345,7 +339,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/7f2ef79eee1a716d35dab617abe74a0ae83d9e2e" target="_blank">7f2ef79</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/f0059b3fac35fa53ff6dfe14256e7c3bc4561d25" target="_blank">f0059b3</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -409,6 +403,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/f0059b3fac35fa53ff6dfe14256e7c3bc4561d25/analysis/motorcycle.Rmd" target="_blank">f0059b3</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+<td style="text-align:left;">
+wflow_publish(“motorcycle.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/507a261a6f393af417a8a733489b296be63c1f52/analysis/motorcycle.Rmd" target="_blank">507a261</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+<td style="text-align:left;">
+Having trouble re-building spikesdemo.html.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/stephenslab/smash-paper/blob/7f2ef79eee1a716d35dab617abe74a0ae83d9e2e/analysis/motorcycle.Rmd" target="_blank">7f2ef79</a>
 </td>
 <td style="text-align:left;">
@@ -460,17 +488,31 @@ Working on motorcycle .Rmd example.
 </ul>
 <p></details></p>
 <hr />
-<p>An illustration of “smoothing via adaptive shrinkage” (SMASH) applied to the Motorcycle Accident data. This implements the “illustrative application” presented in Sec. 5.1 of the manuscript.</p>
-<div id="set-up-environment" class="section level2">
-<h2>Set up environment</h2>
-<p>Load the MASS, scales, wavethresh, EbayesThresh and smashr packages. The MASS package is loaded only for the Motorcycle Accident data. Some additional functions are defined in <code>functions.motorcycle.R</code>.</p>
+<p>This is an illustration of “smoothing via adaptive shrinkage” (SMASH) applied to the Motorcycle Accident data. This implements the “illustrative application” presented in Sec. 5.1 of the manuscript.</p>
+<div id="initial-setup-instructions" class="section level2">
+<h2>Initial setup instructions</h2>
+<p>To run this example on your own computer, please follow these setup instructions. These instructions assume you already have R and/or RStudio installed on your computer.</p>
+<p>Download or clone the [git repository][smash-github] on your computer.</p>
+<p>Launch R, and change the working directory to be the “analysis” folder inside your local copy of the git repository.</p>
+<p>Install the devtools, wavethresh and EbayesThresh packages used here and in the code below:</p>
+<pre class="r"><code>install.packages(c(&quot;devtools&quot;,&quot;wavethresh&quot;,&quot;EbayesThresh&quot;))</code></pre>
+<p>Finally, install the ashr and smashr packages from GitHub:</p>
+<pre class="r"><code>library(devtools)
+install_github(&quot;stephens999/ashr&quot;,upgrade_dependencies = FALSE)
+install_github(&quot;stephenslab/smashr&quot;,upgrade_dependencies = FALSE)</code></pre>
+<p>See the “Session Info” at the bottom for the versions of the software and R packages that were used to generate the results shown below.</p>
+</div>
+<div id="set-up-r-environment" class="section level2">
+<h2>Set up R environment</h2>
+<p>Load the MASS, wavethresh, EbayesThresh and smashr packages. The MASS package is loaded only for the Motorcycle Accident data. Some additional functions are defined in <code>functions.motorcycle.R</code>.</p>
 <pre class="r"><code>library(MASS)
+library(scales)
 library(lattice)
 library(smashr)
-library(scales)
 library(wavethresh)
 library(EbayesThresh)
 source(&quot;../code/motorcycle.functions.R&quot;)</code></pre>
+<p>Note that the MASS and lattice packages are included in most standard R installations, so you probably don’t need to install these packages separately.</p>
 </div>
 <div id="prepare-data-for-smash" class="section level2">
 <h2>Prepare data for SMASH</h2>
@@ -501,7 +543,7 @@ points(res.mc$x,res.mc$y,pch = 1,cex = 1,col = &quot;black&quot;)</code></pre>
 </div>
 <div id="apply-smash-again-this-time-assuming-equal-variances" class="section level2">
 <h2>Apply SMASH again, this time assuming equal variances</h2>
-<p>Apply SMASH (assuming with equal variances) to the Motorcycle Accident data set.</p>
+<p>Apply SMASH (assuming equal variances) to the Motorcycle Accident data set.</p>
 <pre class="r"><code>res.cons.mc &lt;- smash.cons.wrapper(x.ini.mc,y.ini.mc)</code></pre>
 </div>
 <div id="apply-ti-thresholding-to-the-motorcycle-accident-data" class="section level2">
@@ -544,8 +586,8 @@ points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = &quot;black&quot;)</code></pre>
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] EbayesThresh_1.3.2 wavethresh_4.6.8   scales_0.5.0      
-# [4] smashr_1.2-0       lattice_0.20-35    MASS_7.3-48       
+# [1] EbayesThresh_1.4-12 wavethresh_4.6.8    smashr_1.2-0       
+# [4] lattice_0.20-35     scales_0.5.0        MASS_7.3-48        
 # 
 # loaded via a namespace (and not attached):
 #  [1] Rcpp_0.12.19      compiler_3.4.3    git2r_0.23.0     
@@ -554,13 +596,13 @@ points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = &quot;black&quot;)</code></pre>
 # [10] tools_3.4.3       digest_0.6.17     evaluate_0.11    
 # [13] Matrix_1.2-12     foreach_1.4.4     yaml_2.2.0       
 # [16] parallel_3.4.3    stringr_1.3.1     knitr_1.20       
-# [19] REBayes_1.3       caTools_1.17.1    rprojroot_1.3-2  
+# [19] caTools_1.17.1    REBayes_1.3       rprojroot_1.3-2  
 # [22] grid_3.4.3        data.table_1.11.4 rmarkdown_1.10   
-# [25] ashr_2.2-15       magrittr_1.5      whisker_0.3-2    
+# [25] ashr_2.2-23       magrittr_1.5      whisker_0.3-2    
 # [28] backports_1.1.2   codetools_0.2-15  htmltools_0.3.6  
 # [31] assertthat_0.2.0  colorspace_1.4-0  stringi_1.2.4    
-# [34] Rmosek_8.0.69     doParallel_1.0.11 pscl_1.5.2       
-# [37] munsell_0.4.3     truncnorm_1.0-8   SQUAREM_2017.10-1
+# [34] Rmosek_8.0.69     munsell_0.4.3     doParallel_1.0.11
+# [37] pscl_1.5.2        truncnorm_1.0-8   SQUAREM_2017.10-1
 # [40] R.oo_1.21.0</code></pre>
 </div>
 
