@@ -34,24 +34,23 @@ Finally, install the ashr and smashr packages from GitHub:
 
 ```{r install-pkgs-2, eval=FALSE}
 library(devtools)
-install_github("stephens999/ashr",upgrade_dependencies = FALSE,
-               build_vignettes = TRUE)
-install_github("stephenslab/smashr",upgrade_dependencies = FALSE,
-               build_vignettes = TRUE)
+install_github("stephens999/ashr",upgrade_dependencies = FALSE)
+install_github("stephenslab/smashr",upgrade_dependencies = FALSE)
 ```
 
-
+See the "Session Info" at the bottom of this example for the versions
+of the software and R packages that were used to generate the results
+shown below.
 
 Set up R environment
 --------------------
 
-We begin by loading the ashr, smashr, scales, ggplot2 and cowplot
-packages, as well as some additional functions used in the code below.
+We begin by loading the ashr, smashr, ggplot2 and cowplot packages, as
+well as some additional functions used in the code below.
 
 ```{r load-pkgs, warning=FALSE, message=FALSE}
 library(ashr)
 library(smashr)
-library(scales)
 library(ggplot2)
 library(cowplot)
 source("../code/misc.R")
@@ -79,8 +78,8 @@ Simulate data
 -------------
 
 Simulate the noisy observations from the normal distribution with
-means that are given by the "spikes" function, and with
-spatially-structured variances given by the "clipped blocks" function.
+means that are given by the "Spikes" function, and with
+spatially structured variances given by the "Clipped Blocks" function.
 
 ```{r simulate-data}
 pos <- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)
@@ -100,15 +99,15 @@ Plot the simulated data set.
 ```{r plot-simulated-data, fig.height=5, fig.width=10}
 par(cex.axis = 1,cex.lab = 1.25)
 plot(mu.sp,type = 'l',ylim = c(-0.05,1),xlab = "position",
-     ylab = "",lwd = 1.7,xaxp = c(0,1024,4),yaxp = c(0,1,4))
+     ylab = "",lwd = 2,xaxp = c(0,1024,4),yaxp = c(0,1,4))
 lines(mu.sp + 2*sig.cb,col = "darkorange",lty = 5,lwd = 1.8)
 lines(mu.sp - 2*sig.cb,col = "darkorange",lty = 5,lwd = 1.8)
-points(x.sim,cex = 0.7,pch = 16,col = "darkblue")
+points(x.sim,cex = 0.7,pch = 16,col = "dodgerblue")
 ```
 
 This plot shows the "spikes" mean function (the black line), +/- 2
 standard deviations (the orange lines), and the simulated data (the
-blue points).
+light blue points).
   
 Run SMASH and TI thresholding
 -----------------------------
