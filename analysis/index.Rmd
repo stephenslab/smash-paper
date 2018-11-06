@@ -34,14 +34,14 @@ presented in [Xing & Stephens (2016)][smash-preprint]. If you
 encounter a problem running any of the R code in these examples,
 please post an [issue][issues].
 
-+ [Illustration of SMASH applied to the "spikes" data set.](spikesdemo.html)
+1. [Illustration of SMASH applied to the "spikes" data set.](spikesdemo.html)
 
-+ [Comparison of signal denoising methods in Gaussian-distributed data
-  sets.](gaussian.mean.est.html)
+2. [Comparison of signal denoising methods in Gaussian-distributed data
+   sets.](gaussian.mean.est.html)
 
-+ [Application of SMASH to motorcycle acceleration data.](motorcycle.html)
+3. [Application of SMASH to motorcycle acceleration data.](motorcycle.html)
 
-+ [Application of SMASH to ChIP-seq data.](chipseq.html)
+4. [Application of SMASH to ChIP-seq data.](chipseq.html)
 
 ## What's included in the git repository
 
