@@ -5,25 +5,55 @@ output: workflowr::wflow_html
 ---
 
 This small demonstration illustrates key features of the SMASH method
-on a small, simulated data set with heteroskedastic variances. This
-code implements the example given in Sec. 4.1 of the paper.
+on a small, simulated data set with spatially structured variances. This
+code implements the example presented in Sec. 4.1 of the paper.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
 ```
 
-Set up environment
-------------------
+Initial setup instructions
+--------------------------
+
+To run this example on your own computer, please follow these setup
+instructions. These instructions assume you already have R and/or
+RStudio installed on your computer.
+
+Download or clone the [git repository][smash-github] on your computer.
+
+Launch R, and change the working directory to be the `analysis` folder
+inside your local copy of the `smash-paper` git repository.
+
+Install some of the packages used here, and in the code below:
+
+```{r install-pkgs-1, eval=FALSE}
+install.packages(c("devtools","ggplot2","cowplot"))
+```
+
+Finally, install the ashr and smashr packages from GitHub:
+
+```{r install-pkgs-2, eval=FALSE}
+library(devtools)
+install_github("stephens999/ashr",upgrade_dependencies = FALSE,
+               build_vignettes = TRUE)
+install_github("stephenslab/smashr",upgrade_dependencies = FALSE,
+               build_vignettes = TRUE)
+```
+
+
+
+Set up R environment
+--------------------
 
 We begin by loading the ashr, smashr, scales, ggplot2 and cowplot
 packages, as well as some additional functions used in the code below.
 
-```{r load-pkgs, warning=FALSE}
+```{r load-pkgs, warning=FALSE, message=FALSE}
 library(ashr)
 library(smashr)
 library(scales)
 library(ggplot2)
-suppressMessages(library(cowplot))
+library(cowplot)
 source("../code/misc.R")
 ```
 
@@ -207,3 +237,5 @@ In this example, the smoothed signal from SMASH is noticeably more
 accurate than using TI thresholding (in which the variance is
 estimated by running the median absolute deviation, or "RMAD",
 method). The TI thresholding estimate shows notable artifacts.
+
+[smash-github]: https://github.com/stephenslab/smash-paper
