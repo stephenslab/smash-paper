@@ -51,7 +51,6 @@ additional functions are defined in `functions.motorcycle.R`.
 
 ```{r load-pkgs, message=FALSE}
 library(MASS)
-library(scales)
 library(lattice)
 library(smashr)
 library(wavethresh)
@@ -151,3 +150,5 @@ lines(res.ti.cons.mc$x,res.ti.cons.mc$mu.est,lwd = 2,lty = "solid",
 lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = "limegreen",lty = "dotted")
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 ```
+
+[smash-github]: https://github.com/stephenslab/smash-paper
