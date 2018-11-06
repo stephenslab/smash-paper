@@ -21,10 +21,10 @@ RStudio installed on your computer.
 
 Download or clone the [git repository][smash-github] on your computer.
 
-Launch R, and change the working directory to be the `analysis` folder
-inside your local copy of the `smash-paper` git repository.
+Launch R, and change the working directory to be the "analysis" folder
+inside your local copy of the git repository.
 
-Install some of the packages used here, and in the code below:
+Install some of the packages used here and in the code below:
 
 ```{r install-pkgs-1, eval=FALSE}
 install.packages(c("devtools","ggplot2","cowplot"))
@@ -38,9 +38,8 @@ install_github("stephens999/ashr",upgrade_dependencies = FALSE)
 install_github("stephenslab/smashr",upgrade_dependencies = FALSE)
 ```
 
-See the "Session Info" at the bottom of this example for the versions
-of the software and R packages that were used to generate the results
-shown below.
+See the "Session Info" at the bottom for the versions of the software
+and R packages that were used to generate the results shown below.
 
 Set up R environment
 --------------------
