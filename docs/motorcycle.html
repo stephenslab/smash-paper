@@ -339,7 +339,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/fd51be81e5b8d1aaca15cf28a8f07fc77eac68cd" target="_blank">fd51be8</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/4a73ed9d46dc2650e9807073f2467e93df9f339b" target="_blank">4a73ed9</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -403,6 +403,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/4a73ed9d46dc2650e9807073f2467e93df9f339b/analysis/motorcycle.Rmd" target="_blank">4a73ed9</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+<td style="text-align:left;">
+wflow_publish(“motorcycle.Rmd”)
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -610,16 +627,14 @@ points(res.mc$x,res.mc$y,pch = 1,cex = 1,col = &quot;black&quot;)</code></pre>
 </div>
 <div id="compare-results-from-all-methods" class="section level2">
 <h2>Compare results from all methods</h2>
-<p>In this second plot, we compare the mean estimate provided by SMASH (with heteroskedastic variances; orange line) against homoskedastic SMASH (dotted magenta line).</p>
+<p>In this second plot, we compare the mean estimate provided by SMASH (with heteroskedastic variances; orange line) against homoskedastic SMASH (dotted, light blue line).</p>
 <pre class="r"><code>plot(res.mc$x,res.mc$mu.est,type = &quot;l&quot;,
      ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
               max(res.mc$y + 2 * sqrt(res.mc$var.est))),
      xlab = &quot;time (ms)&quot;,ylab = &quot;acceleration (g)&quot;,lwd = 2,
      col = &quot;darkorange&quot;,xlim = c(0,60),xaxp = c(0,60,6))
-lines(res.cons.mc$x,res.cons.mc$mu.est,lwd = 2,lty = &quot;dotted&quot;,col = &quot;magenta&quot;)
-#  lines(res.ti.cons.mc$x,res.ti.cons.mc$mu.est,lwd = 2,lty = &quot;solid&quot;,
-#        col = &quot;darkblue&quot;)
-#  lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = &quot;limegreen&quot;,lty = &quot;dotted&quot;)
+lines(res.cons.mc$x,res.cons.mc$mu.est,lwd = 2,lty = &quot;dotted&quot;,
+      col = &quot;dodgerblue&quot;)
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = &quot;black&quot;)</code></pre>
 <p><img src="figure/motorcycle.Rmd/plot-homo-smash-estimates-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>And in this next plot, we compare the SMASH estimates (orange line) against the the mean estimates obtained by TI thresholding (dark blue line), and TI thresholding when the variances have been estimated by SMASH (dotted green line).</p>
@@ -633,7 +648,7 @@ lines(res.ti.cons.mc$x,res.ti.cons.mc$mu.est,lwd = 2,lty = &quot;solid&quot;,
 lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = &quot;limegreen&quot;,lty = &quot;dotted&quot;)
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = &quot;black&quot;)</code></pre>
 <p><img src="figure/motorcycle.Rmd/plot-ti-thresh-estimates-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p><em>Add text here.</em></p>
+<p>The TI thresholding estimate and the SMASH estimate with homoskedastic variances both show notable artifacts. When the TI thresholding method is provided with the SMASH variance estimates, the mean signal is much more smooth.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
