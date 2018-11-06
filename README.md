@@ -6,7 +6,7 @@ This repository contains source code and data accompanying our manuscript,
 > Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian
 > signals.* [arXiv:1709.10066][smash-preprint].
 
-To see more, please view the [website][github-site].
+To begin, please browse the [website][github-site].
 
 [github-site]: https://stephenslab.github.io/smash-paper
 [smash-preprint]: http://arxiv.org/abs/1605.07787
