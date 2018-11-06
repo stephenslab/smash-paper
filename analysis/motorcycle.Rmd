@@ -148,10 +148,10 @@ lines(res.cons.mc$x,res.cons.mc$mu.est,lwd = 2,lty = "dotted",
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 ```
 
-And in this next plot, we compare the SMASH estimates (orange line)
-against the the mean estimates obtained by TI thresholding (dark blue
-line), and TI thresholding when the variances have been estimated by
-SMASH (dotted green line).
+And in this next plot, we compare the SMASH estimates (the orange
+line) against the the mean estimates obtained by TI thresholding (dark
+blue line), and TI thresholding when the variances have been estimated
+by SMASH (dotted green line).
 
 ```{r plot-ti-thresh-estimates, fig.height=5, fig.width=7}
 plot(res.mc$x,res.mc$mu.est,type = "l",
@@ -167,7 +167,7 @@ points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 
 The TI thresholding estimate and the SMASH estimate with homoskedastic
 variances both show notable artifacts. When the TI thresholding method
-is provided with the SMASH variance estimates, the mean signal is much
-more smooth.
+is provided with the SMASH variance estimate, the mean signal is
+substantially smoother.
 
 [smash-github]: https://github.com/stephenslab/smash-paper
