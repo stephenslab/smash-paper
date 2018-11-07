@@ -89,7 +89,8 @@ Plot the SMASH estimates
 
 To provide a "baseline" to compare against the SMASH estimates, we
 retrieve the peaks identified in the same ChIP-seq data using the MACS
-software.
+software. Again, these data should have been included with the git
+repository you downloaded.
 
 ```{r load-macs-peaks}
 macs.file <- "../data/Gm1287peaks_chr1_sorted.txt"
@@ -117,9 +118,8 @@ create.chipseq.plot(bppos/1e6,counts,res$est,(peaks$start + peaks$end)/2e6,
 ```
 
 Based on this plot, it is clear that the the strongest SMASH intensity
-estimates align very closely with the peaks found by MACS.
-
-Intriguingly, the SMASH estimates also suggest the presence of several
-additional weaker peaks that were not identified by MACS.
+estimates align very closely with the peaks found by MACS. Intriguingly,
+the SMASH estimates also suggest the presence of several additional
+weaker peaks that were not identified by MACS.
 
 [smash-github]: https://github.com/stephenslab/smash-paper
