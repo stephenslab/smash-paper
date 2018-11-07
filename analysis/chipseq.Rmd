@@ -13,6 +13,25 @@ manuscript.
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
 ```
 
+Initial setup instructions
+--------------------------
+
+To run this example on your own computer, please follow these setup
+instructions. These instructions assume you already have R (optionally,
+RStudio) installed on your computer.
+
+Download or clone the [git repository][smash-github] on your computer.
+
+Launch R, and change the working directory to be the "analysis" folder
+inside your local copy of the git repository.
+
+Install the devtools, ggplot2 and cowplot packages used here and in
+the code below:
+
+```{r install-pkgs-1, eval=FALSE}
+install.packages(c("devtools","ggplot2","cowplot"))
+```
+
 Set up environment
 ------------------
 

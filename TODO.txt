@@ -31,4 +31,5 @@ to do
 
 + Polish up R Markdown file containing Shiny app.
 
-+ Convert chipseq.R script to R Markdown.
++ Fill out "What’s included in the git repository" section of the home
+  page (index.Rmd).
