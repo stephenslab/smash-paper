@@ -32,11 +32,20 @@ the code below:
 install.packages(c("devtools","ggplot2","cowplot"))
 ```
 
-Set up environment
-------------------
+Finally, install the smashr package from GitHub:
 
-We begin by loading the smashr, ggplot2 and cowplot packages, as well
-as some additional functions used to implement the analysis below.
+```{r install-pkgs-2, eval=FALSE}
+devtools::install_github("stephenslab/smashr",upgrade_dependencies = FALSE)
+```
+
+See the "Session Info" at the bottom for the versions of the software
+and R packages that were used to generate the results shown below.
+
+Set up R environment
+--------------------
+
+Loading the smashr, ggplot2 and cowplot packages, as well as some
+additional functions used to implement the analysis below.
 
 ```{r load-pkgs, warning=FALSE, message=FALSE}
 source("../code/chipseq.functions.R")
@@ -48,10 +57,11 @@ library(cowplot)
 Load the ChIP-seq data
 ----------------------
 
-The ChIP-seq data are sequencing read counts for transcription
-factor YY1 in cell line GM12878, restricted to 880,001--1,011,072 bp
-on chromosome 1. These data were collected as part of the ENCODE
-("Encyclopedia Of DNA Elements") project.
+The ChIP-seq data are sequencing read counts for transcription factor
+YY1 in cell line GM12878, restricted to 880,001--1,011,072 bp on
+chromosome 1. These data were collected as part of the ENCODE
+("Encyclopedia Of DNA Elements") project. The data are included with
+the [git repository][smash-github].
 
 ```{r load-data}
 load("../data/reg_880000_1011072.RData")
@@ -111,3 +121,5 @@ estimates align very closely with the peaks found by MACS.
 
 Intriguingly, the SMASH estimates also suggest the presence of several
 additional weaker peaks that were not identified by MACS.
+
+[smash-github]: https://github.com/stephenslab/smash-paper
