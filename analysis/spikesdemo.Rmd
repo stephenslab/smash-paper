@@ -30,12 +30,10 @@ Install some of the packages used here and in the code below:
 install.packages(c("devtools","ggplot2","cowplot"))
 ```
 
-Finally, install the ashr and smashr packages from GitHub:
+Finally, install the smashr package from GitHub:
 
 ```{r install-pkgs-2, eval=FALSE}
-library(devtools)
-install_github("stephens999/ashr",upgrade_dependencies = FALSE)
-install_github("stephenslab/smashr",upgrade_dependencies = FALSE)
+devtools::install_github("stephenslab/smashr",upgrade_dependencies = FALSE)
 ```
 
 See the "Session Info" at the bottom for the versions of the software
