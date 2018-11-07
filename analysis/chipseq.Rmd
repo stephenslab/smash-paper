@@ -4,9 +4,10 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-An illustration of "smoothing via adaptive shrinkage" (SMASH) applied
-to chromatin immunoprecipitation sequencing ("ChIP-seq") data. This
-implements the SMASH analysis presented in Sec. 5.2 of the manuscript.
+This is an illustration of "SMoothing by Adaptive SHrinkage" (SMASH)
+applied to chromatin immunoprecipitation sequencing ("ChIP-seq")
+data. This implements the SMASH analysis presented in Sec. 5.2 of the
+manuscript.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
