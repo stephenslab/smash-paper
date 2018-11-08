@@ -5,25 +5,6 @@ This is a my summary of the current state of the manuscript.
 
 Main text
 ---------
-+ Title & abstract: complete.
-
-+ Sec. 1, Introduction: mostly complete (only one comment to be
-  addressed).
-
-+ Sec. 2, Background: mostly complete, except for a few comments that
-  need to be addressed.
-
-+ Sec. 3, Methods: complete.
-
-+ Sec. 4, Results: Need to fill out the beginning of this section.
-
-+ Sec. 4.1, Illustration: Mostly complete, except for a couple
-  comments that need to be addressed. Source code accompanying this
-  section: analysis/spikesdemo.Rmd (also code/misc.R).
-
-+ Sec. 4.2, Simulations: Need to fill out the beginning of this
-  subsection.
-
 + Sec. 4.2.1, Gaussian mean estimation: mostly complete, except a few
   comments that need to be addressed. Source code accompanying this
   section: analysis/gaussian.mean.est.Rmd (also code/signals.R). Data
@@ -33,29 +14,6 @@ Main text
   from a few comments that need to be addressed and details that need
   to be filled out. Source code accompanying this section:
   analysis/mfvb.R (also code/mfvb.functions.R).
-
-+ Sec. 4.2.3, Poisson data: NEED TO WORK ON THIS.
-
-+ Sec. 5, Illustrative applications: NEED TO WORK ON THIS.
-
-+ Sec. 5.1, Motorcycle acceleration data: Mostly complete, except for
-  a couple comments that need to be addressed. Source code accompanying
-  this section: analysis/motorcycle.Rmd (also code/motorcycle.functions.R).
-
-+ Sec. 5.2, ChIP-Seq data: NEED TO WORK ON THIS. Source code
-  accompanying this section: analysis/chipseq.Rmd (also
-  code/chipseq.functions.R). Data files used: reg_880000_1011072.RData
-  and Gm1287peaks_chr1_sorted.txt in the "data" folder.
-
-+ Sec. 6, Discussion: mostly complete, aside from one comment that
-needs to be addressed.
-
-+ Appendix A: complete.
-
-+ Appendix B: mostly complete, aside from a few minor comments that
-  need to be addressed.
-
-+ References: I double-checked all the references.
 
 What's included
 ---------------
