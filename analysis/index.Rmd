@@ -34,9 +34,11 @@ presented in [Xing & Stephens (2016)][smash-preprint]. If you
 encounter a problem running any of the R code in these examples,
 please post an [issue][issues].
 
-[**Illustration:** SMASH applied to the "spikes" data set.](spikesdemo.html)
+### Illustration
 
-### Comparisons of signal denoising methods in simulated data
++ [SMASH applied to the "spikes" data set.](spikesdemo.html)
+
+### Simulation experiments
 
 1. [Estimating the mean function from Gaussian-distributed
 data.](gausshomo.html)
