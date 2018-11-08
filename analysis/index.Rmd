@@ -18,15 +18,6 @@ work, please cite our paper.
 
 The new methods can be found in the [smashr package][smashr].
 
-## License
-
-Copyright (c) 2016-2018, Zhengrong Xing, Peter Carbonetto & Matthew
-Stephens.
-
-All source code and software in this repository are made available
-under the terms of the [MIT license][mit-license]. See the
-[LICENSE](LICENSE) file for the full text of the license.
-
 ## Contents
 
 The following analyses generate some of the empirical results
@@ -59,6 +50,15 @@ See here for the source repository. This is what you will find in the
 repository:
 
 *Fill out this section.*
+
+## License
+
+Copyright (c) 2016-2018, Zhengrong Xing, Peter Carbonetto & Matthew
+Stephens.
+
+All source code and software in this repository are made available
+under the terms of the [MIT license][mit-license]. See the
+[LICENSE](LICENSE) file for the full text of the license.
 
 ## Credits
 
