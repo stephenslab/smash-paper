@@ -10,8 +10,8 @@ navbar:
       href: https://github.com/stephenslab/smash-paper
 output:
   workflowr::wflow_html:
-    toc: yes
-    toc_float: yes
+    toc: no
+    toc_float: no
     theme: readable
     highlight: textmate
     code_folding: none
