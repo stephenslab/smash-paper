@@ -1,3 +1,7 @@
+# ---
+# title: "Gaussian variance estimation in simulated data sets"
+# ---
+#
 # This script implements the "Gaussian variance estimation" simulation
 # experiments in the paper. In particular, we compare the Mean Field
 # Variational Bayes method (MFVB) against SMASH in two scenarios. See
@@ -13,6 +17,10 @@
 # We thank Menictas & Wand for generously sharing code that was used
 # to implement these experiments.
 #
+
+# -----
+# TO DO: Remove steps that are not included in the paper.
+# -----
 
 # SET UP ENVIRONMENT
 # ------------------
@@ -158,8 +166,8 @@ for (j in 1:nsim1) {
   mu.est.inter  <- approx(x.mod,mu.est,xgOrig,'linear')$y
   var.est.inter <- approx(x.mod,var.est,xgOrig,'linear')$y
 
-  mse.mu.uneven.mfvb[j] <- mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
-  mse.mu.uneven.haar[j] <- mean((mu.est.inter-fTrue(xgOrig))^2)
+  mse.mu.uneven.mfvb[j] <- mean((fhatMFVBgOrig - fTrue(xgOrig))^2)
+  mse.mu.uneven.haar[j] <- mean((mu.est.inter - fTrue(xgOrig))^2)
 
   mse.sd.uneven.mfvb[j]=mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
   mse.sd.uneven.haar[j]=mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)

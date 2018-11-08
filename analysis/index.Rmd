@@ -27,14 +27,15 @@ please post an [issue][issues].
 
 ### Illustration
 
-+ [SMASH applied to the "spikes" data set.](spikesdemo.html)
++ [SMASH applied to the "Spikes" data set.](spikesdemo.html)
 
 ### Simulation experiments
 
 1. [Estimating the mean function from Gaussian-distributed
-data.](gausshomo.html)
+data.](gaussmeanest.html)
 
-2. Estimating the variance function from Gaussian-distributed data.
+2. [Estimating the variance function from Gaussian-distributed
+data](gaussvarest.html).
 
 3. Poisson-distributed data.
 
