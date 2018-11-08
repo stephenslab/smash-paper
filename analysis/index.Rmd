@@ -34,20 +34,22 @@ presented in [Xing & Stephens (2016)][smash-preprint]. If you
 encounter a problem running any of the R code in these examples,
 please post an [issue][issues].
 
-+ [**Illustration:** SMASH applied to the "spikes"
-data set.](spikesdemo.html)
+[**Illustration:** SMASH applied to the "spikes" data set.](spikesdemo.html)
 
-+ **Comparisons of signal denoising methods in simulated data:**
+### Comparisons of signal denoising methods in simulated data
 
-   - [Estimating the mean signal from Gaussian-distributed
-      data.](gausshomo.html)
-   - Estimating the variance function from Gaussian-distributed data.
-   - Poisson-distributed data.
+1. [Estimating the mean function from Gaussian-distributed
+data.](gausshomo.html)
 
-+ **Illustrative applications:**
+2. Estimating the variance function from Gaussian-distributed data.
 
-   - [Motorcycle acceleration data.](motorcycle.html)
-   - [ChIP-seq data.](chipseq.html)
+3. Poisson-distributed data.
+
+### Illustrative applications
+
+1. [Motorcycle acceleration data.](motorcycle.html)
+
+2. [ChIP-seq data.](chipseq.html)
 
 ## What's included in the git repository
 
