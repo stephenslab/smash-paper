@@ -33,3 +33,5 @@ to do
 
 + Fill out "What’s included in the git repository" section of the home
   page (index.Rmd).
+
++ Remove all unused files.
