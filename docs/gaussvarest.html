@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Zhengrong Xing, Peter Carbonetto and Matthew Stephens" />
+
+
+<title>Gaussian variance estimation in simulated data sets</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">smash</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/smash-paper">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Gaussian variance estimation in simulated data sets</h1>
+<h4 class="author"><em>Zhengrong Xing, Peter Carbonetto and Matthew Stephens</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-11-09</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(1)</code> </summary></p>
+<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/2c6154dfd11ef6987d66fa68db3dd2a4306d6995" target="_blank">2c6154d</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FCPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/LMIRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/MedRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/WPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
+
+Unstaged changes:
+    Deleted:    code/mfvb.functions.R
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/2c6154dfd11ef6987d66fa68db3dd2a4306d6995/analysis/gaussvarest.Rmd" target="_blank">2c6154d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussvarest.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/fb432d7638d08f6672f25626415ed184f0abb2cd/analysis/gaussvarest.Rmd" target="_blank">fb432d7</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussvarest.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/049dcbb8e4f4bbfd2b42a4def9a91b3a67cff8b5/analysis/gaussvarest.Rmd" target="_blank">049dcbb</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+<td style="text-align:left;">
+Moved around some files and revised TOC in home page.
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<p>This script implements the “Gaussian variance estimation” simulation experiments in the paper. In particular, we compare the Mean Field Variational Bayes (MFVB) method against SMASH in two scenarios.</p>
+<p>The figure and table generated at the end of this script should match up with the figure and table shown in the paper.</p>
+<p>Running the code could take several hours to complete as it runs the two methods on 100 simulated data sets for each of the two scenarios.</p>
+<p>We thank M. Menictas &amp; M. Wand for generously sharing code that was used to implement these experiments.</p>
+<div id="initial-setup-instructions" class="section level2">
+<h2>Initial setup instructions</h2>
+<p>To run this example on your own computer, please follow these setup instructions. These instructions assume you already have R and/or RStudio installed on your computer.</p>
+<p>First, download or clone the [git repository][smash-github] on your computer.</p>
+<p>Launch R, and change the working directory to be the “analysis” folder inside your local copy of the git repository.</p>
+<p>Finally, install the smashr package from GitHub:</p>
+<pre class="r"><code>devtools::install_github(&quot;stephenslab/smashr&quot;,upgrade_dependencies = FALSE)</code></pre>
+<p>See the “Session Info” at the bottom for the versions of the software and R packages that were used to generate the results shown below.</p>
+</div>
+<div id="set-up-r-environment" class="section level2">
+<h2>Set up R environment</h2>
+<p>Load the smashr package, as well as some functions used in the analysis below.</p>
+<pre class="r"><code>library(smashr)
+source(&quot;../code/mfvb.R&quot;)</code></pre>
+</div>
+<div id="analysis-settings" class="section level2">
+<h2>Analysis settings</h2>
+<p>Specify the number of data sets simulated in the first and second simulation scenarios.</p>
+<pre class="r"><code>nsim1 &lt;- 10
+nsim2 &lt;- 10</code></pre>
+<p>Next, specify the hyperparameters used in running the MFVB method.</p>
+<pre class="r"><code>Au.hyp      &lt;- 1e5
+Av.hyp      &lt;- 1e5
+sigsq.gamma &lt;- 1e10
+sigsq.beta  &lt;- 1e10</code></pre>
+<p>These variables specify some colours used in the plots.</p>
+<pre class="r"><code>mainCol &lt;- &quot;darkslateblue&quot;
+ptCol   &lt;- &quot;paleturquoise3&quot;
+lineCol &lt;- &quot;skyblue&quot;
+axisCol &lt;- &quot;black&quot;</code></pre>
+<p>These are additional plotting parameters.</p>
+<pre class="r"><code>cex.pt      &lt;- 0.75
+cex.mainVal &lt;- 1.7
+cex.labVal  &lt;- 1.3
+xlabVal     &lt;- &quot;x&quot;</code></pre>
+</div>
+<div id="plot-mean-and-variance-functions-used-to-simulate-data" class="section level2">
+<h2>Plot mean and variance functions used to simulate data</h2>
+<p>Compare this plot against the one shown in Fig. 4 of the paper.</p>
+<pre class="r"><code>xgrid &lt;- (0:10000)/10000
+plot(xgrid,fTrue(xgrid),type = &quot;l&quot;,ylim = c(-5,5),ylab = &quot;y&quot;,xlab = &quot;X&quot;,
+     lwd = 2)
+lines(xgrid,fTrue(xgrid) + 2*sqrt(gTrue(xgrid)),col = &quot;darkorange&quot;,lwd = 2)
+lines(xgrid,fTrue(xgrid) - 2*sqrt(gTrue(xgrid)),col = &quot;darkorange&quot;,lwd = 2)</code></pre>
+<p><img src="figure/gaussvarest.Rmd/plot-mean-and-variance-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+<div id="first-simulation-scenario-unevenly-spaced-data" class="section level2">
+<h2>First simulation scenario: unevenly spaced data</h2>
+<p>In the first scenario, we simulated unevenly spaced data points, and assessed accuracy by computing the mean of the squared errors (MSE) evaluated at 201 equally spaced points.</p>
+<pre class="r"><code>mse.mu.uneven.mfvb  &lt;- 0
+mse.mu.uneven.smash &lt;- 0
+mse.sd.uneven.mfvb  &lt;- 0
+mse.sd.uneven.smash &lt;- 0</code></pre>
+<p>Run the SMASH and MFVB methods for each simulated data set.</p>
+<pre class="r"><code>cat(sprintf(&quot;Running %d simulations: &quot;,nsim1))
+for (j in 1:nsim1) {
+  cat(sprintf(&quot;%d &quot;,j))
+    
+  # SIMULATE DATA
+  set.seed(3*j)
+  n     &lt;- 500
+  xOrig &lt;- runif(n)
+  set.seed(3*j)
+  yOrig &lt;- fTrue(xOrig) + sqrt(exp(loggTrue(xOrig)))*rnorm(n)
+
+  aOrig  &lt;- min(xOrig)
+  bOrig  &lt;- max(xOrig)
+  mean.x &lt;- mean(xOrig)
+  sd.x   &lt;- sd(xOrig)
+  mean.y &lt;- mean(yOrig)
+  sd.y   &lt;- sd(yOrig)
+
+  a &lt;- (aOrig - mean.x)/sd.x
+  b &lt;- (bOrig - mean.x)/sd.x
+  x &lt;- (xOrig - mean.x)/sd.x
+  y &lt;- (yOrig - mean.y)/sd.y
+
+  numIntKnotsU &lt;- 17
+  intKnotsU &lt;- quantile(x,seq(0,1,length=numIntKnotsU+2)[-c(1,numIntKnotsU+2)])
+  Zu        &lt;- ZOSull(x,intKnots=intKnotsU,range.x=c(a,b))
+  numKnotsU &lt;- ncol(Zu)
+
+  numIntKnotsV &lt;- numIntKnotsU 
+  intKnotsV &lt;-
+    quantile(x,seq(0,1,length = numIntKnotsV + 2)[-c(1,numIntKnotsV+2)])
+  Zv        &lt;- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
+  numKnotsV &lt;- ncol(Zv) 
+
+  # Run Mean Field Variational Bayes (MFVB)
+  # ---------------------------------------
+  X     &lt;- cbind(rep(1,n),x)
+  Cumat &lt;- cbind(X,Zu)
+  Cvmat &lt;- cbind(X,Zv)
+  ncX   &lt;- ncol(X)
+  ncZu  &lt;- ncol(Zu)
+  ncZv  &lt;- ncol(Zv)
+  ncCu  &lt;- ncol(Cumat)
+  ncCv  &lt;- ncol(Cvmat)
+
+  MFVBfit &lt;- meanVarMFVB(y,X,ncZu,ncZv,Au.hyp,Av.hyp,
+                         sigsq.gamma,sigsq.beta)
+
+  ng     &lt;- 201
+  xgOrig &lt;- seq(aOrig,bOrig,length=ng)
+  xg     &lt;- (xgOrig - mean.x)/sd.x
+  Xg     &lt;- cbind(rep(1,ng),xg)
+  Zug    &lt;- ZOSull(xg,intKnots=intKnotsU,range.x=c(a,b))
+  Cug    &lt;- cbind(Xg,Zug)
+  Zvg    &lt;- ZOSull(xg,intKnots=intKnotsV,range.x=c(a,b))
+  Cvg    &lt;- cbind(Xg,Zvg)
+
+  mu.q.nu       &lt;- MFVBfit$mu.q.nu
+  mu.q.omega    &lt;- MFVBfit$mu.q.omega
+  Sigma.q.nu    &lt;- MFVBfit$Sigma.q.nu
+  Sigma.q.omega &lt;- MFVBfit$Sigma.q.omega
+
+  fhatMFVBg        &lt;- Cug%*%mu.q.nu
+  fhatMFVBgOrig    &lt;- fhatMFVBg*sd.y + mean.y
+  logghatMFVBg     &lt;- Cvg%*%mu.q.omega 
+  logghatMFVBgOrig &lt;- logghatMFVBg + 2*log(sd.y)
+
+  sdloggMFVBgOrig      &lt;- sqrt(diag(Cvg%*%Sigma.q.omega%*%t(Cvg))) 
+  credLowloggMFVBgOrig &lt;- logghatMFVBgOrig - qnorm(0.975)*sdloggMFVBgOrig
+  credUpploggMFVBgOrig &lt;- logghatMFVBgOrig + qnorm(0.975)*sdloggMFVBgOrig
+
+  sqrtghatMFVBg     &lt;- exp(0.5*Cvg %*% mu.q.omega 
+                           + 0.125*diag(Cvg%*%Sigma.q.omega%*%t(Cvg)))
+  sqrtghatMFVBgOrig &lt;- sqrtghatMFVBg*sd.y
+
+  # RUN SMASH
+  x.mod &lt;- unique(sort(xOrig))
+  y.mod &lt;- 0
+  for(i in 1:length(x.mod))
+    y.mod[i] &lt;- median(yOrig[xOrig == x.mod[i]])
+
+  y.exp   &lt;- c(y.mod,y.mod[length(y.mod):(2*length(y.mod)-2^9+1)])
+  y.final &lt;- c(y.exp,y.exp[length(y.exp):1])
+
+  mu.est  &lt;- smash.gaus(y.final,filter.number=1,family=&quot;DaubExPhase&quot;)
+  var.est &lt;- smash.gaus(y.final,v.est=TRUE)
+  mu.est  &lt;- mu.est[1:500]
+  var.est &lt;- var.est[1:500]
+
+  mu.est.inter  &lt;- approx(x.mod,mu.est,xgOrig,&#39;linear&#39;)$y
+  var.est.inter &lt;- approx(x.mod,var.est,xgOrig,&#39;linear&#39;)$y
+
+  mse.mu.uneven.mfvb[j] &lt;- mean((fhatMFVBgOrig - fTrue(xgOrig))^2)
+  mse.sd.uneven.mfvb[j] &lt;- mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
+
+  mu.est  &lt;- smash.gaus(y.final,filter.number=8,family=&quot;DaubLeAsymm&quot;)
+  var.est &lt;- smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,filter.number=8,
+                        family=&quot;DaubLeAsymm&quot;)
+  
+  mu.est  &lt;- mu.est[1:500]
+  var.est &lt;- var.est[1:500]
+
+  mu.est.inter       &lt;- approx(x.mod,mu.est,xgOrig,&#39;linear&#39;)$y
+  var.est.inter      &lt;- approx(x.mod,var.est,xgOrig,&#39;linear&#39;)$y
+
+  mse.mu.uneven.s8[j]=mean((mu.est.inter-fTrue(xgOrig))^2)
+  mse.sd.uneven.s8[j]=mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
+}
+cat(&quot;\n&quot;)</code></pre>
+</div>
+<div id="second-simulation-scenario-evenly-spaced-points" class="section level2">
+<h2>Second simulation scenario: evenly spaced points</h2>
+<pre class="r"><code>mse.mu.even.mfvb &lt;- 0
+mse.mu.even.s8   &lt;- 0
+
+mse.sd.even.mfvb &lt;- 0
+mse.sd.even.s8   &lt;- 0
+lmse.sd.even.mfvb &lt;- 0
+lmse.sd.even.s8   &lt;- 0
+
+# Repeat for each data set simulated in the second simulation scenario.
+cat(sprintf(&quot;Running %d simulations: &quot;,nsim2))
+for (j in 1:nsim2) {
+  cat(sprintf(&quot;%d &quot;,j))
+
+  # Create the simulated data set
+  # -----------------------------
+  n      &lt;- 2^10
+  xOrig  &lt;- (1:n)/n
+  set.seed(30*j)
+  yOrig  &lt;- fTrue(xOrig) + sqrt(exp(loggTrue(xOrig)))*rnorm(n)
+  aOrig  &lt;- min(xOrig)
+  bOrig  &lt;- max(xOrig)
+  mean.x &lt;- mean(xOrig)
+  sd.x   &lt;- sd(xOrig)
+  mean.y &lt;- mean(yOrig)
+  sd.y   &lt;- sd(yOrig)
+
+  a &lt;- (aOrig - mean.x)/sd.x
+  b &lt;- (bOrig - mean.x)/sd.x
+  x &lt;- (xOrig - mean.x)/sd.x
+  y &lt;- (yOrig - mean.y)/sd.y
+
+  numIntKnotsU &lt;- 17
+  intKnotsU &lt;- quantile(x,seq(0,1,length=numIntKnotsU+2)[-c(1,numIntKnotsU+2)])
+  Zu        &lt;- ZOSull(x,intKnots=intKnotsU,range.x=c(a,b))
+  numKnotsU &lt;- ncol(Zu)
+
+  numIntKnotsV &lt;- numIntKnotsU 
+  intKnotsV &lt;- quantile(x,seq(0,1,length=numIntKnotsV+2)[-c(1,numIntKnotsV+2)])
+  Zv        &lt;- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
+  numKnotsV &lt;- ncol(Zv) 
+
+  # Run Mean Field Variational Bayes (MFVB)
+  # ---------------------------------------
+  X     &lt;- cbind(rep(1,n),x)
+  Cumat &lt;- cbind(X,Zu)
+  Cvmat &lt;- cbind(X,Zv)
+  ncX   &lt;- ncol(X)
+  ncZu  &lt;- ncol(Zu)
+  ncZv  &lt;- ncol(Zv)
+  ncCu  &lt;- ncol(Cumat)
+  ncCv  &lt;- ncol(Cvmat)
+
+  MFVBfit &lt;- meanVarMFVB(y,X,ncZu,ncZv,Au.hyp,Av.hyp,
+                       sigsq.gamma,sigsq.beta)
+
+  ng     &lt;- 2^10
+  xgOrig &lt;- seq(aOrig,bOrig,length=ng)
+  xg  &lt;- (xgOrig - mean.x)/sd.x
+  Xg  &lt;- cbind(rep(1,ng),xg)
+  Zug &lt;- ZOSull(xg,intKnots=intKnotsU,range.x=c(a,b))
+  Cug &lt;- cbind(Xg,Zug)
+  Zvg &lt;- ZOSull(xg,intKnots=intKnotsV,range.x=c(a,b))
+  Cvg &lt;- cbind(Xg,Zvg)
+
+  mu.q.nu       &lt;- MFVBfit$mu.q.nu
+  mu.q.omega    &lt;- MFVBfit$mu.q.omega
+  Sigma.q.nu    &lt;- MFVBfit$Sigma.q.nu
+  Sigma.q.omega &lt;- MFVBfit$Sigma.q.omega
+
+  # Get the mean function estimate.
+  fhatMFVBg     &lt;- Cug %*% mu.q.nu
+  fhatMFVBgOrig &lt;- fhatMFVBg*sd.y + mean.y
+
+  logghatMFVBg     &lt;- Cvg%*%mu.q.omega 
+  logghatMFVBgOrig &lt;- logghatMFVBg + 2*log(sd.y)
+
+  sdloggMFVBgOrig      &lt;- sqrt(diag(Cvg%*%Sigma.q.omega%*%t(Cvg))) 
+  credLowloggMFVBgOrig &lt;- logghatMFVBgOrig - qnorm(0.975)*sdloggMFVBgOrig
+  credUpploggMFVBgOrig &lt;- logghatMFVBgOrig + qnorm(0.975)*sdloggMFVBgOrig
+
+  sqrtghatMFVBg     &lt;- exp(0.5*Cvg%*%mu.q.omega 
+                           + 0.125*diag(Cvg%*%Sigma.q.omega%*%t(Cvg)))
+  sqrtghatMFVBgOrig &lt;- sqrtghatMFVBg*sd.y
+
+  # Run SMASH
+  # ---------
+  mu.est  &lt;- smash.gaus(yOrig,filter.number=1,family=&quot;DaubExPhase&quot;)
+  var.est &lt;- smash.gaus(yOrig,v.est=TRUE)
+  
+  mse.mu.even.mfvb[j] &lt;- mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
+  mse.mu.even.haar[j] &lt;- mean((mu.est-fTrue(xgOrig))^2)
+
+  mse.sd.even.mfvb[j]  &lt;- mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
+  mse.sd.even.haar[j]  &lt;- mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
+  lmse.sd.even.mfvb[j] &lt;- mean((log(sqrtghatMFVBgOrig)-(loggTrue(xgOrig))/2)^2)
+  lmse.sd.even.haar[j] &lt;- mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
+
+  mu.est       &lt;- smash.gaus(yOrig,filter.number=8,family=&quot;DaubLeAsymm&quot;)
+  var.est      &lt;- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,filter.number=8,
+                             family=&quot;DaubLeAsymm&quot;)
+  var.est.s8.j &lt;- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,jash=TRUE,
+                             filter.number=8,family=&quot;DaubLeAsymm&quot;)
+  var.est.j    &lt;- smash.gaus(yOrig,v.est=TRUE,jash=TRUE)
+
+  mse.mu.even.s8[j]   &lt;-mean((mu.est-fTrue(xgOrig))^2)
+  mse.sd.even.s8[j]   &lt;-mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
+  mse.sd.even.j[j]    &lt;-mean((sqrt(var.est.j)-exp((loggTrue(xgOrig))/2))^2)
+  mse.sd.even.s8.j[j] &lt;-mean((sqrt(var.est.s8.j)-exp((loggTrue(xgOrig))/2))^2)
+  lmse.sd.even.s8[j]  &lt;-mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
+  lmse.sd.even.j[j]   &lt;-mean((log(sqrt(var.est.j))-(loggTrue(xgOrig))/2)^2)
+  lmse.sd.even.s8.j[j]&lt;-mean((log(sqrt(var.est.s8.j))-(loggTrue(xgOrig))/2)^2)
+}
+cat(&quot;\n&quot;)
+
+# SUMMARIZE RESULTS
+# -----------------
+# Compare this table against Table 1 in the paper.
+cat(&quot;Summarizing results of simulations.\n&quot;)
+cat(sprintf(&quot;MSE averaged across %d simulations in Scenario 1,\n&quot;,nsim1))
+cat(sprintf(&quot;and averaged across %d simulations in Scenario 2:\n&quot;,nsim2))
+mse.table &lt;- rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
+                     mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
+                   c(mean(mse.mu.uneven.s8),mean(mse.sd.uneven.s8),
+                     mean(mse.mu.even.s8),mean(mse.sd.even.s8)))
+rownames(mse.table) &lt;- c(&quot;MFVB&quot;,&quot;SMASH&quot;)
+colnames(mse.table) &lt;- c(&quot;mean&quot;,&quot;sd&quot;,&quot;mean&quot;,&quot;sd&quot;)
+cat(&quot;         Scenario 1      Scenario 2   \n&quot;)
+cat(&quot;      --------------- ----------------\n&quot;)
+print(mse.table)</code></pre>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()
+# R version 3.4.3 (2017-11-30)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS High Sierra 10.13.6
+# 
+# Matrix products: default
+# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] smashr_1.2-0
+# 
+# loaded via a namespace (and not attached):
+#  [1] Rcpp_0.12.19      knitr_1.20        whisker_0.3-2    
+#  [4] magrittr_1.5      workflowr_1.1.1   MASS_7.3-48      
+#  [7] pscl_1.5.2        doParallel_1.0.11 SQUAREM_2017.10-1
+# [10] lattice_0.20-35   foreach_1.4.4     ashr_2.2-23      
+# [13] stringr_1.3.1     caTools_1.17.1    tools_3.4.3      
+# [16] parallel_3.4.3    grid_3.4.3        data.table_1.11.4
+# [19] R.oo_1.21.0       git2r_0.23.0      iterators_1.0.9  
+# [22] htmltools_0.3.6   yaml_2.2.0        rprojroot_1.3-2  
+# [25] digest_0.6.17     Matrix_1.2-12     bitops_1.0-6     
+# [28] codetools_0.2-15  R.utils_2.6.0     evaluate_0.11    
+# [31] rmarkdown_1.10    wavethresh_4.6.8  stringi_1.2.4    
+# [34] compiler_3.4.3    backports_1.1.2   R.methodsS3_1.7.1
+# [37] truncnorm_1.0-8</code></pre>
+</div>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
