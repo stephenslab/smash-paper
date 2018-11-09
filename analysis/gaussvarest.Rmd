@@ -17,7 +17,8 @@ We thank M. Menictas & M. Wand for generously sharing code that was
 used to implement these experiments.
 
 ```{r knitr-opts, include=FALSE}
-knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,results = "hold",
+                      fig.align = "center")
 ```
 
 Initial setup instructions
@@ -229,30 +230,30 @@ for (j in 1:nsim1) {
   mse.sd.uneven.smash[j] <-
     mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
 }
-cat("\n")
 ```
 
 Second simulation scenario: evenly spaced points
 ------------------------------------------------
 
-In this scenario, we simulated evenly spaced data points.
+In this scenario, we simulate data sets with 1,024 evenly spaced data
+points. We assess accuracy separately for the mean and standard
+deviation as the mean of the MSEs evaluated at each of the locations.
 
-```{r, eval=FALSE}
-mse.mu.even.mfvb <- 0
-mse.mu.even.s8   <- 0
+```{r simulation-2-initialize}
+mse.mu.even.mfvb  <- 0
+mse.mu.even.smash <- 0
+mse.sd.even.mfvb  <- 0
+mse.sd.even.smash <- 0
+```
 
-mse.sd.even.mfvb <- 0
-mse.sd.even.s8   <- 0
-lmse.sd.even.mfvb <- 0
-lmse.sd.even.s8   <- 0
+Run the SMASH and MFVB methods for each simulated data set.
 
-# Repeat for each data set simulated in the second simulation scenario.
+```{r simulation-2-main-loop}
 cat(sprintf("Running %d simulations: ",nsim2))
 for (j in 1:nsim2) {
   cat(sprintf("%d ",j))
 
-  # Create the simulated data set
-  # -----------------------------
+  # SIMULATE DATA
   n      <- 2^10
   xOrig  <- (1:n)/n
   set.seed(30*j)
@@ -279,8 +280,7 @@ for (j in 1:nsim2) {
   Zv        <- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
   numKnotsV <- ncol(Zv) 
 
-  # Run Mean Field Variational Bayes (MFVB)
-  # ---------------------------------------
+  # RUN MEAN FIELD VARIATIONAL BAYES
   X     <- cbind(rep(1,n),x)
   Cumat <- cbind(X,Zu)
   Cvmat <- cbind(X,Zv)
@@ -322,46 +322,34 @@ for (j in 1:nsim2) {
                            + 0.125*diag(Cvg%*%Sigma.q.omega%*%t(Cvg)))
   sqrtghatMFVBgOrig <- sqrtghatMFVBg*sd.y
 
-  # Run SMASH
-  # ---------
+  # RUN SMASH
   mu.est  <- smash.gaus(yOrig,filter.number=1,family="DaubExPhase")
   var.est <- smash.gaus(yOrig,v.est=TRUE)
   
   mse.mu.even.mfvb[j] <- mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
-  mse.mu.even.haar[j] <- mean((mu.est-fTrue(xgOrig))^2)
+  mse.sd.even.mfvb[j] <- mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
 
-  mse.sd.even.mfvb[j]  <- mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
-  mse.sd.even.haar[j]  <- mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
-  lmse.sd.even.mfvb[j] <- mean((log(sqrtghatMFVBgOrig)-(loggTrue(xgOrig))/2)^2)
-  lmse.sd.even.haar[j] <- mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
-
-  mu.est       <- smash.gaus(yOrig,filter.number=8,family="DaubLeAsymm")
-  var.est      <- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,filter.number=8,
-                             family="DaubLeAsymm")
-  var.est.s8.j <- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,jash=TRUE,
-                             filter.number=8,family="DaubLeAsymm")
-  var.est.j    <- smash.gaus(yOrig,v.est=TRUE,jash=TRUE)
-
-  mse.mu.even.s8[j]   <-mean((mu.est-fTrue(xgOrig))^2)
-  mse.sd.even.s8[j]   <-mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
-  mse.sd.even.j[j]    <-mean((sqrt(var.est.j)-exp((loggTrue(xgOrig))/2))^2)
-  mse.sd.even.s8.j[j] <-mean((sqrt(var.est.s8.j)-exp((loggTrue(xgOrig))/2))^2)
-  lmse.sd.even.s8[j]  <-mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
-  lmse.sd.even.j[j]   <-mean((log(sqrt(var.est.j))-(loggTrue(xgOrig))/2)^2)
-  lmse.sd.even.s8.j[j]<-mean((log(sqrt(var.est.s8.j))-(loggTrue(xgOrig))/2)^2)
+  mu.est  <- smash.gaus(yOrig,filter.number=8,family="DaubLeAsymm")
+  var.est <- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,filter.number=8,
+                        family = "DaubLeAsymm")
+  
+  mse.mu.even.smash[j]  <- mean((mu.est - fTrue(xgOrig))^2)
+  mse.sd.even.smash[j]  <- mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
 }
-cat("\n")
+```
 
-# SUMMARIZE RESULTS
-# -----------------
-# Compare this table against Table 1 in the paper.
-cat("Summarizing results of simulations.\n")
+Summarize results of simulations
+--------------------------------
+
+Compare this table against Table 1 in the paper.
+
+```{r summarize-mse}
 cat(sprintf("MSE averaged across %d simulations in Scenario 1,\n",nsim1))
 cat(sprintf("and averaged across %d simulations in Scenario 2:\n",nsim2))
 mse.table <- rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
                      mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
-                   c(mean(mse.mu.uneven.s8),mean(mse.sd.uneven.s8),
-                     mean(mse.mu.even.s8),mean(mse.sd.even.s8)))
+                   c(mean(mse.mu.uneven.smash),mean(mse.sd.uneven.smash),
+                     mean(mse.mu.even.smash),mean(mse.sd.even.smash)))
 rownames(mse.table) <- c("MFVB","SMASH")
 colnames(mse.table) <- c("mean","sd","mean","sd")
 cat("         Scenario 1      Scenario 2   \n")
