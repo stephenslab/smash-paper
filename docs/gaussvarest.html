@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/2c6154dfd11ef6987d66fa68db3dd2a4306d6995" target="_blank">2c6154d</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/e1ebc43e2b3f375763904fe66c7ba9f47614279a" target="_blank">e1ebc43</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -274,6 +274,9 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 Unstaged changes:
+    Modified:   analysis/chipseq.Rmd
+    Modified:   analysis/motorcycle.Rmd
+    Modified:   analysis/spikesdemo.Rmd
     Deleted:    code/mfvb.functions.R
 
 </code></pre>
@@ -303,6 +306,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/e1ebc43e2b3f375763904fe66c7ba9f47614279a/analysis/gaussvarest.Rmd" target="_blank">e1ebc43</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussvarest.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/613f9b22da6bfe78fab4b9477869fc891876ad71/docs/gaussvarest.html" target="_blank">613f9b2</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+First workflowr build of the gaussvarest analysis.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -366,10 +403,10 @@ Moved around some files and revised TOC in home page.
 <div id="initial-setup-instructions" class="section level2">
 <h2>Initial setup instructions</h2>
 <p>To run this example on your own computer, please follow these setup instructions. These instructions assume you already have R and/or RStudio installed on your computer.</p>
-<p>First, download or clone the [git repository][smash-github] on your computer.</p>
+<p>First, download or clone the <a href="https://github.com/stephenslab/smash-paper">git repository</a> on your computer.</p>
 <p>Launch R, and change the working directory to be the “analysis” folder inside your local copy of the git repository.</p>
 <p>Finally, install the smashr package from GitHub:</p>
-<pre class="r"><code>devtools::install_github(&quot;stephenslab/smashr&quot;,upgrade_dependencies = FALSE)</code></pre>
+<pre class="r"><code>devtools::install_github(&quot;stephenslab/smashr&quot;)</code></pre>
 <p>See the “Session Info” at the bottom for the versions of the software and R packages that were used to generate the results shown below.</p>
 </div>
 <div id="set-up-r-environment" class="section level2">
@@ -407,11 +444,41 @@ plot(xgrid,fTrue(xgrid),type = &quot;l&quot;,ylim = c(-5,5),ylab = &quot;y&quot;
      lwd = 2)
 lines(xgrid,fTrue(xgrid) + 2*sqrt(gTrue(xgrid)),col = &quot;darkorange&quot;,lwd = 2)
 lines(xgrid,fTrue(xgrid) - 2*sqrt(gTrue(xgrid)),col = &quot;darkorange&quot;,lwd = 2)</code></pre>
-<p><img src="figure/gaussvarest.Rmd/plot-mean-and-variance-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/gaussvarest.Rmd/plot-mean-and-variance-1.png" width="576" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of plot-mean-and-variance-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/613f9b22da6bfe78fab4b9477869fc891876ad71/docs/figure/gaussvarest.Rmd/plot-mean-and-variance-1.png" target="_blank">613f9b2</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="first-simulation-scenario-unevenly-spaced-data" class="section level2">
 <h2>First simulation scenario: unevenly spaced data</h2>
-<p>In the first scenario, we simulated unevenly spaced data points, and assessed accuracy by computing the mean of the squared errors (MSE) evaluated at 201 equally spaced points.</p>
+<p>In the first scenario, we simulate data sets with unevenly spaced data points, and assesse accuracy by computing the mean of the squared errors (MSE) evaluated at 201 equally spaced points.</p>
 <pre class="r"><code>mse.mu.uneven.mfvb  &lt;- 0
 mse.mu.uneven.smash &lt;- 0
 mse.sd.uneven.mfvb  &lt;- 0
@@ -451,8 +518,7 @@ for (j in 1:nsim1) {
   Zv        &lt;- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
   numKnotsV &lt;- ncol(Zv) 
 
-  # Run Mean Field Variational Bayes (MFVB)
-  # ---------------------------------------
+  # RUN MEAN FIELD VARIATIONAL BAYES
   X     &lt;- cbind(rep(1,n),x)
   Cumat &lt;- cbind(X,Zu)
   Cvmat &lt;- cbind(X,Zv)
@@ -509,8 +575,8 @@ for (j in 1:nsim1) {
   mu.est.inter  &lt;- approx(x.mod,mu.est,xgOrig,&#39;linear&#39;)$y
   var.est.inter &lt;- approx(x.mod,var.est,xgOrig,&#39;linear&#39;)$y
 
-  mse.mu.uneven.mfvb[j] &lt;- mean((fhatMFVBgOrig - fTrue(xgOrig))^2)
-  mse.sd.uneven.mfvb[j] &lt;- mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
+  mse.mu.uneven.mfvb[j]&lt;-mean((fhatMFVBgOrig - fTrue(xgOrig))^2)
+  mse.sd.uneven.mfvb[j]&lt;-mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
 
   mu.est  &lt;- smash.gaus(y.final,filter.number=8,family=&quot;DaubLeAsymm&quot;)
   var.est &lt;- smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,filter.number=8,
@@ -522,8 +588,8 @@ for (j in 1:nsim1) {
   mu.est.inter       &lt;- approx(x.mod,mu.est,xgOrig,&#39;linear&#39;)$y
   var.est.inter      &lt;- approx(x.mod,var.est,xgOrig,&#39;linear&#39;)$y
 
-  mse.mu.uneven.s8[j]=mean((mu.est.inter-fTrue(xgOrig))^2)
-  mse.sd.uneven.s8[j]=mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
+  mse.mu.uneven.s8[j]&lt;-mean((mu.est.inter-fTrue(xgOrig))^2)
+  mse.sd.uneven.s8[j]&lt;-mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
 }
 cat(&quot;\n&quot;)</code></pre>
 </div>
