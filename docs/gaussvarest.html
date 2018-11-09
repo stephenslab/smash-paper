@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/3bcc70bdc3ea585ebb5232ae099519a9203246b4" target="_blank">3bcc70b</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/4bca2bee9d4fa23d3e3edfaa4ce1c9b35bde4f42" target="_blank">4bca2be</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -273,9 +273,6 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
-
-Untracked files:
-    Untracked:  analysis/.#gaussvarest.Rmd
 
 Unstaged changes:
     Modified:   analysis/chipseq.Rmd
@@ -310,6 +307,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/4bca2bee9d4fa23d3e3edfaa4ce1c9b35bde4f42/analysis/gaussvarest.Rmd" target="_blank">4bca2be</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussvarest.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/593d682fabe4847c9577f4cc289d4f19ee8292a5/docs/gaussvarest.html" target="_blank">593d682</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+More testing of gaussvarest analysis with n=10 simulations.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -505,7 +536,6 @@ mse.sd.uneven.mfvb  &lt;- 0
 mse.sd.uneven.smash &lt;- 0</code></pre>
 <p>Run the SMASH and MFVB methods for each simulated data set.</p>
 <pre class="r"><code>cat(sprintf(&quot;Running %d simulations: &quot;,nsim1))
-# Running 10 simulations:
 for (j in 1:nsim1) {
   cat(sprintf(&quot;%d &quot;,j))
     
@@ -613,27 +643,21 @@ for (j in 1:nsim1) {
   mse.sd.uneven.smash[j] &lt;-
     mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
 }
-# 1 2 3 4 5 6 7 8 9 10
-cat(&quot;\n&quot;)</code></pre>
+# Running 10 simulations: 1 2 3 4 5 6 7 8 9 10</code></pre>
 </div>
 <div id="second-simulation-scenario-evenly-spaced-points" class="section level2">
 <h2>Second simulation scenario: evenly spaced points</h2>
-<p>In this scenario, we simulated evenly spaced data points.</p>
-<pre class="r"><code>mse.mu.even.mfvb &lt;- 0
-mse.mu.even.s8   &lt;- 0
-
-mse.sd.even.mfvb &lt;- 0
-mse.sd.even.s8   &lt;- 0
-lmse.sd.even.mfvb &lt;- 0
-lmse.sd.even.s8   &lt;- 0
-
-# Repeat for each data set simulated in the second simulation scenario.
-cat(sprintf(&quot;Running %d simulations: &quot;,nsim2))
+<p>In this scenario, we simulate data sets with 1,024 evenly spaced data points. We assess accuracy separately for the mean and standard deviation as the mean of the MSEs evaluated at each of the locations.</p>
+<pre class="r"><code>mse.mu.even.mfvb  &lt;- 0
+mse.mu.even.smash &lt;- 0
+mse.sd.even.mfvb  &lt;- 0
+mse.sd.even.smash &lt;- 0</code></pre>
+<p>Run the SMASH and MFVB methods for each simulated data set.</p>
+<pre class="r"><code>cat(sprintf(&quot;Running %d simulations: &quot;,nsim2))
 for (j in 1:nsim2) {
   cat(sprintf(&quot;%d &quot;,j))
 
-  # Create the simulated data set
-  # -----------------------------
+  # SIMULATE DATA
   n      &lt;- 2^10
   xOrig  &lt;- (1:n)/n
   set.seed(30*j)
@@ -660,8 +684,7 @@ for (j in 1:nsim2) {
   Zv        &lt;- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
   numKnotsV &lt;- ncol(Zv) 
 
-  # Run Mean Field Variational Bayes (MFVB)
-  # ---------------------------------------
+  # RUN MEAN FIELD VARIATIONAL BAYES
   X     &lt;- cbind(rep(1,n),x)
   Cumat &lt;- cbind(X,Zu)
   Cvmat &lt;- cbind(X,Zv)
@@ -703,51 +726,43 @@ for (j in 1:nsim2) {
                            + 0.125*diag(Cvg%*%Sigma.q.omega%*%t(Cvg)))
   sqrtghatMFVBgOrig &lt;- sqrtghatMFVBg*sd.y
 
-  # Run SMASH
-  # ---------
+  # RUN SMASH
   mu.est  &lt;- smash.gaus(yOrig,filter.number=1,family=&quot;DaubExPhase&quot;)
   var.est &lt;- smash.gaus(yOrig,v.est=TRUE)
   
   mse.mu.even.mfvb[j] &lt;- mean((fhatMFVBgOrig-fTrue(xgOrig))^2)
-  mse.mu.even.haar[j] &lt;- mean((mu.est-fTrue(xgOrig))^2)
+  mse.sd.even.mfvb[j] &lt;- mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
 
-  mse.sd.even.mfvb[j]  &lt;- mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
-  mse.sd.even.haar[j]  &lt;- mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
-  lmse.sd.even.mfvb[j] &lt;- mean((log(sqrtghatMFVBgOrig)-(loggTrue(xgOrig))/2)^2)
-  lmse.sd.even.haar[j] &lt;- mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
-
-  mu.est       &lt;- smash.gaus(yOrig,filter.number=8,family=&quot;DaubLeAsymm&quot;)
-  var.est      &lt;- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,filter.number=8,
-                             family=&quot;DaubLeAsymm&quot;)
-  var.est.s8.j &lt;- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,jash=TRUE,
-                             filter.number=8,family=&quot;DaubLeAsymm&quot;)
-  var.est.j    &lt;- smash.gaus(yOrig,v.est=TRUE,jash=TRUE)
-
-  mse.mu.even.s8[j]   &lt;-mean((mu.est-fTrue(xgOrig))^2)
-  mse.sd.even.s8[j]   &lt;-mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
-  mse.sd.even.j[j]    &lt;-mean((sqrt(var.est.j)-exp((loggTrue(xgOrig))/2))^2)
-  mse.sd.even.s8.j[j] &lt;-mean((sqrt(var.est.s8.j)-exp((loggTrue(xgOrig))/2))^2)
-  lmse.sd.even.s8[j]  &lt;-mean((log(sqrt(var.est))-(loggTrue(xgOrig))/2)^2)
-  lmse.sd.even.j[j]   &lt;-mean((log(sqrt(var.est.j))-(loggTrue(xgOrig))/2)^2)
-  lmse.sd.even.s8.j[j]&lt;-mean((log(sqrt(var.est.s8.j))-(loggTrue(xgOrig))/2)^2)
+  mu.est  &lt;- smash.gaus(yOrig,filter.number=8,family=&quot;DaubLeAsymm&quot;)
+  var.est &lt;- smash.gaus(yOrig,v.est=TRUE,v.basis=TRUE,filter.number=8,
+                        family = &quot;DaubLeAsymm&quot;)
+  
+  mse.mu.even.smash[j]  &lt;- mean((mu.est - fTrue(xgOrig))^2)
+  mse.sd.even.smash[j]  &lt;- mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
 }
-cat(&quot;\n&quot;)
-
-# SUMMARIZE RESULTS
-# -----------------
-# Compare this table against Table 1 in the paper.
-cat(&quot;Summarizing results of simulations.\n&quot;)
-cat(sprintf(&quot;MSE averaged across %d simulations in Scenario 1,\n&quot;,nsim1))
+# Running 10 simulations: 1 2 3 4 5 6 7 8 9 10</code></pre>
+</div>
+<div id="summarize-results-of-simulations" class="section level2">
+<h2>Summarize results of simulations</h2>
+<p>Compare this table against Table 1 in the paper.</p>
+<pre class="r"><code>cat(sprintf(&quot;MSE averaged across %d simulations in Scenario 1,\n&quot;,nsim1))
 cat(sprintf(&quot;and averaged across %d simulations in Scenario 2:\n&quot;,nsim2))
 mse.table &lt;- rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
                      mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
-                   c(mean(mse.mu.uneven.s8),mean(mse.sd.uneven.s8),
-                     mean(mse.mu.even.s8),mean(mse.sd.even.s8)))
+                   c(mean(mse.mu.uneven.smash),mean(mse.sd.uneven.smash),
+                     mean(mse.mu.even.smash),mean(mse.sd.even.smash)))
 rownames(mse.table) &lt;- c(&quot;MFVB&quot;,&quot;SMASH&quot;)
 colnames(mse.table) &lt;- c(&quot;mean&quot;,&quot;sd&quot;,&quot;mean&quot;,&quot;sd&quot;)
 cat(&quot;         Scenario 1      Scenario 2   \n&quot;)
 cat(&quot;      --------------- ----------------\n&quot;)
-print(mse.table)</code></pre>
+print(mse.table)
+# MSE averaged across 10 simulations in Scenario 1,
+# and averaged across 10 simulations in Scenario 2:
+#          Scenario 1      Scenario 2   
+#       --------------- ----------------
+#             mean         sd       mean          sd
+# MFVB  0.03129997 0.02329073 0.01608097 0.007067097
+# SMASH 0.03616205 0.01815929 0.01468753 0.005463422</code></pre>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
