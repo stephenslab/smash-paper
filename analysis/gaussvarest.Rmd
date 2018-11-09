@@ -4,7 +4,7 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-This script implements the "Gaussian variance estimation" simulation
+This analysis implements the "Gaussian variance estimation" simulation
 experiments in the paper. In particular, we compare the Mean Field
 Variational Bayes (MFVB) method against SMASH in two scenarios. The
 figure and table generated at the end of this script should match up
@@ -61,8 +61,8 @@ Specify the number of data sets simulated in the first and second
 simulation scenarios.
 
 ```{r analysis-settings-1}
-nsim1 <- 10
-nsim2 <- 10
+nsim1 <- 100
+nsim2 <- 100
 ```
 
 Next, specify the hyperparameters used in running the MFVB method.
@@ -342,7 +342,7 @@ for (j in 1:nsim2) {
 Summarize results of simulations
 --------------------------------
 
-The following two tables shows the mean squared error (MSE) averaged
+The following two tables show the mean squared error (MSE) averaged
 over the 100 simulations in each of the scenarios. Compare these
 results with Table 1 in the paper.
 
@@ -357,7 +357,8 @@ rownames(mse.table2) <- c("MFVB","SMASH")
 colnames(mse.table2) <- c("mean","sd")
 cat(sprintf("MSE averaged across %d simulations in Scenario 1:\n",nsim1))
 print(mse.table1)
-cat(sprintf("and averaged across %d simulations in Scenario 2:\n",nsim2))
+cat("\n")
+cat(sprintf("MSE averaged across %d simulations in Scenario 2:\n",nsim2))
 print(mse.table2)
 ```
 
