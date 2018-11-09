@@ -6,10 +6,9 @@ output: workflowr::wflow_html
 
 This script implements the "Gaussian variance estimation" simulation
 experiments in the paper. In particular, we compare the Mean Field
-Variational Bayes (MFVB) method against SMASH in two scenarios.
-
-The figure and table generated at the end of this script should
-match up with the figure and table shown in the paper.
+Variational Bayes (MFVB) method against SMASH in two scenarios. The
+figure and table generated at the end of this script should match up
+with the figure and table shown in the paper.
 
 Running the code could take several hours to complete as it runs the
 two methods on 100 simulated data sets for each of the two scenarios.
@@ -108,8 +107,8 @@ lines(xgrid,fTrue(xgrid) - 2*sqrt(gTrue(xgrid)),col = "darkorange",lwd = 2)
 First simulation scenario: unevenly spaced data
 -----------------------------------------------
 
-In the first scenario, we simulate data sets with unevenly spaced data
-points, and assesse accuracy by computing the mean of the squared
+In the first scenario, we simulate data sets with 500 unevenly spaced data
+points, and assess accuracy by computing the mean of the squared
 errors (MSE) evaluated at 201 equally spaced points.
 
 ```{r simulation-1-initialize}
@@ -121,7 +120,7 @@ mse.sd.uneven.smash <- 0
 
 Run the SMASH and MFVB methods for each simulated data set.
 
-```{r simulation-1-main-loop, eval=FALSE} 
+```{r simulation-1-main-loop} 
 cat(sprintf("Running %d simulations: ",nsim1))
 for (j in 1:nsim1) {
   cat(sprintf("%d ",j))
@@ -226,14 +225,17 @@ for (j in 1:nsim1) {
   mu.est.inter       <- approx(x.mod,mu.est,xgOrig,'linear')$y
   var.est.inter      <- approx(x.mod,var.est,xgOrig,'linear')$y
 
-  mse.mu.uneven.s8[j]<-mean((mu.est.inter-fTrue(xgOrig))^2)
-  mse.sd.uneven.s8[j]<-mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
+  mse.mu.uneven.smash[j] <- mean((mu.est.inter-fTrue(xgOrig))^2)
+  mse.sd.uneven.smash[j] <-
+    mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
 }
 cat("\n")
 ```
 
 Second simulation scenario: evenly spaced points
 ------------------------------------------------
+
+In this scenario, we simulated evenly spaced data points.
 
 ```{r, eval=FALSE}
 mse.mu.even.mfvb <- 0
