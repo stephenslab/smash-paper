@@ -241,10 +241,11 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/e1ebc43e2b3f375763904fe66c7ba9f47614279a" target="_blank">e1ebc43</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/3bcc70bdc3ea585ebb5232ae099519a9203246b4" target="_blank">3bcc70b</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    analysis/figure/
     Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
@@ -272,6 +273,9 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
+
+Untracked files:
+    Untracked:  analysis/.#gaussvarest.Rmd
 
 Unstaged changes:
     Modified:   analysis/chipseq.Rmd
@@ -306,6 +310,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/3bcc70bdc3ea585ebb5232ae099519a9203246b4/analysis/gaussvarest.Rmd" target="_blank">3bcc70b</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussvarest.Rmd”)
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -396,8 +417,7 @@ Moved around some files and revised TOC in home page.
 </ul>
 <p></details></p>
 <hr />
-<p>This script implements the “Gaussian variance estimation” simulation experiments in the paper. In particular, we compare the Mean Field Variational Bayes (MFVB) method against SMASH in two scenarios.</p>
-<p>The figure and table generated at the end of this script should match up with the figure and table shown in the paper.</p>
+<p>This script implements the “Gaussian variance estimation” simulation experiments in the paper. In particular, we compare the Mean Field Variational Bayes (MFVB) method against SMASH in two scenarios. The figure and table generated at the end of this script should match up with the figure and table shown in the paper.</p>
 <p>Running the code could take several hours to complete as it runs the two methods on 100 simulated data sets for each of the two scenarios.</p>
 <p>We thank M. Menictas &amp; M. Wand for generously sharing code that was used to implement these experiments.</p>
 <div id="initial-setup-instructions" class="section level2">
@@ -478,13 +498,14 @@ Peter Carbonetto
 </div>
 <div id="first-simulation-scenario-unevenly-spaced-data" class="section level2">
 <h2>First simulation scenario: unevenly spaced data</h2>
-<p>In the first scenario, we simulate data sets with unevenly spaced data points, and assesse accuracy by computing the mean of the squared errors (MSE) evaluated at 201 equally spaced points.</p>
+<p>In the first scenario, we simulate data sets with 500 unevenly spaced data points, and assess accuracy by computing the mean of the squared errors (MSE) evaluated at 201 equally spaced points.</p>
 <pre class="r"><code>mse.mu.uneven.mfvb  &lt;- 0
 mse.mu.uneven.smash &lt;- 0
 mse.sd.uneven.mfvb  &lt;- 0
 mse.sd.uneven.smash &lt;- 0</code></pre>
 <p>Run the SMASH and MFVB methods for each simulated data set.</p>
 <pre class="r"><code>cat(sprintf(&quot;Running %d simulations: &quot;,nsim1))
+# Running 10 simulations:
 for (j in 1:nsim1) {
   cat(sprintf(&quot;%d &quot;,j))
     
@@ -588,13 +609,16 @@ for (j in 1:nsim1) {
   mu.est.inter       &lt;- approx(x.mod,mu.est,xgOrig,&#39;linear&#39;)$y
   var.est.inter      &lt;- approx(x.mod,var.est,xgOrig,&#39;linear&#39;)$y
 
-  mse.mu.uneven.s8[j]&lt;-mean((mu.est.inter-fTrue(xgOrig))^2)
-  mse.sd.uneven.s8[j]&lt;-mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
+  mse.mu.uneven.smash[j] &lt;- mean((mu.est.inter-fTrue(xgOrig))^2)
+  mse.sd.uneven.smash[j] &lt;-
+    mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
 }
+# 1 2 3 4 5 6 7 8 9 10
 cat(&quot;\n&quot;)</code></pre>
 </div>
 <div id="second-simulation-scenario-evenly-spaced-points" class="section level2">
 <h2>Second simulation scenario: evenly spaced points</h2>
+<p>In this scenario, we simulated evenly spaced data points.</p>
 <pre class="r"><code>mse.mu.even.mfvb &lt;- 0
 mse.mu.even.s8   &lt;- 0
 
@@ -740,25 +764,27 @@ print(mse.table)</code></pre>
 # [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 # 
 # attached base packages:
-# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# [1] splines   stats     graphics  grDevices utils     datasets  methods  
+# [8] base     
 # 
 # other attached packages:
 # [1] smashr_1.2-0
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_0.12.19      knitr_1.20        whisker_0.3-2    
-#  [4] magrittr_1.5      workflowr_1.1.1   MASS_7.3-48      
-#  [7] pscl_1.5.2        doParallel_1.0.11 SQUAREM_2017.10-1
-# [10] lattice_0.20-35   foreach_1.4.4     ashr_2.2-23      
-# [13] stringr_1.3.1     caTools_1.17.1    tools_3.4.3      
-# [16] parallel_3.4.3    grid_3.4.3        data.table_1.11.4
-# [19] R.oo_1.21.0       git2r_0.23.0      iterators_1.0.9  
-# [22] htmltools_0.3.6   yaml_2.2.0        rprojroot_1.3-2  
-# [25] digest_0.6.17     Matrix_1.2-12     bitops_1.0-6     
-# [28] codetools_0.2-15  R.utils_2.6.0     evaluate_0.11    
-# [31] rmarkdown_1.10    wavethresh_4.6.8  stringi_1.2.4    
-# [34] compiler_3.4.3    backports_1.1.2   R.methodsS3_1.7.1
-# [37] truncnorm_1.0-8</code></pre>
+#  [1] Rcpp_0.12.19      compiler_3.4.3    git2r_0.23.0     
+#  [4] workflowr_1.1.1   R.methodsS3_1.7.1 R.utils_2.6.0    
+#  [7] bitops_1.0-6      iterators_1.0.9   tools_3.4.3      
+# [10] digest_0.6.17     evaluate_0.11     lattice_0.20-35  
+# [13] Matrix_1.2-12     foreach_1.4.4     yaml_2.2.0       
+# [16] parallel_3.4.3    stringr_1.3.1     knitr_1.20       
+# [19] caTools_1.17.1    REBayes_1.3       rprojroot_1.3-2  
+# [22] grid_3.4.3        data.table_1.11.4 rmarkdown_1.10   
+# [25] ashr_2.2-23       magrittr_1.5      whisker_0.3-2    
+# [28] backports_1.1.2   codetools_0.2-15  htmltools_0.3.6  
+# [31] MASS_7.3-48       assertthat_0.2.0  wavethresh_4.6.8 
+# [34] stringi_1.2.4     Rmosek_8.0.69     doParallel_1.0.11
+# [37] pscl_1.5.2        truncnorm_1.0-8   SQUAREM_2017.10-1
+# [40] R.oo_1.21.0</code></pre>
 </div>
 
 <script type="text/x-mathjax-config">
