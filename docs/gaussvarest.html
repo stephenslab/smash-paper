@@ -241,11 +241,10 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/684ee02303e0f84dc66fd5dc8098e4e415ebf1ac" target="_blank">684ee02</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/8214f9d8ecafb2007fc8be76d43e6cbabe8d95b7" target="_blank">8214f9d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
-    Ignored:    analysis/figure/
     Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
@@ -304,6 +303,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/8214f9d8ecafb2007fc8be76d43e6cbabe8d95b7/analysis/gaussvarest.Rmd" target="_blank">8214f9d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussvarest.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/5173e56fe17f17ffcb5e6917084d992b53aedcf4/docs/gaussvarest.html" target="_blank">5173e56</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+Fixed error in generating the summary at the end of the gaussvarest
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -479,7 +512,7 @@ Moved around some files and revised TOC in home page.
 </ul>
 <p></details></p>
 <hr />
-<p>This script implements the “Gaussian variance estimation” simulation experiments in the paper. In particular, we compare the Mean Field Variational Bayes (MFVB) method against SMASH in two scenarios. The figure and table generated at the end of this script should match up with the figure and table shown in the paper.</p>
+<p>This analysis implements the “Gaussian variance estimation” simulation experiments in the paper. In particular, we compare the Mean Field Variational Bayes (MFVB) method against SMASH in two scenarios. The figure and table generated at the end of this script should match up with the figure and table shown in the paper.</p>
 <p>Running the code could take several hours to complete as it runs the two methods on 100 simulated data sets for each of the two scenarios.</p>
 <p>We thank M. Menictas &amp; M. Wand for generously sharing code that was used to implement these experiments.</p>
 <div id="initial-setup-instructions" class="section level2">
@@ -500,8 +533,8 @@ source(&quot;../code/mfvb.R&quot;)</code></pre>
 <div id="analysis-settings" class="section level2">
 <h2>Analysis settings</h2>
 <p>Specify the number of data sets simulated in the first and second simulation scenarios.</p>
-<pre class="r"><code>nsim1 &lt;- 10
-nsim2 &lt;- 10</code></pre>
+<pre class="r"><code>nsim1 &lt;- 100
+nsim2 &lt;- 100</code></pre>
 <p>Next, specify the hyperparameters used in running the MFVB method.</p>
 <pre class="r"><code>Au.hyp      &lt;- 1e5
 Av.hyp      &lt;- 1e5
@@ -674,7 +707,7 @@ for (j in 1:nsim1) {
   mse.sd.uneven.smash[j] &lt;-
     mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
 }
-# Running 10 simulations: 1 2 3 4 5 6 7 8 9 10</code></pre>
+# Running 100 simulations: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100</code></pre>
 </div>
 <div id="second-simulation-scenario-evenly-spaced-points" class="section level2">
 <h2>Second simulation scenario: evenly spaced points</h2>
@@ -771,11 +804,11 @@ for (j in 1:nsim2) {
   mse.mu.even.smash[j]  &lt;- mean((mu.est - fTrue(xgOrig))^2)
   mse.sd.even.smash[j]  &lt;- mean((sqrt(var.est)-exp((loggTrue(xgOrig))/2))^2)
 }
-# Running 10 simulations: 1 2 3 4 5 6 7 8 9 10</code></pre>
+# Running 100 simulations: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100</code></pre>
 </div>
 <div id="summarize-results-of-simulations" class="section level2">
 <h2>Summarize results of simulations</h2>
-<p>The following two tables shows the mean squared error (MSE) averaged over the 100 simulations in each of the scenarios. Compare these results with Table 1 in the paper.</p>
+<p>The following two tables show the mean squared error (MSE) averaged over the 100 simulations in each of the scenarios. Compare these results with Table 1 in the paper.</p>
 <pre class="r"><code>mse.table1 &lt;- rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb)),
                     c(mean(mse.mu.uneven.smash),mean(mse.sd.uneven.smash)))
 mse.table2 &lt;- rbind(c(mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
@@ -786,16 +819,18 @@ rownames(mse.table2) &lt;- c(&quot;MFVB&quot;,&quot;SMASH&quot;)
 colnames(mse.table2) &lt;- c(&quot;mean&quot;,&quot;sd&quot;)
 cat(sprintf(&quot;MSE averaged across %d simulations in Scenario 1:\n&quot;,nsim1))
 print(mse.table1)
-cat(sprintf(&quot;and averaged across %d simulations in Scenario 2:\n&quot;,nsim2))
+cat(&quot;\n&quot;)
+cat(sprintf(&quot;MSE averaged across %d simulations in Scenario 2:\n&quot;,nsim2))
 print(mse.table2)
-# MSE averaged across 10 simulations in Scenario 1:
+# MSE averaged across 100 simulations in Scenario 1:
 #             mean         sd
-# MFVB  0.03129997 0.02329073
-# SMASH 0.03616205 0.01815929
-# and averaged across 10 simulations in Scenario 2:
+# MFVB  0.03302778 0.01991272
+# SMASH 0.03343833 0.01869602
+# 
+# MSE averaged across 100 simulations in Scenario 2:
 #             mean          sd
-# MFVB  0.01608097 0.007067097
-# SMASH 0.01468753 0.005463422</code></pre>
+# MFVB  0.01721438 0.008471983
+# SMASH 0.01582035 0.006513889</code></pre>
 <p>In Scenario 1, the data are not equally spaced, and the number of data points is not a power of 2; in this setting, SMASH is more accurate in estimating both the mean and s.d.</p>
 <p>In Scenario 2, the data are equally spaced, and the number of data points is a power of 2; SMASH again outperforms MFVB in both mean and s.d. estimation.</p>
 </div>
