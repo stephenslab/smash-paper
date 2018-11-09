@@ -34,7 +34,7 @@ install.packages(c("devtools","wavethresh","EbayesThresh"))
 Finally, install the smashr package from GitHub:
 
 ```{r install-pkgs-2, eval=FALSE}
-devtools::install_github("stephenslab/smashr",upgrade_dependencies = FALSE)
+devtools::install_github("stephenslab/smashr")
 ```
 
 See the "Session Info" at the bottom for the versions of the software
