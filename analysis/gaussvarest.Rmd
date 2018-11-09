@@ -37,7 +37,7 @@ inside your local copy of the git repository.
 Finally, install the smashr package from GitHub:
 
 ```{r install-pkgs-2, eval=FALSE}
-devtools::install_github("stephenslab/smashr",upgrade_dependencies = FALSE)
+devtools::install_github("stephenslab/smashr")
 ```
 
 See the "Session Info" at the bottom for the versions of the software
@@ -97,7 +97,7 @@ Plot mean and variance functions used to simulate data
 
 Compare this plot against the one shown in Fig. 4 of the paper.
 
-```{r plot-mean-and-variance, fig.height=4, fig.width=5}
+```{r plot-mean-and-variance, fig.height=5, fig.width=6}
 xgrid <- (0:10000)/10000
 plot(xgrid,fTrue(xgrid),type = "l",ylim = c(-5,5),ylab = "y",xlab = "X",
      lwd = 2)
@@ -108,11 +108,11 @@ lines(xgrid,fTrue(xgrid) - 2*sqrt(gTrue(xgrid)),col = "darkorange",lwd = 2)
 First simulation scenario: unevenly spaced data
 -----------------------------------------------
 
-In the first scenario, we simulated unevenly spaced data points, and
-assessed accuracy by computing the mean of the squared errors (MSE)
-evaluated at 201 equally spaced points.
+In the first scenario, we simulate data sets with unevenly spaced data
+points, and assesse accuracy by computing the mean of the squared
+errors (MSE) evaluated at 201 equally spaced points.
 
-```{r simulation-1-initialize, eval=FALSE}
+```{r simulation-1-initialize}
 mse.mu.uneven.mfvb  <- 0
 mse.mu.uneven.smash <- 0
 mse.sd.uneven.mfvb  <- 0
@@ -156,8 +156,7 @@ for (j in 1:nsim1) {
   Zv        <- ZOSull(x,intKnots=intKnotsV,range.x=c(a,b))
   numKnotsV <- ncol(Zv) 
 
-  # Run Mean Field Variational Bayes (MFVB)
-  # ---------------------------------------
+  # RUN MEAN FIELD VARIATIONAL BAYES
   X     <- cbind(rep(1,n),x)
   Cumat <- cbind(X,Zu)
   Cvmat <- cbind(X,Zv)
@@ -214,8 +213,8 @@ for (j in 1:nsim1) {
   mu.est.inter  <- approx(x.mod,mu.est,xgOrig,'linear')$y
   var.est.inter <- approx(x.mod,var.est,xgOrig,'linear')$y
 
-  mse.mu.uneven.mfvb[j] <- mean((fhatMFVBgOrig - fTrue(xgOrig))^2)
-  mse.sd.uneven.mfvb[j] <- mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
+  mse.mu.uneven.mfvb[j]<-mean((fhatMFVBgOrig - fTrue(xgOrig))^2)
+  mse.sd.uneven.mfvb[j]<-mean((sqrtghatMFVBgOrig-exp((loggTrue(xgOrig))/2))^2)
 
   mu.est  <- smash.gaus(y.final,filter.number=8,family="DaubLeAsymm")
   var.est <- smash.gaus(y.final,v.est=TRUE,v.basis=TRUE,filter.number=8,
@@ -227,8 +226,8 @@ for (j in 1:nsim1) {
   mu.est.inter       <- approx(x.mod,mu.est,xgOrig,'linear')$y
   var.est.inter      <- approx(x.mod,var.est,xgOrig,'linear')$y
 
-  mse.mu.uneven.s8[j]=mean((mu.est.inter-fTrue(xgOrig))^2)
-  mse.sd.uneven.s8[j]=mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
+  mse.mu.uneven.s8[j]<-mean((mu.est.inter-fTrue(xgOrig))^2)
+  mse.sd.uneven.s8[j]<-mean((sqrt(var.est.inter)-exp((loggTrue(xgOrig))/2))^2)
 }
 cat("\n")
 ```
@@ -367,3 +366,5 @@ cat("         Scenario 1      Scenario 2   \n")
 cat("      --------------- ----------------\n")
 print(mse.table)
 ```
+
+[smash-github]: https://github.com/stephenslab/smash-paper
