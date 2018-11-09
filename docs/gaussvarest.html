@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/4bca2bee9d4fa23d3e3edfaa4ce1c9b35bde4f42" target="_blank">4bca2be</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/684ee02303e0f84dc66fd5dc8098e4e415ebf1ac" target="_blank">684ee02</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -275,9 +275,6 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 Unstaged changes:
-    Modified:   analysis/chipseq.Rmd
-    Modified:   analysis/motorcycle.Rmd
-    Modified:   analysis/spikesdemo.Rmd
     Deleted:    code/mfvb.functions.R
 
 </code></pre>
@@ -307,6 +304,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/684ee02303e0f84dc66fd5dc8098e4e415ebf1ac/analysis/gaussvarest.Rmd" target="_blank">684ee02</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussvarest.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/692edf4dbf47501380d09c8eae7b77442bac545c/docs/gaussvarest.html" target="_blank">692edf4</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+Success in running full gaussvarest analysis with n=10 simulations.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -529,7 +560,7 @@ Peter Carbonetto
 </div>
 <div id="first-simulation-scenario-unevenly-spaced-data" class="section level2">
 <h2>First simulation scenario: unevenly spaced data</h2>
-<p>In the first scenario, we simulate data sets with 500 unevenly spaced data points, and assess accuracy by computing the mean of the squared errors (MSE) evaluated at 201 equally spaced points.</p>
+<p>In the first scenario, we simulate data sets with 500 unevenly spaced data points, and assess accuracy, separately for the mean and variance estimates) by computing the mean of the squared errors (MSE) evaluated at 201 equally spaced points.</p>
 <pre class="r"><code>mse.mu.uneven.mfvb  &lt;- 0
 mse.mu.uneven.smash &lt;- 0
 mse.sd.uneven.mfvb  &lt;- 0
@@ -744,25 +775,29 @@ for (j in 1:nsim2) {
 </div>
 <div id="summarize-results-of-simulations" class="section level2">
 <h2>Summarize results of simulations</h2>
-<p>Compare this table against Table 1 in the paper.</p>
-<pre class="r"><code>cat(sprintf(&quot;MSE averaged across %d simulations in Scenario 1,\n&quot;,nsim1))
+<p>The following two tables shows the mean squared error (MSE) averaged over the 100 simulations in each of the scenarios. Compare these results with Table 1 in the paper.</p>
+<pre class="r"><code>mse.table1 &lt;- rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb)),
+                    c(mean(mse.mu.uneven.smash),mean(mse.sd.uneven.smash)))
+mse.table2 &lt;- rbind(c(mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
+                    c(mean(mse.mu.even.smash),mean(mse.sd.even.smash)))
+rownames(mse.table1) &lt;- c(&quot;MFVB&quot;,&quot;SMASH&quot;)
+colnames(mse.table1) &lt;- c(&quot;mean&quot;,&quot;sd&quot;)
+rownames(mse.table2) &lt;- c(&quot;MFVB&quot;,&quot;SMASH&quot;)
+colnames(mse.table2) &lt;- c(&quot;mean&quot;,&quot;sd&quot;)
+cat(sprintf(&quot;MSE averaged across %d simulations in Scenario 1:\n&quot;,nsim1))
+print(mse.table1)
 cat(sprintf(&quot;and averaged across %d simulations in Scenario 2:\n&quot;,nsim2))
-mse.table &lt;- rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
-                     mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
-                   c(mean(mse.mu.uneven.smash),mean(mse.sd.uneven.smash),
-                     mean(mse.mu.even.smash),mean(mse.sd.even.smash)))
-rownames(mse.table) &lt;- c(&quot;MFVB&quot;,&quot;SMASH&quot;)
-colnames(mse.table) &lt;- c(&quot;mean&quot;,&quot;sd&quot;,&quot;mean&quot;,&quot;sd&quot;)
-cat(&quot;         Scenario 1      Scenario 2   \n&quot;)
-cat(&quot;      --------------- ----------------\n&quot;)
-print(mse.table)
-# MSE averaged across 10 simulations in Scenario 1,
+print(mse.table2)
+# MSE averaged across 10 simulations in Scenario 1:
+#             mean         sd
+# MFVB  0.03129997 0.02329073
+# SMASH 0.03616205 0.01815929
 # and averaged across 10 simulations in Scenario 2:
-#          Scenario 1      Scenario 2   
-#       --------------- ----------------
-#             mean         sd       mean          sd
-# MFVB  0.03129997 0.02329073 0.01608097 0.007067097
-# SMASH 0.03616205 0.01815929 0.01468753 0.005463422</code></pre>
+#             mean          sd
+# MFVB  0.01608097 0.007067097
+# SMASH 0.01468753 0.005463422</code></pre>
+<p>In Scenario 1, the data are not equally spaced, and the number of data points is not a power of 2; in this setting, SMASH is more accurate in estimating both the mean and s.d.</p>
+<p>In Scenario 2, the data are equally spaced, and the number of data points is a power of 2; SMASH again outperforms MFVB in both mean and s.d. estimation.</p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
