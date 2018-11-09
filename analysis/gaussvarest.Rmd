@@ -108,9 +108,10 @@ lines(xgrid,fTrue(xgrid) - 2*sqrt(gTrue(xgrid)),col = "darkorange",lwd = 2)
 First simulation scenario: unevenly spaced data
 -----------------------------------------------
 
-In the first scenario, we simulate data sets with 500 unevenly spaced data
-points, and assess accuracy by computing the mean of the squared
-errors (MSE) evaluated at 201 equally spaced points.
+In the first scenario, we simulate data sets with 500 unevenly spaced
+data points, and assess accuracy, separately for the mean and variance
+estimates) by computing the mean of the squared errors (MSE) evaluated
+at 201 equally spaced points.
 
 ```{r simulation-1-initialize}
 mse.mu.uneven.mfvb  <- 0
@@ -341,20 +342,31 @@ for (j in 1:nsim2) {
 Summarize results of simulations
 --------------------------------
 
-Compare this table against Table 1 in the paper.
+The following two tables shows the mean squared error (MSE) averaged
+over the 100 simulations in each of the scenarios. Compare these
+results with Table 1 in the paper.
 
 ```{r summarize-mse}
-cat(sprintf("MSE averaged across %d simulations in Scenario 1,\n",nsim1))
+mse.table1 <- rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb)),
+                    c(mean(mse.mu.uneven.smash),mean(mse.sd.uneven.smash)))
+mse.table2 <- rbind(c(mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
+                    c(mean(mse.mu.even.smash),mean(mse.sd.even.smash)))
+rownames(mse.table1) <- c("MFVB","SMASH")
+colnames(mse.table1) <- c("mean","sd")
+rownames(mse.table2) <- c("MFVB","SMASH")
+colnames(mse.table2) <- c("mean","sd")
+cat(sprintf("MSE averaged across %d simulations in Scenario 1:\n",nsim1))
+print(mse.table1)
 cat(sprintf("and averaged across %d simulations in Scenario 2:\n",nsim2))
-mse.table <- rbind(c(mean(mse.mu.uneven.mfvb),mean(mse.sd.uneven.mfvb),
-                     mean(mse.mu.even.mfvb),mean(mse.sd.even.mfvb)),
-                   c(mean(mse.mu.uneven.smash),mean(mse.sd.uneven.smash),
-                     mean(mse.mu.even.smash),mean(mse.sd.even.smash)))
-rownames(mse.table) <- c("MFVB","SMASH")
-colnames(mse.table) <- c("mean","sd","mean","sd")
-cat("         Scenario 1      Scenario 2   \n")
-cat("      --------------- ----------------\n")
-print(mse.table)
+print(mse.table2)
 ```
 
+In Scenario 1, the data are not equally spaced, and the number of data
+points is not a power of 2; in this setting, SMASH is more accurate in
+estimating both the mean and s.d.
+
+In Scenario 2, the data are equally spaced, and the number of data
+points is a power of 2; SMASH again outperforms MFVB in both mean and
+s.d. estimation.
+  
 [smash-github]: https://github.com/stephenslab/smash-paper
