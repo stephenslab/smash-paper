@@ -1,60 +1,101 @@
-# ---
-# title: "Gaussian variance estimation in simulated data sets"
-# ---
-#
-# This script implements the "Gaussian variance estimation" simulation
-# experiments in the paper. In particular, we compare the Mean Field
-# Variational Bayes method (MFVB) against SMASH in two scenarios. See
-# the paper for the full description of these scenarios.
-#
-# The figure and table generated at the end of this script should
-# match up with the figure and table shown in the paper.
-#
-# Note that this script could take an hour or several hours to
-# complete as it runs the two methods on 100 simulated data sets for
-# each of the two scenarios.
-#
-# We thank Menictas & Wand for generously sharing code that was used
-# to implement these experiments.
-#
+---
+title: "Gaussian variance estimation in simulated data sets"
+author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
+output: workflowr::wflow_html
+---
 
-# -----
-# TO DO: Remove steps that are not included in the paper.
-# -----
+This script implements the "Gaussian variance estimation" simulation
+experiments in the paper. In particular, we compare the Mean Field
+Variational Bayes method (MFVB) against SMASH in two scenarios.
 
-# SET UP ENVIRONMENT
-# ------------------
-# Load the smashr package, and some functions used in the analysis.
+The figure and table generated at the end of this script should
+match up with the figure and table shown in the paper.
+
+Running the code could take several hours to complete as it runs the
+two methods on 100 simulated data sets for each of the two scenarios.
+
+We thank M. Menictas & M. Wand for generously sharing code that was
+used to implement these experiments.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
+```
+
+Initial setup instructions
+--------------------------
+
+To run this example on your own computer, please follow these setup
+instructions. These instructions assume you already have R and/or
+RStudio installed on your computer.
+
+First, download or clone the [git repository][smash-github] on your
+computer.
+
+Launch R, and change the working directory to be the "analysis" folder
+inside your local copy of the git repository.
+
+Finally, install the smashr package from GitHub:
+
+```{r install-pkgs-2, eval=FALSE}
+devtools::install_github("stephenslab/smashr",upgrade_dependencies = FALSE)
+```
+
+See the "Session Info" at the bottom for the versions of the software
+and R packages that were used to generate the results shown below.
+
+Set up R environment
+--------------------
+
+Load the smashr package, as well as some functions used in the
+analysis below.
+
+```{r load-pkgs}
 library(smashr)
-source("../code/mfvb.functions.R")
+source("../code/mfvb.R")
+```
 
-# SCRIPT PARAMETERS
-# -----------------
-# Number of data sets simulated in the first (nsim1) and second
-# (nsim2) simulation scenarios.
-nsim1 <- 100
-nsim2 <- 100
+Analysis settings
+-----------------
 
-# Set hyperparameters.
+Specify the number of data sets simulated in the first and second
+simulation scenarios.
+
+```{r analysis-settings-1}
+nsim1 <- 10
+nsim2 <- 10
+```
+
+Next, specify the hyperparameters used in running the MFVB method.
+
+```{r analysis-settings-2}
 Au.hyp      <- 1e5
 Av.hyp      <- 1e5
 sigsq.gamma <- 1e10
 sigsq.beta  <- 1e10
+```
 
-# Set colours.
+These variables specify some colours used in the plots.
+
+```{r analysis-settings-3}
 mainCol <- "darkslateblue"
 ptCol   <- "paleturquoise3"
 lineCol <- "skyblue"
 axisCol <- "black"
+```
 
-# Set plotting size parameters.
+These are additional plotting parameters.
+
+```{r analysis-settings-4}
 cex.pt      <- 0.75
 cex.mainVal <- 1.7
 cex.labVal  <- 1.3
 xlabVal     <- "x"
+```
 
-# FIRST SIMULATION SCENARIO
-# -------------------------
+First simulation scenario
+-------------------------
+
+```{r simulation-1}
 mse.mu.uneven.mfvb <- 0
 mse.mu.uneven.haar <- 0
 mse.mu.uneven.s8   <- 0
@@ -203,7 +244,9 @@ for (j in 1:nsim1) {
     mean((log(sqrt(var.est.inter.s8.j))-(loggTrue(xgOrig))/2)^2)
 }
 cat("\n")
+```
 
+```
 # SECOND SIMULATION SCENARIO
 # --------------------------
 mse.mu.even.mfvb <- 0
@@ -353,3 +396,4 @@ colnames(mse.table) <- c("mean","sd","mean","sd")
 cat("         Scenario 1      Scenario 2   \n")
 cat("      --------------- ----------------\n")
 print(mse.table)
+```
