@@ -10,8 +10,8 @@ Gaussian-distributed observations of the signal. We consider scenarios
 in which the data have homoskedastic errors (constant variance) and
 heteroskedastic errors (non-constant variance).
 
-Since the simulation experiments are very computationally intensive,
-they are implemented separately (see the "dsc" directory in this git
+Since the simulation experiments are computationally intensive, they
+are implemented separately (see the "dsc" directory in this git
 repository), and here we only create plots to summarize the results of
 these experiments.
 
@@ -35,7 +35,7 @@ source("../code/signals.R")
 Load the results of the simulation experiments.
 
 ```{r load-results}
-load("../output/gaus-dscr.RData")
+load("../output/dscr.RData")
 ```
 
 ## Simulated data with constant variances

@@ -67,7 +67,7 @@ and the Symm8 (.s8) bases.
 ```{r, echo=FALSE}
 library(ggplot2)
 library(dplyr)
-load("../output/gaus-dscr.RData")
+load("../output/dscr.RData")
 scenario_names = as.character(unique(res$scenario))
 method_names = as.character(unique(res$method))
 
