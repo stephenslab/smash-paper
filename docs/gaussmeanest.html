@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Zhengrong Xing, Peter Carbonetto and Matthew Stephens" />
+
+
+<title>Gaussian mean estimation in simulated data sets</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">smash</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/smash-paper">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Gaussian mean estimation in simulated data sets</h1>
+<h4 class="author"><em>Zhengrong Xing, Peter Carbonetto and Matthew Stephens</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-12-04</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(1)</code> </summary></p>
+<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/9a67b48f33f1580cf214a57306d64c910200797b" target="_blank">9a67b48</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FCPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/LMIRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/MedRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/WPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/9a67b48f33f1580cf214a57306d64c910200797b/analysis/gaussmeanest.Rmd" target="_blank">9a67b48</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-02
+</td>
+<td style="text-align:left;">
+Moved dsc results file.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/049dcbb8e4f4bbfd2b42a4def9a91b3a67cff8b5/analysis/gaussmeanest.Rmd" target="_blank">049dcbb</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-08
+</td>
+<td style="text-align:left;">
+Moved around some files and revised TOC in home page.
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<p>In this analysis, we assess the ability of different signal denoising methods to recover the true signal after being provided with Gaussian-distributed observations of the signal. We consider scenarios in which the data have homoskedastic errors (constant variance) and heteroskedastic errors (non-constant variance).</p>
+<p>Since the simulation experiments are computationally intensive, they are implemented separately (see the “dsc” directory in this git repository), and here we only create plots to summarize the results of these experiments.</p>
+<div id="set-up-environment" class="section level2">
+<h2>Set up environment</h2>
+<p>Load the ggplot2 and cowplot packages, and the functions definining the mean and variances used to simulate the data.</p>
+<pre class="r"><code>library(ggplot2)
+library(cowplot)
+source(&quot;../code/signals.R&quot;)</code></pre>
+</div>
+<div id="load-results" class="section level2">
+<h2>Load results</h2>
+<p>Load the results of the simulation experiments.</p>
+<pre class="r"><code>load(&quot;../output/dscr.RData&quot;)</code></pre>
+</div>
+<div id="simulated-data-with-constant-variances" class="section level2">
+<h2>Simulated data with constant variances</h2>
+<p>This plot reproduces Fig. 2 of the manuscript comparing the accuracy of estimated mean curves in the data sets simulated from the “Spikes” mean function with constant variance.</p>
+<p>First, extract the results used to generate this plot.</p>
+<pre class="r"><code>homo.data.smash &lt;-
+  res[res$.id    == &quot;sp.3.v1&quot; &amp;
+      res$method == &quot;smash.s8&quot;,]
+homo.data.smash.homo &lt;-
+  res[res$.id    == &quot;sp.3.v1&quot; &amp;
+      res$method == &quot;smash.homo.s8&quot;,]
+homo.data.tithresh &lt;-
+  res[res$.id == &quot;sp.3.v1&quot; &amp;
+      res$method == &quot;tithresh.homo.s8&quot;,]
+homo.data.ebayes &lt;-
+  res[res$.id    == &quot;sp.3.v1&quot; &amp;
+      res$method == &quot;ebayesthresh&quot;,]
+homo.data.smash.true &lt;-
+  res[res$.id == &quot;sp.3.v1&quot; &amp;
+  res$method  == &quot;smash.true.s8&quot;,]
+homo.data &lt;-
+  res[res$.id == &quot;sp.3.v1&quot; &amp;
+  (res$method == &quot;smash.s8&quot; |
+   res$method == &quot;ebayesthresh&quot; |
+   res$method == &quot;tithresh.homo.s8&quot;),]</code></pre>
+<p>Transform these results into a data frame suitable for ggplot2.</p>
+<pre class="r"><code>pdat &lt;-
+  rbind(data.frame(method      = &quot;smash&quot;,
+                   method.type = &quot;est&quot;,
+                   mise        = homo.data.smash$mise),
+        data.frame(method      = &quot;smash.homo&quot;,
+                   method.type = &quot;homo&quot;,
+                   mise        = homo.data.smash.homo$mise),
+        data.frame(method      = &quot;tithresh&quot;,
+                   method.type = &quot;homo&quot;,
+                   mise        = homo.data.tithresh$mise),
+        data.frame(method      = &quot;ebayesthresh&quot;,
+                   method.type = &quot;homo&quot;,
+                   mise        = homo.data.ebayes$mise),
+        data.frame(method      = &quot;smash.true&quot;,
+                   method.type = &quot;true&quot;,
+                   mise        = homo.data.smash.true$mise))
+pdat &lt;-
+  transform(pdat,
+            method = factor(method,
+                            names(sort(tapply(pdat$mise,pdat$method,mean),
+                                       decreasing = TRUE))))</code></pre>
+<p>Create the combined boxplot and violin plot using ggplot2.</p>
+<pre class="r"><code>p &lt;- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
+     geom_violin(fill = &quot;skyblue&quot;,color = &quot;skyblue&quot;) +
+     geom_boxplot(width = 0.15,outlier.shape = NA) +
+     scale_y_continuous(breaks = seq(6,16,2)) +
+     scale_fill_manual(values = c(&quot;darkorange&quot;,&quot;dodgerblue&quot;,&quot;gold&quot;),
+                       guide = FALSE) +
+     coord_flip() +
+     labs(x = &quot;&quot;,y = &quot;MISE&quot;) +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+print(p)</code></pre>
+<p><img src="figure/gaussmeanest.Rmd/plot-1-create-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>From this plot, we see that three versions of SMASH outperformed EbayesThresh and TI thresholding.</p>
+<p>Next, we compare the same methods in simulated data sets with heteroskedastic errors.</p>
+</div>
+<div id="simulated-data-with-heteroskedastic-errors-spikes-mean-signal-and-clipped-blocks-variance" class="section level2">
+<h2>Simulated data with heteroskedastic errors: “Spikes” mean signal and “Clipped Blocks” variance</h2>
+<p>In this scenario, data sets were simulated using the “Spikes” mean function and the “Clipped Blocks” variance function. The next couple plots reproduce part of Fig. 3 in the manuscript.</p>
+<p>This plot shows the mean function as a block line, and the +/- 2 standard deviations as orange lines:</p>
+<pre class="r"><code>t         &lt;- (1:1024)/1024
+mu        &lt;- spikes.fn(t,&quot;mean&quot;)
+sigma.ini &lt;- sqrt(cblocks.fn(t,&quot;var&quot;))
+sd.fn     &lt;- sigma.ini/mean(sigma.ini) * sd(mu)/3
+par(cex.axis = 1,cex.lab = 1.25)
+plot(mu,type = &quot;l&quot;, ylim = c(-0.05,1),xlab = &quot;position&quot;,ylab = &quot;&quot;,
+     lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu + 2*sd.fn,col = &quot;darkorange&quot;,lty = 5,lwd = 1.75)
+lines(mu - 2*sd.fn,col = &quot;darkorange&quot;,lty = 5,lwd = 1.75)</code></pre>
+<p><img src="figure/gaussmeanest.Rmd/spikes-signal-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Extract the results from running the simulations.</p>
+<pre class="r"><code>hetero.data.smash &lt;-
+  res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;smash.s8&quot;,]
+hetero.data.smash.homo &lt;-
+  res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;smash.homo.s8&quot;,]
+hetero.data.tithresh.homo &lt;-
+  res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;tithresh.homo.s8&quot;,]
+hetero.data.tithresh.rmad &lt;-
+  res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;tithresh.rmad.s8&quot;,]
+hetero.data.tithresh.smash &lt;-
+  res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;tithresh.smash.s8&quot;,]
+hetero.data.tithresh.true &lt;-
+  res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;tithresh.true.s8&quot;,]
+hetero.data.ebayes &lt;-
+  res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;ebayesthresh&quot;,]
+hetero.data.smash.true &lt;-
+  res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;smash.true.s8&quot;,]</code></pre>
+<p>Transform these results into a data frame suitable for ggplot2.</p>
+<pre class="r"><code>pdat &lt;-
+  rbind(data.frame(method      = &quot;smash&quot;,
+                   method.type = &quot;est&quot;,
+                   mise        = hetero.data.smash$mise),
+        data.frame(method      = &quot;smash.homo&quot;,
+                   method.type = &quot;homo&quot;,
+                   mise        = hetero.data.smash.homo$mise),
+        data.frame(method      = &quot;tithresh.rmad&quot;,
+                   method.type = &quot;tithresh&quot;,
+                   mise        = hetero.data.tithresh.rmad$mise),
+        data.frame(method      = &quot;tithresh.smash&quot;,
+                   method.type = &quot;tithresh&quot;,
+                   mise        = hetero.data.tithresh.smash$mise),
+        data.frame(method      = &quot;tithresh.true&quot;,
+                   method.type = &quot;tithresh&quot;,
+                   mise        = hetero.data.tithresh.true$mise),
+        data.frame(method      = &quot;ebayesthresh&quot;,
+                   method.type = &quot;homo&quot;,
+                   mise        = hetero.data.ebayes$mise),
+        data.frame(method      = &quot;smash.true&quot;,
+                   method.type = &quot;true&quot;,
+                   mise        = hetero.data.smash.true$mise))
+pdat &lt;-
+  transform(pdat,
+            method = factor(method,
+                            names(sort(tapply(pdat$mise,pdat$method,mean),
+                                       decreasing = TRUE))))</code></pre>
+<p>Create the combined boxplot and violin plot using ggplot2.</p>
+<pre class="r"><code>p &lt;- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
+     geom_violin(fill = &quot;skyblue&quot;,color = &quot;skyblue&quot;) +
+     geom_boxplot(width = 0.15,outlier.shape = NA) +
+     scale_fill_manual(values=c(&quot;darkorange&quot;,&quot;dodgerblue&quot;,&quot;limegreen&quot;,&quot;gold&quot;),
+                       guide = FALSE) +
+     coord_flip() +
+     scale_y_continuous(breaks = seq(10,70,10)) +
+     labs(x = &quot;&quot;,y = &quot;MISE&quot;) +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+print(p)</code></pre>
+<p><img src="figure/gaussmeanest.Rmd/plot-2-create-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>In the “Spikes” scenario, we see that SMASH, when allowing for heteroskedastic errors, outperforms EbayesThresh and all variants of TI thresholding (including TI thresholding with the true variance). Further, SMASH performs almost as well when estimating the variance compared to when provided with the true variance.</p>
+</div>
+<div id="simulated-data-with-heteroskedastic-errors-corner-mean-signal-and-doppler-variance" class="section level2">
+<h2>Simulated data with heteroskedastic errors: “Corner” mean signal and “Doppler” variance</h2>
+<p>In this next scenario, the data sets were simulated using the “Corner” mean function and the “Doppler” variance function. These plots were also used for Fig. 3 of the manuscript.</p>
+<p>This plot shows the mean function as a block line, and the +/- 2 standard deviations as orange lines:</p>
+<pre class="r"><code>mu        &lt;- cor.fn(t,&quot;mean&quot;) 
+sigma.ini &lt;- sqrt(doppler.fn(t,&quot;var&quot;))
+sd.fn     &lt;- sigma.ini/mean(sigma.ini) * sd(mu)/3
+plot(mu,type = &quot;l&quot;, ylim = c(-0.05,1),xlab = &quot;position&quot;,ylab = &quot;&quot;,
+     lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu + 2*sd.fn,col = &quot;darkorange&quot;,lty = 5,lwd = 1.75)
+lines(mu - 2*sd.fn,col = &quot;darkorange&quot;,lty = 5,lwd = 1.75)</code></pre>
+<p><img src="figure/gaussmeanest.Rmd/corner-signal-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Extract the results from running these simulations.</p>
+<pre class="r"><code>hetero.data.smash.2 &lt;-
+  res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;smash.s8&quot;,]
+hetero.data.smash.homo.2 &lt;-
+  res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;smash.homo.s8&quot;,]
+hetero.data.tithresh.homo.2 &lt;-
+  res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;tithresh.homo.s8&quot;,]
+hetero.data.tithresh.rmad.2 &lt;-
+  res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;tithresh.rmad.s8&quot;,]
+hetero.data.tithresh.smash.2 &lt;-
+  res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;tithresh.smash.s8&quot;,]
+hetero.data.tithresh.true.2 &lt;-
+  res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;tithresh.true.s8&quot;,]
+hetero.data.ebayes.2 &lt;-
+  res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;ebayesthresh&quot;,]
+hetero.data.smash.true.2 &lt;-
+  res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;smash.true.s8&quot;,]</code></pre>
+<p>Transform these results into a data frame suitable for ggplot2.</p>
+<pre class="r"><code>pdat &lt;-
+  rbind(data.frame(method      = &quot;smash&quot;,
+                   method.type = &quot;est&quot;,
+                   mise        = hetero.data.smash.2$mise),
+        data.frame(method      = &quot;smash.homo&quot;,
+                   method.type = &quot;homo&quot;,
+                   mise        = hetero.data.smash.homo.2$mise),
+        data.frame(method      = &quot;tithresh.rmad&quot;,
+                   method.type = &quot;tithresh&quot;,
+                   mise        = hetero.data.tithresh.rmad.2$mise),
+        data.frame(method      = &quot;tithresh.smash&quot;,
+                   method.type = &quot;tithresh&quot;,
+                   mise        = hetero.data.tithresh.smash.2$mise),
+        data.frame(method      = &quot;tithresh.true&quot;,
+                   method.type = &quot;tithresh&quot;,
+                   mise        = hetero.data.tithresh.true.2$mise),
+        data.frame(method      = &quot;ebayesthresh&quot;,
+                   method.type = &quot;homo&quot;,
+                   mise        = hetero.data.ebayes.2$mise),
+        data.frame(method      = &quot;smash.true&quot;,
+                   method.type = &quot;true&quot;,
+                   mise        = hetero.data.smash.true.2$mise))
+pdat &lt;-
+  transform(pdat,
+            method = factor(method,
+                            names(sort(tapply(pdat$mise,pdat$method,mean),
+                                       decreasing = TRUE))))</code></pre>
+<p>Create the combined boxplot and violin plot using ggplot2.</p>
+<pre class="r"><code>p &lt;- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
+     geom_violin(fill = &quot;skyblue&quot;,color = &quot;skyblue&quot;) +
+     geom_boxplot(width = 0.15,outlier.shape = NA) +
+     scale_fill_manual(values=c(&quot;darkorange&quot;,&quot;dodgerblue&quot;,&quot;limegreen&quot;,&quot;gold&quot;),
+                       guide = FALSE) +
+     coord_flip() +
+     scale_y_continuous(breaks = seq(1,5)) +
+     labs(x = &quot;&quot;,y = &quot;MISE&quot;) +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+print(p)</code></pre>
+<p><img src="figure/gaussmeanest.Rmd/plot-3-create-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Similar to the “Spikes” scenario, we see that the SMASH method, when allowing for heteroskedastic variances, outperforms both the TI thresholding and EbayesThresh approaches.</p>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()
+# R version 3.4.3 (2017-11-30)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS High Sierra 10.13.6
+# 
+# Matrix products: default
+# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] cowplot_0.9.3 ggplot2_3.1.0
+# 
+# loaded via a namespace (and not attached):
+#  [1] Rcpp_1.0.0        later_0.7.2       dscr_0.1-7       
+#  [4] compiler_3.4.3    pillar_1.2.1      git2r_0.23.0     
+#  [7] plyr_1.8.4        workflowr_1.1.1   bindr_0.1.1      
+# [10] R.methodsS3_1.7.1 R.utils_2.6.0     tools_3.4.3      
+# [13] digest_0.6.17     evaluate_0.11     tibble_1.4.2     
+# [16] gtable_0.2.0      pkgconfig_2.0.2   rlang_0.2.2      
+# [19] shiny_1.1.0       yaml_2.2.0        bindrcpp_0.2.2   
+# [22] withr_2.1.2       stringr_1.3.1     dplyr_0.7.6      
+# [25] knitr_1.20        rprojroot_1.3-2   grid_3.4.3       
+# [28] tidyselect_0.2.4  glue_1.3.0        R6_2.2.2         
+# [31] rmarkdown_1.10    purrr_0.2.5       magrittr_1.5     
+# [34] whisker_0.3-2     promises_1.0.1    backports_1.1.2  
+# [37] scales_0.5.0      htmltools_0.3.6   assertthat_0.2.0 
+# [40] xtable_1.8-2      mime_0.5          colorspace_1.4-0 
+# [43] httpuv_1.4.3      stringi_1.2.4     lazyeval_0.2.1   
+# [46] munsell_0.4.3     R.oo_1.21.0</code></pre>
+</div>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
