@@ -34,9 +34,11 @@ please post an [issue][issues].
 1. [Estimating the mean function from Gaussian-distributed
 data.](gaussmeanest.html)
 
-2. [Plots of the mean and variance functions used to simulate Gaussian data for the mean-estimation experiments.](gaussian_signals.html)
+2. [Plots of the mean and variance functions used to simulate Gaussian data for the mean estimation experiments.](gaussian_signals.html)
 
-3. [Estimating the variance function from Gaussian-distributed
+3. [Interactive (Shiny) plot for browsing results of Gaussian mean estimation experiments.](gauss_shiny.html)
+
+4. [Estimating the variance function from Gaussian-distributed
 data.](gaussvarest.html)
 
 3. Poisson-distributed data.
