@@ -135,12 +135,12 @@ These are rescaled in the simulations to achieve the desired
 signal-to-noise ratios (see the paper for a more detailed
 explanation).
 
-```{r plot-variance-functions}
-plot(t,var1,xlab = "",ylab = "",ylim = c(0,1),type = "l",
-     main = "Constant variance function")
-plot(t,var2,xlab = "",ylab = "",type = "l",
-     main = "Triple exponential variance function")
-plot(t,var3,xlab = "",ylab = "",type = "l",main = "Doppler variance function")
-plot(t,var4,xlab = "",ylab = "",type = "l",main = "Bumps variance function")
-plot(t,var5,xlab = "",ylab = "",type = "l",main = "Clipped variance function")
+```{r plot-variance-functions, fig.height=7.5, fig.width=6}
+plot_grid(
+  qplot(t,var1,geom="line",xlab="",ylab="",main="Constant variance (v1)"),
+  qplot(t,var2,geom="line",xlab="",ylab="",main="Triple exponential (v2)"),
+  qplot(t,var3,geom="line",xlab="",ylab="",main="Doppler (v3)"),
+  qplot(t,var4,geom="line",xlab="",ylab="",main="Bumps (v4)"),
+  qplot(t,var5,geom="line",xlab="",ylab="",main="Clipped (v5)"),
+  nrow = 3,ncol = 2)
 ```
