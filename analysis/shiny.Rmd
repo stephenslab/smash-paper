@@ -23,8 +23,8 @@ Spikes - sp
 Bumps - bump  
 Blocks - blk  
 Angles - ang  
-Doppler - dop  
-Blip - blip  
+Doppler - dop
+Blip - blip
 Corner - cor 
 
 Variance function:  
