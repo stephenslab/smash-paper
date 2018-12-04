@@ -11,7 +11,7 @@ in which the data have homoskedastic errors (constant variance) and
 heteroskedastic errors (non-constant variance).
 
 Since the simulation experiments are computationally intensive, they
-are implemented separately (see the "dsc" directory in this git
+were implemented separately (see the "dsc" directory in this git
 repository), and here we only create plots to summarize the results of
 these experiments.
 
@@ -40,9 +40,9 @@ load("../output/dscr.RData")
 
 ## Simulated data with constant variances
 
-This plot reproduces Fig. 2 of the manuscript comparing the
-accuracy of estimated mean curves in the data sets simulated from
-the "Spikes" mean function with constant variance.
+This plot reproduces Fig. 2 of the manuscript, which compares the
+accuracy of the mean curves estimated from the data sets that were
+simulated using the "Spikes" mean function with constant variance.
 
 First, extract the results used to generate this plot.
 
@@ -111,16 +111,16 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
 print(p)
 ```
 
-From this plot, we see that three versions of SMASH outperformed
-EbayesThresh and TI thresholding.
+From this plot, we see that the three variations of SMASH all
+outperformed EbayesThresh and TI thresholding in this setting.
 
 Next, we compare the same methods in simulated data sets with
 heteroskedastic errors.
 
 ## Simulated data with heteroskedastic errors: "Spikes" mean signal and "Clipped Blocks" variance
 
-In this scenario, data sets were simulated using the "Spikes" mean
-function and the "Clipped Blocks" variance function. The next couple
+In this scenario, the data sets were simulated using the "Spikes" mean
+function and the "Clipped Blocks" variance function. The next two
 plots reproduce part of Fig. 3 in the manuscript.
 
 This plot shows the mean function as a block line, and the +/- 2
@@ -207,9 +207,9 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
 print(p)
 ```
 
-In the "Spikes" scenario, we see that SMASH, when allowing for
-heteroskedastic errors, outperforms EbayesThresh and all variants of
-TI thresholding (including TI thresholding with the true variance).
+In this scenario, we see that SMASH, when allowing for heteroskedastic
+errors, outperforms EbayesThresh and all variants of TI thresholding
+(including TI thresholding when provided with the true variance).
 Further, SMASH performs almost as well when estimating the variance
 compared to when provided with the true variance.
 
@@ -217,7 +217,7 @@ compared to when provided with the true variance.
 
 In this next scenario, the data sets were simulated using the "Corner"
 mean function and the "Doppler" variance function. These plots were
-also used for Fig. 3 of the manuscript.
+also used in Fig. 3 of the manuscript.
 
 This plot shows the mean function as a block line, and the +/- 2
 standard deviations as orange lines:
