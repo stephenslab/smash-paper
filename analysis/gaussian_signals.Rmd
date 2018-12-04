@@ -1,5 +1,5 @@
 ---
-title: "Mean and variance functions used to simulate Gaussian data"
+title: "Mean and variance functions used to simulate Gaussian data for mean-estimation experiments"
 author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
