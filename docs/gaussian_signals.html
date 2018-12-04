@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/a8b97227a8d490082a4cef04d0c8c5b8339f1d3b" target="_blank">a8b9722</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/1bddd73584b6de79f1a59d83a9dba1a137742a5d" target="_blank">1bddd73</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -273,6 +273,9 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
+Untracked files:
+    Untracked:  analysis/.#gaussian_signals.Rmd
+
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
@@ -300,6 +303,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/1bddd73584b6de79f1a59d83a9dba1a137742a5d/analysis/gaussian_signals.Rmd" target="_blank">1bddd73</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussian_signals.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/dc4c6cdeab52ee2f5a43f313c91fe24a4dff89bb/docs/gaussian_signals.html" target="_blank">dc4c6cd</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+I now have plots of all the mean functions in gaussian_signals.Rmd.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -437,19 +474,49 @@ var5 = var5/max(var5)</code></pre>
 <div id="plot-the-signal-means" class="section level2">
 <h2>Plot the signal means</h2>
 <p>These plots show each of the mean functions used to generate the simulated data sets.</p>
-<pre class="r"><code>plot_grid(qplot(t,mu.sp,  geom = &quot;line&quot;,xlab = &quot;&quot;,ylab = &quot;&quot;,main = &quot;Spikes&quot;),
-          qplot(t,mu.bump,geom = &quot;line&quot;,xlab = &quot;&quot;,ylab = &quot;&quot;,main = &quot;Bumps&quot;),
-          qplot(t,mu.blk, geom = &quot;line&quot;,xlab = &quot;&quot;,ylab = &quot;&quot;,main = &quot;Blocks&quot;),
-          qplot(t,mu.ang, geom = &quot;line&quot;,xlab = &quot;&quot;,ylab = &quot;&quot;,main = &quot;Angles&quot;),
-          qplot(t,mu.dop, geom = &quot;line&quot;,xlab = &quot;&quot;,ylab = &quot;&quot;,main = &quot;Doppler&quot;),
-          qplot(t,mu.blip,geom = &quot;line&quot;,xlab = &quot;&quot;,ylab = &quot;&quot;,main = &quot;Blip&quot;),
-          qplot(t,mu.cor, geom = &quot;line&quot;,xlab = &quot;&quot;,ylab = &quot;&quot;,main = &quot;Corner&quot;),
+<pre class="r"><code>plot_grid(qplot(t,mu.sp,  geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Spikes (sp)&quot;),
+          qplot(t,mu.bump,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Bumps (bump)&quot;),
+          qplot(t,mu.blk, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Blocks (blk)&quot;),
+          qplot(t,mu.ang, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Angles (ang)&quot;),
+          qplot(t,mu.dop, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Doppler (dop)&quot;),
+          qplot(t,mu.blip,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Blip (blip)&quot;),
+          qplot(t,mu.cor, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Corner (cor)&quot;),
           nrow = 4,ncol = 2)</code></pre>
 <p><img src="figure/gaussian_signals.Rmd/plot-mean-functions-1.png" width="576" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of plot-mean-functions-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/dc4c6cdeab52ee2f5a43f313c91fe24a4dff89bb/docs/figure/gaussian_signals.Rmd/plot-mean-functions-1.png" target="_blank">dc4c6cd</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="plot-the-signal-variances" class="section level2">
 <h2>Plot the signal variances</h2>
-<p>These are rescaled in the simulations to achieve the desired signal to noise ratios.</p>
+<p>These are rescaled in the simulations to achieve the desired signal-to-noise ratios (see the paper for a more detailed explanation).</p>
 <pre class="r"><code>plot(t,var1,xlab = &quot;&quot;,ylab = &quot;&quot;,ylim = c(0,1),type = &quot;l&quot;,
      main = &quot;Constant variance function&quot;)</code></pre>
 <p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-1.png" width="672" style="display: block; margin: auto;" /></p>
