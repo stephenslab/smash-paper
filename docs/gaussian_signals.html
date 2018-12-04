@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/c8957e03b3aa0fd8555e4493ef05a64d40b76038" target="_blank">c8957e0</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/53df81d0f5e6f1bef34e7adc0722aa840ff39250" target="_blank">53df81d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -274,7 +274,8 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 Untracked files:
-    Untracked:  analysis/.#gaussian_signals.Rmd
+    Untracked:  analysis/#shiny.Rmd#
+    Untracked:  analysis/.#shiny.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -303,6 +304,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/53df81d0f5e6f1bef34e7adc0722aa840ff39250/analysis/gaussian_signals.Rmd" target="_blank">53df81d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussian_signals.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/abc74e5dfa683eba26cee0d09abfebbdf053413c/docs/gaussian_signals.html" target="_blank">abc74e5</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+Added plots for for variance signals.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -439,40 +474,35 @@ source(&quot;../code/signals.R&quot;)</code></pre>
 <p>Here, <code>n</code> specifies the length of the signals.</p>
 <pre class="r"><code>n = 1024
 t = 1:n/n</code></pre>
-<p>Some code.</p>
+<p>Define the Spikes mean function.</p>
 <pre class="r"><code>mu.s = spike.f(t)</code></pre>
-<p>More code.</p>
+<p>Define the Bumps variance function.</p>
 <pre class="r"><code>pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
 hgt = 2.97/5 * c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
 wth = c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005, 0.008, 0.005)
 mu.b = rep(0, n)
 for (j in 1:length(pos))
-  mu.b = mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
-
-mu.dop     = dop.f(t)
+  mu.b = mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)</code></pre>
+<p>Define the Doppler mean function.</p>
+<pre class="r"><code>mu.dop     = dop.f(t)
 mu.dop     = 3/(max(mu.dop) - min(mu.dop)) * (mu.dop - min(mu.dop))
 mu.dop.var = 10 * dop.f(t)
-mu.dop.var = mu.dop.var - min(mu.dop.var)
-
-sig = ((2 * t + 0.5) * (t &lt;= 0.15)) +
+mu.dop.var = mu.dop.var - min(mu.dop.var)</code></pre>
+<p>Define the Angle mean function.</p>
+<pre class="r"><code>sig = ((2 * t + 0.5) * (t &lt;= 0.15)) +
       ((-12 * (t - 0.15) + 0.8) * (t &gt; 0.15 &amp; t &lt;= 0.2)) +
       0.2 * (t &gt; 0.2 &amp; t &lt;= 0.5) + 
       ((6 * (t - 0.5) + 0.2) * (t &gt; 0.5 &amp; t &lt;= 0.6)) +
       ((-10 * (t - 0.6) + 0.8) * (t &gt; 0.6 &amp; t &lt;= 0.65)) +
       ((-0.5 * (t - 0.65) + 0.3) * (t &gt; 0.65 &amp; t &lt;= 0.85)) +
       ((2 * (t - 0.85) + 0.2) * (t &gt; 0.85))
-mu.ang = 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569
-
-heavi = 4 * sin(4 * pi * t) - sign(t - 0.3) - sign(0.72 - t)
-mu.hs = heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
-mu.hs = mu.hs - min(mu.hs)
-
-pos    = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
+mu.ang = 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569</code></pre>
+<p>Define the Block mean and variance functions.</p>
+<pre class="r"><code>pos    = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
 hgt    = 2.88/5 * c(4, (-5), 3, (-4), 5, (-4.2), 2.1, 4.3, (-3.1), 2.1, (-4.2))
 mu.blk = rep(0, n)
 for (j in 1:length(pos))
   mu.blk = mu.blk + (1 + sign(t - pos[j])) * (hgt[j]/2)
-
 mu.cblk = mu.blk
 mu.cblk[mu.cblk &lt; 0] = 0</code></pre>
 <p>Define the Blip mean function.</p>
@@ -507,7 +537,7 @@ var5 = var5/max(var5)</code></pre>
 </div>
 <div id="plot-the-signal-means" class="section level2">
 <h2>Plot the signal means</h2>
-<p>These plots show each of the mean functions used to generate the simulated data sets.</p>
+<p>These plots show each of the mean functions used in generating the Gaussian data sets.</p>
 <pre class="r"><code>plot_grid(qplot(t,mu.sp,  geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Spikes (sp)&quot;),
           qplot(t,mu.bump,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Bumps (bump)&quot;),
           qplot(t,mu.blk, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Blocks (blk)&quot;),
@@ -561,7 +591,7 @@ Peter Carbonetto
 </div>
 <div id="plot-the-signal-variances" class="section level2">
 <h2>Plot the signal variances</h2>
-<p>These are rescaled in the simulations to achieve the desired signal-to-noise ratios (see the paper for a more detailed explanation).</p>
+<p>These plots show the variance functions used in generating the Gaussian data sets. In practice, these functions are rescaled in the simulations to achieve the desired signal-to-noise ratios (see the paper for a more detailed explanation).</p>
 <pre class="r"><code>plot_grid(
   qplot(t,var1,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Constant variance (v1)&quot;),
   qplot(t,var2,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Triple exponential (v2)&quot;),
@@ -570,42 +600,72 @@ Peter Carbonetto
   qplot(t,var5,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Clipped (v5)&quot;),
   nrow = 3,ncol = 2)</code></pre>
 <p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-1.png" width="576" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of plot-variance-functions-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/abc74e5dfa683eba26cee0d09abfebbdf053413c/docs/figure/gaussian_signals.Rmd/plot-variance-functions-1.png" target="_blank">abc74e5</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
-<pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.4.3 (2017-11-30)
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
-
-Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
-
-locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-other attached packages:
-[1] cowplot_0.9.3 ggplot2_3.1.0
-
-loaded via a namespace (and not attached):
- [1] Rcpp_1.0.0        compiler_3.4.3    pillar_1.2.1     
- [4] git2r_0.23.0      plyr_1.8.4        workflowr_1.1.1  
- [7] bindr_0.1.1       R.methodsS3_1.7.1 R.utils_2.6.0    
-[10] tools_3.4.3       digest_0.6.17     evaluate_0.11    
-[13] tibble_1.4.2      gtable_0.2.0      pkgconfig_2.0.2  
-[16] rlang_0.2.2       yaml_2.2.0        bindrcpp_0.2.2   
-[19] withr_2.1.2       stringr_1.3.1     dplyr_0.7.6      
-[22] knitr_1.20        rprojroot_1.3-2   grid_3.4.3       
-[25] tidyselect_0.2.4  glue_1.3.0        R6_2.2.2         
-[28] rmarkdown_1.10    purrr_0.2.5       magrittr_1.5     
-[31] whisker_0.3-2     backports_1.1.2   scales_0.5.0     
-[34] htmltools_0.3.6   assertthat_0.2.0  colorspace_1.4-0 
-[37] labeling_0.3      stringi_1.2.4     lazyeval_0.2.1   
-[40] munsell_0.4.3     R.oo_1.21.0      </code></pre>
+<pre class="r"><code>sessionInfo()
+# R version 3.4.3 (2017-11-30)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS High Sierra 10.13.6
+# 
+# Matrix products: default
+# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] cowplot_0.9.3 ggplot2_3.1.0
+# 
+# loaded via a namespace (and not attached):
+#  [1] Rcpp_1.0.0        compiler_3.4.3    pillar_1.2.1     
+#  [4] git2r_0.23.0      plyr_1.8.4        workflowr_1.1.1  
+#  [7] bindr_0.1.1       R.methodsS3_1.7.1 R.utils_2.6.0    
+# [10] tools_3.4.3       digest_0.6.17     evaluate_0.11    
+# [13] tibble_1.4.2      gtable_0.2.0      pkgconfig_2.0.2  
+# [16] rlang_0.2.2       yaml_2.2.0        bindrcpp_0.2.2   
+# [19] withr_2.1.2       stringr_1.3.1     dplyr_0.7.6      
+# [22] knitr_1.20        rprojroot_1.3-2   grid_3.4.3       
+# [25] tidyselect_0.2.4  glue_1.3.0        R6_2.2.2         
+# [28] rmarkdown_1.10    purrr_0.2.5       magrittr_1.5     
+# [31] whisker_0.3-2     backports_1.1.2   scales_0.5.0     
+# [34] htmltools_0.3.6   assertthat_0.2.0  colorspace_1.4-0 
+# [37] labeling_0.3      stringi_1.2.4     lazyeval_0.2.1   
+# [40] munsell_0.4.3     R.oo_1.21.0</code></pre>
 </div>
 
 <script type="text/x-mathjax-config">
