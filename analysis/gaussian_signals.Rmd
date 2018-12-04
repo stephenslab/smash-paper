@@ -122,10 +122,11 @@ simulated data sets.
 plot_grid(qplot(t,mu.sp,  geom = "line",xlab = "",ylab = "",main = "Spikes"),
           qplot(t,mu.bump,geom = "line",xlab = "",ylab = "",main = "Bumps"),
           qplot(t,mu.blk, geom = "line",xlab = "",ylab = "",main = "Blocks"),
-          qplot(t,mu.ang, geom = "line",xlab = "",ylab = "",main = "Angles"))
-# plot(t,mu.dop,xlab = "",ylab = "",type = "l",main = "Doppler mean function")
-# plot(t,mu.blip,xlab = "",ylab = "",type = "l",main = "Blip mean function")
-# plot(t,mu.cor,xlab = "",ylab = "",type = "l",main = "Corner mean function")
+          qplot(t,mu.ang, geom = "line",xlab = "",ylab = "",main = "Angles"),
+          qplot(t,mu.dop, geom = "line",xlab = "",ylab = "",main = "Doppler"),
+          qplot(t,mu.blip,geom = "line",xlab = "",ylab = "",main = "Blip"),
+          qplot(t,mu.cor, geom = "line",xlab = "",ylab = "",main = "Corner"),
+		  nrow = 4,ncol = 2)
 ```
 
 ## Plot the signal variances
