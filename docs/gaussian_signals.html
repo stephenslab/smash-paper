@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/1bddd73584b6de79f1a59d83a9dba1a137742a5d" target="_blank">1bddd73</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/c8957e03b3aa0fd8555e4493ef05a64d40b76038" target="_blank">c8957e0</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -303,6 +303,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/c8957e03b3aa0fd8555e4493ef05a64d40b76038/analysis/gaussian_signals.Rmd" target="_blank">c8957e0</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+wflow_publish(“gaussian_signals.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/1fe523e244f7a10f4d4f375c0a997d437d5e1a17/docs/gaussian_signals.html" target="_blank">1fe523e</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+Adjusted the plots of the mean functions.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -501,6 +535,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/1fe523e244f7a10f4d4f375c0a997d437d5e1a17/docs/figure/gaussian_signals.Rmd/plot-mean-functions-1.png" target="_blank">1fe523e</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 <a href="https://github.com/stephenslab/smash-paper/blob/dc4c6cdeab52ee2f5a43f313c91fe24a4dff89bb/docs/figure/gaussian_signals.Rmd/plot-mean-functions-1.png" target="_blank">dc4c6cd</a>
 </td>
 <td style="text-align:left;">
@@ -517,18 +562,14 @@ Peter Carbonetto
 <div id="plot-the-signal-variances" class="section level2">
 <h2>Plot the signal variances</h2>
 <p>These are rescaled in the simulations to achieve the desired signal-to-noise ratios (see the paper for a more detailed explanation).</p>
-<pre class="r"><code>plot(t,var1,xlab = &quot;&quot;,ylab = &quot;&quot;,ylim = c(0,1),type = &quot;l&quot;,
-     main = &quot;Constant variance function&quot;)</code></pre>
-<p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot(t,var2,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,
-     main = &quot;Triple exponential variance function&quot;)</code></pre>
-<p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot(t,var3,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,main = &quot;Doppler variance function&quot;)</code></pre>
-<p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot(t,var4,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,main = &quot;Bumps variance function&quot;)</code></pre>
-<p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-4.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot(t,var5,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,main = &quot;Clipped variance function&quot;)</code></pre>
-<p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_grid(
+  qplot(t,var1,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Constant variance (v1)&quot;),
+  qplot(t,var2,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Triple exponential (v2)&quot;),
+  qplot(t,var3,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Doppler (v3)&quot;),
+  qplot(t,var4,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Bumps (v4)&quot;),
+  qplot(t,var5,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Clipped (v5)&quot;),
+  nrow = 3,ncol = 2)</code></pre>
+<p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
