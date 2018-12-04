@@ -4,6 +4,10 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
+```
+
 ## Set up environment
 
 Load the ggplot2 and cowplot packages, and the functions definining
@@ -24,27 +28,35 @@ n = 1024
 t = 1:n/n
 ```
 
-Some code.
+Define the Spikes mean function.
 
-```{r}
+```{r define-spikes}
 mu.s = spike.f(t)
 ```
 
-More code.
+Define the Bumps variance function.
 
-```{r}
+```{r define-bumps}
 pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
 hgt = 2.97/5 * c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
 wth = c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005, 0.008, 0.005)
 mu.b = rep(0, n)
 for (j in 1:length(pos))
   mu.b = mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
+```
 
+Define the Doppler mean function.
+
+```{r define-doppler}
 mu.dop     = dop.f(t)
 mu.dop     = 3/(max(mu.dop) - min(mu.dop)) * (mu.dop - min(mu.dop))
 mu.dop.var = 10 * dop.f(t)
 mu.dop.var = mu.dop.var - min(mu.dop.var)
+```
 
+Define the Angle mean function.
+
+```{r define-angle} 
 sig = ((2 * t + 0.5) * (t <= 0.15)) +
       ((-12 * (t - 0.15) + 0.8) * (t > 0.15 & t <= 0.2)) +
       0.2 * (t > 0.2 & t <= 0.5) + 
@@ -53,17 +65,15 @@ sig = ((2 * t + 0.5) * (t <= 0.15)) +
       ((-0.5 * (t - 0.65) + 0.3) * (t > 0.65 & t <= 0.85)) +
       ((2 * (t - 0.85) + 0.2) * (t > 0.85))
 mu.ang = 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569
+```
+Define the Block mean and variance functions.
 
-heavi = 4 * sin(4 * pi * t) - sign(t - 0.3) - sign(0.72 - t)
-mu.hs = heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
-mu.hs = mu.hs - min(mu.hs)
-
+```{r define-block}
 pos    = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
 hgt    = 2.88/5 * c(4, (-5), 3, (-4), 5, (-4.2), 2.1, 4.3, (-3.1), 2.1, (-4.2))
 mu.blk = rep(0, n)
 for (j in 1:length(pos))
   mu.blk = mu.blk + (1 + sign(t - pos[j])) * (hgt[j]/2)
-
 mu.cblk = mu.blk
 mu.cblk[mu.cblk < 0] = 0
 ```
@@ -115,8 +125,8 @@ var5 = var5/max(var5)
 
 ## Plot the signal means
 
-These plots show each of the mean functions used to generate the
-simulated data sets.
+These plots show each of the mean functions used in generating the
+Gaussian data sets.
 
 ```{r plot-mean-functions, fig.height=10, fig.width=6}
 plot_grid(qplot(t,mu.sp,  geom="line",xlab="",ylab="",main="Spikes (sp)"),
@@ -131,9 +141,10 @@ plot_grid(qplot(t,mu.sp,  geom="line",xlab="",ylab="",main="Spikes (sp)"),
 
 ## Plot the signal variances
 
-These are rescaled in the simulations to achieve the desired
-signal-to-noise ratios (see the paper for a more detailed
-explanation).
+These plots show the variance functions used in generating the
+Gaussian data sets. In practice, these functions are rescaled in the
+simulations to achieve the desired signal-to-noise ratios (see the
+paper for a more detailed explanation).
 
 ```{r plot-variance-functions, fig.height=7.5, fig.width=6}
 plot_grid(
