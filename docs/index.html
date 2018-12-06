@@ -215,7 +215,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-12-04</p>
+<p><strong>Last updated:</strong> 2018-12-06</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -224,7 +224,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/4a35339bf2718a92dc824f0def668cb771a693ec" target="_blank">4a35339</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/c589dbb8da01965837246f47a3665f72dc8134db" target="_blank">c589dbb</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -256,6 +256,9 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
+Unstaged changes:
+    Modified:   analysis/gauss_shiny.Rmd
+
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
@@ -283,6 +286,74 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/c589dbb8da01965837246f47a3665f72dc8134db/analysis/index.Rmd" target="_blank">c589dbb</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-06
+</td>
+<td style="text-align:left;">
+wflow_publish(c(“index.Rmd”, “gaussian_signals.Rmd”,
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/d82c55d7d45c2adce5a4b9b76066c1b1b09ddcf6/analysis/index.Rmd" target="_blank">d82c55d</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+Added shiny page to home.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/ef0b2de0e825ebf71f25c70c1b3fdb9e7236bc84/analysis/index.Rmd" target="_blank">ef0b2de</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+Minor edits to home page.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/35f03c01e9e395146567d85b3258a8fc5fb3739b/docs/index.html" target="_blank">35f03c0</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-04
+</td>
+<td style="text-align:left;">
+Changed title of gaussian_signals.Rmd.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -630,8 +701,9 @@ Start workflowr project with wflow_start().
 <h3>Simulation experiments</h3>
 <ol style="list-style-type: decimal">
 <li><p><a href="gaussmeanest.html">Estimating the mean function from Gaussian-distributed data.</a></p></li>
-<li><p><a href="gaussian_signals.html">Plots of the mean and variance functions used to simulate Gaussian data for the mean-estimation experiments.</a>.</p></li>
-<li><p><a href="gaussvarest.html">Estimating the variance function from Gaussian-distributed data</a>.</p></li>
+<li><p><a href="gaussian_signals.html">Plots of the mean and variance functions used to simulate Gaussian data for the mean estimation experiments.</a></p></li>
+<li><p><a href="gauss_shiny_setup.html">Interactive plot fore exploring results of Gaussian mean estimation experiments.</a></p></li>
+<li><p><a href="gaussvarest.html">Estimating the variance function from Gaussian-distributed data.</a></p></li>
 <li><p>Poisson-distributed data.</p></li>
 </ol>
 </div>
