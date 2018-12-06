@@ -1,5 +1,5 @@
 ---
-title: "Instructions for Interactive plot for exploring results of Gaussian mean estimation experimentsExplore"
+title: "Instructions for running Shiny server to explore results of Gaussian mean estimation experiments"
 author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---

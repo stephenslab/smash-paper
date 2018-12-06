@@ -19,7 +19,8 @@ these experiments.
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
 ```
 
-## Set up environment
+Set up environment
+------------------
 
 Load the ggplot2 and cowplot packages, and the functions definining
 the mean and variances used to simulate the data.
@@ -30,7 +31,8 @@ library(cowplot)
 source("../code/signals.R")
 ```
 
-## Load results
+Load results
+------------
 
 Load the results of the simulation experiments.
 
@@ -38,7 +40,8 @@ Load the results of the simulation experiments.
 load("../output/dscr.RData")
 ```
 
-## Simulated data with constant variances
+Simulated data with constant variances
+--------------------------------------
 
 This plot reproduces Fig. 2 of the manuscript, which compares the
 accuracy of the mean curves estimated from the data sets that were
@@ -117,7 +120,8 @@ outperformed EbayesThresh and TI thresholding in this setting.
 Next, we compare the same methods in simulated data sets with
 heteroskedastic errors.
 
-## Simulated data with heteroskedastic errors: "Spikes" mean signal and "Clipped Blocks" variance
+Simulated data with heteroskedastic errors: "Spikes" mean signal and "Clipped Blocks" variance
+----------------------------------------------------------------------------------------------
 
 In this scenario, the data sets were simulated using the "Spikes" mean
 function and the "Clipped Blocks" variance function. The next two
@@ -213,7 +217,8 @@ errors, outperforms EbayesThresh and all variants of TI thresholding
 Further, SMASH performs almost as well when estimating the variance
 compared to when provided with the true variance.
 
-## Simulated data with heteroskedastic errors: "Corner" mean signal and "Doppler" variance
+Simulated data with heteroskedastic errors: "Corner" mean signal and "Doppler" variance
+---------------------------------------------------------------------------------------
 
 In this next scenario, the data sets were simulated using the "Corner"
 mean function and the "Doppler" variance function. These plots were

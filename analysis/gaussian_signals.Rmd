@@ -8,7 +8,8 @@ output: workflowr::wflow_html
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
 ```
 
-## Set up environment
+Set up environment
+------------------
 
 Load the ggplot2 and cowplot packages, and the functions definining
 the mean and variances used to simulate the data.
@@ -19,7 +20,8 @@ library(cowplot)
 source("../code/signals.R")
 ```
 
-## Generate the ground-truth signals
+Generate the ground-truth signals
+---------------------------------
 
 Here, `n` specifies the length of the signals.
 
@@ -123,7 +125,8 @@ var4 = var4/max(var4)
 var5 = var5/max(var5)
 ```
 
-## Plot the signal means
+Plot the signal means
+---------------------
 
 These plots show each of the mean functions used in generating the
 Gaussian data sets.
@@ -139,7 +142,8 @@ plot_grid(qplot(t,mu.sp,  geom="line",xlab="",ylab="",main="Spikes (sp)"),
 		  nrow = 4,ncol = 2)
 ```
 
-## Plot the signal variances
+Plot the signal variances
+-------------------------
 
 These plots show the variance functions used in generating the
 Gaussian data sets. In practice, these functions are rescaled in the
