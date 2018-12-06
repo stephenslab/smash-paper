@@ -1,10 +1,29 @@
 ---
-title: "Graphs"
+title: "Interactive plot for exploring results of Gaussian mean estimation experiments"
 runtime: shiny
 output: html_document
 ---
 
-NOTE: To launch the Shiny app, run `rmarkdown::run("shiny.Rmd")`
+*Briefly explain here what this R Markdown document is for.*
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE)
+```
+
+```{r load-pkgs, warning=FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(rmarkdown)
+```
+
+Load results
+------------
+
+Load the results of the simulation experiments.
+
+```{r load-results}
+load("../output/dscr.RData")
+```
 
 The following code generates an RShiny app which displays boxplots of
 MISEs from the full simulation study comparing SMASH to other
@@ -65,15 +84,12 @@ the true variance provided (smash.true) using both the Haar (.haar)
 and the Symm8 (.s8) bases.
 
 ```{r, echo=FALSE}
-library(ggplot2)
-library(dplyr)
-load("../output/dscr.RData")
 scenario_names = as.character(unique(res$scenario))
 method_names = as.character(unique(res$method))
 
 inputPanel(
 
-    # Create the checkboxes and select them all by default
+    # Create the checkboxes and select them all by default.
     checkboxGroupInput("scen.subset", "Choose Scenarios", 
                         choices  = scenario_names,
                         selected = "sp.1.v2"),

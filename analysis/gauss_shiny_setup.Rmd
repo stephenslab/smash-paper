@@ -16,7 +16,11 @@ library(dplyr)
 library(rmarkdown)
 ```
 
-NOTE: To launch the Shiny app, run `rmarkdown::run("shiny.Rmd")`
+NOTE: To launch the Shiny app, run
+
+```{r eval=FALSE}
+run("../shiny/gauss_shiny.Rmd")
+```
 
 The following code generates an RShiny app which displays boxplots of
 MISEs from the full simulation study comparing SMASH to other
