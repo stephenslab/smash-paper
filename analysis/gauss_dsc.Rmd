@@ -1,0 +1,11 @@
+---
+title: "Add title here."
+author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
+output: workflowr::wflow_html
+---
+
+*Add text here.*
+
+```{r}
+plot(1:5,1:5)
+```
