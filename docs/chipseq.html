@@ -20,9 +20,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -170,101 +167,6 @@ $(document).ready(function () {
 
 
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -315,7 +217,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-07</p>
+<p><strong>Last updated:</strong> 2018-12-07</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -339,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/d9f6b8194fe75a46bf88a091232eeb4c6f1ce748" target="_blank">d9f6b81</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/5c617d013a1b31cd0b38ec4f481dff2c97b3c5db" target="_blank">5c617d0</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -371,9 +273,6 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
-Unstaged changes:
-    Modified:   analysis/spikesdemo.Rmd
-
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
@@ -401,6 +300,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/a09d13e0da52753972ac66cc8a6af7b791d53b5e/analysis/chipseq.Rmd" target="_blank">a09d13e</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-11-09
+</td>
+<td style="text-align:left;">
+Adjusted setup steps in a few of the R Markdown files.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -619,7 +535,7 @@ Working on chipseq R Markdown file.
 <p>Install the devtools, ggplot2 and cowplot packages used here and in the code below:</p>
 <pre class="r"><code>install.packages(c(&quot;devtools&quot;,&quot;ggplot2&quot;,&quot;cowplot&quot;))</code></pre>
 <p>Finally, install the smashr package from GitHub:</p>
-<pre class="r"><code>devtools::install_github(&quot;stephenslab/smashr&quot;,upgrade_dependencies = FALSE)</code></pre>
+<pre class="r"><code>devtools::install_github(&quot;stephenslab/smashr&quot;)</code></pre>
 <p>See the “Session Info” at the bottom for the versions of the software and R packages that were used to generate the results shown below.</p>
 </div>
 <div id="set-up-r-environment" class="section level2">
@@ -708,7 +624,7 @@ Peter Carbonetto
 # [1] cowplot_0.9.3 ggplot2_3.1.0 smashr_1.2-0 
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_0.12.19      bindr_0.1.1       pillar_1.2.1     
+#  [1] Rcpp_1.0.0        bindr_0.1.1       pillar_1.2.1     
 #  [4] plyr_1.8.4        compiler_3.4.3    git2r_0.23.0     
 #  [7] workflowr_1.1.1   R.methodsS3_1.7.1 R.utils_2.6.0    
 # [10] bitops_1.0-6      iterators_1.0.9   tools_3.4.3      
@@ -720,7 +636,7 @@ Peter Carbonetto
 # [28] knitr_1.20        REBayes_1.3       caTools_1.17.1   
 # [31] tidyselect_0.2.4  rprojroot_1.3-2   grid_3.4.3       
 # [34] glue_1.3.0        data.table_1.11.4 R6_2.2.2         
-# [37] rmarkdown_1.10    purrr_0.2.5       ashr_2.2-7       
+# [37] rmarkdown_1.10    purrr_0.2.5       ashr_2.2-23      
 # [40] magrittr_1.5      whisker_0.3-2     backports_1.1.2  
 # [43] scales_0.5.0      codetools_0.2-15  htmltools_0.3.6  
 # [46] MASS_7.3-48       assertthat_0.2.0  colorspace_1.4-0 
@@ -756,8 +672,6 @@ footer is added to webpages before the MathJax javascript. -->
 <hr>
 
 
-</div>
-</div>
 
 </div>
 
