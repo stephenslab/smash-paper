@@ -11,14 +11,19 @@ knitr::opts_chunk$set(comment = "#",collapse = TRUE)
 ```
 
 ```{r load-pkgs, echo=FALSE, warning=FALSE, message=FALSE}
-library(ggplot2)
 library(dplyr)
+library(ggplot2)
+library(shiny)
 library(rmarkdown)
 ```
 
-NOTE: To launch the Shiny app, run
+```{r load-results, eval=FALSE}
+load("../output/dscr.RData")
+```
 
-```{r eval=FALSE}
+NOTE: To launch the Shiny app, run:
+
+```{r launch-shiny eval=FALSE}
 run("../shiny/gauss_shiny.Rmd")
 ```
 
