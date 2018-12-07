@@ -4,32 +4,33 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-*Briefly explain here what this R Markdown document is for.*
+Here we give instructions for starting the Shiny server which will
+create an interactive plot from the results of the Gaussian mean
+estimation simulation study.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE)
 ```
 
-```{r load-pkgs, echo=FALSE, warning=FALSE, message=FALSE}
+First, you need make sure that the following R packages are installed
+on your computer: dplyr, ggplot2, cowplot, shiny and rmarkdown. See
+the "Session Info" at the bottom for the versions of the R packages we
+used.  Once you have installed these packages, run this code to verify
+that the packages are installed successfully:
+
+```{r load-pkgs, warning=FALSE, message=FALSE}
 library(dplyr)
 library(ggplot2)
+library(cowplot)
 library(shiny)
 library(rmarkdown)
 ```
 
-```{r load-results, eval=FALSE}
-load("../output/dscr.RData")
+Now you are ready to create the Shiny server with this command:
+
+```{r launch-shiny, eval=FALSE}
+rmarkdown::run("../shiny/gauss_shiny.Rmd")
 ```
 
-NOTE: To launch the Shiny app, run:
-
-```{r launch-shiny eval=FALSE}
-run("../shiny/gauss_shiny.Rmd")
-```
-
-The following code generates an RShiny app which displays boxplots of
-MISEs from the full simulation study comparing SMASH to other
-wavelet-based methods for denoising Gaussian data. As mentioned in the
-companion paper, the results for a variety of test functions (both
-mean and variance functions) and 2 signal-to-noise ratios (SNRs), 1
-and 3, are presented here.
+The interactive plot will be launched in your Web browser, or in an
+RStudio panel, depending on whether you are using R or RStudio.
