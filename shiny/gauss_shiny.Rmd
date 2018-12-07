@@ -13,11 +13,12 @@ functions, and with different signal-to-noise ratios.
 See the text below for more details on how to interpret these results.
 
 ```{r create-shiny-plot, echo=FALSE, message=FALSE, warning=FALSE}
-# Load the dplyr, ggplot and rmarkdown packages.
+# Load the packages.
 library(dplyr)
 library(ggplot2)
 library(cowplot)
 library(rmarkdown)
+library(shiny)
 
 # Load the results of the simulation experiments.
 load("../output/dscr.RData")
@@ -60,21 +61,21 @@ the mean and variance functions.
 
 These are the different mean functions we used in the simulations:
 
-Spikes (sp)<br>
-Bumps (bump)<br>
-Blocks (blk)<br>
-Angles (ang)<br>
-Doppler (dop)<br>
-Blip (blip)<br>
-Corner (cor)
+1. Spikes (sp)
+2. Bumps (bump)
+3. Blocks (blk)
+4. Angles (ang)
+5. Doppler (dop)
+6. Blip (blip)
+7. Corner (cor)
 
 And these are the variance functions we used:
 
-Constant function (v1)<br>
-Triple exponential (v2)<br>
-Doppler (v3)<br>
-Bumps (v4)<br>
-Clipped Blocks (v5)
+1. Constant function (v1)
+2. Triple exponential (v2)
+3. Doppler (v3)
+4. Bumps (v4)
+5. Clipped Blocks (v5)
 
 We used signal-to-noise ratios of 1 and 3.
 
