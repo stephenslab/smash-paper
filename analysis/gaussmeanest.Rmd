@@ -11,8 +11,9 @@ in which the data have homoskedastic errors (constant variance) and
 heteroskedastic errors (non-constant variance).
 
 Since the simulation experiments are computationally intensive, they
-were implemented separately (see the "dsc" directory in this git
-repository), and here we only create plots to summarize the results of
+were implemented separately. (For instructions on re-running these
+simulation experiments, see the README in the "dsc" directory of the
+git repository). Here we create plots to summarize the results of
 these experiments.
 
 ```{r knitr-opts, include=FALSE}

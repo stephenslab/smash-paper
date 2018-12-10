@@ -8,7 +8,9 @@ Below is a Shiny interactive plot that can be used to explore the
 results of the Gaussian mean estimation simulation study. In this
 simulation study, the signal denoising methods were compared in
 simulated data sets generated with a variety of mean and variance
-functions, and with different signal-to-noise ratios.
+functions, and with different signal-to-noise ratios. For more
+details, including instructions for re-running these experiments, see
+the README in the "dsc" directory of the git repository.
 
 See the text below for more details on how to interpret these results.
 
