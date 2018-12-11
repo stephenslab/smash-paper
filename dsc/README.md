@@ -31,8 +31,8 @@ previously generated results.
    directory of this git repository. Modify the script parameters as
    needed.
 
-5. Upon completion, results will be saved as both as an R object
-   (res.Robj) and an R image file (res.RData).
+5. Upon completion, the simulation results will be saved to file
+   `dscr.RData` in the "dsc" directory.
 
 [smash-github]: https://github.com/stephenslab/smash-paper
 [smashr]: https://github.com/stephenslab/smashr

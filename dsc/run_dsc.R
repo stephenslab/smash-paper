@@ -32,8 +32,6 @@ cat("Running DSC.\n")
 timing <- system.time(res <- run_dsc(dsc_smash))
 cat(sprintf("Computation took %d seconds.\n",round(timing["elapsed"])))
 
-stop()
-
 # SAVE RESULTS TO FILE
 # --------------------
 cat("Saving DSC results to file.\n")

@@ -6,14 +6,6 @@ varfn        <- c(cons.fn,texp.fn,doppler.fn,bumps.fn,cblocks.fn)
 varfn.short  <- c("cons","texp","dop","bump","cblk")
 seeds        <- 1:100
 
-# TESTING
-# -------
-meanfn       <- meanfn[1:3]
-meanfn.short <- meanfn.short[1:3]
-varfn        <- varfn[c(1,3)]
-varfn.short  <- varfn.short[c(1,3)]
-seeds        <- 1:2
-
 design <- gen.factorial(c(length(varfn),length(rsnr),length(meanfn)),
                         center = FALSE)
 
