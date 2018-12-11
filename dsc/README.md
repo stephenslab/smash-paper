@@ -15,30 +15,28 @@ previously generated results.
 
 ## Instructions
 
-Download or clone the [git repository][smash-github] on your computer.
+1. Download or clone the [git repository][smash-github] on your computer.
 
+2. Install the following R packages: [AlgDesign][algdesign],
+   [wavethresh][wavethresh], [EbayesThresh][EbayesThresh], 
+   [dscr][dscr] and [smashr][smash].
 
+3. Run the `InstallMEX.m` script in the Wavelab850 subdirectory to
+   build the MEX files from their C source.
 
+4. Run the R script [run_dsc.R](run_dsc.R) from the "dsc" directory of
+   the git repository. This can be done in batch mode (e.g., using
+   Rscript), or interactively in R or RStudio. When running
+   interactively, make sure your working directory is the "dsc"
+   directory of this git repository. Modify the script parameters as
+   needed.
 
-* Clone or download this repository.
-
-* Install these R packages: smashr (from ashwave repo; see below),
-  dscr, ashr (see below), dependencies in ashr & smash (e.g. wavethresh,
-  EbayesThresh).
-
-* Matlab libraries:
-  WaveLab (http://statweb.stanford.edu/~wavelab),
-  WavDen (http://www-ljk.imag.fr/SMS/software/GaussianWaveDen/down.html).
-  Follow the instructions provided with these software distributions
-  to install these.
-  
-* Add path to the Matlab bin directory to R's path variable using add_path().
-
-* Add path to dscr-smash/methods folder in Matlab.
-
-* Run the R script run_dsc.R, either in batch mode or interactively.
-
-* Upon completion results will be saved as both as an R object
-  (res.Robj) and an R image file (res.RData).
+5. Upon completion, results will be saved as both as an R object
+   (res.Robj) and an R image file (res.RData).
 
 [smash-github]: https://github.com/stephenslab/smash-paper
+[smashr]: https://github.com/stephenslab/smashr
+[dscr]: https://github.com/stephens999/dscr
+[ebayesthresh]: https://github.com/stephenslab/EbayesThresh
+[wavethresh]: https://cran.r-project.org/package=wavethresh
+[algdesign]: https://cran.r-project.org/package=AlgDesign

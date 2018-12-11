@@ -1,6 +1,6 @@
 
 # Load the old results.
-load("~/git/smash-paper/output/gaus_dscr.RData")
+load("~/git/smash-paper/output/dscr.RData")
 out0 <- res
 
 # Load the new results.

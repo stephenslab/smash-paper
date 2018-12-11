@@ -4,6 +4,15 @@ meanfn.short <- c("sp","bump","blk","ang","dop","blip","cor")
 rsnr         <- sqrt(c(1,3))
 varfn        <- c(cons.fn,texp.fn,doppler.fn,bumps.fn,cblocks.fn)
 varfn.short  <- c("cons","texp","dop","bump","cblk")
+seeds        <- 1:100
+
+# Testing
+# -------
+meanfn       <- meanfn[1:3]
+meanfn.short <- meanfn.short[1:3]
+varfn        <- varfn[c(1,3)]
+varfn.short  <- varfn.short[c(1,3)]
+seeds        <- 1:2
 
 design <- gen.factorial(c(length(varfn),length(rsnr),length(meanfn)),
                         center = FALSE)
@@ -16,5 +25,5 @@ for (i in 1:nrow(design)) {
                         meanfn = meanfn[[design[i,3]]],
                         varfn = varfn[[design[i,1]]])
   add_scenario(dsc_smash,name = scenario.name,fn = gaussian.1d,
-               args = scenario.args,seed = 1:3)
+               args = scenario.args,seed = seeds)
 }
