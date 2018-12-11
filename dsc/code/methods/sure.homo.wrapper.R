@@ -7,7 +7,7 @@ sure.homo.wrapper = function (input, args) {
   cat("     - Writing data to file.\n")
   write(input$x,in.file,ncolumns = length(input$x))
   cat("     - Running recbams from WavLab in MATLAB.\n")
-  system(paste(matlab.exec,"-r \"run('code/methods/sure_matlab.m')\""),
+  system(paste(matlab.exec,"-r \"run('code/methods/sure.m')\""),
          ignore.stdout = TRUE)
   while (!file.exists(out.file))
     Sys.sleep(5)

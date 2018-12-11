@@ -7,7 +7,7 @@ blockjs.homo.wrapper <- function(input, args) {
   cat("     - Writing data to file.\n")
   write(input$x,in.file,ncolumns = length(input$x))
   cat("     - Running recblockJS from WavLab in MATLAB.\n")
-  system(paste(matlab.exec,"-r \"run('methods/blockjs.m')\""),
+  system(paste(matlab.exec,"-r \"run('code/methods/blockjs.m')\""),
          ignore.stdout = TRUE)
   while (!file.exists(out.file))
     Sys.sleep(5)
