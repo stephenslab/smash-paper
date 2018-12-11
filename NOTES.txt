@@ -61,7 +61,3 @@ the simulation studies conducted. Specifically:
   
   + `table_pois` generates the full results for the Poisson simulation
   study which are shown in supplementary materials.
-
-(NB: stable ashr commit: bf9cca351d7cf804b67a56552f8057b3af7c11cb;
-stable smash-paper commit: e59bdebb61ae06a6459c9248a5167178fe0150df)
-
