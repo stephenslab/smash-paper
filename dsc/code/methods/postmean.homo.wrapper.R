@@ -7,7 +7,7 @@ postmean.homo.wrapper = function(input, args) {
   cat("     - Writing data to file.\n")
   write(input$x,in.file,ncolumns = length(input$x))
   cat("     - Running recsinglemean from WavLab in MATLAB.\n")
-  system(paste(matlab.exec," -r \"run('code/methods/postmean_matlab.m')\""),
+  system(paste(matlab.exec," -r \"run('code/methods/postmean.m')\""),
          ignore.stdout = TRUE)
   while (!file.exists(out.file))
     Sys.sleep(5)
