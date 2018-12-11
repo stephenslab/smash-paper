@@ -13,7 +13,6 @@ postmean.homo.wrapper = function(input, args) {
     Sys.sleep(5)
   cat("     - Loading recsinglemean estimate from file.\n")
   mu.est <- as.vector(read.csv(out.file,header = FALSE))
-  system("rm input/ml_in.txt input/ml_out.csv")
   file.remove(c(in.file,out.file))
   return(mu.est)
 }

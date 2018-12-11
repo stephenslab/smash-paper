@@ -1,9 +1,4 @@
 to do 
 =====
 
-+ Fix system statements that use 'rm' command.
-
-+ Add more verbose to running methods, particularly methods that call
-  MATLAB, so we know what is going on when things go wrong.
-
 + Remove dsc/code/check.output.R.

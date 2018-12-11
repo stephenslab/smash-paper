@@ -6,7 +6,7 @@ varfn        <- c(cons.fn,texp.fn,doppler.fn,bumps.fn,cblocks.fn)
 varfn.short  <- c("cons","texp","dop","bump","cblk")
 seeds        <- 1:100
 
-# Testing
+# TESTING
 # -------
 meanfn       <- meanfn[1:3]
 meanfn.short <- meanfn.short[1:3]
