@@ -37,7 +37,7 @@ stop()
 # SAVE RESULTS TO FILE
 # --------------------
 cat("Saving DSC results to file.\n")
-save(list = c("dsc_smash","res"),file = "res.RData")
+save(list = c("dsc_smash","res"),file = "dscr.RData")
 
 # SESSION INFORMATION
 # -------------------
