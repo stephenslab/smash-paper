@@ -1,4 +1,0 @@
-to do 
-=====
-
-+ Remove dsc/code/check.output.R.
