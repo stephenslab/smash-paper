@@ -92,11 +92,11 @@ Bayesian Posterior Mean (postmean)
 TI thresholding (tithresh)
 SMASH (smash)
 
-Most of  these methods assume homoskedastic noise, and use the
-Symm8 basis by default. TI thresholding was run with both the
-homoskedastic ("tithresh.homo") using the Symm8 (.s8) basis, as well as
-with variance estimated variance using either RMAD ("tithresh.rmad") or SMASH
-("tithresh.smash"). TI thresholding was also run with the true
+Most of these methods assume homoskedastic noise, and use the Symm8
+basis by default. TI thresholding was run with both the homoskedastic
+("tithresh.homo") using the Symm8 (.s8) basis, as well as with
+variance estimated variance using either RMAD ("tithresh.rmad") or
+SMASH ("tithresh.smash"). TI thresholding was also run with the true
 variance provided ("tithresh.true").
 
 As for SMASH, we ran this method with the homoskedatic assumption

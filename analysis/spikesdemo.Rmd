@@ -50,7 +50,7 @@ library(ashr)
 library(smashr)
 library(ggplot2)
 library(cowplot)
-source("../code/misc.R")
+source("../code/spikesdemo.functions.R")
 ```
 
 Define the "spikes" mean function

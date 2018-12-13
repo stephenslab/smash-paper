@@ -1,5 +1,6 @@
-# TO DO: Explain what this script does, and how to use it.
-library(dscr)
+# This R script implements the "Gaussian mean estimation" simulations
+# for the SMASH paper. For instructions on how to run this code, see
+# the accompanying README.
 library(AlgDesign)
 library(EbayesThresh)
 library(wavethresh)

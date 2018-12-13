@@ -7,11 +7,6 @@ to do
 + Add Wavelab info, including license info, to README. Also point to
   instructions for building/installing MEX files.
 
-+ Is graphs.Rmd needed? (I think it is!) If so, add packages used in
-  graphs.Rmd to setup instructions.
-
-+ Add brief comments to top of run_dsc.R to explain what it does.
-
 + Fill out "What’s included in the git repository" section of the home
   page (index.Rmd).
 
