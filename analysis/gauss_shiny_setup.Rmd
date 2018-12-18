@@ -1,11 +1,11 @@
 ---
-title: "Instructions for running Shiny server to explore results of Gaussian mean estimation experiments"
+title: "Instructions for running Shiny app to explore results of Gaussian mean estimation experiments"
 author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-Here we give instructions for starting the Shiny server which will
-create an interactive plot from the results of the Gaussian mean
+Here we give instructions for starting the [Shiny app][shiny] which
+will create an interactive plot from the results of the Gaussian mean
 estimation simulation study.
 
 ```{r knitr-opts, include=FALSE}
@@ -26,7 +26,7 @@ library(shiny)
 library(rmarkdown)
 ```
 
-Now you are ready to create the Shiny server with this command:
+Now you are ready to launch the Shiny app with this command:
 
 ```{r launch-shiny, eval=FALSE}
 rmarkdown::run("../shiny/gauss_shiny.Rmd")
@@ -34,3 +34,5 @@ rmarkdown::run("../shiny/gauss_shiny.Rmd")
 
 The interactive plot will be launched in your Web browser, or in an
 RStudio panel, depending on whether you are using R or RStudio.
+
+[shiny]: https://cran.r-project.org/package=shiny
