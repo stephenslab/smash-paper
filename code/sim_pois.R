@@ -1,3 +1,6 @@
+# This is R code used to implement the numerical comparisons on
+# Poisson-distributed data sets.
+
 library(smash)
 library(haarfisz)
 

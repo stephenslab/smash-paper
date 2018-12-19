@@ -1,3 +1,6 @@
+% This is MATLAB code used to implement the numerical comparisons on
+% Poisson-distributed data sets.
+
 n = 1024;
 est_an_ti_uh_s_1_2=zeros(100,n);
 est_an_ti_uh_s_8_2=zeros(100,n);
