@@ -1,3 +1,6 @@
+# This is some additional R code used to implement the numerical
+# comparisons on Poisson-distributed data sets.
+
 library(haarfisz)
 
 #define functions
