@@ -1,34 +1,68 @@
-#This script produces the plots for the Poisson simulations in the paper
+---
+title: "Add title here"
+author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
+output: workflowr::wflow_html
+---
 
+This produces the plots for the Poisson simulations in the paper.
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
+```
+
+Set up environment
+------------------
+
+```{r}
 library(vioplot)
-source("code_paper/sim/vioplot_col.R")
-load("res_paper/res_pois.RData")
+source("vioplot_col.R")
+load("../output/pois.RData")
+```
 
-mise.hf.ti.r.bur.1 = colMeans(matrix(c(mise.hf.ti.r.4.bur.1, mise.hf.ti.r.5.bur.1, mise.hf.ti.r.6.bur.1, mise.hf.ti.r.7.bur.1), byrow = TRUE, nr = 4))
-mise.hf.ti.r.bur.8 = colMeans(matrix(c(mise.hf.ti.r.4.bur.8, mise.hf.ti.r.5.bur.8, mise.hf.ti.r.6.bur.8, mise.hf.ti.r.7.bur.8), byrow = TRUE, nr = 4))
+plot the bursts test function
 
-#horizontal
-par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(6.1, 12.1, 4.1, 2.1), mgp = c(3, 1.5, 0))
-vioplot.col(mise.ash.bur.1, mise.BMSM.bur.1, mise.hf.ti.r.bur.1, horizontal = TRUE, names = c("SMASH", "BMSM", "Haar-Fisz"), col = c("magenta", "red", "red"))
-title(xlab = "MISE", line = 4)
-abline(v = median(mise.ash.bur.1), lty = 3, col = 3)
-
-par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(6.1, 12.1, 4.1, 2.1), mgp = c(3, 1.5, 0))
-vioplot.col(mise.ash.bur.8, mise.BMSM.bur.8, mise.hf.ti.r.bur.8, horizontal = TRUE, names = c("SMASH", "BMSM", "Haar-Fisz"), col = c("magenta", "red", "red"))
-title(xlab = "MISE", line = 4)
-abline(v = median(mise.ash.bur.8), lty = 3, col = 3)
-
-#plot the bursts test function
+```{r}
 n=1024
 t=1:n/n
-
-I_1 = exp(-(abs(t-0.2)/0.01)^1.2)*(t<=0.2) + exp(-(abs(t-0.2)/0.03)^1.2)*(t>0.2);
-I_2 = exp(-(abs(t-0.3)/0.01)^1.2)*(t<=0.3) + exp(-(abs(t-0.3)/0.03)^1.2)*(t>0.3);
-I_3 = exp(-(abs(t-0.4)/0.01)^1.2)*(t<=0.4) + exp(-(abs(t-0.4)/0.03)^1.2)*(t>0.4);
-mu.bur = 2.99/4.51804*(4*I_1+3*I_2+4.5*I_3);
-
+I_1 <- exp(-(abs(t-0.2)/0.01)^1.2)*(t<=0.2) +
+     exp(-(abs(t-0.2)/0.03)^1.2)*(t>0.2)
+I_2 <- exp(-(abs(t-0.3)/0.01)^1.2)*(t<=0.3) +
+	 exp(-(abs(t-0.3)/0.03)^1.2)*(t>0.3);
+I_3 <- exp(-(abs(t-0.4)/0.01)^1.2)*(t<=0.4) +
+	 exp(-(abs(t-0.4)/0.03)^1.2)*(t>0.4);
+mu.bur <- 2.99/4.51804*(4*I_1+3*I_2+4.5*I_3)
 plot(mu.bur, type = 'l', xlab = "position", ylab = "intensity")
+```
 
+```{r}
+mise.hf.ti.r.bur.1 =
+    colMeans(matrix(c(mise.hf.ti.r.4.bur.1, mise.hf.ti.r.5.bur.1,
+                      mise.hf.ti.r.6.bur.1, mise.hf.ti.r.7.bur.1),
+                    byrow = TRUE, nr = 4))
+mise.hf.ti.r.bur.8 = colMeans(matrix(c(mise.hf.ti.r.4.bur.8,
+    mise.hf.ti.r.5.bur.8, mise.hf.ti.r.6.bur.8, mise.hf.ti.r.7.bur.8),
+    byrow = TRUE, nr = 4))
+```
+	
+```{r}
+par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(6.1, 12.1, 4.1, 2.1),
+    mgp = c(3, 1.5, 0))
+vioplot.col(mise.ash.bur.1, mise.BMSM.bur.1, mise.hf.ti.r.bur.1,
+            horizontal = TRUE, names = c("SMASH", "BMSM", "Haar-Fisz"),
+            col = c("magenta", "red", "red"))
+title(xlab = "MISE", line = 4)
+abline(v = median(mise.ash.bur.1), lty = 3, col = 3)
+```
+
+```{r}
+par(cex.axis = 2, cex.lab = 2, cex.sub = 2, mar = c(6.1, 12.1, 4.1, 2.1),
+    mgp = c(3, 1.5, 0))
+vioplot.col(mise.ash.bur.8, mise.BMSM.bur.8, mise.hf.ti.r.bur.8,
+	horizontal = TRUE, names = c("SMASH", "BMSM", "Haar-Fisz"),
+	col = c("magenta", "red", "red"))
+title(xlab = "MISE", line = 4)
+abline(v = median(mise.ash.bur.8), lty = 3, col = 3)
+```
 
 #########################################
 #To obtain violin plots for all test functions/intensities (most figures not shown in paper)
