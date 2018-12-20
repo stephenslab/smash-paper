@@ -6,112 +6,154 @@ output: workflowr::wflow_html
 
 This script produces supplementary tables for Poisson simulations.
 
-```{r}
+*Explain which set of results correspond to the plots given in the main
+text.*
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
+```
+
+Analysis settings
+-----------------
+
+We will extract the results from these methods:
+
+```{r selected-methods}
+methods <- c("ash","BMSM","haarfisz_R")
+```
+
+Specify the row and column names for the tables:
+
+```{r table-row-and-col-names}
+table.row.names <- c("SMASH","BMSM","Haar-Fisz")
+table.col.names <- c("intensity (0.01,3)","intensity (1/8,8)",
+                     "intensity (1/128,128)")
+```
+
+Set up environment
+------------------
+
+*Add text here.*
+
+```{r load-pkgs, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(cowplot)
 library(xtable)
+```
 
+Load results
+------------
+
+Load the results of the simulation experiments.
+
+```{r load-results}
 load("../output/pois.RData")
-
-tex.row.names <- c("SMASH",
-                   "BMSM",
-                   "BMMIM",
-                   "Haar-Fisz",
-                   "Anscombe",
-                   "Haar thresholds",
-                   "L1_penalty"
-)
-
-tex.col.names <- c("intensity (0.01,3)",
-                   "intensity (1/8,8)",
-                   "intensity (1/128,128)")
-
-mise.s.1.table=mise.s.1[c(1,2,3,4,6,7,8)]
-mise.s.8.table=mise.s.8[c(1,2,3,4,6,7,8)]
-mise.s.128.table=mise.s.128[c(1,2,3,4,6,7,8)]
-
-mise.ang.1.table=mise.ang.1[c(1,2,3,4,6,7,8)]
-mise.ang.8.table=mise.ang.8[c(1,2,3,4,6,7,8)]
-mise.ang.128.table=mise.ang.128[c(1,2,3,4,6,7,8)]
-
-mise.bur.1.table=mise.bur.1[c(1,2,3,4,6,7,8)]
-mise.bur.8.table=mise.bur.8[c(1,2,3,4,6,7,8)]
-mise.bur.128.table=mise.bur.128[c(1,2,3,4,6,7,8)]
-
-mise.cb.1.table=mise.cb.1[c(1,2,3,4,6,7,8)]
-mise.cb.8.table=mise.cb.8[c(1,2,3,4,6,7,8)]
-mise.cb.128.table=mise.cb.128[c(1,2,3,4,6,7,8)]
-
-mise.b.1.table=mise.b.1[c(1,2,3,4,6,7,8)]
-mise.b.8.table=mise.b.8[c(1,2,3,4,6,7,8)]
-mise.b.128.table=mise.b.128[c(1,2,3,4,6,7,8)]
-
-mise.hs.1.table=mise.hs.1[c(1,2,3,4,6,7,8)]
-mise.hs.8.table=mise.hs.8[c(1,2,3,4,6,7,8)]
-mise.hs.128.table=mise.hs.128[c(1,2,3,4,6,7,8)]
-
-
-mise.s.table=cbind(mise.s.1.table,
-mise.s.8.table,
-mise.s.128.table
-)
-
-mise.ang.table <- cbind(mise.ang.1.table,
-mise.ang.8.table,
-mise.ang.128.table
-)
-
-mise.bur.table=cbind(mise.bur.1.table,
-mise.bur.8.table,
-mise.bur.128.table
-)
-
-mise.cb.table=cbind(mise.cb.1.table,
-mise.cb.8.table,
-mise.cb.128.table
-)
-
-mise.b.table=cbind(mise.b.1.table,
-mise.b.8.table,
-mise.b.128.table
-)
-
-mise.hs.table=cbind(mise.hs.1.table,
-mise.hs.8.table,
-mise.hs.128.table
-)
-
-rownames(mise.ang.table)=tex.row.names
-colnames(mise.ang.table)=tex.col.names
-rownames(mise.b.table)=tex.row.names
-colnames(mise.b.table)=tex.col.names
-rownames(mise.cb.table)=tex.row.names
-colnames(mise.cb.table)=tex.col.names
-rownames(mise.s.table)=tex.row.names
-colnames(mise.s.table)=tex.col.names
-rownames(mise.hs.table)=tex.row.names
-colnames(mise.hs.table)=tex.col.names
-rownames(mise.bur.table)=tex.row.names
-colnames(mise.bur.table)=tex.col.names
 ```
 
-```{r, results="asis"}
-print(xtable(mise.s.table,caption="Comparison of methods for denoising Poisson data for the ``Spikes'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_sp",digits=2),type = "html")
+## Spikes data
+
+Summarize the results from the Spikes simulations in a table.
+
+Comparison of methods for denoising Poisson data for the "Spikes"
+test function for 3 different (min,max) intensities ((0.01,3),
+(1/8,8), (1/128,128)). Performance is measured using MISE over 100
+independent datasets, with smaller values indicating better
+performance. Values colored in red indicates the smallest MISE amongst
+all methods for a given (min, max) intensity.
+
+```{r spikes-table, results="asis"}
+mise.s.table   <- cbind(mise.s.1[methods],
+                        mise.s.8[methods],
+                        mise.s.128[methods])
+rownames(mise.s.table) <- table.row.names
+colnames(mise.s.table) <- table.col.names
+print(xtable(mise.s.table),type = "html")
 ```
+
+Summarize the results from the Spikes simulations in combined violin
+and boxplots.
+
+```{r spikes-violin-plots, fig.height=5, fig.width=7}
+mise.hf.ti.r.s.1   <- colMeans(rbind(mise.hf.ti.r.4.s.1,
+                                     mise.hf.ti.r.5.s.1,
+                                     mise.hf.ti.r.6.s.1,
+	  		                         mise.hf.ti.r.7.s.1))
+mise.hf.ti.r.s.8   <- colMeans(rbind(mise.hf.ti.r.4.s.8,
+					                 mise.hf.ti.r.5.s.8,
+                                     mise.hf.ti.r.6.s.8,
+						  	         mise.hf.ti.r.7.s.8))
+mise.hf.ti.r.s.128 <- colMeans(rbind(mise.hf.ti.r.4.s.128,
+									 mise.hf.ti.r.5.s.128,
+                                     mise.hf.ti.r.6.s.128,
+									 mise.hf.ti.r.7.s.128))
+p <- ggplot(pdat1,aes(x = method,y = mise,fill = method.type)) +
+     geom_violin(fill = "skyblue",color = "skyblue") +
+     geom_boxplot(width = 0.15,outlier.shape = NA) +
+     scale_y_continuous(breaks = seq(6,16,2)) +
+     scale_fill_manual(values = c("darkorange","dodgerblue","gold"),
+                       guide = FALSE) +
+     coord_flip() +
+     labs(x = "",y = "MISE") +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+```
+
+Combine the results of the simulation experiments into several larger
+tables.
+
+```{r get-spikes-results}
+mise.ang.table <- cbind(mise.ang.1[methods],
+                        mise.ang.8[methods],
+                        mise.ang.128[methods])
+mise.bur.table <- cbind(mise.bur.1[methods],
+                        mise.bur.8[methods],
+                        mise.bur.128[methods])
+mise.cb.table  <- cbind(mise.cb.1[methods],
+                        mise.cb.8[methods],
+                        mise.cb.128[methods])
+mise.b.table   <- cbind(mise.b.1[methods],
+                        mise.b.8[methods],
+                        mise.b.128[methods])
+mise.hs.table  <- cbind(mise.hs.1[methods],
+                        mise.hs.8[methods],
+                        mise.hs.128[methods])
+rownames(mise.ang.table) <- table.row.names
+rownames(mise.b.table)   <- table.row.names
+rownames(mise.cb.table)  <- table.row.names
+rownames(mise.hs.table)  <- table.row.names
+rownames(mise.bur.table) <- table.row.names
+colnames(mise.ang.table) <- table.col.names
+colnames(mise.b.table)   <- table.col.names
+colnames(mise.cb.table)  <- table.col.names
+colnames(mise.hs.table)  <- table.col.names
+colnames(mise.bur.table) <- table.col.names
+```
+
+### Angles data
 
 ```{r, results="asis"}
 print(xtable(mise.ang.table,caption="Comparison of methods for denoising Poisson data for the ``Angles'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_ang",digits=2),type = "html")
 ```
 
+### Heavisine data
+
 ```{r, results="asis"}
 print(xtable(mise.hs.table,caption="Comparison of methods for denoising Poisson data for the ``Heavisine'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_hs",digits=2),type = "html")
 ```
+
+### Bursts data
 
 ```{r, results="asis"}
 print(xtable(mise.bur.table,caption="Comparison of methods for denoising Poisson data for the ``Bursts'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_bur",digits=2),type = "html")
 ```
 
+### Clipped Blocks data
+
 ```{r, results="asis"}
 print(xtable(mise.cb.table,caption="Comparison of methods for denoising Poisson data for the ``Clipped Blocks'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_cb",digits=2),type = "html")
 ```
+
+### Bumps data
 
 ```{r, results="asis"}
 print(xtable(mise.b.table,caption="Comparison of methods for denoising Poisson data for the ``Bumps'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_b",digits=2),type = "html")
