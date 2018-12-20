@@ -51,43 +51,39 @@ data.](gaussvarest.html)
 
 ## What's included in the git repository
 
-## What's included in the git repository
-
-See [here][gtexresults] for the source repository. This is what
-you will find in the repository:
+See [here][smash-github] for the source repository. This is the
+overall structure of the repository:
 
 ```
 ├── analysis
 ├── code
 ├── data
 ├── docs
+├── dsc
 ├── output
-└── workflows
+└── shiny
 ```
 
-+ The **analysis** contains R Markdown source files for the workflowr
-  website, including R code used in the final step of the analysis to
-  generate figures and tables for the manuscript.
++ The `analysis` directory contains R Markdown source files for the
+  workflowr website, including R code implementing the SMASH demos,
+  and R code to generate tables and figures for the manuscript.
 
-+ The **code** directory contains additional supporting code for the
-  analyses.
++ The `code` directory contains additional supporting code for the
+  demos and analyses of the results.
 
-+ The **data** directory contains original and processed data files
-  used in the mash analysis of the GTEx data, example data sets used
-  to illustrate the data processing and analysis pipelines, and
-  additional data used to generate the tables and figures for the
-  manuscript.
++ The `data` directory contains data files used in the ChIP-seq demo.
 
-+ The **docs** directory contains webpages generated from the R
++ The `docs` directory contains webpages generated from the R
   Markdown files in the analysis directory.
 
-+ The **output** stores outputs from data processing and analysis
-  pipelines ("workflows").
++ The `dsc` directory contains R and MATLAB code used to implement the
+  "Gaussian mean estimation" simulations in the manuscript.
 
-+ The **workflows** directory contains source code ("SoS workflows")
-  and Docker configuration files ("Dockerfiles") implementing a data
-  processing pipeline for mash and an end-to-end analysis of the GTEx
-  data using the multivariate statistical methods ("mash").
++ The `output` directory contains results from the Gaussian and
+  Poisson simulations.
+
++ The `shiny` directory contains code to generate the Shiny
+  Web app in R.
 
 ## License
 
