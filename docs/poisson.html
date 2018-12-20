@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/b3f5b57bb2aa35e2ba7ef1575e41890ba61e5ee4" target="_blank">b3f5b57</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/987a8618bba284ec106dd750de6b2ffae781229c" target="_blank">987a861</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -273,13 +273,6 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
-Untracked files:
-    Untracked:  analysis/.#poisson.Rmd
-
-Unstaged changes:
-    Modified:   TODO.txt
-    Modified:   analysis/plot.poisson.signals.R
-
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
@@ -307,6 +300,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/987a8618bba284ec106dd750de6b2ffae781229c/analysis/poisson.Rmd" target="_blank">987a861</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-20
+</td>
+<td style="text-align:left;">
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -427,11 +437,11 @@ library(xtable)</code></pre>
 </div>
 <div id="spikes-data" class="section level2">
 <h2>Spikes data</h2>
-<p>This is the function used to simulate the “Spikes” data sets:</p>
+<p>This is the function used to simulate the “Spikes” data sets at different ranges of intensities:</p>
 <pre class="r"><code>mu.s &lt;- spike.f(t)
 plot(t,mu.s,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,
      main = &quot;Spikes intensity function&quot;)</code></pre>
-<p><img src="figure/poisson.Rmd/spikes-function-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/poisson.Rmd/plot-spikes-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Summarize the results from the Spikes simulations in a table.</p>
 <p>Comparison of methods for denoising Poisson data for the “Spikes” test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.</p>
 <pre class="r"><code>mise.s.table   &lt;- cbind(mise.s.1[methods],
@@ -441,7 +451,7 @@ rownames(mise.s.table) &lt;- table.row.names
 colnames(mise.s.table) &lt;- table.col.names
 print(xtable(mise.s.table),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Thu Dec 20 12:13:26 2018 -->
+<!-- Thu Dec 20 12:33:29 2018 -->
 <table border="1">
 <tr>
 <th>
@@ -512,8 +522,8 @@ mise.hf.ti.r.s.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.s.128,
                                      mise.hf.ti.r.5.s.128,
                                      mise.hf.ti.r.6.s.128,
                                      mise.hf.ti.r.7.s.128))
-n     &lt;- length(mise.ash.s.1)
-pdat1 &lt;- data.frame(method = rep(c(&quot;SMASH&quot;,&quot;BMSM&quot;,&quot;HF&quot;),each = n),
+m     &lt;- length(mise.ash.s.1)
+pdat1 &lt;- data.frame(method = rep(c(&quot;SMASH&quot;,&quot;BMSM&quot;,&quot;HF&quot;),each = m),
                     mise   = c(mise.ash.s.1,mise.BMSM.s.1,mise.hf.ti.r.s.1))
 p1 &lt;- ggplot(pdat1,aes(x = method,y = mise)) +
       geom_violin(fill = &quot;skyblue&quot;,color = &quot;skyblue&quot;) +
@@ -549,11 +559,25 @@ colnames(mise.b.table)   &lt;- table.col.names
 colnames(mise.cb.table)  &lt;- table.col.names
 colnames(mise.hs.table)  &lt;- table.col.names
 colnames(mise.bur.table) &lt;- table.col.names</code></pre>
-<div id="angles-data" class="section level3">
-<h3>Angles data</h3>
+</div>
+<div id="angles-data" class="section level2">
+<h2>Angles data</h2>
+<p>This is the function used to simulate the “Angles” data sets at different ranges of intensities:</p>
+<pre class="r"><code>mu.ang &lt;- dop.f(t)
+sig &lt;- ((2 * t + 0.5) * (t &lt;= 0.15)) +
+  ((-12 * (t - 0.15) + 0.8) * (t &gt; 0.15 &amp; t &lt;= 0.2)) +
+  0.2 * (t &gt; 0.2 &amp; t &lt;= 0.5) + 
+  ((6 * (t - 0.5) + 0.2) * (t &gt; 0.5 &amp; t &lt;= 0.6)) +
+  ((-10 * (t - 0.6) + 0.8) * (t &gt; 0.6 &amp; t &lt;= 0.65)) +
+  ((-0.5 * (t - 0.65) + 0.3) * (t &gt; 0.65 &amp; t &lt;= 0.85)) +
+  ((2 * (t - 0.85) + 0.2) * (t &gt; 0.85))
+mu.ang &lt;- 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569
+plot(t,mu.ang,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,
+     main = &quot;Angles intensity function&quot;)</code></pre>
+<p><img src="figure/poisson.Rmd/plot-angles-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(xtable(mise.ang.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Angles&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_ang&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Thu Dec 20 12:13:27 2018 -->
+<!-- Thu Dec 20 12:33:37 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Angles’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
@@ -616,11 +640,18 @@ Haar-Fisz
 <a name=table:pois_ang></a>
 </table>
 </div>
-<div id="heavisine-data" class="section level3">
-<h3>Heavisine data</h3>
+<div id="heavisine-data" class="section level2">
+<h2>Heavisine data</h2>
+<p>This is the function used to simulate the “Heavisine” data sets at different ranges of intensities:</p>
+<pre class="r"><code>heavi &lt;- 4 * sin(4 * pi * t) - sign(t - 0.3) - sign(0.72 - t)
+mu.hs &lt;- heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
+mu.hs &lt;- mu.hs - min(mu.hs)
+plot(t,mu.hs,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,
+     main = &quot;Heavisine intensity function&quot;)</code></pre>
+<p><img src="figure/poisson.Rmd/plot-heavisine-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(xtable(mise.hs.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Heavisine&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_hs&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Thu Dec 20 12:13:27 2018 -->
+<!-- Thu Dec 20 12:33:45 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Heavisine’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
@@ -683,11 +714,22 @@ Haar-Fisz
 <a name=table:pois_hs></a>
 </table>
 </div>
-<div id="bursts-data" class="section level3">
-<h3>Bursts data</h3>
+<div id="bursts-data" class="section level2">
+<h2>Bursts data</h2>
+<p>This is the function used to simulate the “Bursts” data sets at different ranges of intensities:</p>
+<pre class="r"><code>I_1 &lt;- exp(-(abs(t - 0.2)/0.01)^1.2) * (t &lt;= 0.2) +
+       exp(-(abs(t - 0.2)/0.03)^1.2) * (t &gt; 0.2)
+I_2 &lt;- exp(-(abs(t - 0.3)/0.01)^1.2) * (t &lt;= 0.3) +
+       exp(-(abs(t - 0.3)/0.03)^1.2) * (t &gt; 0.3)
+I_3 &lt;- exp(-(abs(t - 0.4)/0.01)^1.2) * (t &lt;= 0.4) +
+       exp(-(abs(t - 0.4)/0.03)^1.2) * (t &gt; 0.4)
+mu.bur &lt;- 2.99/4.51804 * (4 * I_1 + 3 * I_2 + 4.5 * I_3)
+plot(t,mu.bur,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,
+     main = &quot;Bursts intensity function&quot;)</code></pre>
+<p><img src="figure/poisson.Rmd/plot-bursts-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(xtable(mise.bur.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Bursts&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_bur&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Thu Dec 20 12:13:27 2018 -->
+<!-- Thu Dec 20 12:33:53 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Bursts’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
@@ -750,11 +792,21 @@ Haar-Fisz
 <a name=table:pois_bur></a>
 </table>
 </div>
-<div id="clipped-blocks-data" class="section level3">
-<h3>Clipped Blocks data</h3>
+<div id="clipped-blocks-data" class="section level2">
+<h2>Clipped Blocks data</h2>
+<p>This is the function used to simulate the “Clipped Blocks” data sets at different ranges of intensities:</p>
+<pre class="r"><code>pos   &lt;- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)
+hgt   &lt;- 2.88/5 * c(4,-5,3,-4,5,-4.2,2.1,4.3,-3.1,2.1,-4.2)
+mu.cb &lt;- rep(0,n)
+for (j in 1:length(pos))
+  mu.cb &lt;- mu.cb + (1 + sign(t - pos[j])) * (hgt[j]/2)
+mu.cb[mu.cb &lt; 0] &lt;- 0
+plot(t,mu.cb,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,
+     main = &quot;Clipped Blocks intensity function&quot;)</code></pre>
+<p><img src="figure/poisson.Rmd/plot-cb-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(xtable(mise.cb.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Clipped Blocks&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_cb&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Thu Dec 20 12:13:27 2018 -->
+<!-- Thu Dec 20 12:34:01 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Clipped Blocks’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
@@ -817,11 +869,21 @@ Haar-Fisz
 <a name=table:pois_cb></a>
 </table>
 </div>
-<div id="bumps-data" class="section level3">
-<h3>Bumps data</h3>
+<div id="bumps-data" class="section level2">
+<h2>Bumps data</h2>
+<p>This is the function used to simulate the “Bumps” data sets at different ranges of intensities:</p>
+<pre class="r"><code>pos  &lt;- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)
+hgt  &lt;- 2.97/5 * c(4,5,3,4,5,4.2,2.1,4.3,3.1,5.1,4.2)
+wth  &lt;- c(0.005,0.005,0.006,0.01,0.01,0.03,0.01,0.01,0.005,0.008,0.005)
+mu.b &lt;- rep(0, n)
+for (j in 1:length(pos))
+  mu.b &lt;- mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
+plot(t,mu.b,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,
+     main = &quot;Bumps intensity function&quot;)</code></pre>
+<p><img src="figure/poisson.Rmd/plot-bumps-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>print(xtable(mise.b.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Bumps&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_b&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Thu Dec 20 12:13:27 2018 -->
+<!-- Thu Dec 20 12:34:09 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Bumps’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
@@ -883,7 +945,6 @@ Haar-Fisz
 </tr>
 <a name=table:pois_b></a>
 </table>
-</div>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
