@@ -224,7 +224,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/afcb7cd32bfc144cf0a7d26dc1fc6d2a15574a58" target="_blank">afcb7cd</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/594f66ff622b6be7127fe6f5e9fcd18aad5b277d" target="_blank">594f66f</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -257,7 +257,7 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 Unstaged changes:
-    Modified:   README.md
+    Modified:   TODO.txt
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -286,6 +286,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/594f66ff622b6be7127fe6f5e9fcd18aad5b277d/analysis/index.Rmd" target="_blank">594f66f</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-20
+</td>
+<td style="text-align:left;">
+wflow_publish(“index.Rmd”)
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -802,23 +819,22 @@ Start workflowr project with wflow_start().
 </div>
 <div id="whats-included-in-the-git-repository" class="section level2">
 <h2>What’s included in the git repository</h2>
-</div>
-<div id="whats-included-in-the-git-repository-1" class="section level2">
-<h2>What’s included in the git repository</h2>
-<p>See [here][gtexresults] for the source repository. This is what you will find in the repository:</p>
+<p>See <a href="https://github.com/stephenslab/smash-paper">here</a> for the source repository. This is the overall structure of the repository:</p>
 <pre><code>├── analysis
 ├── code
 ├── data
 ├── docs
+├── dsc
 ├── output
-└── workflows</code></pre>
+└── shiny</code></pre>
 <ul>
-<li><p>The <strong>analysis</strong> contains R Markdown source files for the workflowr website, including R code used in the final step of the analysis to generate figures and tables for the manuscript.</p></li>
-<li><p>The <strong>code</strong> directory contains additional supporting code for the analyses.</p></li>
-<li><p>The <strong>data</strong> directory contains original and processed data files used in the mash analysis of the GTEx data, example data sets used to illustrate the data processing and analysis pipelines, and additional data used to generate the tables and figures for the manuscript.</p></li>
-<li><p>The <strong>docs</strong> directory contains webpages generated from the R Markdown files in the analysis directory.</p></li>
-<li><p>The <strong>output</strong> stores outputs from data processing and analysis pipelines (“workflows”).</p></li>
-<li><p>The <strong>workflows</strong> directory contains source code (“SoS workflows”) and Docker configuration files (“Dockerfiles”) implementing a data processing pipeline for mash and an end-to-end analysis of the GTEx data using the multivariate statistical methods (“mash”).</p></li>
+<li><p>The <code>analysis</code> directory contains R Markdown source files for the workflowr website, including R code implementing the SMASH demos, and R code to generate tables and figures for the manuscript.</p></li>
+<li><p>The <code>code</code> directory contains additional supporting code for the demos and analyses of the results.</p></li>
+<li><p>The <code>data</code> directory contains data files used in the ChIP-seq demo.</p></li>
+<li><p>The <code>docs</code> directory contains webpages generated from the R Markdown files in the analysis directory.</p></li>
+<li><p>The <code>dsc</code> directory contains R and MATLAB code used to implement the “Gaussian mean estimation” simulations in the manuscript.</p></li>
+<li><p>The <code>output</code> directory contains results from the Gaussian and Poisson simulations.</p></li>
+<li><p>The <code>shiny</code> directory contains code to generate the Shiny Web app in R.</p></li>
 </ul>
 </div>
 <div id="license" class="section level2">
