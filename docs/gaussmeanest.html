@@ -217,7 +217,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-12-06</p>
+<p><strong>Last updated:</strong> 2018-12-20</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/c589dbb8da01965837246f47a3665f72dc8134db" target="_blank">c589dbb</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/17c5c1d44630ac743d5104a854c499ed76e9595c" target="_blank">17c5c1d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -273,8 +273,8 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
-Unstaged changes:
-    Modified:   analysis/gauss_shiny.Rmd
+Untracked files:
+    Untracked:  analysis/.#index.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -303,6 +303,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/86da808256674657aefa589cde0af44658d892fe/analysis/gaussmeanest.Rmd" target="_blank">86da808</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-10
+</td>
+<td style="text-align:left;">
+Added pointers to dsc/README in relevant R Markdown files.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -411,7 +428,7 @@ Moved around some files and revised TOC in home page.
 <p></details></p>
 <hr />
 <p>In this analysis, we assess the ability of different signal denoising methods to recover the true signal after being provided with Gaussian-distributed observations of the signal. We consider scenarios in which the data have homoskedastic errors (constant variance) and heteroskedastic errors (non-constant variance).</p>
-<p>Since the simulation experiments are computationally intensive, they were implemented separately (see the “dsc” directory in this git repository), and here we only create plots to summarize the results of these experiments.</p>
+<p>Since the simulation experiments are computationally intensive, they were implemented separately. (For instructions on re-running these simulation experiments, see the README in the “dsc” directory of the git repository). Here we create plots to summarize the results of these experiments.</p>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>Load the ggplot2 and cowplot packages, and the functions definining the mean and variances used to simulate the data.</p>
@@ -803,7 +820,7 @@ Peter Carbonetto
 # [1] cowplot_0.9.3 ggplot2_3.1.0
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.0        later_0.7.2       dscr_0.1-7       
+#  [1] Rcpp_1.0.0        later_0.7.2       dscr_0.1-8       
 #  [4] compiler_3.4.3    pillar_1.2.1      git2r_0.23.0     
 #  [7] plyr_1.8.4        workflowr_1.1.1   bindr_0.1.1      
 # [10] R.methodsS3_1.7.1 R.utils_2.6.0     tools_3.4.3      

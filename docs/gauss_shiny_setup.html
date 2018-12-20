@@ -12,7 +12,7 @@
 <meta name="author" content="Zhengrong Xing, Peter Carbonetto and Matthew Stephens" />
 
 
-<title>Instructions for running Shiny server to explore results of Gaussian mean estimation experiments</title>
+<title>Instructions for running Shiny app to explore results of Gaussian mean estimation experiments</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -211,13 +211,13 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Instructions for running Shiny server to explore results of Gaussian mean estimation experiments</h1>
+<h1 class="title toc-ignore">Instructions for running Shiny app to explore results of Gaussian mean estimation experiments</h1>
 <h4 class="author"><em>Zhengrong Xing, Peter Carbonetto and Matthew Stephens</em></h4>
 
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-12-07</p>
+<p><strong>Last updated:</strong> 2018-12-20</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/2dee29f68a05e3a59dc0c2a0880adaec3187e8b5" target="_blank">2dee29f</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/17c5c1d44630ac743d5104a854c499ed76e9595c" target="_blank">17c5c1d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -273,8 +273,8 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
-Unstaged changes:
-    Modified:   shiny/gauss_shiny.Rmd
+Untracked files:
+    Untracked:  analysis/.#index.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -303,6 +303,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/aca637a37e37f53efc8460fb231575e1d5355bd2/analysis/gauss_shiny_setup.Rmd" target="_blank">aca637a</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-17
+</td>
+<td style="text-align:left;">
+Added link to Shiny package.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/8faecfb4a6453de247c7ff779338ef0ca524b36d/docs/gauss_shiny_setup.html" target="_blank">8faecfb</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-07
+</td>
+<td style="text-align:left;">
+Revised instructions for starting up Shiny server.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -393,14 +427,14 @@ wflow_publish(“gauss_shiny_setup.Rmd”)
 </ul>
 <p></details></p>
 <hr />
-<p>Here we give instructions for starting the Shiny server which will create an interactive plot from the results of the Gaussian mean estimation simulation study.</p>
+<p>Here we give instructions for starting the <a href="https://cran.r-project.org/package=shiny">Shiny app</a> which will create an interactive plot from the results of the Gaussian mean estimation simulation study.</p>
 <p>First, you need make sure that the following R packages are installed on your computer: dplyr, ggplot2, cowplot, shiny and rmarkdown. See the “Session Info” at the bottom for the versions of the R packages we used. Once you have installed these packages, run this code to verify that the packages are installed successfully:</p>
 <pre class="r"><code>library(dplyr)
 library(ggplot2)
 library(cowplot)
 library(shiny)
 library(rmarkdown)</code></pre>
-<p>Now you are ready to create the Shiny server with this command:</p>
+<p>Now you are ready to launch the Shiny app with this command:</p>
 <pre class="r"><code>rmarkdown::run(&quot;../shiny/gauss_shiny.Rmd&quot;)</code></pre>
 <p>The interactive plot will be launched in your Web browser, or in an RStudio panel, depending on whether you are using R or RStudio.</p>
 <div id="session-information" class="section level2">
