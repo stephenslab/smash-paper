@@ -116,27 +116,30 @@ pdat8 <- data.frame(method = factor(rep(method.labels,each = m),method.labels),
 pdat128 <-
   data.frame(method = factor(rep(method.labels,each = m),method.labels),
              mise   = c(mise.hf.ti.r.s.128,mise.BMSM.s.128,mise.ash.s.128))
-p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
-      geom_violin(fill = "skyblue",color = "skyblue") +
-      geom_boxplot(width = 0.15,outlier.shape = NA) +
-      coord_flip() +
-      labs(x = "",y = "MISE",title = "intensities (1/100,3)") +
-	  theme(axis.line = element_blank())
-p8 <- ggplot(pdat8,aes(x = method,y = mise)) +
-      geom_violin(fill = "skyblue",color = "skyblue") +
-      geom_boxplot(width = 0.15,outlier.shape = NA) +
-	  scale_x_discrete(breaks = NULL) +
-      coord_flip() +
-      labs(x = "",y = "MISE",title = "intensities (1/8,8)") +
-	  theme(axis.line = element_blank())
-p128 <- ggplot(pdat128,aes(x = method,y = mise)) +
-      geom_violin(fill = "skyblue",color = "skyblue") +
-      geom_boxplot(width = 0.15,outlier.shape = NA) +
-	  scale_x_discrete(breaks = NULL) +
-      coord_flip() +
-      labs(x = "",y = "MISE",title = "intensities (1/128,128)") +
-	  theme(axis.line = element_blank())
-plot_grid(p1,p8,p128,nrow = 1,ncol = 3)
+create.violin.plots <- function (pdat1, pdat8, pdat128) {
+  p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
+        geom_violin(fill = "skyblue",color = "skyblue") +
+        geom_boxplot(width = 0.15,outlier.shape = NA) +
+        coord_flip() +
+        labs(x = "",y = "MISE",title = "intensities (1/100,3)") +
+	    theme(axis.line = element_blank())
+  p8 <- ggplot(pdat8,aes(x = method,y = mise)) +
+        geom_violin(fill = "skyblue",color = "skyblue") +
+        geom_boxplot(width = 0.15,outlier.shape = NA) +
+  	    scale_x_discrete(breaks = NULL) +
+        coord_flip() +
+        labs(x = "",y = "MISE",title = "intensities (1/8,8)") +
+	    theme(axis.line = element_blank())
+  p128 <- ggplot(pdat128,aes(x = method,y = mise)) +
+        geom_violin(fill = "skyblue",color = "skyblue") +
+        geom_boxplot(width = 0.15,outlier.shape = NA) +
+ 	    scale_x_discrete(breaks = NULL) +
+        coord_flip() +
+        labs(x = "",y = "MISE",title = "intensities (1/128,128)") +
+	    theme(axis.line = element_blank())
+  return(plot_grid(p1,p8,p128,nrow = 1,ncol = 3))
+}
+create.violin.plots(pdat1,pdat8,pdat128)
 ```
 
 Combine the results of the simulation experiments into several larger
@@ -231,27 +234,7 @@ pdat8 <-
 pdat128 <-
   data.frame(method=factor(rep(method.labels,each = m),method.labels),
              mise  =c(mise.hf.ti.r.ang.128,mise.BMSM.ang.128,mise.ash.ang.128))
-p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
-      geom_violin(fill = "skyblue",color = "skyblue") +
-      geom_boxplot(width = 0.15,outlier.shape = NA) +
-      coord_flip() +
-      labs(x = "",y = "MISE",title = "intensities (1/100,3)") +
-	  theme(axis.line = element_blank())
-p8 <- ggplot(pdat8,aes(x = method,y = mise)) +
-      geom_violin(fill = "skyblue",color = "skyblue") +
-      geom_boxplot(width = 0.15,outlier.shape = NA) +
-	  scale_x_discrete(breaks = NULL) +
-      coord_flip() +
-      labs(x = "",y = "MISE",title = "intensities (1/8,8)") +
-	  theme(axis.line = element_blank())
-p128 <- ggplot(pdat128,aes(x = method,y = mise)) +
-      geom_violin(fill = "skyblue",color = "skyblue") +
-      geom_boxplot(width = 0.15,outlier.shape = NA) +
-	  scale_x_discrete(breaks = NULL) +
-      coord_flip() +
-      labs(x = "",y = "MISE",title = "intensities (1/128,128)") +
-	  theme(axis.line = element_blank())
-plot_grid(p1,p8,p128,nrow = 1,ncol = 3)
+create.violin.plots(pdat1,pdat8,pdat128)
 ```
 
 Heavisine data
@@ -266,6 +249,24 @@ mu.hs <- heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
 mu.hs <- mu.hs - min(mu.hs)
 plot(t,mu.hs,xlab = "",ylab = "",type = "l")
 ```
+
+This table summarizes the results from the Angles simulations:
+
+```{r heavisine-table, results="asis"}
+mise.ang.table   <- cbind(mise.hs.1[methods],
+                          mise.hs.8[methods],
+                          mise.hs.128[methods])
+rownames(mise.hs.table) <- table.row.names
+colnames(mise.hs.table) <- table.col.names
+print(xtable(mise.hs.table,caption = " "),type = "html",
+      html.table.attributes = "border=0")
+```
+
+Each column shows results at a different range of intensities.  The
+individual table entries give the average error (MISE) in the
+estimates, in which the average is taken over the 100 data sets
+simulated at the given range of intensities.
+
 
 ```{r, results="asis"}
 print(xtable(mise.hs.table,caption="Comparison of methods for denoising Poisson data for the ``Heavisine'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_hs",digits=2),type = "html")
