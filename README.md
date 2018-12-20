@@ -20,11 +20,12 @@ this repository. See the
 Wavelab subdirectory for more information about distributing WaveLab.
 
 Our numerical comparisons also use of some functions from
-[waveden][waveden], so we have included the
-GaussianWaveDen source in this repository. For information about
-distributing GaussianWaveDen, see the
-[copyright.m][dsc/code/WavDen/copyright.m] file in the WavDen
-subdirectory.
+[waveden][waveden], so we have included the GaussianWaveDen source in
+this repository. For information about distributing GaussianWaveDen,
+see the [copyright.m][dsc/code/WavDen/copyright.m] file in the WavDen
+subdirectory. Note that we made one small improvement to the code in
+[blockJS.m](dsc/code/WavDen/blockJS.m) to prevent an error that 
+occurs when running the code in newer versions of MATLAB.
 
 All other source code and software in this repository are made
 available under the terms of the [MIT license][mit-license].

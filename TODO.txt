@@ -1,13 +1,8 @@
 to do
 =====
 
-+ Add WavDen info, including license info, to README. Also mention
-  that a bug in blockJS.m was fixed.
-
 + Fill out "What’s included in the git repository" section of the home
   page (index.Rmd).
-
-+ Re-generate all out-of-date webpages.
 
 + Files to remove:
    - vioplot_col.R
