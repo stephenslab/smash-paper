@@ -10,7 +10,8 @@ This script produces supplementary tables for Poisson simulations.
 text.*
 
 ```{r knitr-opts, include=FALSE}
-knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
+knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
+                      results = "hold")
 ```
 
 Analysis settings
@@ -26,8 +27,7 @@ Specify the row and column names for the tables:
 
 ```{r table-row-and-col-names}
 table.row.names <- c("SMASH","BMSM","Haar-Fisz")
-table.col.names <- c("intensity (0.01,3)","intensity (1/8,8)",
-                     "intensity (1/128,128)")
+table.col.names <- c("(1/100,3)","(1/8,8)","(1/128,128)")
 ```
 
 These are settings used in plotting the test functions:
@@ -71,18 +71,10 @@ different ranges of intensities:
 
 ```{r plot-spikes-function, fig.height=4, fig.width=8}
 mu.s <- spike.f(t)
-plot(t,mu.s,xlab = "",ylab = "",type = "l",
-     main = "Spikes intensity function")
+plot(t,mu.s,xlab = "",ylab = "",type = "l")
 ```
 
-Summarize the results from the Spikes simulations in a table.
-
-Comparison of methods for denoising Poisson data for the "Spikes"
-test function for 3 different (min,max) intensities ((0.01,3),
-(1/8,8), (1/128,128)). Performance is measured using MISE over 100
-independent datasets, with smaller values indicating better
-performance. Values colored in red indicates the smallest MISE amongst
-all methods for a given (min, max) intensity.
+This table summarizes the results from the Spikes simulations:
 
 ```{r spikes-table, results="asis"}
 mise.s.table   <- cbind(mise.s.1[methods],
@@ -90,35 +82,61 @@ mise.s.table   <- cbind(mise.s.1[methods],
                         mise.s.128[methods])
 rownames(mise.s.table) <- table.row.names
 colnames(mise.s.table) <- table.col.names
-print(xtable(mise.s.table),type = "html")
+print(xtable(mise.s.table,caption = " "),type = "html",
+      html.table.attributes = "border=0")
 ```
 
-Summarize the results from the Spikes simulations in combined violin
-and boxplots.
+Each column shows results at a different range of intensities.  The
+individual table entries give the average error (MISE) in the
+estimates, in which the average is taken over the 100 data sets
+simulated at the given range of intensities.
 
-```{r spikes-violin-plots, fig.height=5, fig.width=7}
+The combined violin-boxplots provide a visualization of the same
+results:
+
+```{r spikes-violin-plots, fig.height=3.5, fig.width=10}
+m                  <- length(mise.ash.s.1)
+method.labels      <- c("Haar-Fisz","BMSM","SMASH")
 mise.hf.ti.r.s.1   <- colMeans(rbind(mise.hf.ti.r.4.s.1,
                                      mise.hf.ti.r.5.s.1,
                                      mise.hf.ti.r.6.s.1,
 	  		                         mise.hf.ti.r.7.s.1))
 mise.hf.ti.r.s.8   <- colMeans(rbind(mise.hf.ti.r.4.s.8,
-					                 mise.hf.ti.r.5.s.8,
+mise.hf.ti.r.5.s.8,
                                      mise.hf.ti.r.6.s.8,
 						  	         mise.hf.ti.r.7.s.8))
 mise.hf.ti.r.s.128 <- colMeans(rbind(mise.hf.ti.r.4.s.128,
 									 mise.hf.ti.r.5.s.128,
                                      mise.hf.ti.r.6.s.128,
 									 mise.hf.ti.r.7.s.128))
-m     <- length(mise.ash.s.1)
-pdat1 <- data.frame(method = rep(c("SMASH","BMSM","HF"),each = m),
- 				    mise   = c(mise.ash.s.1,mise.BMSM.s.1,mise.hf.ti.r.s.1))
+pdat1 <- data.frame(method = factor(rep(method.labels,each = m),method.labels),
+                    mise   = c(mise.hf.ti.r.s.1,mise.BMSM.s.1,mise.ash.s.1))
+pdat8 <- data.frame(method = factor(rep(method.labels,each = m),method.labels),
+                    mise   = c(mise.hf.ti.r.s.8,mise.BMSM.s.8,mise.ash.s.8))
+pdat128 <-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.s.128,mise.BMSM.s.128,mise.ash.s.128))
 p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
       geom_violin(fill = "skyblue",color = "skyblue") +
       geom_boxplot(width = 0.15,outlier.shape = NA) +
-      coord_flip()
-      labs(x = "",y = "MISE") +
-     theme(axis.line = element_blank(),
-           axis.ticks.y = element_blank())
+      coord_flip() +
+      labs(x = "",y = "MISE",title = "intensities (1/100,3)") +
+	  theme(axis.line = element_blank())
+p8 <- ggplot(pdat8,aes(x = method,y = mise)) +
+      geom_violin(fill = "skyblue",color = "skyblue") +
+      geom_boxplot(width = 0.15,outlier.shape = NA) +
+	  scale_x_discrete(breaks = NULL) +
+      coord_flip() +
+      labs(x = "",y = "MISE",title = "intensities (1/8,8)") +
+	  theme(axis.line = element_blank())
+p128 <- ggplot(pdat128,aes(x = method,y = mise)) +
+      geom_violin(fill = "skyblue",color = "skyblue") +
+      geom_boxplot(width = 0.15,outlier.shape = NA) +
+	  scale_x_discrete(breaks = NULL) +
+      coord_flip() +
+      labs(x = "",y = "MISE",title = "intensities (1/128,128)") +
+	  theme(axis.line = element_blank())
+plot_grid(p1,p8,p128,nrow = 1,ncol = 3)
 ```
 
 Combine the results of the simulation experiments into several larger
@@ -168,12 +186,72 @@ sig <- ((2 * t + 0.5) * (t <= 0.15)) +
   ((-0.5 * (t - 0.65) + 0.3) * (t > 0.65 & t <= 0.85)) +
   ((2 * (t - 0.85) + 0.2) * (t > 0.85))
 mu.ang <- 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569
-plot(t,mu.ang,xlab = "",ylab = "",type = "l",
-     main = "Angles intensity function")
+plot(t,mu.ang,xlab = "",ylab = "",type = "l")
 ```
 
-```{r, results="asis"}
-print(xtable(mise.ang.table,caption="Comparison of methods for denoising Poisson data for the ``Angles'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_ang",digits=2),type = "html")
+This table summarizes the results from the Angles simulations:
+
+```{r angles-table, results="asis"}
+mise.ang.table   <- cbind(mise.ang.1[methods],
+                          mise.ang.8[methods],
+                          mise.ang.128[methods])
+rownames(mise.ang.table) <- table.row.names
+colnames(mise.ang.table) <- table.col.names
+print(xtable(mise.ang.table,caption = " "),type = "html",
+      html.table.attributes = "border=0")
+```
+
+Each column shows results at a different range of intensities.  The
+individual table entries give the average error (MISE) in the
+estimates, in which the average is taken over the 100 data sets
+simulated at the given range of intensities.
+
+The combined violin-boxplots provide a visualization of the same
+results:
+
+```{r angles-violin-plots, fig.height=3.5, fig.width=10}
+mise.hf.ti.r.ang.1   <- colMeans(rbind(mise.hf.ti.r.4.ang.1,
+                                       mise.hf.ti.r.5.ang.1,
+                                       mise.hf.ti.r.6.ang.1,
+					  				   mise.hf.ti.r.7.ang.1))
+mise.hf.ti.r.ang.8   <- colMeans(rbind(mise.hf.ti.r.4.ang.8,
+ 									   mise.hf.ti.r.5.ang.8,
+                                       mise.hf.ti.r.6.ang.8,
+                                       mise.hf.ti.r.7.ang.8))
+mise.hf.ti.r.ang.128 <- colMeans(rbind(mise.hf.ti.r.4.ang.128,
+                                       mise.hf.ti.r.5.ang.128,
+                                       mise.hf.ti.r.6.ang.128,
+									   mise.hf.ti.r.7.ang.128))
+pdat1 <-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.ang.1,mise.BMSM.ang.1,mise.ash.ang.1))
+pdat8 <-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.ang.8,mise.BMSM.ang.8,mise.ash.ang.8))
+pdat128 <-
+  data.frame(method=factor(rep(method.labels,each = m),method.labels),
+             mise  =c(mise.hf.ti.r.ang.128,mise.BMSM.ang.128,mise.ash.ang.128))
+p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
+      geom_violin(fill = "skyblue",color = "skyblue") +
+      geom_boxplot(width = 0.15,outlier.shape = NA) +
+      coord_flip() +
+      labs(x = "",y = "MISE",title = "intensities (1/100,3)") +
+	  theme(axis.line = element_blank())
+p8 <- ggplot(pdat8,aes(x = method,y = mise)) +
+      geom_violin(fill = "skyblue",color = "skyblue") +
+      geom_boxplot(width = 0.15,outlier.shape = NA) +
+	  scale_x_discrete(breaks = NULL) +
+      coord_flip() +
+      labs(x = "",y = "MISE",title = "intensities (1/8,8)") +
+	  theme(axis.line = element_blank())
+p128 <- ggplot(pdat128,aes(x = method,y = mise)) +
+      geom_violin(fill = "skyblue",color = "skyblue") +
+      geom_boxplot(width = 0.15,outlier.shape = NA) +
+	  scale_x_discrete(breaks = NULL) +
+      coord_flip() +
+      labs(x = "",y = "MISE",title = "intensities (1/128,128)") +
+	  theme(axis.line = element_blank())
+plot_grid(p1,p8,p128,nrow = 1,ncol = 3)
 ```
 
 Heavisine data
@@ -186,8 +264,7 @@ different ranges of intensities:
 heavi <- 4 * sin(4 * pi * t) - sign(t - 0.3) - sign(0.72 - t)
 mu.hs <- heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
 mu.hs <- mu.hs - min(mu.hs)
-plot(t,mu.hs,xlab = "",ylab = "",type = "l",
-     main = "Heavisine intensity function")
+plot(t,mu.hs,xlab = "",ylab = "",type = "l")
 ```
 
 ```{r, results="asis"}
@@ -208,8 +285,7 @@ I_2 <- exp(-(abs(t - 0.3)/0.01)^1.2) * (t <= 0.3) +
 I_3 <- exp(-(abs(t - 0.4)/0.01)^1.2) * (t <= 0.4) +
        exp(-(abs(t - 0.4)/0.03)^1.2) * (t > 0.4)
 mu.bur <- 2.99/4.51804 * (4 * I_1 + 3 * I_2 + 4.5 * I_3)
-plot(t,mu.bur,xlab = "",ylab = "",type = "l",
-     main = "Bursts intensity function")
+plot(t,mu.bur,xlab = "",ylab = "",type = "l")
 ```
 
 ```{r, results="asis"}
@@ -229,8 +305,7 @@ mu.cb <- rep(0,n)
 for (j in 1:length(pos))
   mu.cb <- mu.cb + (1 + sign(t - pos[j])) * (hgt[j]/2)
 mu.cb[mu.cb < 0] <- 0
-plot(t,mu.cb,xlab = "",ylab = "",type = "l",
-     main = "Clipped Blocks intensity function")
+plot(t,mu.cb,xlab = "",ylab = "",type = "l")
 ```
 
 ```{r, results="asis"}
@@ -250,8 +325,7 @@ wth  <- c(0.005,0.005,0.006,0.01,0.01,0.03,0.01,0.01,0.005,0.008,0.005)
 mu.b <- rep(0, n)
 for (j in 1:length(pos))
   mu.b <- mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
-plot(t,mu.b,xlab = "",ylab = "",type = "l",
-     main = "Bumps intensity function")
+plot(t,mu.b,xlab = "",ylab = "",type = "l")
 ```
 	 
 ```{r, results="asis"}
