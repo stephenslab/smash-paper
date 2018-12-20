@@ -66,10 +66,10 @@ load("../output/pois.RData")
 Spikes data
 -----------
 
-This is the function used to simulate the "Spikes" data sets:
+This is the function used to simulate the "Spikes" data sets at
+different ranges of intensities:
 
-
-```{r spikes-function, fig.height=5, fig.width=10}
+```{r plot-spikes-function, fig.height=4, fig.width=8}
 mu.s <- spike.f(t)
 plot(t,mu.s,xlab = "",ylab = "",type = "l",
      main = "Spikes intensity function")
@@ -109,8 +109,8 @@ mise.hf.ti.r.s.128 <- colMeans(rbind(mise.hf.ti.r.4.s.128,
 									 mise.hf.ti.r.5.s.128,
                                      mise.hf.ti.r.6.s.128,
 									 mise.hf.ti.r.7.s.128))
-n     <- length(mise.ash.s.1)
-pdat1 <- data.frame(method = rep(c("SMASH","BMSM","HF"),each = n),
+m     <- length(mise.ash.s.1)
+pdat1 <- data.frame(method = rep(c("SMASH","BMSM","HF"),each = m),
  				    mise   = c(mise.ash.s.1,mise.BMSM.s.1,mise.hf.ti.r.s.1))
 p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
       geom_violin(fill = "skyblue",color = "skyblue") +
@@ -152,32 +152,108 @@ colnames(mise.hs.table)  <- table.col.names
 colnames(mise.bur.table) <- table.col.names
 ```
 
-### Angles data
+Angles data
+-----------
+
+This is the function used to simulate the "Angles" data sets at
+different ranges of intensities:
+
+```{r plot-angles-function, fig.height=4, fig.width=8}
+mu.ang <- dop.f(t)
+sig <- ((2 * t + 0.5) * (t <= 0.15)) +
+  ((-12 * (t - 0.15) + 0.8) * (t > 0.15 & t <= 0.2)) +
+  0.2 * (t > 0.2 & t <= 0.5) + 
+  ((6 * (t - 0.5) + 0.2) * (t > 0.5 & t <= 0.6)) +
+  ((-10 * (t - 0.6) + 0.8) * (t > 0.6 & t <= 0.65)) +
+  ((-0.5 * (t - 0.65) + 0.3) * (t > 0.65 & t <= 0.85)) +
+  ((2 * (t - 0.85) + 0.2) * (t > 0.85))
+mu.ang <- 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569
+plot(t,mu.ang,xlab = "",ylab = "",type = "l",
+     main = "Angles intensity function")
+```
 
 ```{r, results="asis"}
 print(xtable(mise.ang.table,caption="Comparison of methods for denoising Poisson data for the ``Angles'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_ang",digits=2),type = "html")
 ```
 
-### Heavisine data
+Heavisine data
+--------------
+
+This is the function used to simulate the "Heavisine" data sets at
+different ranges of intensities:
+
+```{r plot-heavisine-function, fig.height=4, fig.width=8}
+heavi <- 4 * sin(4 * pi * t) - sign(t - 0.3) - sign(0.72 - t)
+mu.hs <- heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
+mu.hs <- mu.hs - min(mu.hs)
+plot(t,mu.hs,xlab = "",ylab = "",type = "l",
+     main = "Heavisine intensity function")
+```
 
 ```{r, results="asis"}
 print(xtable(mise.hs.table,caption="Comparison of methods for denoising Poisson data for the ``Heavisine'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_hs",digits=2),type = "html")
 ```
 
-### Bursts data
+Bursts data
+-----------
+
+This is the function used to simulate the "Bursts" data sets at
+different ranges of intensities:
+
+```{r plot-bursts-function, fig.height=4, fig.width=8}
+I_1 <- exp(-(abs(t - 0.2)/0.01)^1.2) * (t <= 0.2) +
+       exp(-(abs(t - 0.2)/0.03)^1.2) * (t > 0.2)
+I_2 <- exp(-(abs(t - 0.3)/0.01)^1.2) * (t <= 0.3) +
+       exp(-(abs(t - 0.3)/0.03)^1.2) * (t > 0.3)
+I_3 <- exp(-(abs(t - 0.4)/0.01)^1.2) * (t <= 0.4) +
+       exp(-(abs(t - 0.4)/0.03)^1.2) * (t > 0.4)
+mu.bur <- 2.99/4.51804 * (4 * I_1 + 3 * I_2 + 4.5 * I_3)
+plot(t,mu.bur,xlab = "",ylab = "",type = "l",
+     main = "Bursts intensity function")
+```
 
 ```{r, results="asis"}
 print(xtable(mise.bur.table,caption="Comparison of methods for denoising Poisson data for the ``Bursts'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_bur",digits=2),type = "html")
 ```
 
-### Clipped Blocks data
+Clipped Blocks data
+-------------------
+
+This is the function used to simulate the "Clipped Blocks" data sets at
+different ranges of intensities:
+
+```{r plot-cb-function, fig.height=4, fig.width=8}
+pos   <- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)
+hgt   <- 2.88/5 * c(4,-5,3,-4,5,-4.2,2.1,4.3,-3.1,2.1,-4.2)
+mu.cb <- rep(0,n)
+for (j in 1:length(pos))
+  mu.cb <- mu.cb + (1 + sign(t - pos[j])) * (hgt[j]/2)
+mu.cb[mu.cb < 0] <- 0
+plot(t,mu.cb,xlab = "",ylab = "",type = "l",
+     main = "Clipped Blocks intensity function")
+```
 
 ```{r, results="asis"}
 print(xtable(mise.cb.table,caption="Comparison of methods for denoising Poisson data for the ``Clipped Blocks'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_cb",digits=2),type = "html")
 ```
 
-### Bumps data
+Bumps data
+----------
 
+This is the function used to simulate the "Bumps" data sets at
+different ranges of intensities:
+
+```{r plot-bumps-function, fig.height=4, fig.width=8}
+pos  <- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)
+hgt  <- 2.97/5 * c(4,5,3,4,5,4.2,2.1,4.3,3.1,5.1,4.2)
+wth  <- c(0.005,0.005,0.006,0.01,0.01,0.03,0.01,0.01,0.005,0.008,0.005)
+mu.b <- rep(0, n)
+for (j in 1:length(pos))
+  mu.b <- mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
+plot(t,mu.b,xlab = "",ylab = "",type = "l",
+     main = "Bumps intensity function")
+```
+	 
 ```{r, results="asis"}
 print(xtable(mise.b.table,caption="Comparison of methods for denoising Poisson data for the ``Bumps'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_b",digits=2),type = "html")
 ```
