@@ -1,5 +1,5 @@
 ---
-title: "Title goes here."
+title: "Plots and tables summarizing results of Poisson simulations"
 author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
@@ -30,6 +30,13 @@ table.col.names <- c("intensity (0.01,3)","intensity (1/8,8)",
                      "intensity (1/128,128)")
 ```
 
+These are settings used in plotting the test functions:
+
+```{r plot-settings}
+n <- 1024
+t <- 1:n/n
+```
+
 Set up environment
 ------------------
 
@@ -41,6 +48,12 @@ library(cowplot)
 library(xtable)
 ```
 
+Some of the test functions are defined in `signals.R`:
+
+```{r source-signals}
+source("../code/signals.R")
+```
+
 Load results
 ------------
 
@@ -50,7 +63,17 @@ Load the results of the simulation experiments.
 load("../output/pois.RData")
 ```
 
-## Spikes data
+Spikes data
+-----------
+
+This is the function used to simulate the "Spikes" data sets:
+
+
+```{r spikes-function, fig.height=5, fig.width=10}
+mu.s <- spike.f(t)
+plot(t,mu.s,xlab = "",ylab = "",type = "l",
+     main = "Spikes intensity function")
+```
 
 Summarize the results from the Spikes simulations in a table.
 
@@ -89,12 +112,6 @@ mise.hf.ti.r.s.128 <- colMeans(rbind(mise.hf.ti.r.4.s.128,
 n     <- length(mise.ash.s.1)
 pdat1 <- data.frame(method = rep(c("SMASH","BMSM","HF"),each = n),
  				    mise   = c(mise.ash.s.1,mise.BMSM.s.1,mise.hf.ti.r.s.1))
-p1    <- 
-vioplot.col(mise.ash.s.1, mise.BMSM.s.1, mise.hf.ti.r.s.1, horizontal = TRUE,
-  names = c("SMASH", "BMSM", "Haar-Fisz"), col = c("magenta", "red", "red"))
-title(xlab = "MISE", line = 4)
-abline(v = median(mise.ash.s.1), lty = 3, col = 3)
-
 p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
       geom_violin(fill = "skyblue",color = "skyblue") +
       geom_boxplot(width = 0.15,outlier.shape = NA) +
