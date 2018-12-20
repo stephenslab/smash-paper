@@ -41,7 +41,7 @@ data.](gaussmeanest.html)
 4. [Estimating the variance function from Gaussian-distributed
 data.](gaussvarest.html)
 
-3. Poisson-distributed data.
+5. [Summary of results from Poisson simulations.](poisson.html)
 
 ### Illustrative applications
 
