@@ -13,17 +13,24 @@ To begin, please browse the [website][github-site].
 Copyright (c) 2016-2018, Zhengrong Xing, Peter Carbonetto and
 Matthew Stephens.
 
-Our numerical comparisons make use of some of the MATLAB functions
-from [WaveLab][wavelab], so we have included WaveLab in this
-repository. See the
-[COPYING.m](dsc/code/Wavelab850/Documentation/COPYING.m) file for more
-information about distributing WaveLab.
+Our numerical comparisons make use of some of the functions from
+[WaveLab][wavelab], so we have included the WaveLab source code in
+this repository. See the
+[COPYING.m](dsc/code/Wavelab850/Documentation/COPYING.m) file in the
+Wavelab subdirectory for more information about distributing WaveLab.
 
-Our numerical comparisons also use 
+Our numerical comparisons also use of some functions from
+[waveden][waveden], so we have included the
+GaussianWaveDen source in this repository. For information about
+distributing GaussianWaveDen, see the
+[copyright.m][dsc/code/WavDen/copyright.m] file in the WavDen
+subdirectory.
 
-All source code and software in this repository are made available
-under the terms of the [MIT license][mit-license].
+All other source code and software in this repository are made
+available under the terms of the [MIT license][mit-license].
 
 [github-site]: https://stephenslab.github.io/smash-paper
 [smash-preprint]: http://arxiv.org/abs/1605.07787
 [wavelab]: http://statweb.stanford.edu/~wavelab
+[waveden]: http://www-ljk.imag.fr/SMS/software/GaussianWaveDen/down.html
+[mit-license]: https://opensource.org/licenses/mit-license.html
