@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Zhengrong Xing, Peter Carbonetto and Matthew Stephens" />
+
+
+<title>Plots and tables summarizing results of Poisson simulations</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">smash</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/smash-paper">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Plots and tables summarizing results of Poisson simulations</h1>
+<h4 class="author"><em>Zhengrong Xing, Peter Carbonetto and Matthew Stephens</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-12-20</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(1)</code> </summary></p>
+<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/b3f5b57bb2aa35e2ba7ef1575e41890ba61e5ee4" target="_blank">b3f5b57</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FCPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/LMIRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/MedRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/WPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
+
+Untracked files:
+    Untracked:  analysis/.#poisson.Rmd
+
+Unstaged changes:
+    Modified:   TODO.txt
+    Modified:   analysis/plot.poisson.signals.R
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/b3f5b57bb2aa35e2ba7ef1575e41890ba61e5ee4/analysis/poisson.Rmd" target="_blank">b3f5b57</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-20
+</td>
+<td style="text-align:left;">
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/d36bfca0bfb08d962f97aee9df5e8670a1c30f52/analysis/poisson.Rmd" target="_blank">d36bfca</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-20
+</td>
+<td style="text-align:left;">
+Misc. revisions to READMEs and documentation.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/7aa0b114f8866373638f1fb29d180d27fb715993/analysis/poisson.Rmd" target="_blank">7aa0b11</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-20
+</td>
+<td style="text-align:left;">
+Working on poisson analysis.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/3c562ead0967e17ddcb4535f0bd292eb792154e2/analysis/poisson.Rmd" target="_blank">3c562ea</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-19
+</td>
+<td style="text-align:left;">
+Moved poisson_tables.Rmd to poisson.Rmd.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/25ff9c3fc019f74c41b511712724ac3f5b6b2d7f/analysis/poisson.Rmd" target="_blank">25ff9c3</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-19
+</td>
+<td style="text-align:left;">
+Re-organized some of the files used in the Poisson numerical comparisons.
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<p>This script produces supplementary tables for Poisson simulations.</p>
+<p><em>Explain which set of results correspond to the plots given in the main text.</em></p>
+<div id="analysis-settings" class="section level2">
+<h2>Analysis settings</h2>
+<p>We will extract the results from these methods:</p>
+<pre class="r"><code>methods &lt;- c(&quot;ash&quot;,&quot;BMSM&quot;,&quot;haarfisz_R&quot;)</code></pre>
+<p>Specify the row and column names for the tables:</p>
+<pre class="r"><code>table.row.names &lt;- c(&quot;SMASH&quot;,&quot;BMSM&quot;,&quot;Haar-Fisz&quot;)
+table.col.names &lt;- c(&quot;intensity (0.01,3)&quot;,&quot;intensity (1/8,8)&quot;,
+                     &quot;intensity (1/128,128)&quot;)</code></pre>
+<p>These are settings used in plotting the test functions:</p>
+<pre class="r"><code>n &lt;- 1024
+t &lt;- 1:n/n</code></pre>
+</div>
+<div id="set-up-environment" class="section level2">
+<h2>Set up environment</h2>
+<p><em>Add text here.</em></p>
+<pre class="r"><code>library(ggplot2)
+library(cowplot)
+library(xtable)</code></pre>
+<p>Some of the test functions are defined in <code>signals.R</code>:</p>
+<pre class="r"><code>source(&quot;../code/signals.R&quot;)</code></pre>
+</div>
+<div id="load-results" class="section level2">
+<h2>Load results</h2>
+<p>Load the results of the simulation experiments.</p>
+<pre class="r"><code>load(&quot;../output/pois.RData&quot;)</code></pre>
+</div>
+<div id="spikes-data" class="section level2">
+<h2>Spikes data</h2>
+<p>This is the function used to simulate the “Spikes” data sets:</p>
+<pre class="r"><code>mu.s &lt;- spike.f(t)
+plot(t,mu.s,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,
+     main = &quot;Spikes intensity function&quot;)</code></pre>
+<p><img src="figure/poisson.Rmd/spikes-function-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Summarize the results from the Spikes simulations in a table.</p>
+<p>Comparison of methods for denoising Poisson data for the “Spikes” test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.</p>
+<pre class="r"><code>mise.s.table   &lt;- cbind(mise.s.1[methods],
+                        mise.s.8[methods],
+                        mise.s.128[methods])
+rownames(mise.s.table) &lt;- table.row.names
+colnames(mise.s.table) &lt;- table.col.names
+print(xtable(mise.s.table),type = &quot;html&quot;)</code></pre>
+<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
+<!-- Thu Dec 20 12:13:26 2018 -->
+<table border="1">
+<tr>
+<th>
+</th>
+<th>
+intensity (0.01,3)
+</th>
+<th>
+intensity (1/8,8)
+</th>
+<th>
+intensity (1/128,128)
+</th>
+</tr>
+<tr>
+<td align="right">
+SMASH
+</td>
+<td align="right">
+690.01
+</td>
+<td align="right">
+329.26
+</td>
+<td align="right">
+48.87
+</td>
+</tr>
+<tr>
+<td align="right">
+BMSM
+</td>
+<td align="right">
+1007.34
+</td>
+<td align="right">
+397.79
+</td>
+<td align="right">
+41.88
+</td>
+</tr>
+<tr>
+<td align="right">
+Haar-Fisz
+</td>
+<td align="right">
+722.19
+</td>
+<td align="right">
+287.44
+</td>
+<td align="right">
+18.06
+</td>
+</tr>
+</table>
+<p>Summarize the results from the Spikes simulations in combined violin and boxplots.</p>
+<pre class="r"><code>mise.hf.ti.r.s.1   &lt;- colMeans(rbind(mise.hf.ti.r.4.s.1,
+                                     mise.hf.ti.r.5.s.1,
+                                     mise.hf.ti.r.6.s.1,
+                                     mise.hf.ti.r.7.s.1))
+mise.hf.ti.r.s.8   &lt;- colMeans(rbind(mise.hf.ti.r.4.s.8,
+                                     mise.hf.ti.r.5.s.8,
+                                     mise.hf.ti.r.6.s.8,
+                                     mise.hf.ti.r.7.s.8))
+mise.hf.ti.r.s.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.s.128,
+                                     mise.hf.ti.r.5.s.128,
+                                     mise.hf.ti.r.6.s.128,
+                                     mise.hf.ti.r.7.s.128))
+n     &lt;- length(mise.ash.s.1)
+pdat1 &lt;- data.frame(method = rep(c(&quot;SMASH&quot;,&quot;BMSM&quot;,&quot;HF&quot;),each = n),
+                    mise   = c(mise.ash.s.1,mise.BMSM.s.1,mise.hf.ti.r.s.1))
+p1 &lt;- ggplot(pdat1,aes(x = method,y = mise)) +
+      geom_violin(fill = &quot;skyblue&quot;,color = &quot;skyblue&quot;) +
+      geom_boxplot(width = 0.15,outlier.shape = NA) +
+      coord_flip()
+      labs(x = &quot;&quot;,y = &quot;MISE&quot;) +
+     theme(axis.line = element_blank(),
+           axis.ticks.y = element_blank())
+# NULL</code></pre>
+<p>Combine the results of the simulation experiments into several larger tables.</p>
+<pre class="r"><code>mise.ang.table &lt;- cbind(mise.ang.1[methods],
+                        mise.ang.8[methods],
+                        mise.ang.128[methods])
+mise.bur.table &lt;- cbind(mise.bur.1[methods],
+                        mise.bur.8[methods],
+                        mise.bur.128[methods])
+mise.cb.table  &lt;- cbind(mise.cb.1[methods],
+                        mise.cb.8[methods],
+                        mise.cb.128[methods])
+mise.b.table   &lt;- cbind(mise.b.1[methods],
+                        mise.b.8[methods],
+                        mise.b.128[methods])
+mise.hs.table  &lt;- cbind(mise.hs.1[methods],
+                        mise.hs.8[methods],
+                        mise.hs.128[methods])
+rownames(mise.ang.table) &lt;- table.row.names
+rownames(mise.b.table)   &lt;- table.row.names
+rownames(mise.cb.table)  &lt;- table.row.names
+rownames(mise.hs.table)  &lt;- table.row.names
+rownames(mise.bur.table) &lt;- table.row.names
+colnames(mise.ang.table) &lt;- table.col.names
+colnames(mise.b.table)   &lt;- table.col.names
+colnames(mise.cb.table)  &lt;- table.col.names
+colnames(mise.hs.table)  &lt;- table.col.names
+colnames(mise.bur.table) &lt;- table.col.names</code></pre>
+<div id="angles-data" class="section level3">
+<h3>Angles data</h3>
+<pre class="r"><code>print(xtable(mise.ang.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Angles&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_ang&quot;,digits=2),type = &quot;html&quot;)</code></pre>
+<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
+<!-- Thu Dec 20 12:13:27 2018 -->
+<table border="1">
+<caption align="bottom">
+Comparison of methods for denoising Poisson data for the ``Angles’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
+</caption>
+<tr>
+<th>
+</th>
+<th>
+intensity (0.01,3)
+</th>
+<th>
+intensity (1/8,8)
+</th>
+<th>
+intensity (1/128,128)
+</th>
+</tr>
+<tr>
+<td align="right">
+SMASH
+</td>
+<td align="right">
+145.26
+</td>
+<td align="right">
+68.47
+</td>
+<td align="right">
+10.25
+</td>
+</tr>
+<tr>
+<td align="right">
+BMSM
+</td>
+<td align="right">
+147.40
+</td>
+<td align="right">
+73.87
+</td>
+<td align="right">
+10.49
+</td>
+</tr>
+<tr>
+<td align="right">
+Haar-Fisz
+</td>
+<td align="right">
+314.41
+</td>
+<td align="right">
+122.79
+</td>
+<td align="right">
+9.08
+</td>
+</tr>
+<a name=table:pois_ang></a>
+</table>
+</div>
+<div id="heavisine-data" class="section level3">
+<h3>Heavisine data</h3>
+<pre class="r"><code>print(xtable(mise.hs.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Heavisine&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_hs&quot;,digits=2),type = &quot;html&quot;)</code></pre>
+<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
+<!-- Thu Dec 20 12:13:27 2018 -->
+<table border="1">
+<caption align="bottom">
+Comparison of methods for denoising Poisson data for the ``Heavisine’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
+</caption>
+<tr>
+<th>
+</th>
+<th>
+intensity (0.01,3)
+</th>
+<th>
+intensity (1/8,8)
+</th>
+<th>
+intensity (1/128,128)
+</th>
+</tr>
+<tr>
+<td align="right">
+SMASH
+</td>
+<td align="right">
+81.41
+</td>
+<td align="right">
+43.21
+</td>
+<td align="right">
+7.21
+</td>
+</tr>
+<tr>
+<td align="right">
+BMSM
+</td>
+<td align="right">
+85.29
+</td>
+<td align="right">
+44.22
+</td>
+<td align="right">
+7.35
+</td>
+</tr>
+<tr>
+<td align="right">
+Haar-Fisz
+</td>
+<td align="right">
+274.26
+</td>
+<td align="right">
+105.47
+</td>
+<td align="right">
+9.23
+</td>
+</tr>
+<a name=table:pois_hs></a>
+</table>
+</div>
+<div id="bursts-data" class="section level3">
+<h3>Bursts data</h3>
+<pre class="r"><code>print(xtable(mise.bur.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Bursts&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_bur&quot;,digits=2),type = &quot;html&quot;)</code></pre>
+<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
+<!-- Thu Dec 20 12:13:27 2018 -->
+<table border="1">
+<caption align="bottom">
+Comparison of methods for denoising Poisson data for the ``Bursts’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
+</caption>
+<tr>
+<th>
+</th>
+<th>
+intensity (0.01,3)
+</th>
+<th>
+intensity (1/8,8)
+</th>
+<th>
+intensity (1/128,128)
+</th>
+</tr>
+<tr>
+<td align="right">
+SMASH
+</td>
+<td align="right">
+487.34
+</td>
+<td align="right">
+234.35
+</td>
+<td align="right">
+33.11
+</td>
+</tr>
+<tr>
+<td align="right">
+BMSM
+</td>
+<td align="right">
+706.04
+</td>
+<td align="right">
+301.86
+</td>
+<td align="right">
+34.42
+</td>
+</tr>
+<tr>
+<td align="right">
+Haar-Fisz
+</td>
+<td align="right">
+618.39
+</td>
+<td align="right">
+299.39
+</td>
+<td align="right">
+25.20
+</td>
+</tr>
+<a name=table:pois_bur></a>
+</table>
+</div>
+<div id="clipped-blocks-data" class="section level3">
+<h3>Clipped Blocks data</h3>
+<pre class="r"><code>print(xtable(mise.cb.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Clipped Blocks&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_cb&quot;,digits=2),type = &quot;html&quot;)</code></pre>
+<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
+<!-- Thu Dec 20 12:13:27 2018 -->
+<table border="1">
+<caption align="bottom">
+Comparison of methods for denoising Poisson data for the ``Clipped Blocks’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
+</caption>
+<tr>
+<th>
+</th>
+<th>
+intensity (0.01,3)
+</th>
+<th>
+intensity (1/8,8)
+</th>
+<th>
+intensity (1/128,128)
+</th>
+</tr>
+<tr>
+<td align="right">
+SMASH
+</td>
+<td align="right">
+307.80
+</td>
+<td align="right">
+137.28
+</td>
+<td align="right">
+6.82
+</td>
+</tr>
+<tr>
+<td align="right">
+BMSM
+</td>
+<td align="right">
+355.15
+</td>
+<td align="right">
+143.09
+</td>
+<td align="right">
+6.91
+</td>
+</tr>
+<tr>
+<td align="right">
+Haar-Fisz
+</td>
+<td align="right">
+632.21
+</td>
+<td align="right">
+338.55
+</td>
+<td align="right">
+29.72
+</td>
+</tr>
+<a name=table:pois_cb></a>
+</table>
+</div>
+<div id="bumps-data" class="section level3">
+<h3>Bumps data</h3>
+<pre class="r"><code>print(xtable(mise.b.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Bumps&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_b&quot;,digits=2),type = &quot;html&quot;)</code></pre>
+<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
+<!-- Thu Dec 20 12:13:27 2018 -->
+<table border="1">
+<caption align="bottom">
+Comparison of methods for denoising Poisson data for the ``Bumps’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
+</caption>
+<tr>
+<th>
+</th>
+<th>
+intensity (0.01,3)
+</th>
+<th>
+intensity (1/8,8)
+</th>
+<th>
+intensity (1/128,128)
+</th>
+</tr>
+<tr>
+<td align="right">
+SMASH
+</td>
+<td align="right">
+2597.46
+</td>
+<td align="right">
+1194.62
+</td>
+<td align="right">
+141.21
+</td>
+</tr>
+<tr>
+<td align="right">
+BMSM
+</td>
+<td align="right">
+4036.77
+</td>
+<td align="right">
+1889.94
+</td>
+<td align="right">
+171.07
+</td>
+</tr>
+<tr>
+<td align="right">
+Haar-Fisz
+</td>
+<td align="right">
+3113.37
+</td>
+<td align="right">
+1658.74
+</td>
+<td align="right">
+184.66
+</td>
+</tr>
+<a name=table:pois_b></a>
+</table>
+</div>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()
+# R version 3.4.3 (2017-11-30)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS High Sierra 10.13.6
+# 
+# Matrix products: default
+# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+# [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] xtable_1.8-2  cowplot_0.9.3 ggplot2_3.1.0
+# 
+# loaded via a namespace (and not attached):
+#  [1] Rcpp_1.0.0        compiler_3.4.3    pillar_1.2.1     
+#  [4] git2r_0.23.0      plyr_1.8.4        workflowr_1.1.1  
+#  [7] bindr_0.1.1       R.methodsS3_1.7.1 R.utils_2.6.0    
+# [10] tools_3.4.3       digest_0.6.17     evaluate_0.11    
+# [13] tibble_1.4.2      gtable_0.2.0      pkgconfig_2.0.2  
+# [16] rlang_0.2.2       yaml_2.2.0        bindrcpp_0.2.2   
+# [19] withr_2.1.2       stringr_1.3.1     dplyr_0.7.6      
+# [22] knitr_1.20        rprojroot_1.3-2   grid_3.4.3       
+# [25] tidyselect_0.2.4  glue_1.3.0        R6_2.2.2         
+# [28] rmarkdown_1.10    purrr_0.2.5       magrittr_1.5     
+# [31] whisker_0.3-2     backports_1.1.2   scales_0.5.0     
+# [34] htmltools_0.3.6   assertthat_0.2.0  colorspace_1.4-0 
+# [37] stringi_1.2.4     lazyeval_0.2.1    munsell_0.4.3    
+# [40] R.oo_1.21.0</code></pre>
+</div>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
