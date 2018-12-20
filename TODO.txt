@@ -1,9 +1,6 @@
 to do
 =====
 
-+ Fill out "What’s included in the git repository" section of the home
-  page (index.Rmd).
-
 + Files to remove:
    - vioplot_col.R
    - plot.poisson.signals.R
