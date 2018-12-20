@@ -1,20 +1,3 @@
-Notes
-=====
-
-This is a my summary of the current state of the manuscript.
-
-Main text
----------
-+ Sec. 4.2.1, Gaussian mean estimation: mostly complete, except a few
-  comments that need to be addressed. Source code accompanying this
-  section: analysis/gaussian.mean.est.Rmd (also code/signals.R). Data
-  files used: output/gaus-dscr.RData.
-
-+ Sec. 4.2.2, Gaussian variance estimation: mostly complete, aside
-  from a few comments that need to be addressed and details that need
-  to be filled out. Source code accompanying this section:
-  analysis/mfvb.R (also code/mfvb.functions.R).
-
 What's included
 ---------------
 

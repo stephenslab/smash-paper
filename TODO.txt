@@ -10,4 +10,10 @@ to do
 + Fill out "What’s included in the git repository" section of the home
   page (index.Rmd).
 
-+ Remove all unused files.
++ Re-generate all out-of-date webpages.
+
++ Files to remove:
+   - vioplot_col.R
+   - plot.poisson.signals.R
+   - poisson_plots.Rmd
+   
