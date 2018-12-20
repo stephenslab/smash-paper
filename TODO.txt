@@ -2,7 +2,5 @@ to do
 =====
 
 + Files to remove:
-   - vioplot_col.R
-   - plot.poisson.signals.R
    - poisson_plots.Rmd
    
