@@ -449,12 +449,12 @@ mise.hf.ti.r.b.128 <- colMeans(rbind(mise.hf.ti.r.4.b.128,
 									 mise.hf.ti.r.7.b.128))
 pdat1 <-
   data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.cb.1,mise.BMSM.cb.1,mise.ash.cb.1))
+             mise   = c(mise.hf.ti.r.b.1,mise.BMSM.b.1,mise.ash.b.1))
 pdat8 <-
   data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.cb.8,mise.BMSM.cb.8,mise.ash.cb.8))
+             mise   = c(mise.hf.ti.r.b.8,mise.BMSM.b.8,mise.ash.b.8))
 pdat128 <-
   data.frame(method=factor(rep(method.labels,each = m),method.labels),
-             mise  =c(mise.hf.ti.r.cb.128,mise.BMSM.cb.128,mise.ash.cb.128))
+             mise  =c(mise.hf.ti.r.b.128,mise.BMSM.b.128,mise.ash.b.128))
 create.violin.plots(pdat1,pdat8,pdat128)
 ```

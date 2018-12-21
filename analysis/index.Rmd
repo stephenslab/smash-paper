@@ -80,9 +80,10 @@ overall structure of the repository:
   "Gaussian mean estimation" simulations in the manuscript.
 
 + The `output` directory contains results from the Gaussian and
-  Poisson simulations. File `pois_hf.RData` contains results from
-  experimenting with different Gaussian denoising techniques for the
-  Haar-Fisz algorithm in the Poisson simulations.
+  Poisson simulations. The `pois_hf.RData` file in this directory
+  contains results from experimenting with different Gaussian
+  denoising techniques for the Haar-Fisz algorithm in the Poisson
+  simulations.
 
 + The `shiny` directory contains code to generate the Shiny
   Web app in R.
