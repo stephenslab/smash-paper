@@ -153,19 +153,6 @@ create.violin.plots <- function (pdat1, pdat8, pdat128) {
 create.violin.plots(pdat1,pdat8,pdat128)
 ```
 
-```{r get-spikes-results, echo=FALSE, eval=TRUE}
-mise.cb.table  <- cbind(mise.cb.1[methods],
-                        mise.cb.8[methods],
-                        mise.cb.128[methods])
-mise.b.table   <- cbind(mise.b.1[methods],
-                        mise.b.8[methods],
-                        mise.b.128[methods])
-rownames(mise.b.table)   <- table.row.names
-rownames(mise.cb.table)  <- table.row.names
-colnames(mise.b.table)   <- table.col.names
-colnames(mise.cb.table)  <- table.col.names
-```
-
 Angles data
 -----------
 
@@ -366,8 +353,49 @@ mu.cb[mu.cb < 0] <- 0
 plot(t,mu.cb,xlab = "",ylab = "",type = "l")
 ```
 
-```{r, results="asis"}
-print(xtable(mise.cb.table,caption="Comparison of methods for denoising Poisson data for the ``Clipped Blocks'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_cb",digits=2),type = "html")
+This table summarizes the results from the Clipped Blocks simulations:
+
+```{r cb-table, results="asis"}
+mise.cb.table <- cbind(mise.cb.1[methods],
+                       mise.cb.8[methods],
+                       mise.cb.128[methods])
+rownames(mise.cb.table) <- table.row.names
+colnames(mise.cb.table) <- table.col.names
+print(xtable(mise.cb.table,caption = " "),type = "html",
+      html.table.attributes = "border=0")
+```
+
+Each column shows results at a different range of intensities. The
+individual table entries give the average error (MISE) in the
+estimates, in which the average is taken over the 100 data sets
+simulated at the given range of intensities.
+
+The combined violin-boxplots provide a visualization of the same
+results:
+
+```{r cb-violin-plots, fig.height=3.5, fig.width=10}
+mise.hf.ti.r.cb.1   <- colMeans(rbind(mise.hf.ti.r.4.cb.1,
+                                      mise.hf.ti.r.5.cb.1,
+                                      mise.hf.ti.r.6.cb.1,
+			  						  mise.hf.ti.r.7.cb.1))
+mise.hf.ti.r.cb.8   <- colMeans(rbind(mise.hf.ti.r.4.cb.8,
+                                      mise.hf.ti.r.5.cb.8,
+                                      mise.hf.ti.r.6.cb.8,
+									  mise.hf.ti.r.7.cb.8))
+mise.hf.ti.r.cb.128 <- colMeans(rbind(mise.hf.ti.r.4.cb.128,
+                                      mise.hf.ti.r.5.cb.128,
+                                      mise.hf.ti.r.6.cb.128,
+									  mise.hf.ti.r.7.cb.128))
+pdat1 <-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.cb.1,mise.BMSM.cb.1,mise.ash.cb.1))
+pdat8 <-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.cb.8,mise.BMSM.cb.8,mise.ash.cb.8))
+pdat128 <-
+  data.frame(method=factor(rep(method.labels,each = m),method.labels),
+             mise  =c(mise.hf.ti.r.cb.128,mise.BMSM.cb.128,mise.ash.cb.128))
+create.violin.plots(pdat1,pdat8,pdat128)
 ```
 
 Bumps data
@@ -386,6 +414,38 @@ for (j in 1:length(pos))
 plot(t,mu.b,xlab = "",ylab = "",type = "l")
 ```
 	 
-```{r, results="asis"}
-print(xtable(mise.b.table,caption="Comparison of methods for denoising Poisson data for the ``Bumps'' test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.",label="table:pois_b",digits=2),type = "html")
+This table summarizes the results from the Bumps simulations:
+
+```{r bumps-table, results="asis"}
+mise.b.table <- cbind(mise.b.1[methods],
+                      mise.b.8[methods],
+                      mise.b.128[methods])
+rownames(mise.b.table) <- table.row.names
+colnames(mise.b.table) <- table.col.names
+print(xtable(mise.b.table,caption = " "),type = "html",
+      html.table.attributes = "border=0")
+```
+
+Each column shows results at a different range of intensities. The
+individual table entries give the average error (MISE) in the
+estimates, in which the average is taken over the 100 data sets
+simulated at the given range of intensities.
+
+The combined violin-boxplots provide a visualization of the same
+results:
+
+```{r bumps-violin-plots, fig.height=3.5, fig.width=10}
+mise.hf.ti.r.b.1 = colMeans(matrix(c(mise.hf.ti.r.4.b.1, mise.hf.ti.r.5.b.1, mise.hf.ti.r.6.b.1, mise.hf.ti.r.7.b.1), byrow = TRUE, nr = 4))
+mise.hf.ti.r.b.8 = colMeans(matrix(c(mise.hf.ti.r.4.b.8, mise.hf.ti.r.5.b.8, mise.hf.ti.r.6.b.8, mise.hf.ti.r.7.b.8), byrow = TRUE, nr = 4))
+mise.hf.ti.r.b.128 = colMeans(matrix(c(mise.hf.ti.r.4.b.128, mise.hf.ti.r.5.b.128, mise.hf.ti.r.6.b.128, mise.hf.ti.r.7.b.128), byrow = TRUE, nr = 4))
+pdat1 <-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.cb.1,mise.BMSM.cb.1,mise.ash.cb.1))
+pdat8 <-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.cb.8,mise.BMSM.cb.8,mise.ash.cb.8))
+pdat128 <-
+  data.frame(method=factor(rep(method.labels,each = m),method.labels),
+             mise  =c(mise.hf.ti.r.cb.128,mise.BMSM.cb.128,mise.ash.cb.128))
+create.violin.plots(pdat1,pdat8,pdat128)
 ```
