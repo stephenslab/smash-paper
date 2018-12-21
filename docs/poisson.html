@@ -241,10 +241,11 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/d351039c64d0834a905a75a4a8ef370eab04acf3" target="_blank">d351039</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/b42715cd8cd636c5e1f5844a13e8fdd2523d3355" target="_blank">b42715c</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    analysis/figure/
     Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
@@ -274,6 +275,8 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 Untracked files:
+    Untracked:  analysis/#poisson.Rmd#
+    Untracked:  analysis/.#poisson.Rmd
     Untracked:  analysis/poisson.R
 
 Unstaged changes:
@@ -307,6 +310,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/b42715cd8cd636c5e1f5844a13e8fdd2523d3355/analysis/poisson.Rmd" target="_blank">b42715c</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-21
+</td>
+<td style="text-align:left;">
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -516,13 +536,13 @@ Re-organized some of the files used in the Poisson numerical comparisons.
 </ul>
 <p></details></p>
 <hr />
-<p>Here we create plots and tables to compare SMASH and against other methods for reconstructing a spatially structured signal from Poisson-distributed data. Similar to the Gaussian simulations, we generated data sets using a variety of test functions and intensity ranges. Specifically, we considered 6 test functions, rescaling the test function so that the smallest intensity was x and the largest intensity was y, with (x,y) set to either (1/100, 3), (1/8, 8) or (1/128, 128). For each combination of test function and intensity range, we simulated 100 data sets. In the plots and tables below, We summarize the error (MISE) in the estimates from the 100 data sets in each setting.</p>
-<p>The plots below summarizing the results from the “Bursts” simulations were included in the manuscript.</p>
+<p>Here we create plots and tables to compare various methods, including SMASH, for reconstructing a spatially structured signal from Poisson-distributed data. Similar to the Gaussian simulations, we generated data sets using a variety of test functions and intensity ranges. Specifically, we considered 6 test functions, rescaling the test function so that the smallest intensity was x and the largest intensity was y, with (x,y) set to either (1/100, 3), (1/8, 8) or (1/128, 128). For each combination of test function and intensity range, we simulated 100 data sets. In the plots and tables below, we summarize the error (MISE) in the estimates computed in the 100 data sets from each simulation setting.</p>
+<p>The plots for the “Bursts” simulations were included in the manuscript.</p>
 <div id="analysis-settings" class="section level2">
 <h2>Analysis settings</h2>
 <p>We will extract the results from these methods:</p>
 <pre class="r"><code>methods &lt;- c(&quot;ash&quot;,&quot;BMSM&quot;,&quot;haarfisz_R&quot;)</code></pre>
-<p>Specify the row and column names for the tables:</p>
+<p>These variables specify the row and column names for the tables:</p>
 <pre class="r"><code>table.row.names &lt;- c(&quot;SMASH&quot;,&quot;BMSM&quot;,&quot;Haar-Fisz&quot;)
 table.col.names &lt;- c(&quot;(1/100,3)&quot;,&quot;(1/8,8)&quot;,&quot;(1/128,128)&quot;)</code></pre>
 <p>These are settings used in plotting the test functions:</p>
@@ -531,11 +551,11 @@ t &lt;- 1:n/n</code></pre>
 </div>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
-<p><em>Add text here.</em></p>
+<p>Load the ggplot2 cowplot and xtable packages.</p>
 <pre class="r"><code>library(ggplot2)
 library(cowplot)
 library(xtable)</code></pre>
-<p>Some of the test functions are defined in <code>signals.R</code>:</p>
+<p>Some of the test functions are defined in <code>signals.R</code>, so we load them here:</p>
 <pre class="r"><code>source(&quot;../code/signals.R&quot;)</code></pre>
 </div>
 <div id="load-results" class="section level2">
@@ -599,7 +619,7 @@ colnames(mise.s.table) &lt;- table.col.names
 print(xtable(mise.s.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:33:20 2018 -->
+<!-- Fri Dec 21 07:51:17 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -659,7 +679,7 @@ Haar-Fisz
 </td>
 </tr>
 </table>
-<p>Each column shows results at a different range of intensities. The individual table entries give the average error (MISE) in the estimates, in which the average is taken over the 100 data sets simulated at the given range of intensities.</p>
+<p>Each column shows the results at a different range of intensities. The individual table entries give the average error (MISE) in the estimates, in which the average is taken over the 100 data sets simulated at the given range of intensities.</p>
 <p>The combined violin-boxplots provide a visualization of the same results:</p>
 <pre class="r"><code>m                  &lt;- length(mise.ash.s.1)
 method.labels      &lt;- c(&quot;Haar-Fisz&quot;,&quot;BMSM&quot;,&quot;SMASH&quot;)
@@ -737,22 +757,6 @@ Peter Carbonetto
 </tbody>
 </table>
 <p></details></p>
-<p>Combine the results of the simulation experiments into several larger tables.</p>
-<pre class="r"><code>mise.bur.table &lt;- cbind(mise.bur.1[methods],
-                        mise.bur.8[methods],
-                        mise.bur.128[methods])
-mise.cb.table  &lt;- cbind(mise.cb.1[methods],
-                        mise.cb.8[methods],
-                        mise.cb.128[methods])
-mise.b.table   &lt;- cbind(mise.b.1[methods],
-                        mise.b.8[methods],
-                        mise.b.128[methods])
-rownames(mise.b.table)   &lt;- table.row.names
-rownames(mise.cb.table)  &lt;- table.row.names
-rownames(mise.bur.table) &lt;- table.row.names
-colnames(mise.b.table)   &lt;- table.col.names
-colnames(mise.cb.table)  &lt;- table.col.names
-colnames(mise.bur.table) &lt;- table.col.names</code></pre>
 </div>
 <div id="angles-data" class="section level2">
 <h2>Angles data</h2>
@@ -818,7 +822,7 @@ colnames(mise.ang.table) &lt;- table.col.names
 print(xtable(mise.ang.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:33:39 2018 -->
+<!-- Fri Dec 21 07:51:36 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -878,7 +882,7 @@ Haar-Fisz
 </td>
 </tr>
 </table>
-<p>Each column shows results at a different range of intensities. The individual table entries give the average error (MISE) in the estimates, in which the average is taken over the 100 data sets simulated at the given range of intensities.</p>
+<p>Each column shows the results at a different range of intensities. The individual table entries give the average error (MISE) in the estimates, in which the average is taken over the 100 data sets simulated at the given range of intensities.</p>
 <p>The combined violin-boxplots provide a visualization of the same results:</p>
 <pre class="r"><code>mise.hf.ti.r.ang.1   &lt;- colMeans(rbind(mise.hf.ti.r.4.ang.1,
                                        mise.hf.ti.r.5.ang.1,
@@ -992,7 +996,7 @@ colnames(mise.hs.table) &lt;- table.col.names
 print(xtable(mise.hs.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:33:57 2018 -->
+<!-- Fri Dec 21 07:51:54 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1163,7 +1167,7 @@ Peter Carbonetto
 <p></details></p>
 <pre class="r"><code>print(xtable(mise.bur.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Bursts&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_bur&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:34:14 2018 -->
+<!-- Fri Dec 21 07:52:11 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Bursts’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
@@ -1280,7 +1284,7 @@ Peter Carbonetto
 <p></details></p>
 <pre class="r"><code>print(xtable(mise.cb.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Clipped Blocks&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_cb&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:34:23 2018 -->
+<!-- Fri Dec 21 07:52:20 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Clipped Blocks’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
@@ -1397,7 +1401,7 @@ Peter Carbonetto
 <p></details></p>
 <pre class="r"><code>print(xtable(mise.b.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Bumps&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_b&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:34:31 2018 -->
+<!-- Fri Dec 21 07:52:28 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Bumps’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
