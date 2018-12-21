@@ -435,9 +435,18 @@ The combined violin-boxplots provide a visualization of the same
 results:
 
 ```{r bumps-violin-plots, fig.height=3.5, fig.width=10}
-mise.hf.ti.r.b.1 = colMeans(matrix(c(mise.hf.ti.r.4.b.1, mise.hf.ti.r.5.b.1, mise.hf.ti.r.6.b.1, mise.hf.ti.r.7.b.1), byrow = TRUE, nr = 4))
-mise.hf.ti.r.b.8 = colMeans(matrix(c(mise.hf.ti.r.4.b.8, mise.hf.ti.r.5.b.8, mise.hf.ti.r.6.b.8, mise.hf.ti.r.7.b.8), byrow = TRUE, nr = 4))
-mise.hf.ti.r.b.128 = colMeans(matrix(c(mise.hf.ti.r.4.b.128, mise.hf.ti.r.5.b.128, mise.hf.ti.r.6.b.128, mise.hf.ti.r.7.b.128), byrow = TRUE, nr = 4))
+mise.hf.ti.r.b.1   <- colMeans(rbind(mise.hf.ti.r.4.b.1,
+                                     mise.hf.ti.r.5.b.1,
+                                     mise.hf.ti.r.6.b.1,
+                                     mise.hf.ti.r.7.b.1))
+mise.hf.ti.r.b.8   <- colMeans(rbind(mise.hf.ti.r.4.b.8,
+                                     mise.hf.ti.r.5.b.8,
+                                     mise.hf.ti.r.6.b.8,
+									 mise.hf.ti.r.7.b.8))
+mise.hf.ti.r.b.128 <- colMeans(rbind(mise.hf.ti.r.4.b.128,
+									 mise.hf.ti.r.5.b.128,
+									 mise.hf.ti.r.6.b.128,
+									 mise.hf.ti.r.7.b.128))
 pdat1 <-
   data.frame(method = factor(rep(method.labels,each = m),method.labels),
              mise   = c(mise.hf.ti.r.cb.1,mise.BMSM.cb.1,mise.ash.cb.1))
