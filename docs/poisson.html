@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/b42715cd8cd636c5e1f5844a13e8fdd2523d3355" target="_blank">b42715c</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/3776af8aa011e4a09adbc8548527a909e206541a" target="_blank">3776af8</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -275,8 +275,6 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 Untracked files:
-    Untracked:  analysis/#poisson.Rmd#
-    Untracked:  analysis/.#poisson.Rmd
     Untracked:  analysis/poisson.R
 
 Unstaged changes:
@@ -310,6 +308,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/3776af8aa011e4a09adbc8548527a909e206541a/analysis/poisson.Rmd" target="_blank">3776af8</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-21
+</td>
+<td style="text-align:left;">
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/c333197d04ef8683550ccd76aa82061450f66d7d/docs/poisson.html" target="_blank">c333197</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-21
+</td>
+<td style="text-align:left;">
+A few small revsions to the code at the beginning of poisson.Rmd.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -619,7 +651,7 @@ colnames(mise.s.table) &lt;- table.col.names
 print(xtable(mise.s.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:51:17 2018 -->
+<!-- Fri Dec 21 08:04:49 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -822,7 +854,7 @@ colnames(mise.ang.table) &lt;- table.col.names
 print(xtable(mise.ang.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:51:36 2018 -->
+<!-- Fri Dec 21 08:05:08 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -996,7 +1028,7 @@ colnames(mise.hs.table) &lt;- table.col.names
 print(xtable(mise.hs.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:51:54 2018 -->
+<!-- Fri Dec 21 08:05:26 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1165,12 +1197,18 @@ Peter Carbonetto
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>print(xtable(mise.bur.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Bursts&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_bur&quot;,digits=2),type = &quot;html&quot;)</code></pre>
+<p>This table summarizes the results from the Bursts simulations:</p>
+<pre class="r"><code>mise.bur.table &lt;- cbind(mise.bur.1[methods],
+                        mise.bur.8[methods],
+                        mise.bur.128[methods])
+rownames(mise.bur.table) &lt;- table.row.names
+colnames(mise.bur.table) &lt;- table.col.names
+print(xtable(mise.bur.table,caption = &quot; &quot;),type = &quot;html&quot;,
+      html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:52:11 2018 -->
-<table border="1">
+<!-- Fri Dec 21 08:05:44 2018 -->
+<table border="0">
 <caption align="bottom">
-Comparison of methods for denoising Poisson data for the ``Bursts’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
 </caption>
 <tr>
 <th>
@@ -1227,8 +1265,32 @@ Haar-Fisz
 25.20
 </td>
 </tr>
-<a name=table:pois_bur></a>
 </table>
+<p>Each column shows results at a different range of intensities. The individual table entries give the average error (MISE) in the estimates, in which the average is taken over the 100 data sets simulated at the given range of intensities.</p>
+<p>The combined violin-boxplots provide a visualization of the same results:</p>
+<pre class="r"><code>mise.hf.ti.r.bur.1   &lt;- colMeans(rbind(mise.hf.ti.r.4.bur.1,
+                                       mise.hf.ti.r.5.bur.1,
+                                       mise.hf.ti.r.6.bur.1,
+                                       mise.hf.ti.r.7.bur.1))
+mise.hf.ti.r.bur.8   &lt;- colMeans(rbind(mise.hf.ti.r.4.bur.8,
+                                       mise.hf.ti.r.5.bur.8,
+                                       mise.hf.ti.r.6.bur.8,
+                                       mise.hf.ti.r.7.bur.8))
+mise.hf.ti.r.bur.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.bur.128,
+                                       mise.hf.ti.r.5.bur.128,
+                                       mise.hf.ti.r.6.bur.128,
+                                       mise.hf.ti.r.7.bur.128))
+pdat1 &lt;-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.bur.1,mise.BMSM.bur.1,mise.ash.bur.1))
+pdat8 &lt;-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.bur.8,mise.BMSM.bur.8,mise.ash.bur.8))
+pdat128 &lt;-
+  data.frame(method=factor(rep(method.labels,each = m),method.labels),
+             mise  =c(mise.hf.ti.r.bur.128,mise.BMSM.bur.128,mise.ash.bur.128))
+create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
+<p><img src="figure/poisson.Rmd/bursts-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="clipped-blocks-data" class="section level2">
 <h2>Clipped Blocks data</h2>
@@ -1284,7 +1346,7 @@ Peter Carbonetto
 <p></details></p>
 <pre class="r"><code>print(xtable(mise.cb.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Clipped Blocks&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_cb&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:52:20 2018 -->
+<!-- Fri Dec 21 08:06:01 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Clipped Blocks’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
@@ -1401,7 +1463,7 @@ Peter Carbonetto
 <p></details></p>
 <pre class="r"><code>print(xtable(mise.b.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Bumps&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_b&quot;,digits=2),type = &quot;html&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 07:52:28 2018 -->
+<!-- Fri Dec 21 08:06:10 2018 -->
 <table border="1">
 <caption align="bottom">
 Comparison of methods for denoising Poisson data for the ``Bumps’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
