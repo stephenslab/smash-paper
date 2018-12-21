@@ -4,10 +4,20 @@ author: "Zhengrong Xing, Peter Carbonetto and Matthew Stephens"
 output: workflowr::wflow_html
 ---
 
-This script produces supplementary tables for Poisson simulations.
+Here we create plots and tables to compare SMASH and against other
+methods for reconstructing a spatially structured signal from
+Poisson-distributed data. Similar to the Gaussian simulations, we
+generated data sets using a variety of test functions and intensity
+ranges. Specifically, we considered 6 test functions, rescaling the
+test function so that the smallest intensity was x and the largest
+intensity was y, with (x,y) set to either (1/100, 3), (1/8, 8) or
+(1/128, 128). For each combination of test function and intensity
+range, we simulated 100 data sets. In the plots and tables below, We
+summarize the error (MISE) in the estimates from the 100 data sets in
+each setting.
 
-*Explain which set of results correspond to the plots given in the main
-text.*
+The plots below summarizing the results from the "Bursts" simulations
+were included in the manuscript.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
