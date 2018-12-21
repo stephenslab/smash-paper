@@ -241,7 +241,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/3776af8aa011e4a09adbc8548527a909e206541a" target="_blank">3776af8</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/e8bc009e08494908d62f7dadff6ed33ec35d6ab2" target="_blank">e8bc009</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -279,7 +279,9 @@ Untracked files:
 
 Unstaged changes:
     Modified:   analysis/index.Rmd
-    Modified:   analysis/poisson_plots.Rmd
+
+Staged changes:
+    Deleted:    analysis/poisson_plots.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -308,6 +310,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/e8bc009e08494908d62f7dadff6ed33ec35d6ab2/analysis/poisson.Rmd" target="_blank">e8bc009</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-21
+</td>
+<td style="text-align:left;">
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/stephenslab/smash-paper/5adee340f7a3fcdfc1ace37c5f7426116b0d03ed/docs/poisson.html" target="_blank">5adee34</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-21
+</td>
+<td style="text-align:left;">
+Addd plots and table for Bursts simulations.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -651,7 +687,7 @@ colnames(mise.s.table) &lt;- table.col.names
 print(xtable(mise.s.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 08:04:49 2018 -->
+<!-- Fri Dec 21 10:13:34 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -854,7 +890,7 @@ colnames(mise.ang.table) &lt;- table.col.names
 print(xtable(mise.ang.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 08:05:08 2018 -->
+<!-- Fri Dec 21 10:14:10 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1028,7 +1064,7 @@ colnames(mise.hs.table) &lt;- table.col.names
 print(xtable(mise.hs.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 08:05:26 2018 -->
+<!-- Fri Dec 21 10:14:43 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1206,7 +1242,7 @@ colnames(mise.bur.table) &lt;- table.col.names
 print(xtable(mise.bur.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 08:05:44 2018 -->
+<!-- Fri Dec 21 10:15:10 2018 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1291,6 +1327,36 @@ pdat128 &lt;-
              mise  =c(mise.hf.ti.r.bur.128,mise.BMSM.bur.128,mise.ash.bur.128))
 create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
 <p><img src="figure/poisson.Rmd/bursts-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of bursts-violin-plots-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/stephenslab/smash-paper/blob/5adee340f7a3fcdfc1ace37c5f7426116b0d03ed/docs/figure/poisson.Rmd/bursts-violin-plots-1.png" target="_blank">5adee34</a>
+</td>
+<td style="text-align:left;">
+Peter Carbonetto
+</td>
+<td style="text-align:left;">
+2018-12-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="clipped-blocks-data" class="section level2">
 <h2>Clipped Blocks data</h2>
@@ -1344,12 +1410,18 @@ Peter Carbonetto
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>print(xtable(mise.cb.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Clipped Blocks&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_cb&quot;,digits=2),type = &quot;html&quot;)</code></pre>
+<p>This table summarizes the results from the Clipped Blocks simulations:</p>
+<pre class="r"><code>mise.cb.table &lt;- cbind(mise.cb.1[methods],
+                       mise.cb.8[methods],
+                       mise.cb.128[methods])
+rownames(mise.cb.table) &lt;- table.row.names
+colnames(mise.cb.table) &lt;- table.col.names
+print(xtable(mise.cb.table,caption = &quot; &quot;),type = &quot;html&quot;,
+      html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 08:06:01 2018 -->
-<table border="1">
+<!-- Fri Dec 21 10:15:34 2018 -->
+<table border="0">
 <caption align="bottom">
-Comparison of methods for denoising Poisson data for the ``Clipped Blocks’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
 </caption>
 <tr>
 <th>
@@ -1406,8 +1478,32 @@ Haar-Fisz
 29.72
 </td>
 </tr>
-<a name=table:pois_cb></a>
 </table>
+<p>Each column shows results at a different range of intensities. The individual table entries give the average error (MISE) in the estimates, in which the average is taken over the 100 data sets simulated at the given range of intensities.</p>
+<p>The combined violin-boxplots provide a visualization of the same results:</p>
+<pre class="r"><code>mise.hf.ti.r.cb.1   &lt;- colMeans(rbind(mise.hf.ti.r.4.cb.1,
+                                      mise.hf.ti.r.5.cb.1,
+                                      mise.hf.ti.r.6.cb.1,
+                                      mise.hf.ti.r.7.cb.1))
+mise.hf.ti.r.cb.8   &lt;- colMeans(rbind(mise.hf.ti.r.4.cb.8,
+                                      mise.hf.ti.r.5.cb.8,
+                                      mise.hf.ti.r.6.cb.8,
+                                      mise.hf.ti.r.7.cb.8))
+mise.hf.ti.r.cb.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.cb.128,
+                                      mise.hf.ti.r.5.cb.128,
+                                      mise.hf.ti.r.6.cb.128,
+                                      mise.hf.ti.r.7.cb.128))
+pdat1 &lt;-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.cb.1,mise.BMSM.cb.1,mise.ash.cb.1))
+pdat8 &lt;-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.cb.8,mise.BMSM.cb.8,mise.ash.cb.8))
+pdat128 &lt;-
+  data.frame(method=factor(rep(method.labels,each = m),method.labels),
+             mise  =c(mise.hf.ti.r.cb.128,mise.BMSM.cb.128,mise.ash.cb.128))
+create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
+<p><img src="figure/poisson.Rmd/cb-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="bumps-data" class="section level2">
 <h2>Bumps data</h2>
@@ -1461,12 +1557,18 @@ Peter Carbonetto
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>print(xtable(mise.b.table,caption=&quot;Comparison of methods for denoising Poisson data for the ``Bumps&#39;&#39; test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.&quot;,label=&quot;table:pois_b&quot;,digits=2),type = &quot;html&quot;)</code></pre>
+<p>This table summarizes the results from the Bumps simulations:</p>
+<pre class="r"><code>mise.b.table &lt;- cbind(mise.b.1[methods],
+                      mise.b.8[methods],
+                      mise.b.128[methods])
+rownames(mise.b.table) &lt;- table.row.names
+colnames(mise.b.table) &lt;- table.col.names
+print(xtable(mise.b.table,caption = &quot; &quot;),type = &quot;html&quot;,
+      html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 08:06:10 2018 -->
-<table border="1">
+<!-- Fri Dec 21 10:15:58 2018 -->
+<table border="0">
 <caption align="bottom">
-Comparison of methods for denoising Poisson data for the ``Bumps’’ test function for 3 different (min,max) intensities ((0.01,3), (1/8,8), (1/128,128)). Performance is measured using MISE over 100 independent datasets, with smaller values indicating better performance. Values colored in red indicates the smallest MISE amongst all methods for a given (min, max) intensity.
 </caption>
 <tr>
 <th>
@@ -1523,8 +1625,23 @@ Haar-Fisz
 184.66
 </td>
 </tr>
-<a name=table:pois_b></a>
 </table>
+<p>Each column shows results at a different range of intensities. The individual table entries give the average error (MISE) in the estimates, in which the average is taken over the 100 data sets simulated at the given range of intensities.</p>
+<p>The combined violin-boxplots provide a visualization of the same results:</p>
+<pre class="r"><code>mise.hf.ti.r.b.1 = colMeans(matrix(c(mise.hf.ti.r.4.b.1, mise.hf.ti.r.5.b.1, mise.hf.ti.r.6.b.1, mise.hf.ti.r.7.b.1), byrow = TRUE, nr = 4))
+mise.hf.ti.r.b.8 = colMeans(matrix(c(mise.hf.ti.r.4.b.8, mise.hf.ti.r.5.b.8, mise.hf.ti.r.6.b.8, mise.hf.ti.r.7.b.8), byrow = TRUE, nr = 4))
+mise.hf.ti.r.b.128 = colMeans(matrix(c(mise.hf.ti.r.4.b.128, mise.hf.ti.r.5.b.128, mise.hf.ti.r.6.b.128, mise.hf.ti.r.7.b.128), byrow = TRUE, nr = 4))
+pdat1 &lt;-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.cb.1,mise.BMSM.cb.1,mise.ash.cb.1))
+pdat8 &lt;-
+  data.frame(method = factor(rep(method.labels,each = m),method.labels),
+             mise   = c(mise.hf.ti.r.cb.8,mise.BMSM.cb.8,mise.ash.cb.8))
+pdat128 &lt;-
+  data.frame(method=factor(rep(method.labels,each = m),method.labels),
+             mise  =c(mise.hf.ti.r.cb.128,mise.BMSM.cb.128,mise.ash.cb.128))
+create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
+<p><img src="figure/poisson.Rmd/bumps-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>

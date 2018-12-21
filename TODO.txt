@@ -1,6 +1,0 @@
-to do
-=====
-
-+ Files to remove:
-   - poisson_plots.Rmd
-   
