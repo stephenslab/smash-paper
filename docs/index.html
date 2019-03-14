@@ -215,17 +215,65 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-12-21</p>
-<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
-<ul>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
-</details>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/b9f5cd35861aa46b14d176cfb1f3ed36e5a1fdac" target="_blank">b9f5cd3</a> </summary></p>
+<a data-toggle="tab" href="#report"> Report <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-03-14
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>smash-paper/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.2.0). The <em>Report</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="report" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree2d1870b03ca0fff3063dac598683ad3b8d5672f0targetblank2d1870ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/2d1870b03ca0fff3063dac598683ad3b8d5672f0" target="_blank">2d1870b</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree2d1870b03ca0fff3063dac598683ad3b8d5672f0targetblank2d1870ba" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
 <pre><code>
 Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
@@ -257,641 +305,653 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 </code></pre>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
-</li>
-</ul>
-<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
-<ul>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 File
 </th>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
-<th style="text-align:left;">
+<th>
 Message
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/b9f5cd35861aa46b14d176cfb1f3ed36e5a1fdac/analysis/index.Rmd" target="_blank">b9f5cd3</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-21
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“index.Rmd”, “poisson.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/c8151631effc9078ec4dc32f0356274dbb5773c3/docs/index.html" target="_blank">c815163</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/c8151631effc9078ec4dc32f0356274dbb5773c3/docs/index.html" target="_blank">c815163</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 Added info about Poisson results in output directory.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/840ef19b04c0d259cc1e029c1e256f1200a9824c/analysis/index.Rmd" target="_blank">840ef19</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/7dc40a9a75c5aca64f0c8b02c06e85482dfd20fa/docs/index.html" target="_blank">7dc40a9</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/7dc40a9a75c5aca64f0c8b02c06e85482dfd20fa/docs/index.html" target="_blank">7dc40a9</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 Revised license info given in home page.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/52a763f2f8fc4a863953cfb55df498e82bf5872b/analysis/index.Rmd" target="_blank">52a763f</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/92215eecca402e4e7f4ed1dac152514de3cc8122/docs/index.html" target="_blank">92215ee</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/92215eecca402e4e7f4ed1dac152514de3cc8122/docs/index.html" target="_blank">92215ee</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 Revised “what’s included” section.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/594f66ff622b6be7127fe6f5e9fcd18aad5b277d/analysis/index.Rmd" target="_blank">594f66f</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/afcb7cd32bfc144cf0a7d26dc1fc6d2a15574a58/analysis/index.Rmd" target="_blank">afcb7cd</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/24792c77cbe7077383a9b9cad1a3508ae9b3956c/docs/index.html" target="_blank">24792c7</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/24792c77cbe7077383a9b9cad1a3508ae9b3956c/docs/index.html" target="_blank">24792c7</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 Added link to poisson page in the home page.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/13aafbf7fcb1d962287884132c1e74b3f5fd0711/analysis/index.Rmd" target="_blank">13aafbf</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/99d1f34c2a6ba39fc3b494015335c01a75eef2e4/docs/index.html" target="_blank">99d1f34</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/99d1f34c2a6ba39fc3b494015335c01a75eef2e4/docs/index.html" target="_blank">99d1f34</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-07
 </td>
-<td style="text-align:left;">
+<td>
 Re-built all the outdated workflowr webpages.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/2ddb601e445b6c0c1f27242ebac3c2170eada78c/analysis/index.Rmd" target="_blank">2ddb601</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-06
 </td>
-<td style="text-align:left;">
+<td>
 I have an initial setup of the Shiny server document.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/c589dbb8da01965837246f47a3665f72dc8134db/analysis/index.Rmd" target="_blank">c589dbb</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-06
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“index.Rmd”, “gaussian_signals.Rmd”,
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/d82c55d7d45c2adce5a4b9b76066c1b1b09ddcf6/analysis/index.Rmd" target="_blank">d82c55d</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Added shiny page to home.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ef0b2de0e825ebf71f25c70c1b3fdb9e7236bc84/analysis/index.Rmd" target="_blank">ef0b2de</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Minor edits to home page.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/35f03c01e9e395146567d85b3258a8fc5fb3739b/docs/index.html" target="_blank">35f03c0</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/35f03c01e9e395146567d85b3258a8fc5fb3739b/docs/index.html" target="_blank">35f03c0</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Changed title of gaussian_signals.Rmd.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/4a35339bf2718a92dc824f0def668cb771a693ec/analysis/index.Rmd" target="_blank">4a35339</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“gaussian_signals.Rmd”, “index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/68974658940fa7afefe44c5919341d238cd34c0f/docs/index.html" target="_blank">6897465</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/68974658940fa7afefe44c5919341d238cd34c0f/docs/index.html" target="_blank">6897465</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Added gaussian_signals page to the home.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/7ebd8995d3f61172745319d65f50fa212d87951f/analysis/index.Rmd" target="_blank">7ebd899</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“gaussian_signals.Rmd”, “index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/049dcbb8e4f4bbfd2b42a4def9a91b3a67cff8b5/analysis/index.Rmd" target="_blank">049dcbb</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-08
 </td>
-<td style="text-align:left;">
+<td>
 Moved around some files and revised TOC in home page.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/1b61bd1045d667dd4b63dd0c72f12f4b83db4d70/analysis/index.Rmd" target="_blank">1b61bd1</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-08
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/58539f551fd3710442605fd7d3fbb123273d8901/analysis/index.Rmd" target="_blank">58539f5</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-08
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f4372ca571fb8c2723693858b6c706fc9c902747/analysis/index.Rmd" target="_blank">f4372ca</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-08
 </td>
-<td style="text-align:left;">
+<td>
 Moved around some of the files, and revising the home page.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/b5453fa143a5637f866cd0fd73ce4c27cf0dd3cb/docs/index.html" target="_blank">b5453fa</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/b5453fa143a5637f866cd0fd73ce4c27cf0dd3cb/docs/index.html" target="_blank">b5453fa</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-06
 </td>
-<td style="text-align:left;">
+<td>
 Small edit to home page.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/4c88a8be95e1af818143475975033282bb836038/docs/index.html" target="_blank">4c88a8b</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/4c88a8be95e1af818143475975033282bb836038/docs/index.html" target="_blank">4c88a8b</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-06
 </td>
-<td style="text-align:left;">
+<td>
 A few more fixes to the home page.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/7caace6f908764fcdcd543d674051b1ca71ba197/analysis/index.Rmd" target="_blank">7caace6</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-06
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/4baa13739b351a6e7a04b4e18db34fc9b993be86/analysis/index.Rmd" target="_blank">4baa137</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-06
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/03286127db903d276cb750587a5eadaae9b623b2/docs/index.html" target="_blank">0328612</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/03286127db903d276cb750587a5eadaae9b623b2/docs/index.html" target="_blank">0328612</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-06
 </td>
-<td style="text-align:left;">
+<td>
 Re-built the home page after revamping it.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/aa4437d21df5d02af0182f6e9c62920d3c34c92a/analysis/index.Rmd" target="_blank">aa4437d</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-06
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/27bb547e4a0cfdaf2899bd2f1c658a7380d93a7d/analysis/index.Rmd" target="_blank">27bb547</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-06
 </td>
-<td style="text-align:left;">
+<td>
 Greatly simplified the README.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/0a6b926cfd5ba4a18bf1e98c51caa970df73fbb4/docs/index.html" target="_blank">0a6b926</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/0a6b926cfd5ba4a18bf1e98c51caa970df73fbb4/docs/index.html" target="_blank">0a6b926</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-18
 </td>
-<td style="text-align:left;">
+<td>
 Adjusted workflowr site rendering.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/c0faf17808dee5b90a57b6b983c16cd1a88c2b7f/docs/index.html" target="_blank">c0faf17</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/c0faf17808dee5b90a57b6b983c16cd1a88c2b7f/docs/index.html" target="_blank">c0faf17</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-18
 </td>
-<td style="text-align:left;">
+<td>
 Added links to analyses in home page.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/40ad2f200148324d17d99ba9cb11a901479241b7/analysis/index.Rmd" target="_blank">40ad2f2</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-18
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/07976968453d9abbd6aa8e41acce8b122bcc6cad/docs/index.html" target="_blank">0797696</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/07976968453d9abbd6aa8e41acce8b122bcc6cad/docs/index.html" target="_blank">0797696</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-08-23
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/80e51aeb6312df26a93ee3a4a71e337c0fc1c520/analysis/index.Rmd" target="_blank">80e51ae</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-08-23
 </td>
-<td style="text-align:left;">
+<td>
 Start workflowr project with wflow_start().
 </td>
 </tr>
 </tbody>
 </table>
-</ul>
-<p></details></p>
-<hr />
+</div>
+<hr>
+</div>
+</div>
+</div>
 <p>This repository contains data and R source code accompanying our manuscript,</p>
 <blockquote>
-<p>Zhengrong Xing and Matthew Stephens (2016). <em>Smoothing via Adaptive Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian signals.</em> <a href="http://arxiv.org/abs/1605.07787">arXiv:1709.10066</a>.</p>
+<p>Zhengrong Xing, Peter Carbonetto and Matthew Stephens (2019). <em>Flexible signal denoising via flexible empirical Bayes shrinkage.</em> <a href="https://arxiv.org/abs/1605.07787">arXiv:1605.07787</a>.</p>
 </blockquote>
 <p>If you find any of the source code in this repository useful for your work, please cite our paper.</p>
 <p>The new methods can be found in the <a href="https://github.com/stephenslab/smashr">smashr package</a>.</p>
 <div id="contents" class="section level2">
 <h2>Contents</h2>
-<p>The following analyses generate some of the empirical results presented in <a href="http://arxiv.org/abs/1605.07787">Xing &amp; Stephens (2016)</a>. If you encounter a problem running any of the R code in these examples, please post an <a href="https://github.com/stephenslab/smash-paper/issues">issue</a>.</p>
+<p>The following analyses generate some of the empirical results presented in <a href="https://arxiv.org/abs/1605.07787">Xing, Carbonetto &amp; Stephens (2019)</a>. If you encounter a problem running any of the R code in these examples, please post an <a href="https://github.com/stephenslab/smash-paper/issues">issue</a>.</p>
 <div id="illustration" class="section level3">
 <h3>Illustration</h3>
 <ul>
@@ -938,7 +998,7 @@ Start workflowr project with wflow_start().
 </div>
 <div id="license" class="section level2">
 <h2>License</h2>
-<p>Copyright (c) 2016-2018, Zhengrong Xing, Peter Carbonetto &amp; Matthew Stephens.</p>
+<p>Copyright (c) 2016-2019, Zhengrong Xing, Peter Carbonetto &amp; Matthew Stephens.</p>
 <p>Our numerical comparisons make use of some of the functions from <a href="http://statweb.stanford.edu/~wavelab">WaveLab</a>, so we have included the WaveLab source code in this repository. See the <code>COPYING.m</code> Wavelab850 subdirectory for more information about distributing WaveLab.</p>
 <p>Our numerical comparisons also use of some functions from <a href="http://www-ljk.imag.fr/SMS/software/GaussianWaveDen/down.html">GaussianWaveDen</a>, so we have included the GaussianWaveDen source in this repository. For information about distributing GaussianWaveDen, see the <code>copyright.m</code> in the WavDen subdirectory. Note that we made one small improvement to the code in <code>blockJS.m</code> to prevent an error that occurs when running the code in newer versions of MATLAB.</p>
 <p>All other source code and software in this repository are made available under the terms of the <a href="https://opensource.org/licenses/mit-license.html">MIT license</a>. See the <code>LICENSE</code> file in the git repository for the full text of the license.</p>
@@ -953,6 +1013,7 @@ Start workflowr project with wflow_start().
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
 http://docs.mathjax.org/en/latest/configuration.html.  This will make
@@ -964,14 +1025,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-<hr>
-<p>
-  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
-  analysis was created with
-  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
-</p>
-<hr>
 
 
 
