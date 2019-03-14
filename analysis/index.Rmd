@@ -9,9 +9,9 @@ output:
 This repository contains data and R source code accompanying our
 manuscript,
 
-> Zhengrong Xing and Matthew Stephens (2016). *Smoothing via Adaptive
-Shrinkage (smash): denoising Poisson and heteroskedastic Gaussian
-signals.* [arXiv:1709.10066][smash-preprint].
+> Zhengrong Xing, Peter Carbonetto and Matthew Stephens (2019).
+> *Flexible signal denoising via flexible empirical Bayes shrinkage.*
+> [arXiv:1605.07787][smash-preprint].
 
 If you find any of the source code in this repository useful for your
 work, please cite our paper.
@@ -21,8 +21,8 @@ The new methods can be found in the [smashr package][smashr].
 ## Contents
 
 The following analyses generate some of the empirical results
-presented in [Xing & Stephens (2016)][smash-preprint]. If you
-encounter a problem running any of the R code in these examples,
+presented in [Xing, Carbonetto & Stephens (2019)][smash-preprint]. If
+you encounter a problem running any of the R code in these examples,
 please post an [issue][issues].
 
 ### Illustration
@@ -90,7 +90,7 @@ overall structure of the repository:
 
 ## License
 
-Copyright (c) 2016-2018, Zhengrong Xing, Peter Carbonetto & Matthew
+Copyright (c) 2016-2019, Zhengrong Xing, Peter Carbonetto & Matthew
 Stephens.
 
 Our numerical comparisons make use of some of the functions from
@@ -118,7 +118,7 @@ University of Chicago, with support and contributions from
 
 [smash-github]: https://github.com/stephenslab/smash-paper
 [smashr]: https://github.com/stephenslab/smashr
-[smash-preprint]: http://arxiv.org/abs/1605.07787
+[smash-preprint]: https://arxiv.org/abs/1605.07787
 [issues]: https://github.com/stephenslab/smash-paper/issues
 [mit-license]: https://opensource.org/licenses/mit-license.html
 [wavelab]: http://statweb.stanford.edu/~wavelab
