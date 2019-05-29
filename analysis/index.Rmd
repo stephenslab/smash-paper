@@ -18,6 +18,10 @@ work, please cite our paper.
 
 The new methods can be found in the [smashr package][smashr].
 
+```{r}
+rnorm(3)
+```
+
 ## Contents
 
 The following analyses generate some of the empirical results
