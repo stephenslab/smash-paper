@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Zhengrong Xing, Peter Carbonetto and Matthew Stephens" />
@@ -70,9 +71,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -86,7 +85,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -96,6 +94,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -111,7 +112,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -131,6 +131,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -152,19 +189,73 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -212,340 +303,454 @@ div.section {
 
 
 <h1 class="title toc-ignore">Mean and variance functions used to simulate Gaussian data</h1>
-<h4 class="author"><em>Zhengrong Xing, Peter Carbonetto and Matthew Stephens</em></h4>
+<h4 class="author">Zhengrong Xing, Peter Carbonetto and Matthew Stephens</h4>
 
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-12-06</p>
-<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
-<ul>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
-</details>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
-</details>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(1)</code> </summary></p>
-<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/c589dbb8da01965837246f47a3665f72dc8134db" target="_blank">c589dbb</a> </summary></p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
-<pre><code>
-Ignored files:
-    Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FAIPT.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FCPSynthesis.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FMIPT.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWPSynthesis.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWT2_PO.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PBS.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PO.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_TI.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IAIPT.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IMIPT.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IWT2_PO.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PBS.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PO.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_TI.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/LMIRefineSeq.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/MedRefineSeq.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadHi.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadLo.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/WPAnalysis.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dct_ii.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iii.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
-
-Unstaged changes:
-    Modified:   analysis/gauss_shiny.Rmd
-
-</code></pre>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+<a data-toggle="tab" href="#versions">Past versions</a>
 </li>
 </ul>
-<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
-<ul>
-<table style="border-collapse:separate; border-spacing:5px;">
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-10-27
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>smash-paper/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed1code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(1)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed1code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee574eec52585f7a5b7c51d2fee5affa76127cf5ftargetblanke574eeca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/e574eec52585f7a5b7c51d2fee5affa76127cf5f" target="_blank">e574eec</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee574eec52585f7a5b7c51d2fee5affa76127cf5ftargetblanke574eeca" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  .Rhistory
+    Untracked:  .Rproj.user/
+
+Unstaged changes:
+    Modified:   smash-paper.Rproj
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 File
 </th>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
-<th style="text-align:left;">
+<th>
 Message
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
-Rmd
+<td>
+html
 </td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/c589dbb8da01965837246f47a3665f72dc8134db/analysis/gaussian_signals.Rmd" target="_blank">c589dbb</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/8caff70d5899672d7557ee2aa563c07dfe527581/docs/gaussian_signals.html" target="_blank">8caff70</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-06
 </td>
-<td style="text-align:left;">
+<td>
+Re-built the workflowr pages after several minor changes to the text
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/c589dbb8da01965837246f47a3665f72dc8134db/analysis/gaussian_signals.Rmd" target="_blank">c589dbb</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-06
+</td>
+<td>
 wflow_publish(c(“index.Rmd”, “gaussian_signals.Rmd”,
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/35f03c01e9e395146567d85b3258a8fc5fb3739b/docs/gaussian_signals.html" target="_blank">35f03c0</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/35f03c01e9e395146567d85b3258a8fc5fb3739b/docs/gaussian_signals.html" target="_blank">35f03c0</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Changed title of gaussian_signals.Rmd.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/68974658940fa7afefe44c5919341d238cd34c0f/docs/gaussian_signals.html" target="_blank">6897465</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/68974658940fa7afefe44c5919341d238cd34c0f/docs/gaussian_signals.html" target="_blank">6897465</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Added gaussian_signals page to the home.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/7ebd8995d3f61172745319d65f50fa212d87951f/analysis/gaussian_signals.Rmd" target="_blank">7ebd899</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(c(“gaussian_signals.Rmd”, “index.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/f35239b78220e9622e1130586e0d6cf4356875a0/docs/gaussian_signals.html" target="_blank">f35239b</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/f35239b78220e9622e1130586e0d6cf4356875a0/docs/gaussian_signals.html" target="_blank">f35239b</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Completed the gaussian_signals page.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/53df81d0f5e6f1bef34e7adc0722aa840ff39250/analysis/gaussian_signals.Rmd" target="_blank">53df81d</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“gaussian_signals.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/abc74e5dfa683eba26cee0d09abfebbdf053413c/docs/gaussian_signals.html" target="_blank">abc74e5</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/abc74e5dfa683eba26cee0d09abfebbdf053413c/docs/gaussian_signals.html" target="_blank">abc74e5</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Added plots for for variance signals.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/c8957e03b3aa0fd8555e4493ef05a64d40b76038/analysis/gaussian_signals.Rmd" target="_blank">c8957e0</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“gaussian_signals.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/1fe523e244f7a10f4d4f375c0a997d437d5e1a17/docs/gaussian_signals.html" target="_blank">1fe523e</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/1fe523e244f7a10f4d4f375c0a997d437d5e1a17/docs/gaussian_signals.html" target="_blank">1fe523e</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Adjusted the plots of the mean functions.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/1bddd73584b6de79f1a59d83a9dba1a137742a5d/analysis/gaussian_signals.Rmd" target="_blank">1bddd73</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“gaussian_signals.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/dc4c6cdeab52ee2f5a43f313c91fe24a4dff89bb/docs/gaussian_signals.html" target="_blank">dc4c6cd</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/dc4c6cdeab52ee2f5a43f313c91fe24a4dff89bb/docs/gaussian_signals.html" target="_blank">dc4c6cd</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 I now have plots of all the mean functions in gaussian_signals.Rmd.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/a8b97227a8d490082a4cef04d0c8c5b8339f1d3b/analysis/gaussian_signals.Rmd" target="_blank">a8b9722</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“gaussian_signals.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/469c32f2afc6d2070c95d558badf7decbefed5a6/docs/gaussian_signals.html" target="_blank">469c32f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-04
+</td>
+<td>
+Generated the gaussian_signals webpage for the first time.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/2ab6ac046a1ccf4297eb4285cad8e2209204975c/analysis/gaussian_signals.Rmd" target="_blank">2ab6ac0</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“gaussian_signals.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ee71f272006352b6848a91f35c5d3b97923f1852/analysis/gaussian_signals.Rmd" target="_blank">ee71f27</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
-<td style="text-align:left;">
+<td>
 Made a few small adjustments to the text in the “gaussianmeanest” analysis.
 </td>
 </tr>
 </tbody>
 </table>
-</ul>
-<p></details></p>
-<hr />
+</div>
+<hr>
+</div>
+</div>
+</div>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>Load the ggplot2 and cowplot packages, and the functions definining the mean and variances used to simulate the data.</p>
@@ -631,47 +836,65 @@ var5 = var5/max(var5)</code></pre>
           qplot(t,mu.cor, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Corner (cor)&quot;),
           nrow = 4,ncol = 2)</code></pre>
 <p><img src="figure/gaussian_signals.Rmd/plot-mean-functions-1.png" width="576" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of plot-mean-functions-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-mean-functions-1">
+Past versions of plot-mean-functions-1.png
+</button>
+</p>
+<div id="fig-plot-mean-functions-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/1fe523e244f7a10f4d4f375c0a997d437d5e1a17/docs/figure/gaussian_signals.Rmd/plot-mean-functions-1.png" target="_blank">1fe523e</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-04
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/dc4c6cdeab52ee2f5a43f313c91fe24a4dff89bb/docs/figure/gaussian_signals.Rmd/plot-mean-functions-1.png" target="_blank">dc4c6cd</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
+2018-12-04
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/469c32f2afc6d2070c95d558badf7decbefed5a6/docs/figure/gaussian_signals.Rmd/plot-mean-functions-1.png" target="_blank">469c32f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
 2018-12-04
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 </div>
 <div id="plot-the-signal-variances" class="section level2">
 <h2>Plot the signal variances</h2>
@@ -684,72 +907,92 @@ Peter Carbonetto
   qplot(t,var5,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Clipped (v5)&quot;),
   nrow = 3,ncol = 2)</code></pre>
 <p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-1.png" width="576" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of plot-variance-functions-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-variance-functions-1">
+Past versions of plot-variance-functions-1.png
+</button>
+</p>
+<div id="fig-plot-variance-functions-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/abc74e5dfa683eba26cee0d09abfebbdf053413c/docs/figure/gaussian_signals.Rmd/plot-variance-functions-1.png" target="_blank">abc74e5</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
+2018-12-04
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/469c32f2afc6d2070c95d558badf7decbefed5a6/docs/figure/gaussian_signals.Rmd/plot-variance-functions-1.png" target="_blank">469c32f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
 2018-12-04
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
 </div>
-<div id="session-information" class="section level2">
-<h2>Session information</h2>
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()
-# R version 3.4.3 (2017-11-30)
-# Platform: x86_64-apple-darwin15.6.0 (64-bit)
-# Running under: macOS High Sierra 10.13.6
+# R version 3.6.1 (2019-07-05)
+# Platform: x86_64-w64-mingw32/x64 (64-bit)
+# Running under: Windows 10 x64 (build 17134)
 # 
 # Matrix products: default
-# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
 # 
 # locale:
-# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# [1] LC_COLLATE=English_United States.1252 
+# [2] LC_CTYPE=English_United States.1252   
+# [3] LC_MONETARY=English_United States.1252
+# [4] LC_NUMERIC=C                          
+# [5] LC_TIME=English_United States.1252    
 # 
 # attached base packages:
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] cowplot_0.9.3 ggplot2_3.1.0
+# [1] cowplot_1.0.0 ggplot2_3.2.1
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.0        compiler_3.4.3    pillar_1.2.1     
-#  [4] git2r_0.23.0      plyr_1.8.4        workflowr_1.1.1  
-#  [7] bindr_0.1.1       R.methodsS3_1.7.1 R.utils_2.6.0    
-# [10] tools_3.4.3       digest_0.6.17     evaluate_0.11    
-# [13] tibble_1.4.2      gtable_0.2.0      pkgconfig_2.0.2  
-# [16] rlang_0.2.2       yaml_2.2.0        bindrcpp_0.2.2   
-# [19] withr_2.1.2       stringr_1.3.1     dplyr_0.7.6      
-# [22] knitr_1.20        rprojroot_1.3-2   grid_3.4.3       
-# [25] tidyselect_0.2.4  glue_1.3.0        R6_2.2.2         
-# [28] rmarkdown_1.10    purrr_0.2.5       magrittr_1.5     
-# [31] whisker_0.3-2     backports_1.1.2   scales_0.5.0     
-# [34] htmltools_0.3.6   assertthat_0.2.0  colorspace_1.4-0 
-# [37] labeling_0.3      stringi_1.2.4     lazyeval_0.2.1   
-# [40] munsell_0.4.3     R.oo_1.21.0</code></pre>
+#  [1] Rcpp_1.0.2       knitr_1.25       whisker_0.4      magrittr_1.5    
+#  [5] workflowr_1.4.0  munsell_0.5.0    colorspace_1.4-1 rlang_0.4.0     
+#  [9] stringr_1.4.0    tools_3.6.1      grid_3.6.1       gtable_0.3.0    
+# [13] xfun_0.10        withr_2.1.2      git2r_0.26.1     htmltools_0.4.0 
+# [17] yaml_2.2.0       lazyeval_0.2.2   rprojroot_1.3-2  digest_0.6.21   
+# [21] tibble_2.1.3     crayon_1.3.4     fs_1.3.1         glue_1.3.1      
+# [25] evaluate_0.14    rmarkdown_1.16   labeling_0.3     stringi_1.4.3   
+# [29] compiler_3.6.1   pillar_1.4.2     scales_1.0.0     backports_1.1.5 
+# [33] pkgconfig_2.0.3</code></pre>
+</div>
 </div>
 
 <script type="text/x-mathjax-config">
@@ -757,6 +1000,7 @@ Peter Carbonetto
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
 http://docs.mathjax.org/en/latest/configuration.html.  This will make
@@ -768,14 +1012,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-<hr>
-<p>
-  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
-  analysis was created with
-  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
-</p>
-<hr>
 
 
 
@@ -793,6 +1029,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

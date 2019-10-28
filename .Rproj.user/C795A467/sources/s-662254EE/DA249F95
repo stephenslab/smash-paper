@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1572216944836.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1065080802",
+    "id" : "DA249F95",
+    "lastKnownWriteTime" : 1572214594,
+    "last_content_update" : 1572214594,
+    "path" : "D:/GitHub/smash-paper/analysis/gaussvarest.Rmd",
+    "project_path" : "analysis/gaussvarest.Rmd",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Zhengrong Xing, Peter Carbonetto and Matthew Stephens" />
@@ -70,9 +71,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -86,7 +85,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -96,6 +94,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -111,7 +112,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -131,6 +131,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -152,19 +189,73 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -212,439 +303,624 @@ div.section {
 
 
 <h1 class="title toc-ignore">Plots and tables summarizing results of Poisson simulations</h1>
-<h4 class="author"><em>Zhengrong Xing, Peter Carbonetto and Matthew Stephens</em></h4>
+<h4 class="author">Zhengrong Xing, Peter Carbonetto and Matthew Stephens</h4>
 
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-12-21</p>
-<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
-<ul>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
-</details>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
-</details>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(1)</code> </summary></p>
-<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/b9f5cd35861aa46b14d176cfb1f3ed36e5a1fdac" target="_blank">b9f5cd3</a> </summary></p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
-<pre><code>
-Ignored files:
-    Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FAIPT.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FCPSynthesis.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FMIPT.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWPSynthesis.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWT2_PO.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PBS.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PO.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_TI.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IAIPT.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IMIPT.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IWT2_PO.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PBS.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PO.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_TI.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/LMIRefineSeq.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/MedRefineSeq.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadHi.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadLo.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/WPAnalysis.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dct_ii.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iii.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
-    Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
-
-</code></pre>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+<a data-toggle="tab" href="#versions">Past versions</a>
 </li>
 </ul>
-<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
-<ul>
-<table style="border-collapse:separate; border-spacing:5px;">
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-10-27
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>smash-paper/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed1code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(1)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed1code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee574eec52585f7a5b7c51d2fee5affa76127cf5ftargetblanke574eeca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/e574eec52585f7a5b7c51d2fee5affa76127cf5f" target="_blank">e574eec</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee574eec52585f7a5b7c51d2fee5affa76127cf5ftargetblanke574eeca" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  .Rhistory
+    Untracked:  .Rproj.user/
+
+Unstaged changes:
+    Modified:   smash-paper.Rproj
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 File
 </th>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
-<th style="text-align:left;">
+<th>
 Message
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
-Rmd
+<td>
+html
 </td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/b9f5cd35861aa46b14d176cfb1f3ed36e5a1fdac/analysis/poisson.Rmd" target="_blank">b9f5cd3</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/bf8b368bebc1a6f6cf63b4066dfc6452e1c4fe25/docs/poisson.html" target="_blank">bf8b368</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-21
 </td>
-<td style="text-align:left;">
+<td>
+Fixed plots for Bursts simulations.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/b9f5cd35861aa46b14d176cfb1f3ed36e5a1fdac/analysis/poisson.Rmd" target="_blank">b9f5cd3</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-21
+</td>
+<td>
 wflow_publish(c(“index.Rmd”, “poisson.Rmd”))
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/34416673b560f75e8bc2c896214df3e7a318821d/docs/poisson.html" target="_blank">3441667</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/34416673b560f75e8bc2c896214df3e7a318821d/docs/poisson.html" target="_blank">3441667</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-21
 </td>
-<td style="text-align:left;">
+<td>
 Revised Bumps results in poisson.Rmd.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/7db6b711fa8597bcd5550ee10280cf5b30b4c063/analysis/poisson.Rmd" target="_blank">7db6b71</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-21
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“poisson.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/e8bc009e08494908d62f7dadff6ed33ec35d6ab2/analysis/poisson.Rmd" target="_blank">e8bc009</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-12-21
-</td>
-<td style="text-align:left;">
-wflow_publish(“poisson.Rmd”)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/5adee340f7a3fcdfc1ace37c5f7426116b0d03ed/docs/poisson.html" target="_blank">5adee34</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/ee06399f7f91e8835c4ed0198d5fe560fbb283fc/docs/poisson.html" target="_blank">ee06399</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-21
 </td>
-<td style="text-align:left;">
+<td>
+Added plots &amp; tables for Clipped Blocks and Bumps simulations.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/e8bc009e08494908d62f7dadff6ed33ec35d6ab2/analysis/poisson.Rmd" target="_blank">e8bc009</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-21
+</td>
+<td>
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/5adee340f7a3fcdfc1ace37c5f7426116b0d03ed/docs/poisson.html" target="_blank">5adee34</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-21
+</td>
+<td>
 Addd plots and table for Bursts simulations.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/3776af8aa011e4a09adbc8548527a909e206541a/analysis/poisson.Rmd" target="_blank">3776af8</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-21
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“poisson.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/c333197d04ef8683550ccd76aa82061450f66d7d/docs/poisson.html" target="_blank">c333197</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/c333197d04ef8683550ccd76aa82061450f66d7d/docs/poisson.html" target="_blank">c333197</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-21
 </td>
-<td style="text-align:left;">
+<td>
 A few small revsions to the code at the beginning of poisson.Rmd.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/b42715cd8cd636c5e1f5844a13e8fdd2523d3355/analysis/poisson.Rmd" target="_blank">b42715c</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-21
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“poisson.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/bd84eae8cfc184ef8a577c808dfba7784a079776/docs/poisson.html" target="_blank">bd84eae</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/8e3900b9d575d8dc1fdcd7bf3ed3d96ee694f80f/docs/poisson.html" target="_blank">8e3900b</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
+2018-12-21
+</td>
+<td>
+Updated text at the beginning of poisson.Rmd.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/d351039c64d0834a905a75a4a8ef370eab04acf3/analysis/poisson.Rmd" target="_blank">d351039</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-21
+</td>
+<td>
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/bd84eae8cfc184ef8a577c808dfba7784a079776/docs/poisson.html" target="_blank">bd84eae</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/51620b3c919177dd11ca20d65ae751e5e767110d/analysis/poisson.Rmd" target="_blank">51620b3</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“poisson.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/bda4fbc508ea02fe57a44f91cbe3f6c73cd01ffe/docs/poisson.html" target="_blank">bda4fbc</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/bda4fbc508ea02fe57a44f91cbe3f6c73cd01ffe/docs/poisson.html" target="_blank">bda4fbc</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 Wrote function create.violin.plots in poisson.Rmd.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-html
+<td>
+Rmd
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/poisson.html" target="_blank">ed961b1</a>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/ed77c12e581196865e967cf76bf0bfd04fb1c85d/analysis/poisson.Rmd" target="_blank">ed77c12</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
+Fixed some merging issues.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/poisson.html" target="_blank">ed961b1</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-20
+</td>
+<td>
 Added violin plots for the Spikes and Angles Poisson simulation results.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/68ce493b785b066a4e49bb4b644697ea60411c5d/analysis/poisson.Rmd" target="_blank">68ce493</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“poisson.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/2acee22f1bc21663255a0a8cfa8d9926eb403944/docs/poisson.html" target="_blank">2acee22</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/78afaca00f6c4f670d790d4e3f347762ad1226dd/docs/poisson.html" target="_blank">78afaca</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 Added plots for all test functions.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/987a8618bba284ec106dd750de6b2ffae781229c/analysis/poisson.Rmd" target="_blank">987a861</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“poisson.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/79085516861368d05ab6812affae14ce93acdc83/docs/poisson.html" target="_blank">7908551</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-20
+</td>
+<td>
+Built very first draft of the “poisson” workflowr page.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/b3f5b57bb2aa35e2ba7ef1575e41890ba61e5ee4/analysis/poisson.Rmd" target="_blank">b3f5b57</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“poisson.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/d36bfca0bfb08d962f97aee9df5e8670a1c30f52/analysis/poisson.Rmd" target="_blank">d36bfca</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 Misc. revisions to READMEs and documentation.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/7aa0b114f8866373638f1fb29d180d27fb715993/analysis/poisson.Rmd" target="_blank">7aa0b11</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
-<td style="text-align:left;">
+<td>
 Working on poisson analysis.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/3c562ead0967e17ddcb4535f0bd292eb792154e2/analysis/poisson.Rmd" target="_blank">3c562ea</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-19
 </td>
-<td style="text-align:left;">
+<td>
 Moved poisson_tables.Rmd to poisson.Rmd.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/25ff9c3fc019f74c41b511712724ac3f5b6b2d7f/analysis/poisson.Rmd" target="_blank">25ff9c3</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-19
 </td>
-<td style="text-align:left;">
+<td>
 Re-organized some of the files used in the Poisson numerical comparisons.
 </td>
 </tr>
 </tbody>
 </table>
-</ul>
-<p></details></p>
-<hr />
+</div>
+<hr>
+</div>
+</div>
+</div>
 <p>Here we create plots and tables to compare various methods, including SMASH, for reconstructing a spatially structured signal from Poisson-distributed data. Similar to the Gaussian simulations, we generated data sets using a variety of test functions and intensity ranges. Specifically, we considered 6 test functions, rescaling the test function so that the smallest intensity was x and the largest intensity was y, with (x,y) set to either (1/100, 3), (1/8, 8) or (1/128, 128). For each combination of test function and intensity range, we simulated 100 data sets. In the plots and tables below, we summarize the error (MISE) in the estimates computed in the 100 data sets from each simulation setting.</p>
 <p>The plots for the “Bursts” simulations were included in the manuscript.</p>
 <div id="analysis-settings" class="section level2">
@@ -678,47 +954,54 @@ library(xtable)</code></pre>
 <pre class="r"><code>mu.s &lt;- spike.f(t)
 plot(t,mu.s,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-spikes-function-1.png" width="768" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of plot-spikes-function-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-spikes-function-1">
+Past versions of plot-spikes-function-1.png
+</button>
+</p>
+<div id="fig-plot-spikes-function-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/figure/poisson.Rmd/plot-spikes-function-1.png" target="_blank">ed961b1</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/2acee22f1bc21663255a0a8cfa8d9926eb403944/docs/figure/poisson.Rmd/plot-spikes-function-1.png" target="_blank">2acee22</a>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/78afaca00f6c4f670d790d4e3f347762ad1226dd/docs/figure/poisson.Rmd/plot-spikes-function-1.png" target="_blank">78afaca</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 <p>This table summarizes the results from the Spikes simulations:</p>
 <pre class="r"><code>mise.s.table &lt;- cbind(mise.s.1[methods],
                       mise.s.8[methods],
@@ -727,8 +1010,8 @@ rownames(mise.s.table) &lt;- table.row.names
 colnames(mise.s.table) &lt;- table.col.names
 print(xtable(mise.s.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
-<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 10:28:33 2018 -->
+<!-- html table generated in R 3.6.1 by xtable 1.8-4 package -->
+<!-- Sun Oct 27 15:50:35 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -836,36 +1119,43 @@ create.violin.plots &lt;- function (pdat1, pdat8, pdat128) {
 }
 create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
 <p><img src="figure/poisson.Rmd/spikes-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of spikes-violin-plots-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-spikes-violin-plots-1">
+Past versions of spikes-violin-plots-1.png
+</button>
+</p>
+<div id="fig-spikes-violin-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/figure/poisson.Rmd/spikes-violin-plots-1.png" target="_blank">ed961b1</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 </div>
 <div id="angles-data" class="section level2">
 <h2>Angles data</h2>
@@ -881,47 +1171,54 @@ sig &lt;- ((2 * t + 0.5) * (t &lt;= 0.15)) +
 mu.ang &lt;- 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569
 plot(t,mu.ang,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-angles-function-1.png" width="768" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of plot-angles-function-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-angles-function-1">
+Past versions of plot-angles-function-1.png
+</button>
+</p>
+<div id="fig-plot-angles-function-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/figure/poisson.Rmd/plot-angles-function-1.png" target="_blank">ed961b1</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/2acee22f1bc21663255a0a8cfa8d9926eb403944/docs/figure/poisson.Rmd/plot-angles-function-1.png" target="_blank">2acee22</a>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/78afaca00f6c4f670d790d4e3f347762ad1226dd/docs/figure/poisson.Rmd/plot-angles-function-1.png" target="_blank">78afaca</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 <p>This table summarizes the results from the Angles simulations:</p>
 <pre class="r"><code>mise.ang.table &lt;- cbind(mise.ang.1[methods],
                         mise.ang.8[methods],
@@ -930,8 +1227,8 @@ rownames(mise.ang.table) &lt;- table.row.names
 colnames(mise.ang.table) &lt;- table.col.names
 print(xtable(mise.ang.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
-<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 10:28:53 2018 -->
+<!-- html table generated in R 3.6.1 by xtable 1.8-4 package -->
+<!-- Sun Oct 27 15:50:38 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1016,36 +1313,43 @@ pdat128 &lt;-
              mise  =c(mise.hf.ti.r.ang.128,mise.BMSM.ang.128,mise.ash.ang.128))
 create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
 <p><img src="figure/poisson.Rmd/angles-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of angles-violin-plots-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-angles-violin-plots-1">
+Past versions of angles-violin-plots-1.png
+</button>
+</p>
+<div id="fig-angles-violin-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/figure/poisson.Rmd/angles-violin-plots-1.png" target="_blank">ed961b1</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 </div>
 <div id="heavisine-data" class="section level2">
 <h2>Heavisine data</h2>
@@ -1055,47 +1359,54 @@ mu.hs &lt;- heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
 mu.hs &lt;- mu.hs - min(mu.hs)
 plot(t,mu.hs,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-heavisine-function-1.png" width="768" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of plot-heavisine-function-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-heavisine-function-1">
+Past versions of plot-heavisine-function-1.png
+</button>
+</p>
+<div id="fig-plot-heavisine-function-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/figure/poisson.Rmd/plot-heavisine-function-1.png" target="_blank">ed961b1</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/2acee22f1bc21663255a0a8cfa8d9926eb403944/docs/figure/poisson.Rmd/plot-heavisine-function-1.png" target="_blank">2acee22</a>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/78afaca00f6c4f670d790d4e3f347762ad1226dd/docs/figure/poisson.Rmd/plot-heavisine-function-1.png" target="_blank">78afaca</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 <p>This table summarizes the results from the Heavisine simulations:</p>
 <pre class="r"><code>mise.hs.table &lt;- cbind(mise.hs.1[methods],
                        mise.hs.8[methods],
@@ -1104,8 +1415,8 @@ rownames(mise.hs.table) &lt;- table.row.names
 colnames(mise.hs.table) &lt;- table.col.names
 print(xtable(mise.hs.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
-<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 10:29:13 2018 -->
+<!-- html table generated in R 3.6.1 by xtable 1.8-4 package -->
+<!-- Sun Oct 27 15:50:40 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1190,36 +1501,43 @@ pdat128 &lt;-
              mise  =c(mise.hf.ti.r.hs.128,mise.BMSM.hs.128,mise.ash.hs.128))
 create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
 <p><img src="figure/poisson.Rmd/heavisine-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of heavisine-violin-plots-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-heavisine-violin-plots-1">
+Past versions of heavisine-violin-plots-1.png
+</button>
+</p>
+<div id="fig-heavisine-violin-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/bd84eae8cfc184ef8a577c808dfba7784a079776/docs/figure/poisson.Rmd/heavisine-violin-plots-1.png" target="_blank">bd84eae</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 </div>
 <div id="bursts-data" class="section level2">
 <h2>Bursts data</h2>
@@ -1233,47 +1551,54 @@ I_3 &lt;- exp(-(abs(t - 0.4)/0.01)^1.2) * (t &lt;= 0.4) +
 mu.bur &lt;- 2.99/4.51804 * (4 * I_1 + 3 * I_2 + 4.5 * I_3)
 plot(t,mu.bur,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-bursts-function-1.png" width="768" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of plot-bursts-function-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-bursts-function-1">
+Past versions of plot-bursts-function-1.png
+</button>
+</p>
+<div id="fig-plot-bursts-function-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/figure/poisson.Rmd/plot-bursts-function-1.png" target="_blank">ed961b1</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/2acee22f1bc21663255a0a8cfa8d9926eb403944/docs/figure/poisson.Rmd/plot-bursts-function-1.png" target="_blank">2acee22</a>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/78afaca00f6c4f670d790d4e3f347762ad1226dd/docs/figure/poisson.Rmd/plot-bursts-function-1.png" target="_blank">78afaca</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 <p>This table summarizes the results from the Bursts simulations:</p>
 <pre class="r"><code>mise.bur.table &lt;- cbind(mise.bur.1[methods],
                         mise.bur.8[methods],
@@ -1282,8 +1607,8 @@ rownames(mise.bur.table) &lt;- table.row.names
 colnames(mise.bur.table) &lt;- table.col.names
 print(xtable(mise.bur.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
-<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 10:29:32 2018 -->
+<!-- html table generated in R 3.6.1 by xtable 1.8-4 package -->
+<!-- Sun Oct 27 15:50:43 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1368,36 +1693,43 @@ pdat128 &lt;-
              mise  =c(mise.hf.ti.r.bur.128,mise.BMSM.bur.128,mise.ash.bur.128))
 create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
 <p><img src="figure/poisson.Rmd/bursts-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of bursts-violin-plots-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-bursts-violin-plots-1">
+Past versions of bursts-violin-plots-1.png
+</button>
+</p>
+<div id="fig-bursts-violin-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/5adee340f7a3fcdfc1ace37c5f7426116b0d03ed/docs/figure/poisson.Rmd/bursts-violin-plots-1.png" target="_blank">5adee34</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-21
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 </div>
 <div id="clipped-blocks-data" class="section level2">
 <h2>Clipped Blocks data</h2>
@@ -1410,47 +1742,54 @@ for (j in 1:length(pos))
 mu.cb[mu.cb &lt; 0] &lt;- 0
 plot(t,mu.cb,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-cb-function-1.png" width="768" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of plot-cb-function-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-cb-function-1">
+Past versions of plot-cb-function-1.png
+</button>
+</p>
+<div id="fig-plot-cb-function-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/figure/poisson.Rmd/plot-cb-function-1.png" target="_blank">ed961b1</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/2acee22f1bc21663255a0a8cfa8d9926eb403944/docs/figure/poisson.Rmd/plot-cb-function-1.png" target="_blank">2acee22</a>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/78afaca00f6c4f670d790d4e3f347762ad1226dd/docs/figure/poisson.Rmd/plot-cb-function-1.png" target="_blank">78afaca</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 <p>This table summarizes the results from the Clipped Blocks simulations:</p>
 <pre class="r"><code>mise.cb.table &lt;- cbind(mise.cb.1[methods],
                        mise.cb.8[methods],
@@ -1459,8 +1798,8 @@ rownames(mise.cb.table) &lt;- table.row.names
 colnames(mise.cb.table) &lt;- table.col.names
 print(xtable(mise.cb.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
-<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 10:29:51 2018 -->
+<!-- html table generated in R 3.6.1 by xtable 1.8-4 package -->
+<!-- Sun Oct 27 15:50:45 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1545,6 +1884,43 @@ pdat128 &lt;-
              mise  =c(mise.hf.ti.r.cb.128,mise.BMSM.cb.128,mise.ash.cb.128))
 create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
 <p><img src="figure/poisson.Rmd/cb-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cb-violin-plots-1">
+Past versions of cb-violin-plots-1.png
+</button>
+</p>
+<div id="fig-cb-violin-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/ee06399f7f91e8835c4ed0198d5fe560fbb283fc/docs/figure/poisson.Rmd/cb-violin-plots-1.png" target="_blank">ee06399</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="bumps-data" class="section level2">
 <h2>Bumps data</h2>
@@ -1557,47 +1933,54 @@ for (j in 1:length(pos))
   mu.b &lt;- mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
 plot(t,mu.b,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-bumps-function-1.png" width="768" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of plot-bumps-function-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-bumps-function-1">
+Past versions of plot-bumps-function-1.png
+</button>
+</p>
+<div id="fig-plot-bumps-function-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ed961b11a458917a26a8d9efdd13641412bb04c5/docs/figure/poisson.Rmd/plot-bumps-function-1.png" target="_blank">ed961b1</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/2acee22f1bc21663255a0a8cfa8d9926eb403944/docs/figure/poisson.Rmd/plot-bumps-function-1.png" target="_blank">2acee22</a>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/78afaca00f6c4f670d790d4e3f347762ad1226dd/docs/figure/poisson.Rmd/plot-bumps-function-1.png" target="_blank">78afaca</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-12-20
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
+</div>
+</div>
 <p>This table summarizes the results from the Bumps simulations:</p>
 <pre class="r"><code>mise.b.table &lt;- cbind(mise.b.1[methods],
                       mise.b.8[methods],
@@ -1606,8 +1989,8 @@ rownames(mise.b.table) &lt;- table.row.names
 colnames(mise.b.table) &lt;- table.col.names
 print(xtable(mise.b.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
-<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Fri Dec 21 10:30:10 2018 -->
+<!-- html table generated in R 3.6.1 by xtable 1.8-4 package -->
+<!-- Sun Oct 27 15:50:48 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1692,42 +2075,97 @@ pdat128 &lt;-
              mise  =c(mise.hf.ti.r.b.128,mise.BMSM.b.128,mise.ash.b.128))
 create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
 <p><img src="figure/poisson.Rmd/bumps-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-bumps-violin-plots-1">
+Past versions of bumps-violin-plots-1.png
+</button>
+</p>
+<div id="fig-bumps-violin-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/bf8b368bebc1a6f6cf63b4066dfc6452e1c4fe25/docs/figure/poisson.Rmd/bumps-violin-plots-1.png" target="_blank">bf8b368</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-21
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/ee06399f7f91e8835c4ed0198d5fe560fbb283fc/docs/figure/poisson.Rmd/bumps-violin-plots-1.png" target="_blank">ee06399</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-21
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="session-information" class="section level2">
-<h2>Session information</h2>
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()
-# R version 3.4.3 (2017-11-30)
-# Platform: x86_64-apple-darwin15.6.0 (64-bit)
-# Running under: macOS High Sierra 10.13.6
+# R version 3.6.1 (2019-07-05)
+# Platform: x86_64-w64-mingw32/x64 (64-bit)
+# Running under: Windows 10 x64 (build 17134)
 # 
 # Matrix products: default
-# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
 # 
+# Random number generation:
+#  RNG:     Mersenne-Twister 
+#  Normal:  Inversion 
+#  Sample:  Rounding 
+#  
 # locale:
-# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# [1] LC_COLLATE=English_United States.1252 
+# [2] LC_CTYPE=English_United States.1252   
+# [3] LC_MONETARY=English_United States.1252
+# [4] LC_NUMERIC=C                          
+# [5] LC_TIME=English_United States.1252    
 # 
 # attached base packages:
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] xtable_1.8-2  cowplot_0.9.3 ggplot2_3.1.0
+# [1] xtable_1.8-4  cowplot_1.0.0 ggplot2_3.2.1
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.0        compiler_3.4.3    pillar_1.2.1     
-#  [4] git2r_0.23.0      plyr_1.8.4        workflowr_1.1.1  
-#  [7] bindr_0.1.1       R.methodsS3_1.7.1 R.utils_2.6.0    
-# [10] tools_3.4.3       digest_0.6.17     evaluate_0.11    
-# [13] tibble_1.4.2      gtable_0.2.0      pkgconfig_2.0.2  
-# [16] rlang_0.2.2       yaml_2.2.0        bindrcpp_0.2.2   
-# [19] withr_2.1.2       stringr_1.3.1     dplyr_0.7.6      
-# [22] knitr_1.20        rprojroot_1.3-2   grid_3.4.3       
-# [25] tidyselect_0.2.4  glue_1.3.0        R6_2.2.2         
-# [28] rmarkdown_1.10    purrr_0.2.5       magrittr_1.5     
-# [31] whisker_0.3-2     backports_1.1.2   scales_0.5.0     
-# [34] htmltools_0.3.6   assertthat_0.2.0  colorspace_1.4-0 
-# [37] labeling_0.3      stringi_1.2.4     lazyeval_0.2.1   
-# [40] munsell_0.4.3     R.oo_1.21.0</code></pre>
+#  [1] Rcpp_1.0.2       knitr_1.25       whisker_0.4      magrittr_1.5    
+#  [5] workflowr_1.4.0  munsell_0.5.0    colorspace_1.4-1 rlang_0.4.0     
+#  [9] stringr_1.4.0    tools_3.6.1      grid_3.6.1       gtable_0.3.0    
+# [13] xfun_0.10        withr_2.1.2      git2r_0.26.1     htmltools_0.4.0 
+# [17] yaml_2.2.0       lazyeval_0.2.2   rprojroot_1.3-2  digest_0.6.21   
+# [21] tibble_2.1.3     crayon_1.3.4     fs_1.3.1         glue_1.3.1      
+# [25] evaluate_0.14    rmarkdown_1.16   labeling_0.3     stringi_1.4.3   
+# [29] compiler_3.6.1   pillar_1.4.2     scales_1.0.0     backports_1.1.5 
+# [33] pkgconfig_2.0.3</code></pre>
+</div>
 </div>
 
 <script type="text/x-mathjax-config">
@@ -1735,6 +2173,7 @@ create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
 http://docs.mathjax.org/en/latest/configuration.html.  This will make
@@ -1746,14 +2185,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-<hr>
-<p>
-  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
-  analysis was created with
-  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
-</p>
-<hr>
 
 
 
@@ -1771,6 +2202,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

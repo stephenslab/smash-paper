@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1572216793866.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "3224855A",
+    "lastKnownWriteTime" : 1572214594,
+    "last_content_update" : 1572214594,
+    "path" : "D:/GitHub/smash-paper/analysis/gaussian_signals.Rmd",
+    "project_path" : "analysis/gaussian_signals.Rmd",
+    "properties" : {
+        "cursorPosition" : "112,22",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -62,3 +62,68 @@ spikes.fn <- function(t, type) {
     return(NULL)
 }
 
+cons.fn = function(t, type) {
+  fn = rep(1, length(t))
+  if (type == "mean") {
+    return(NULL)
+  } else if (type == "var") {
+    return(fn)
+  }
+}
+
+bumps.fn = function(t, type) {
+  pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
+  hgt = 2.97/5 * c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
+  wth = c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005, 0.008, 0.005)
+  fn = rep(0, length(t))
+  for (j in 1:length(pos)) {
+    fn = fn + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
+  }
+  if (type == "mean") {
+    return((1 + fn)/5)
+  } else if (type == "var") {
+    return(1e-05 + fn)
+  }
+}
+
+blocks.fn = function(t, type) {
+  pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
+  hgt = 2.88/5 * c(4, (-5), 3, (-4), 5, (-4.2), 2.1, 4.3, (-3.1), 2.1, (-4.2))
+  fn = rep(0, length(t))
+  for (j in 1:length(pos)) {
+    fn = fn + (1 + sign(t - pos[j])) * (hgt[j]/2)
+  }
+  if (type == "mean") {
+    return(0.2 + 0.6 * (fn - min(fn))/max(fn - min(fn)))
+  } else if (type == "var") {
+    return(NULL)
+  }
+}
+
+angles.fn = function(t, type) {
+  sig = ((2 * t + 0.5) * (t <= 0.15)) + ((-12 * (t - 0.15) + 0.8) * (t > 0.15 & t <= 0.2)) + 0.2 * (t > 0.2 & t <= 0.5) + ((6 * (t - 0.5) + 0.2) * (t > 0.5 & t <= 0.6)) + ((-10 * (t - 0.6) + 0.8) * (t > 0.6 & t <= 0.65)) + ((-0.5 * (t - 0.65) + 0.3) * (t > 0.65 & t <= 0.85)) + ((2 * (t - 0.85) + 0.2) * (t > 0.85))
+  fn = 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569
+  if (type == "mean") {
+    return((1 + fn)/5)
+  } else if (type == "var") {
+    return(NULL)
+  }
+}
+
+blip.fn = function(t, type) {
+  fn = (0.32 + 0.6 * t + 0.3 * exp(-100 * (t - 0.3)^2)) * (t >= 0 & t <= 0.8) + (-0.28 + 0.6 * t + 0.3 * exp(-100 * (t - 1.3)^2)) * (t > 0.8 & t <= 1)
+  if (type == "mean") {
+    return(fn)
+  } else if (type == "var") {
+    return(NULL)
+  }
+}
+
+texp.fn = function(t, type) {
+  fn = 1e-04 + 4 * (exp(-550 * (t - 0.2)^2) + exp(-200 * (t - 0.5)^2) + exp(-950 * (t - 0.8)^2))
+  if (type == "mean") {
+    return(NULL)
+  } else if (type == "var") {
+    return(fn)
+  }
+}

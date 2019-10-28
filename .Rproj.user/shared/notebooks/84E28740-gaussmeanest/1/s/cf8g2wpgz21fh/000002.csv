@@ -1,0 +1,5 @@
+"0","mu        <- cor.fn(t,""mean"") "
+"0","sigma.ini <- sqrt(doppler.fn(t,""var""))"
+"0","sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3"
+"0","plot(mu,type = ""l"", ylim = c(-0.05,1),xlab = ""position"",ylab = """","
+"0","     lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))"

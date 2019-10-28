@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1572217316976.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "63898142",
+    "lastKnownWriteTime" : 1572214594,
+    "last_content_update" : 1572217335453,
+    "path" : "D:/GitHub/smash-paper/analysis/spikesdemo.Rmd",
+    "project_path" : "analysis/spikesdemo.Rmd",
+    "properties" : {
+        "cursorPosition" : "225,72",
+        "scrollLine" : "213"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

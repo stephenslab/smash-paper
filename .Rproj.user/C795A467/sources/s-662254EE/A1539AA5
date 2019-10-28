@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1572216876923.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A1539AA5",
+    "lastKnownWriteTime" : 1572223927,
+    "last_content_update" : 1572223927810,
+    "path" : "D:/GitHub/smash-paper/analysis/gaussmeanest.Rmd",
+    "project_path" : "analysis/gaussmeanest.Rmd",
+    "properties" : {
+        "cursorPosition" : "468,29",
+        "scrollLine" : "466"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

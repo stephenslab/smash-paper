@@ -1,0 +1,3 @@
+"0","par(cex.axis = 1,cex.lab = 1.25)"
+"0","plot(mu.sp,type = 'l',ylim = c(-0.05,1),xlab = ""position"","
+"0","     ylab = """",lwd = 3,xaxp = c(0,1024,4),yaxp = c(0,1,4))"

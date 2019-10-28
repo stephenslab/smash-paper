@@ -1,0 +1,4 @@
+"0","par(cex.axis = 1,cex.lab = 1.25)"
+"0","plot(c(),c(),xlab = ""observed wavelet coefficients"","
+"0","     ylab = ""shrunken wavelet coefficients"","
+"0","     xlim = c(-2.5,2.5),ylim = c(-2.5,2.5))"

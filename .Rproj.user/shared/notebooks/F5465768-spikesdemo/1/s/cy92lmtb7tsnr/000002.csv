@@ -1,0 +1,3 @@
+"0","wc.sim     <- titable(x.sim)$difftable"
+"0","wc.var.sim <- titable(sig.cb^2)$sumtable"
+"0","wc.true    <- titable(mu.sp)$difftable"
