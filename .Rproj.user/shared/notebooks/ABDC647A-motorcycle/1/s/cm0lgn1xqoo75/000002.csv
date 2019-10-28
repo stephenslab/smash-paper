@@ -1,0 +1,3 @@
+"0","data(mcycle)"
+"0","x.ini.mc <- sort(mcycle$times)"
+"0","y.ini.mc <- mcycle$accel[order(mcycle$times)]"

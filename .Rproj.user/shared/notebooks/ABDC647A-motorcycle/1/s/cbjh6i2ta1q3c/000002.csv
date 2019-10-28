@@ -1,0 +1,6 @@
+"0","library(MASS)"
+"0","library(lattice)"
+"0","library(smashr)"
+"0","library(wavethresh)"
+"0","library(EbayesThresh)"
+"0","source(""../code/motorcycle.functions.R"")"

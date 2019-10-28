@@ -112,3 +112,24 @@ tithresh.wrapper = function (x.ini, y.ini) {
   return(list(x = x, y = y, mu.est = y.mu.est))
 }
 
+# Wrapper function to return estimated mean given raw data for TI
+# thresholding with RMAD.
+tithresh.rmad.wrapper = function (x.ini, y.ini) {
+    
+  # Take the median of observations with repeated x values.
+  x = unique(x.ini)
+  y = 0
+  for(i in 1:length(x)){
+    y[i] = median(y.ini[x.ini == x[i]])
+  }
+  
+  # Mirror the data twice to make it periodic and a power of 2.
+  y.exp = c(y, y[length(y):(2*length(y) - 2^ceiling(log2(length(y))) + 1)])
+  y.final = c(y.exp, y.exp[length(y.exp):1])
+  
+  # Run TI thresholding with emprical bayes thresholding.
+  y.est = ti.thresh(y.final, method = 'rmad')
+  
+  y.mu.est = y.est[1:length(y)]
+  return(list(x = x, y = y, mu.est = y.mu.est))
+}
