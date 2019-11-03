@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">smash</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Overview</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stephenslab/smash-paper">source</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-11-03
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>smash-paper/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed1code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(1)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed1code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree500381a3f5d9799d9c93ae022519fb216c9b5d0etargetblank500381aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/500381a3f5d9799d9c93ae022519fb216c9b5d0e" target="_blank">500381a</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree500381a3f5d9799d9c93ae022519fb216c9b5d0etargetblank500381aa" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/C795A467/ctx/
+    Ignored:    .Rproj.user/C795A467/explorer-cache/
+    Ignored:    .Rproj.user/C795A467/presentation/
+    Ignored:    .Rproj.user/C795A467/profiles-cache/
+    Ignored:    .Rproj.user/C795A467/sources/per/
+    Ignored:    .Rproj.user/C795A467/unsaved-notebooks/
+    Ignored:    .Rproj.user/C795A467/viewer-cache/
+
+Untracked files:
+    Untracked:  .Rproj.user/C795A467/pcs/debug-breakpoints.pper
+    Untracked:  .Rproj.user/C795A467/sources/prop/D1241CF
+    Untracked:  .Rproj.user/C795A467/sources/prop/E4FD6A05
+    Untracked:  .Rproj.user/C795A467/sources/s-8AB38A4F/
+    Untracked:  .Rproj.user/shared/notebooks/D42B89D6-gausfullres/
+    Untracked:  analysis/gausfullres.Rmd
+
+Unstaged changes:
+    Modified:   .Rhistory
+    Modified:   .Rproj.user/C795A467/console06/INDEX001
+    Modified:   .Rproj.user/C795A467/pcs/source-pane.pper
+    Modified:   .Rproj.user/C795A467/pcs/workbench-pane.pper
+    Modified:   .Rproj.user/C795A467/rmd-outputs
+    Modified:   .Rproj.user/C795A467/sources/prop/A24438ED
+    Modified:   .Rproj.user/C795A467/sources/prop/INDEX
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/3224855A
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/3224855A-contents
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/4B01F939
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/4B01F939-contents
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/6240C782-contents
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/63898142-contents
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/A04A93E
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/A04A93E-contents
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/A1539AA5-contents
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/C4351439-contents
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/DA249F95-contents
+    Deleted:    .Rproj.user/C795A467/sources/s-662254EE/lock_file
+    Deleted:    .Rproj.user/shared/notebooks/8B3D47A9-gausdemo/1/C795A467662254EE/chunks.json
+    Deleted:    .Rproj.user/shared/notebooks/93E703ED-gausdemo/1/s/ca9nxllb7ah07/000084.metadata
+    Deleted:    .Rproj.user/shared/notebooks/93E703ED-gausdemo/1/s/chunks.json
+    Modified:   .Rproj.user/shared/notebooks/paths
+    Modified:   smash-paper.Rproj
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<p>This demo plots SMASH against TI-thresholding (using RMAD to estimate variance) for a variety of mean-variance-snr combinations.</p>
+<pre class="r"><code>load(&quot;../output/dscr.RData&quot;)</code></pre>
+<pre><code>Warning: namespace &#39;dscr&#39; is not available and has been replaced
+by .GlobalEnv when processing object &#39;dsc_smash&#39;</code></pre>
+<pre class="r"><code>res_agg = aggregate(mise ~ scenario + method, data = res, FUN = mean)
+scenarios = unique(res_agg$scenario)
+
+for (scenario in scenarios) {
+  
+  mise_order = order(res_agg$mise[res_agg$scenario == scenario])
+  mise_ordered = sort(res_agg$mise[res_agg$scenario == scenario])
+  names_ordered = res_agg$method[res_agg$scenario == scenario][mise_order]
+  mise_ordered_rounded = round(mise_ordered, digits = 0)
+  
+  par(mar=c(9,4,4,2))
+  ylim = c(0, 1.2 * max(mise_ordered))
+  bp = barplot(mise_ordered, names.arg = names_ordered, ylim = ylim, las = 2)
+  text(x = bp, y = mise_ordered, label = mise_ordered_rounded, pos = 3, cex = 0.8, col = &quot;red&quot;) 
+  title(scenario)
+}</code></pre>
+<p><img src="figure/gausfullres.Rmd/demo-1.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-2.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-3.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-4.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-5.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-6.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-7.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-8.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-9.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-10.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-11.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-12.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-13.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-14.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-15.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-16.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-17.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-18.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-19.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-20.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-21.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-22.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-23.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-24.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-25.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-26.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-27.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-28.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-29.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-30.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-31.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-32.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-33.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-34.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-35.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-36.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-37.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-38.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-39.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-40.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-41.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-42.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-43.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-44.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-45.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-46.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-47.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-48.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-49.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-50.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-51.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-52.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-53.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-54.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-55.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-56.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-57.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-58.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-59.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-60.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-61.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-62.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-63.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-64.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-65.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-66.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-67.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-68.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-69.png" width="576" style="display: block; margin: auto;" /><img src="figure/gausfullres.Rmd/demo-70.png" width="576" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.1 (2019-07-05)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 17134)
+
+Matrix products: default
+
+Random number generation:
+ RNG:     Mersenne-Twister 
+ Normal:  Inversion 
+ Sample:  Rounding 
+ 
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] workflowr_1.4.0 Rcpp_1.0.2      digest_0.6.21   rprojroot_1.3-2
+ [5] backports_1.1.5 git2r_0.26.1    magrittr_1.5    evaluate_0.14  
+ [9] rlang_0.4.0     stringi_1.4.3   fs_1.3.1        rmarkdown_1.16 
+[13] tools_3.6.1     stringr_1.4.0   glue_1.3.1      xfun_0.10      
+[17] yaml_2.2.0      compiler_3.6.1  htmltools_0.4.0 knitr_1.25     </code></pre>
+</div>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
