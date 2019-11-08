@@ -1,4 +1,0 @@
-"0","create.chipseq.plot(bppos/1e6,counts,res$est,(peaks$start + peaks$end)/2e6,"
-"0","                    nbreaks = 80) +"
-"0","  scale_x_continuous(limits = c(0.88,1.02),breaks = seq(0.88,1.02,0.02)) +"
-"0","  scale_y_continuous(limits = c(-1,9),breaks = seq(0,8,2))"

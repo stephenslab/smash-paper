@@ -1,1 +1,0 @@
-"0","legend(30, -100, c(""TI-thresholding mean estimate"", ""SMASH mean estimate"", ""SMASH variance estimate""), col = c(""darkblue"", ""darkorange"", ""dodgerblue""), bty = ""n"", lwd = 1, lty = c(1, 1, 5), pt.cex = 1, cex = 0.75)"

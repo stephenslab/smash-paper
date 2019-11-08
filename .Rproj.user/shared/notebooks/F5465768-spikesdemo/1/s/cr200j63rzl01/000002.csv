@@ -1,7 +1,0 @@
-"0","sig.est  <- sqrt(2/(3 * (n - 2)) *"
-"0","              sum((1/2 * x.sim[1:(n-2)] - x.sim[2:(n-1)] + x.sim[3:n])^2/2))"
-"0","mu.smash <- smash(x.sim,family = ""DaubLeAsymm"",filter.number = 8)"
-"0","mu.ti.homo <- ti.thresh(x.sim,sigma = sig.est,family = ""DaubLeAsymm"","
-"0","                        filter.number = 8)"
-"0","mu.ti    <- ti.thresh(x.sim,method = ""rmad"",family = ""DaubLeAsymm"","
-"0","                      filter.number = 8)"

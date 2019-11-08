@@ -1,2 +1,0 @@
-"0","lines(res.mc$x,res.mc$mu.est - 2*sqrt(res.mc$var.est),"
-"0","      lty = 5,lwd = 2,col = ""dodgerblue"")"
