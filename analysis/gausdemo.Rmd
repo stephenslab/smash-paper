@@ -34,6 +34,7 @@ for (i in 1:dim(design)[1]) {
   par(cex.axis = 1)
   plot(mu,type = "l",col = "black",lwd = 3,xlab = "position",ylab = "",
        ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4), main = title)
+  points(x.sim,cex = 0.7,pch = 1,col = "skyblue")
   lines(mu.ti,col = "dodgerblue",lwd = 3)
   lines(mu.smash,col = "orangered",lwd = 3)
   legend(650, 1.05, c("ground-truth signal", "TI-thresholding (RMAD)", "SMASH"), col = c("black", "dodgerblue", "orangered"), bty = "n", lwd = 1, pt.cex = 1, cex = 0.75)
