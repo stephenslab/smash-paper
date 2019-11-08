@@ -1,4 +1,5 @@
-This demo plots SMASH against TI-thresholding (using RMAD to estimate variance) for a variety of mean-variance-snr combinations.
+This demo plots SMASH against TI-thresholding (using RMAD to estimate
+variance) for a variety of mean-variance-snr combinations.
  
 ```{r demo, fig.height=4, fig.width=6}
 library(AlgDesign)
