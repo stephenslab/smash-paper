@@ -4,6 +4,8 @@ This demo plots SMASH against TI-thresholding (using RMAD to estimate variance) 
 ```{r demo, fig.height=4, fig.width=6}
 load("../output/dscr.RData")
 res_agg = aggregate(mise ~ scenario + method, data = res, FUN = mean)
+selected_methods = c("smash.true.s8", "smash.s8", "smash.homo.s8", "tithresh.true.s8", "tithresh.smash.s8", "tithresh.rmad.s8", "ebayesthresh")
+res_agg = res_agg[res_agg$method %in% selected_methods, ]
 scenarios = unique(res_agg$scenario)
 
 for (scenario in scenarios) {

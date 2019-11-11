@@ -1,9 +1,13 @@
-This demo plots SMASH against TI-thresholding (using RMAD to estimate variance) for a variety of mean-variance-snr combinations.
+This demo plots SMASH against TI-thresholding (using RMAD to estimate
+variance) for a variety of mean-variance-snr combinations.
  
 ```{r demo, fig.height=4, fig.width=6}
 library(AlgDesign)
 library(smashr)
+library(EbayesThresh)
+library(wavethresh)
 source("../code/signals.R")
+source("../dsc/code/methods/ebayesthresh.wrapper.R")
 
 # today's date
 set.seed(191027)
@@ -20,22 +24,54 @@ for (i in 1:dim(design)[1]) {
   name = paste(meanfn.short[design[i, 3]], rsnr[design[i, 2]]^2, varfn.short[design[i, 1]], sep = ".")
   args = list(n = 1024, rsnr = rsnr[design[i, 2]], meanfn = meanfn[[design[i, 3]]], varfn = varfn[[design[i, 1]]])
 
-  t = (1:1024)/1024
+  n = 1024
+  t = (1:n)/n
 
   mu = args$meanfn(t, "mean")
   sigma = sqrt(args$varfn(t, "var"))
   sd = sigma/mean(sigma) * sd(mu)/rsnr^2
   x.sim = rnorm(args$n, mu, sd)
-
-  mu.smash = smash(x.sim,family = "DaubLeAsymm",filter.number = 8)
-  mu.ti = ti.thresh(x.sim,method = "rmad",family = "DaubLeAsymm",
+  sd.est = sqrt(2/(3 * (n - 2)) *
+                   sum((1/2 * x.sim[1:(n - 2)] -
+                        x.sim[2:(n - 1)] +
+                        1/2 * x.sim[3:n])^2))
+  
+  mu.smash.default = smash(x.sim, family = "DaubLeAsymm", filter.number = 8)
+  mu.smash.true = smash(x.sim, sigma = sd, family = "DaubLeAsymm", filter.number = 8)
+  mu.smash.homo = smash(x.sim, sigma = sd.est, family = "DaubLeAsymm", filter.number = 8)
+  mu.ti.rmad = ti.thresh(x.sim, method = "rmad", family = "DaubLeAsymm",
                         filter.number = 8)
+  mu.ti.smash = ti.thresh(x.sim, method = "smash", family = "DaubLeAsymm",
+                        filter.number = 8)
+  mu.ti.true = ti.thresh(x.sim, sigma = sd, method = "rmad", family = "DaubLeAsymm",
+                        filter.number = 8)
+  mu.ebayes = ebayesthresh.wrapper(list(x = x.sim, sig.est = sd.est), list(family = "DaubLeAsymm", filter.number = 8))
+  
+  
   title = paste("mean: ", meanfn.short[design[i, 3]], ", var: ", varfn.short[design[i, 1]], ", snr: ", rsnr[design[i, 2]]^2, sep = "")
   par(cex.axis = 1)
+<<<<<<< HEAD
+  plot(mu,type = "l",col = "black",lwd = 2,xlab = "position",ylab = "",
+       ylim = c(-0.05,1.5),xaxp = c(0,1024,4),yaxp = c(0,1,4), main = title)
+  lines(mu.smash.true, col = "orangered", lwd = 1.5)
+  lines(mu.smash.default, col = "red", lwd = 1.5)
+  lines(mu.smash.homo, col = "pink", lwd = 1.5)
+        
+  lines(mu.ti.true, col = "dodgerblue", lwd = 1.5)
+  lines(mu.ti.smash, col = "green", lwd = 1.5)
+  lines(mu.ti.rmad, col = "purple", lwd = 1.5)
+  
+  lines(mu.ebayes, col = "brown", lwd = 1.5)
+
+  
+  legend(450, 1.55, c("ground-truth signal", "SMASH (true variance)", "SMASH (default; estimated variance)", "SMASH (homoskedastic variance)", "TI-thresholding (true variance)", "TI-thresholding (SMASH-estimated variance)", "TI-thresholding (RMAD)", "Ebayesthresh"), col = c("black", "orangered", "red", "pink", "dodgerblue", "green", "purple", "brown"), bty = "n", lwd = 1, pt.cex = 1, cex = 0.7)
+=======
   plot(mu,type = "l",col = "black",lwd = 3,xlab = "position",ylab = "",
        ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4), main = title)
+  points(x.sim,cex = 0.7,pch = 1,col = "skyblue")
   lines(mu.ti,col = "dodgerblue",lwd = 3)
   lines(mu.smash,col = "orangered",lwd = 3)
   legend(650, 1.05, c("ground-truth signal", "TI-thresholding (RMAD)", "SMASH"), col = c("black", "dodgerblue", "orangered"), bty = "n", lwd = 1, pt.cex = 1, cex = 0.75)
+>>>>>>> 2f53017fc9239ac5e8c87c0e957cdf323e02d33f
 }
 ```
