@@ -1,5 +1,0 @@
-"0","plot(res.mc$x,res.mc$mu.est,type = ""l"","
-"0","     ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),"
-"0","              max(res.mc$y + 2 * sqrt(res.mc$var.est))),"
-"0","     xlab = ""time (ms)"", ylab = ""acceleration (g)"",lwd = 2,"
-"0","	 col = ""darkorange"",xlim = c(0,60),xaxp = c(0,60,6))"

@@ -1,2 +1,0 @@
-"0","macs.file <- ""../data/Gm1287peaks_chr1_sorted.txt"""
-"0","peaks <- read.macs.peaks(macs.file,min(bppos),max(bppos))"

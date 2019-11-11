@@ -1,4 +1,0 @@
-"0","par(cex.axis = 1,cex.lab = 1.25)"
-"0","hist(wc.sim[4,],breaks = 2,xlab = ""observed wavelet coefficients"","
-"0","     xlim = c(-25,25),ylim = c(0,600),col = ""darkblue"",xaxp = c(-25,25,10),"
-"0","     yaxp = c(0,600,6),main = """")"
