@@ -419,10 +419,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree224a580c8cb548b229b93c33ca92adb27498d6c0targetblank224a580a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/224a580c8cb548b229b93c33ca92adb27498d6c0" target="_blank">224a580</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree05e491ff009990cd1078120869877285fb846d7dtargetblank05e491fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/05e491ff009990cd1078120869877285fb846d7d" target="_blank">05e491f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree224a580c8cb548b229b93c33ca92adb27498d6c0targetblank224a580a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree05e491ff009990cd1078120869877285fb846d7dtargetblank05e491fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -497,6 +497,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/05e491ff009990cd1078120869877285fb846d7d/analysis/poisson.Rmd" target="_blank">05e491f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/a334fd2eff697956297dcbf379afcd9fcf755739/docs/poisson.html" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+More adjustments to plots in poisson analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1082,7 +1116,8 @@ Re-organized some of the files used in the Poisson numerical comparisons.
 </div>
 </div>
 </div>
-<p>Here we create plots and tables to compare various methods, including SMASH, for reconstructing a spatially structured signal from Poisson-distributed data. Similar to the Gaussian simulations, we generated data sets using a variety of test functions and intensity ranges. Specifically, we considered 6 test functions, rescaling the test function so that the smallest intensity was x and the largest intensity was y, with (x,y) set to either (1/100, 3), (1/8, 8) or (1/128, 128). For each combination of test function and intensity range, we simulated 100 data sets. In the plots and tables below, we summarize the error (MISE) in the estimates computed in the 100 data sets from each simulation setting.</p>
+<p>Here we create plots and tables to compare various methods, including SMASH, for reconstructing a spatially structured signal from Poisson-distributed data. Similar to the Gaussian simulations, we generated data sets using a variety of test functions and intensity ranges. Specifically, we considered 6 test functions, rescaling the test function so that the smallest intensity was <span class="math inline">\(x\)</span> and the largest intensity was <span class="math inline">\(y\)</span>, with <span class="math inline">\((x,y)\)</span> set to either <span class="math inline">\((1/100, 3)\)</span>, <span class="math inline">\((1/8, 8)\)</span> or <span class="math inline">\((1/128, 128)\)</span>.</p>
+<p>For each combination of test function and intensity range, we simulated 100 data sets. In the plots and tables below, we summarize the error (MISE) in the estimates computed in the 100 data sets from each simulation setting.</p>
 <p>The plots shown below for the “Bursts” simulations were included in the manuscript.</p>
 <div id="analysis-settings" class="section level2">
 <h2>Analysis settings</h2>
@@ -1097,8 +1132,10 @@ t &lt;- 1:n/n</code></pre>
 </div>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
-<p>Load the ggplot2 cowplot and xtable packages.</p>
-<pre class="r"><code>library(ggplot2)
+<p>Load the knitr, kableExtra, ggplot2 and cowplot packages.</p>
+<pre class="r"><code>library(knitr)
+library(kableExtra)
+library(ggplot2)
 library(cowplot)
 library(xtable)</code></pre>
 <p>Some of the test functions are defined in <code>signals.R</code>, so we load them here:</p>
@@ -1137,6 +1174,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/plot-spikes-function-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/eda1295499ee1e463d82437562f8cfb718bd75ae/docs/figure/poisson.Rmd/plot-spikes-function-1.png" target="_blank">eda1295</a>
@@ -1224,71 +1272,72 @@ Peter Carbonetto
                       mise.s.128[methods])
 rownames(mise.s.table) &lt;- table.row.names
 colnames(mise.s.table) &lt;- table.col.names
-print(xtable(mise.s.table,caption = &quot; &quot;),type = &quot;html&quot;,
-      html.table.attributes = &quot;border=0&quot;)</code></pre>
-<!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Tue Nov 12 09:07:06 2019 -->
-<table border="0">
-<caption align="bottom">
-</caption>
+kable(mise.s.table,format = &quot;html&quot;,
+  table.attr = paste(&quot;class=\&quot;table\&quot;;&quot;,&quot;style=\&quot;font-family: sans-serif;&quot;,
+                     &quot;width: auto; margin-left: auto; margin-right: auto\&quot;&quot;))</code></pre>
+<table class="table" ; style="font-family: sans-serif; width: auto; margin-left: auto; margin-right: auto">
+<thead>
 <tr>
-<th>
+<th style="text-align:left;">
 </th>
-<th>
+<th style="text-align:right;">
 (1/100,3)
 </th>
-<th>
+<th style="text-align:right;">
 (1/8,8)
 </th>
-<th>
+<th style="text-align:right;">
 (1/128,128)
 </th>
 </tr>
+</thead>
+<tbody>
 <tr>
-<td align="right">
+<td style="text-align:left;">
 SMASH
 </td>
-<td align="right">
-690.01
+<td style="text-align:right;">
+690.0116
 </td>
-<td align="right">
-329.26
+<td style="text-align:right;">
+329.2584
 </td>
-<td align="right">
-48.87
+<td style="text-align:right;">
+48.86856
 </td>
 </tr>
 <tr>
-<td align="right">
+<td style="text-align:left;">
 BMSM
 </td>
-<td align="right">
-1007.34
+<td style="text-align:right;">
+1007.3414
 </td>
-<td align="right">
-397.79
+<td style="text-align:right;">
+397.7901
 </td>
-<td align="right">
-41.88
+<td style="text-align:right;">
+41.87725
 </td>
 </tr>
 <tr>
-<td align="right">
+<td style="text-align:left;">
 Haar-Fisz
 </td>
-<td align="right">
-722.19
+<td style="text-align:right;">
+722.1856
 </td>
-<td align="right">
-287.44
+<td style="text-align:right;">
+287.4406
 </td>
-<td align="right">
-18.06
+<td style="text-align:right;">
+18.05736
 </td>
 </tr>
+</tbody>
 </table>
 <p>Each column shows the results at a different range of intensities. The individual table entries give the average error (MISE) in the estimates, in which the average is taken over the 100 data sets simulated at the given range of intensities.</p>
-<p>The combined violin-boxplots provide a visualization of the same results:</p>
+<p>The combined violin-boxplots provide a more detailed summary of the same results:</p>
 <pre class="r"><code>m                  &lt;- length(mise.ash.s.1)
 method.labels      &lt;- c(&quot;Haar-Fisz&quot;,&quot;BMSM&quot;,&quot;SMASH&quot;)
 mise.hf.ti.r.s.1   &lt;- colMeans(rbind(mise.hf.ti.r.4.s.1,
@@ -1317,21 +1366,24 @@ create.violin.plots &lt;- function (pdat1, pdat8, pdat128) {
         coord_flip() +
         labs(x = &quot;&quot;,y = &quot;MISE&quot;,title = &quot;intensities (1/100,3)&quot;) +
         theme_cowplot() +
-        theme(axis.line = element_blank())
+        theme(plot.title = element_text(size = 14,face = &quot;plain&quot;),
+              axis.line = element_blank())
   p8 &lt;- ggplot(pdat8,aes(x = method,y = mise)) +
         geom_violin(fill = &quot;skyblue&quot;,color = &quot;skyblue&quot;) +
         geom_boxplot(width = 0.15,outlier.shape = NA) +
         coord_flip() +
         labs(x = &quot;&quot;,y = &quot;MISE&quot;,title = &quot;intensities (1/8,8)&quot;) +
         theme_cowplot() +
-        theme(axis.line = element_blank())
+        theme(plot.title = element_text(size = 14,face = &quot;plain&quot;),
+              axis.line = element_blank())
   p128 &lt;- ggplot(pdat128,aes(x = method,y = mise)) +
         geom_violin(fill = &quot;skyblue&quot;,color = &quot;skyblue&quot;) +
         geom_boxplot(width = 0.15,outlier.shape = NA) +
         coord_flip() +
         labs(x = &quot;&quot;,y = &quot;MISE&quot;,title = &quot;intensities (1/128,128)&quot;) +
         theme_cowplot() +
-        theme(axis.line = element_blank())
+        theme(plot.title = element_text(size = 14,face = &quot;plain&quot;),
+              axis.line = element_blank())
   return(plot_grid(p1,p8,p128,nrow = 1,ncol = 3))
 }
 create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
@@ -1358,6 +1410,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/spikes-violin-plots-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/34f42acf76b3f1e98b099c91297fb3f9c5fa6084/docs/figure/poisson.Rmd/spikes-violin-plots-1.png" target="_blank">34f42ac</a>
@@ -1456,6 +1519,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/plot-angles-function-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/eda1295499ee1e463d82437562f8cfb718bd75ae/docs/figure/poisson.Rmd/plot-angles-function-1.png" target="_blank">eda1295</a>
 </td>
 <td>
@@ -1544,7 +1618,7 @@ colnames(mise.ang.table) &lt;- table.col.names
 print(xtable(mise.ang.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Tue Nov 12 09:07:08 2019 -->
+<!-- Tue Nov 12 10:51:24 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1653,6 +1727,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/angles-violin-plots-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/34f42acf76b3f1e98b099c91297fb3f9c5fa6084/docs/figure/poisson.Rmd/angles-violin-plots-1.png" target="_blank">34f42ac</a>
 </td>
 <td>
@@ -1743,6 +1828,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/plot-heavisine-function-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/eda1295499ee1e463d82437562f8cfb718bd75ae/docs/figure/poisson.Rmd/plot-heavisine-function-1.png" target="_blank">eda1295</a>
 </td>
 <td>
@@ -1831,7 +1927,7 @@ colnames(mise.hs.table) &lt;- table.col.names
 print(xtable(mise.hs.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Tue Nov 12 09:07:10 2019 -->
+<!-- Tue Nov 12 10:51:25 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -1940,6 +2036,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/heavisine-violin-plots-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/34f42acf76b3f1e98b099c91297fb3f9c5fa6084/docs/figure/poisson.Rmd/heavisine-violin-plots-1.png" target="_blank">34f42ac</a>
 </td>
 <td>
@@ -2021,6 +2128,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/plot-bursts-function-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/eda1295499ee1e463d82437562f8cfb718bd75ae/docs/figure/poisson.Rmd/plot-bursts-function-1.png" target="_blank">eda1295</a>
@@ -2111,7 +2229,7 @@ colnames(mise.bur.table) &lt;- table.col.names
 print(xtable(mise.bur.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Tue Nov 12 09:07:11 2019 -->
+<!-- Tue Nov 12 10:51:26 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -2220,6 +2338,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/bursts-violin-plots-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/34f42acf76b3f1e98b099c91297fb3f9c5fa6084/docs/figure/poisson.Rmd/bursts-violin-plots-1.png" target="_blank">34f42ac</a>
 </td>
 <td>
@@ -2300,6 +2429,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/plot-cb-function-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/eda1295499ee1e463d82437562f8cfb718bd75ae/docs/figure/poisson.Rmd/plot-cb-function-1.png" target="_blank">eda1295</a>
@@ -2390,7 +2530,7 @@ colnames(mise.cb.table) &lt;- table.col.names
 print(xtable(mise.cb.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Tue Nov 12 09:07:12 2019 -->
+<!-- Tue Nov 12 10:51:27 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -2499,6 +2639,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/cb-violin-plots-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/34f42acf76b3f1e98b099c91297fb3f9c5fa6084/docs/figure/poisson.Rmd/cb-violin-plots-1.png" target="_blank">34f42ac</a>
 </td>
 <td>
@@ -2579,6 +2730,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/plot-bumps-function-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/eda1295499ee1e463d82437562f8cfb718bd75ae/docs/figure/poisson.Rmd/plot-bumps-function-1.png" target="_blank">eda1295</a>
@@ -2669,7 +2831,7 @@ colnames(mise.b.table) &lt;- table.col.names
 print(xtable(mise.b.table,caption = &quot; &quot;),type = &quot;html&quot;,
       html.table.attributes = &quot;border=0&quot;)</code></pre>
 <!-- html table generated in R 3.4.3 by xtable 1.8-2 package -->
-<!-- Tue Nov 12 09:07:13 2019 -->
+<!-- Tue Nov 12 10:51:29 2019 -->
 <table border="0">
 <caption align="bottom">
 </caption>
@@ -2778,6 +2940,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a334fd2eff697956297dcbf379afcd9fcf755739/docs/figure/poisson.Rmd/bumps-violin-plots-1.png" target="_blank">a334fd2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/34f42acf76b3f1e98b099c91297fb3f9c5fa6084/docs/figure/poisson.Rmd/bumps-violin-plots-1.png" target="_blank">34f42ac</a>
 </td>
 <td>
@@ -2858,20 +3031,27 @@ Peter Carbonetto
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] xtable_1.8-2  cowplot_0.9.4 ggplot2_3.2.0
+# [1] xtable_1.8-2     cowplot_0.9.4    ggplot2_3.2.0    kableExtra_1.0.1
+# [5] knitr_1.23      
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.1       compiler_3.4.3   pillar_1.3.1     later_0.8.0     
-#  [5] git2r_0.26.1     plyr_1.8.4       workflowr_1.5.0  tools_3.4.3     
-#  [9] digest_0.6.18    evaluate_0.13    tibble_2.1.1     gtable_0.2.0    
-# [13] pkgconfig_2.0.2  rlang_0.3.1      yaml_2.2.0       xfun_0.7        
-# [17] withr_2.1.2.9000 stringr_1.4.0    dplyr_0.8.0.1    knitr_1.23      
-# [21] fs_1.2.7         rprojroot_1.3-2  grid_3.4.3       tidyselect_0.2.5
-# [25] glue_1.3.1       R6_2.4.0         rmarkdown_1.16   purrr_0.2.5     
-# [29] magrittr_1.5     whisker_0.3-2    backports_1.1.2  scales_0.5.0    
-# [33] promises_1.0.1   htmltools_0.3.6  assertthat_0.2.1 colorspace_1.4-0
-# [37] httpuv_1.5.0     labeling_0.3     stringi_1.4.3    lazyeval_0.2.1  
-# [41] munsell_0.4.3    crayon_1.3.4</code></pre>
+#  [1] Rcpp_1.0.1        highr_0.8         compiler_3.4.3   
+#  [4] pillar_1.3.1      later_0.8.0       git2r_0.26.1     
+#  [7] plyr_1.8.4        workflowr_1.5.0   tools_3.4.3      
+# [10] digest_0.6.18     gtable_0.2.0      evaluate_0.13    
+# [13] tibble_2.1.1      viridisLite_0.3.0 pkgconfig_2.0.2  
+# [16] rlang_0.3.1       rstudioapi_0.10   yaml_2.2.0       
+# [19] xfun_0.7          withr_2.1.2.9000  dplyr_0.8.0.1    
+# [22] stringr_1.4.0     httr_1.4.0        xml2_1.2.0       
+# [25] fs_1.2.7          hms_0.4.2         tidyselect_0.2.5 
+# [28] grid_3.4.3        rprojroot_1.3-2   webshot_0.5.1    
+# [31] glue_1.3.1        R6_2.4.0          rmarkdown_1.16   
+# [34] purrr_0.2.5       readr_1.3.1       magrittr_1.5     
+# [37] whisker_0.3-2     backports_1.1.2   scales_0.5.0     
+# [40] promises_1.0.1    htmltools_0.3.6   assertthat_0.2.1 
+# [43] rvest_0.3.2       colorspace_1.4-0  httpuv_1.5.0     
+# [46] labeling_0.3      stringi_1.4.3     lazyeval_0.2.1   
+# [49] munsell_0.4.3     crayon_1.3.4</code></pre>
 </div>
 </div>
 
