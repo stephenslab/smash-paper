@@ -419,10 +419,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreefe0ba95008deb668982374733a22955349565643targetblankfe0ba95a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/fe0ba95008deb668982374733a22955349565643" target="_blank">fe0ba95</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree44525e81bcd24ed356f87a8c5205eee013557614targetblank44525e8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/44525e81bcd24ed356f87a8c5205eee013557614" target="_blank">44525e8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreefe0ba95008deb668982374733a22955349565643targetblankfe0ba95a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree44525e81bcd24ed356f87a8c5205eee013557614targetblank44525e8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -459,9 +459,6 @@ Ignored files:
 
 Untracked files:
     Untracked:  files.txt
-
-Unstaged changes:
-    Modified:   code/signals.R
 
 </code></pre>
 <p>
@@ -500,6 +497,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/44525e81bcd24ed356f87a8c5205eee013557614/analysis/gaussian_signals.Rmd" target="_blank">44525e8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+wflow_publish(“gaussian_signals.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/d01177ced404772d47093ff8ff876d4c68465461/docs/gaussian_signals.html" target="_blank">d01177c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+Simplified some of the code used in the gaussian_signals analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -910,47 +941,24 @@ source(&quot;../code/signals.R&quot;)</code></pre>
 <p>Here, <code>n</code> specifies the length of the signals.</p>
 <pre class="r"><code>n &lt;- 1024
 t &lt;- 1:n/n</code></pre>
-<p>Define the Angle mean function.</p>
-<pre class="r"><code>sig = ((2 * t + 0.5) * (t &lt;= 0.15)) +
-      ((-12 * (t - 0.15) + 0.8) * (t &gt; 0.15 &amp; t &lt;= 0.2)) +
-      0.2 * (t &gt; 0.2 &amp; t &lt;= 0.5) + 
-      ((6 * (t - 0.5) + 0.2) * (t &gt; 0.5 &amp; t &lt;= 0.6)) +
-      ((-10 * (t - 0.6) + 0.8) * (t &gt; 0.6 &amp; t &lt;= 0.65)) +
-      ((-0.5 * (t - 0.65) + 0.3) * (t &gt; 0.65 &amp; t &lt;= 0.85)) +
-      ((2 * (t - 0.85) + 0.2) * (t &gt; 0.85))
-mu.ang = 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569</code></pre>
-<p>Define the Block mean and variance functions.</p>
-<pre class="r"><code>pos    = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
-hgt    = 2.88/5 * c(4, (-5), 3, (-4), 5, (-4.2), 2.1, 4.3, (-3.1), 2.1, (-4.2))
-mu.blk = rep(0, n)
-for (j in 1:length(pos))
-  mu.blk = mu.blk + (1 + sign(t - pos[j])) * (hgt[j]/2)
-mu.cblk = mu.blk
-mu.cblk[mu.cblk &lt; 0] = 0</code></pre>
 <p>Define the mean functions.</p>
 <pre class="r"><code>mu.sp   &lt;- spike.fn(t,&quot;mean&quot;)
 mu.bump &lt;- bumps.fn(t,&quot;mean&quot;)
+mu.blk  &lt;- blocks.fn(t,&quot;mean&quot;)
+mu.ang  &lt;- angles.fn(t,&quot;mean&quot;)
 mu.dop  &lt;- doppler.fn(t,&quot;mean&quot;)
 mu.blip &lt;- blip.fn(t,&quot;mean&quot;)
 mu.cor  &lt;- cor.fn(t,&quot;mean&quot;)</code></pre>
-<p>Define the remainder of the mean functions.</p>
-<pre class="r"><code>mu.blk  = 0.2 + 0.6 * (mu.blk - min(mu.blk))/max(mu.blk - min(mu.blk))
-mu.ang  = (1 + mu.ang)/5</code></pre>
 <p>Define the variance functions.</p>
-<pre class="r"><code>var1 = rep(1, n)
-var2 = (0.01 + 4 * (exp(-550 * (t - 0.2)^2) +
-                     exp(-200 * (t - 0.5)^2) +
-                     exp(-950 * (t - 0.8)^2)))
+<pre class="r"><code>var1 &lt;- cons.fn(t,&quot;var&quot;)
+var2 &lt;- texp.fn(t,&quot;var&quot;)
 var3 &lt;- doppler.fn(t,&quot;var&quot;)
 var4 &lt;- bumps.fn(t,&quot;var&quot;)
-var5 = 0.01 + 1 * (mu.cblk - min(mu.cblk))/max(mu.cblk)
-var1 = var1/2
-var2 = var2/max(var2)
-var5 = var5/max(var5)</code></pre>
+var5 &lt;- cblocks.fn(t,&quot;var&quot;)</code></pre>
 </div>
 <div id="plot-the-signal-means" class="section level2">
 <h2>Plot the signal means</h2>
-<p>This function will be used to draw the mean and variance functions.</p>
+<p>This function is used to draw the mean and variance functions.</p>
 <pre class="r"><code>plot.signal &lt;- function (t, y, label)
   quickplot(t,y,geom = &quot;line&quot;,color = I(&quot;darkorange&quot;),
             xlab = &quot;&quot;,ylab = &quot;&quot;,main = label)</code></pre>
@@ -1090,6 +1098,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/d01177ced404772d47093ff8ff876d4c68465461/docs/figure/gaussian_signals.Rmd/plot-variance-functions-1.png" target="_blank">d01177c</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/cc557b51c40bda65fad2306df02f74f6e645ab49/docs/figure/gaussian_signals.Rmd/plot-variance-functions-1.png" target="_blank">cc557b5</a>
