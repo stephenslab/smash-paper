@@ -23,6 +23,7 @@ spike.f <- function (x)
 # This defines the "Bumps" mean and variance functions.
 bumps.fn <- function (t, type = c("mean","var")) {
   type <- match.arg(type)
+  f    <- bumps.f(t)
   if (type == "mean")
     return((1 + f)/5)
   else if (type == "var")
