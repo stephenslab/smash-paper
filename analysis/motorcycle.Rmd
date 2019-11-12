@@ -45,8 +45,8 @@ Set up R environment
 
 Load the MASS, lattice wavethresh, EbayesThresh and smashr
 packages. The MASS package is loaded only for the Motorcycle Accident
-data. Some additional functions are defined in
-`functions.motorcycle.R`.
+data. Some additional functions are defined in file
+`motorcycle.functions.R`.
 
 ```{r load-pkgs, message=FALSE}
 library(MASS)

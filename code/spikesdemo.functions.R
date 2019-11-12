@@ -1,4 +1,4 @@
-# This file defines a few functions used in some of the analyses.
+# This file defines a few functions used in the "spikes" demo.
 
 # Interleave two vectors
 # @param x,y: two vectors of the same length

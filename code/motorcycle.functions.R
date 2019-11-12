@@ -1,5 +1,5 @@
-# This file contains functions used by the motorcycle.R and ethanol.R
-# analyses.
+# This file defines some functions used by the motorcycle.R and
+# ethanol.R analyses.
 
 # Wrapper function to return estimated mean and variance function
 # given raw data.

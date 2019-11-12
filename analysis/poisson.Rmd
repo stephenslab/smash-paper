@@ -18,8 +18,8 @@ simulated 100 data sets. In the plots and tables below, we summarize
 the error (MISE) in the estimates computed in the 100 data sets from
 each simulation setting.
 
-The plots shown below for the "Bursts" simulations were included in
-the manuscript.
+The plots for the "Bursts" simulations shown below were also included
+in the manuscript.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
@@ -38,8 +38,6 @@ methods <- c("ash","BMSM","haarfisz_R")
 These variables specify the row and column names for the tables:
 
 ```{r table-row-and-col-names}
-table.row.names <- c("SMASH","BMSM","Haar-Fisz")
-table.col.names <- c("(1/100,3)","(1/8,8)","(1/128,128)")
 ```
 
 These are settings used in plotting the test functions:
@@ -59,13 +57,14 @@ library(knitr)
 library(kableExtra)
 library(ggplot2)
 library(cowplot)
-library(xtable)
 ```
 
 Some of the test functions are defined in `signals.R`, so we load them
-here:
+here. Some additional functions are defined in file
+`poisson.functions.R`.
 
-```{r source-signals}
+```{r load-functions}
+source("../code/poisson.functions.R")
 source("../code/signals.R")
 ```
 
@@ -95,11 +94,7 @@ This table summarizes the results from the Spikes simulations:
 mise.s.table <- cbind(mise.s.1[methods],
                       mise.s.8[methods],
                       mise.s.128[methods])
-rownames(mise.s.table) <- table.row.names
-colnames(mise.s.table) <- table.col.names
-kable(mise.s.table,format = "html",
-  table.attr = paste("class=\"table\";","style=\"font-family: sans-serif;",
-                     "width: auto; margin-left: auto; margin-right: auto\""))
+create.results.table(mise.s.table)
 ```
 
 Each column shows the results at a different range of intensities.
@@ -132,33 +127,6 @@ pdat8 <- data.frame(method = factor(rep(method.labels,each = m),method.labels),
 pdat128 <-
   data.frame(method = factor(rep(method.labels,each = m),method.labels),
              mise   = c(mise.hf.ti.r.s.128,mise.BMSM.s.128,mise.ash.s.128))
-create.violin.plots <- function (pdat1, pdat8, pdat128) {
-  p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
-        geom_violin(fill = "skyblue",color = "skyblue") +
-        geom_boxplot(width = 0.15,outlier.shape = NA) +
-        coord_flip() +
-        labs(x = "",y = "MISE",title = "intensities (1/100,3)") +
-		theme_cowplot() +
-		theme(plot.title = element_text(size = 14,face = "plain"),
-		      axis.line = element_blank())
-  p8 <- ggplot(pdat8,aes(x = method,y = mise)) +
-        geom_violin(fill = "skyblue",color = "skyblue") +
-        geom_boxplot(width = 0.15,outlier.shape = NA) +
-        coord_flip() +
-        labs(x = "",y = "MISE",title = "intensities (1/8,8)") +
-		theme_cowplot() +
-		theme(plot.title = element_text(size = 14,face = "plain"),
-		      axis.line = element_blank())
-  p128 <- ggplot(pdat128,aes(x = method,y = mise)) +
-        geom_violin(fill = "skyblue",color = "skyblue") +
-        geom_boxplot(width = 0.15,outlier.shape = NA) +
-        coord_flip() +
-        labs(x = "",y = "MISE",title = "intensities (1/128,128)") +
-		theme_cowplot() +
-		theme(plot.title = element_text(size = 14,face = "plain"),
-		      axis.line = element_blank())
-  return(plot_grid(p1,p8,p128,nrow = 1,ncol = 3))
-}
 create.violin.plots(pdat1,pdat8,pdat128)
 ```
 
@@ -187,10 +155,7 @@ This table summarizes the results from the Angles simulations:
 mise.ang.table <- cbind(mise.ang.1[methods],
                         mise.ang.8[methods],
                         mise.ang.128[methods])
-rownames(mise.ang.table) <- table.row.names
-colnames(mise.ang.table) <- table.col.names
-print(xtable(mise.ang.table,caption = " "),type = "html",
-      html.table.attributes = "border=0")
+create.results.table(mise.ang.table)
 ```
 
 Each column shows the results at a different range of intensities.
@@ -245,10 +210,7 @@ This table summarizes the results from the Heavisine simulations:
 mise.hs.table <- cbind(mise.hs.1[methods],
                        mise.hs.8[methods],
                        mise.hs.128[methods])
-rownames(mise.hs.table) <- table.row.names
-colnames(mise.hs.table) <- table.col.names
-print(xtable(mise.hs.table,caption = " "),type = "html",
-      html.table.attributes = "border=0")
+create.results.table(mise.hs.table)
 ```
 
 Each column shows results at a different range of intensities. The
@@ -307,10 +269,7 @@ This table summarizes the results from the Bursts simulations:
 mise.bur.table <- cbind(mise.bur.1[methods],
                         mise.bur.8[methods],
                         mise.bur.128[methods])
-rownames(mise.bur.table) <- table.row.names
-colnames(mise.bur.table) <- table.col.names
-print(xtable(mise.bur.table,caption = " "),type = "html",
-      html.table.attributes = "border=0")
+create.results.table(mise.bur.table)
 ```
 
 Each column shows results at a different range of intensities. The
@@ -368,10 +327,7 @@ This table summarizes the results from the Clipped Blocks simulations:
 mise.cb.table <- cbind(mise.cb.1[methods],
                        mise.cb.8[methods],
                        mise.cb.128[methods])
-rownames(mise.cb.table) <- table.row.names
-colnames(mise.cb.table) <- table.col.names
-print(xtable(mise.cb.table,caption = " "),type = "html",
-      html.table.attributes = "border=0")
+create.results.table(mise.cb.table)
 ```
 
 Each column shows results at a different range of intensities. The
@@ -429,10 +385,7 @@ This table summarizes the results from the Bumps simulations:
 mise.b.table <- cbind(mise.b.1[methods],
                       mise.b.8[methods],
                       mise.b.128[methods])
-rownames(mise.b.table) <- table.row.names
-colnames(mise.b.table) <- table.col.names
-print(xtable(mise.b.table,caption = " "),type = "html",
-      html.table.attributes = "border=0")
+create.results.table(mise.b.table)
 ```
 
 Each column shows results at a different range of intensities. The

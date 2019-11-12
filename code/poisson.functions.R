@@ -1,5 +1,15 @@
 # This file defines some functions used by the "poisson" analysis.
 
+create.results.table <- function (dat) {
+  table.row.names <- c("SMASH","BMSM","Haar-Fisz")
+  table.col.names <- c("(1/100, 3)","(1/8, 8)","(1/128, 128)")
+  rownames(dat) <- table.row.names
+  colnames(dat) <- table.col.names
+  return(kable(dat,format = "html",
+    table.attr = paste("class=\"table\";","style=\"font-family: sans-serif;",
+                   "width: auto; margin-left: auto; margin-right: auto\"")))
+}
+
 create.violin.plots <- function (pdat1, pdat8, pdat128) {
   p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
         geom_violin(fill = "skyblue",color = "skyblue") +
