@@ -132,6 +132,7 @@ These plots show each of the mean functions used in generating the
 Gaussian data sets.
 
 ```{r plot-mean-functions, fig.height=10, fig.width=6}
+theme_set(theme_cowplot())
 plot_grid(qplot(t,mu.sp,  geom="line",xlab="",ylab="",main="Spikes (sp)"),
           qplot(t,mu.bump,geom="line",xlab="",ylab="",main="Bumps (bump)"),
           qplot(t,mu.blk, geom="line",xlab="",ylab="",main="Blocks (blk)"),
