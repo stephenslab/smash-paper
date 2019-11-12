@@ -23,6 +23,15 @@ spike.f <- function (x)
 # This defines the "Bumps" mean and variance functions.
 bumps.fn <- function (t, type = c("mean","var")) {
   type <- match.arg(type)
+  if (type == "mean")
+    return((1 + f)/5)
+  else if (type == "var")
+    return(1e-05 + f)
+}
+
+# This is used by bumps.fn to define the "Bumps" mean and variance
+# functions.
+bumps.f <- function (t) {
   pos  <- c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
   hgt  <- 2.97/5*c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
   wth  <- c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005,
@@ -30,10 +39,7 @@ bumps.fn <- function (t, type = c("mean","var")) {
   f = rep(0,length(t))
   for (i in 1:length(pos))
     f <- f + hgt[i]/((1 + (abs(t - pos[i])/wth[i]))^4)
-  if (type == "mean")
-    return((1 + f)/5)
-  else if (type == "var")
-    return(1e-05 + f)
+  return(f)
 }
 
 # This defines the "Blocks" mean and variance functions.
@@ -42,8 +48,8 @@ blocks.fn <- function (t, type = c("mean","var")) {
   pos  <- c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
   hgt  <- 2.88/5 * c(4, -5, 3, -4, 5, -4.2, 2.1, 4.3, -3.1, 2.1, -4.2)
   f    <- rep(0,length(t))
-  for (j in 1:length(pos))
-    f <- f + (1 + sign(t - pos[j])) * hgt[j]/2
+  for (i in 1:length(pos))
+    f <- f + (1 + sign(t - pos[i])) * hgt[i]/2
   if (type == "mean")
     return(0.2 + 0.6 * (f - min(f))/max(f - min(f)))
   else if (type == "var")
@@ -52,6 +58,15 @@ blocks.fn <- function (t, type = c("mean","var")) {
 
 # This defines the "Angles" mean function.
 angles.fn <- function (t, type = c("mean","var")) {
+  f <- angles.f(t)
+  if (type == "mean")
+    return((1 + f)/5)
+  else if (type == "var")
+    return(NULL)
+}
+
+# This is used by angles.fn to define the "Angles" mean function.
+angles.f <- function (x) {
   s <- ((2 * t + 0.5) * (t <= 0.15)) +
        ((-12 * (t - 0.15) + 0.8) * (t > 0.15 & t <= 0.2)) +
        0.2 * (t > 0.2 & t <= 0.5) +
@@ -60,10 +75,7 @@ angles.fn <- function (t, type = c("mean","var")) {
        ((-0.5 * (t - 0.65) + 0.3) * (t > 0.65 & t <= 0.85)) +
        ((2 * (t - 0.85) + 0.2) * (t > 0.85))
   f <- 3/5 * ((5/(max(s) - min(s))) * s - 1.6) - 0.0419569
-  if (type == "mean")
-    return((1 + f)/5)
-  else if (type == "var")
-    return(NULL)
+  return(f)
 }
 
 # This defines the "Doppler" mean and variance functions.
@@ -120,19 +132,26 @@ cons.fn = function (t, type = c("var","mean")) {
   
 # This defines the "Clipped Blocks" variance function.
 cblocks.fn <- function (t, type = c("var","mean")) {
-  pos <- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)
-  hgt <- 2.88/5 * c(4,-5,3,-4,5,-4.2,2.1,4.3,-3.1,2.1,-4.2)
-  f   <- rep(0,length(t))
-  for (j in 1:length(pos))
-    f <- f + (1 + sign(t - pos[j])) * (hgt[j]/2)
-  f[f < 0] <- 0
+  f <- cblocks.f(t)
   if (type == "mean")
     return(NULL)
   else if (type == "var")
     return(0.01 + 1 * (f - min(f))/max(f))
 }
 
-  # This defines the "triple exponential" variance function.
+# This is used by cblocks.fn to define the "Clipped Blocks" variance
+# function.
+cblocks.f <- function (t) {
+  pos <- c(0.1,0.13,0.15,0.23,0.25,0.4,0.44,0.65,0.76,0.78,0.81)
+  hgt <- 2.88/5 * c(4,-5,3,-4,5,-4.2,2.1,4.3,-3.1,2.1,-4.2)
+  f   <- rep(0,length(t))
+  for (i in 1:length(pos))
+    f <- f + (1 + sign(t - pos[i])) * (hgt[i]/2)
+  f[f < 0] <- 0
+  return(f)
+}
+
+# This defines the "triple exponential" variance function.
 texp.fn <- function(t, type = c("var","mean")) {
   f <- 1e-04 + 4*(exp(-550 * (t - 0.2)^2) +
                   exp(-200 * (t - 0.5)^2) +
