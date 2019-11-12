@@ -419,10 +419,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree70f9238990e340e0b4520ec9e69ce609a825480atargetblank70f9238a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/70f9238990e340e0b4520ec9e69ce609a825480a" target="_blank">70f9238</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreefdc925813720a196d2f12bc0247b4c769544022btargetblankfdc9258a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/fdc925813720a196d2f12bc0247b4c769544022b" target="_blank">fdc9258</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree70f9238990e340e0b4520ec9e69ce609a825480atargetblank70f9238a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreefdc925813720a196d2f12bc0247b4c769544022btargetblankfdc9258a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -459,6 +459,9 @@ Ignored files:
 
 Untracked files:
     Untracked:  files.txt
+
+Unstaged changes:
+    Modified:   code/signals.R
 
 </code></pre>
 <p>
@@ -497,6 +500,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/fdc925813720a196d2f12bc0247b4c769544022b/analysis/gaussian_signals.Rmd" target="_blank">fdc9258</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+wflow_publish(“gaussian_signals.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/c6e3cd3e0fea51b6a11210a4f7807426e70fa64e/docs/gaussian_signals.html" target="_blank">c6e3cd3</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -870,17 +907,11 @@ for (j in 1:length(pos))
   mu.blk = mu.blk + (1 + sign(t - pos[j])) * (hgt[j]/2)
 mu.cblk = mu.blk
 mu.cblk[mu.cblk &lt; 0] = 0</code></pre>
-<p>Define the Blip mean function.</p>
-<pre class="r"><code>mu.blip = (0.32 + 0.6 * t +
-           0.3 * exp(-100 * (t - 0.3)^2)) * (t &gt;= 0 &amp; t &lt;= 0.8) +
-  (-0.28 + 0.6 * t + 0.3 * exp(-100 * (t - 1.3)^2)) * (t &gt; 0.8 &amp; t &lt;= 1)</code></pre>
-<p>Define the Corner mean function.</p>
-<pre class="r"><code>mu.cor = 623.87 * t^3 * (1 - 2 * t) * (t &gt;= 0 &amp; t &lt;= 0.5) +
-         187.161 * (0.125 - t^3) * t^4 * (t &gt; 0.5 &amp; t &lt;= 0.8) +
-         3708.470441 * (t - 1)^3 * (t &gt; 0.8 &amp; t &lt;= 1)
-mu.cor = (0.6/(max(mu.cor) - min(mu.cor))) * mu.cor
-mu.cor = mu.cor - min(mu.cor) + 0.2</code></pre>
-<p>Define the rest of the mean functions.</p>
+<p>Define the “Blip” mean function.</p>
+<pre class="r"><code>mu.blip = blip.fn(t,&quot;mean&quot;)</code></pre>
+<p>Define the “Corner” mean function.</p>
+<pre class="r"><code>mu.cor = cor.fn(t,&quot;mean&quot;)</code></pre>
+<p>Define the remainder of the mean functions.</p>
 <pre class="r"><code>mu.sp   = (1 + mu.s)/5
 mu.bump = (1 + mu.b)/5
 mu.blk  = 0.2 + 0.6 * (mu.blk - min(mu.blk))/max(mu.blk - min(mu.blk))
@@ -892,8 +923,8 @@ var2 = (1e-02 + 4 * (exp(-550 * (t - 0.2)^2) +
                      exp(-200 * (t - 0.5)^2) +
                      exp(-950 * (t - 0.8)^2)))
 var3 = (1e-02 + 2 * mu.dop.var)
-var4 = 1e-02 + mu.b
-var5 = 1e-02 + 1 * (mu.cblk - min(mu.cblk))/max(mu.cblk)
+var4 = 0.01 + mu.b
+var5 = 0.01 + 1 * (mu.cblk - min(mu.cblk))/max(mu.cblk)
 var1 = var1/2
 var2 = var2/max(var2)
 var3 = var3/max(var3)
@@ -904,13 +935,16 @@ var5 = var5/max(var5)</code></pre>
 <h2>Plot the signal means</h2>
 <p>These plots show each of the mean functions used in generating the Gaussian data sets.</p>
 <pre class="r"><code>theme_set(theme_cowplot())
-plot_grid(qplot(t,mu.sp,  geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Spikes (sp)&quot;),
-          qplot(t,mu.bump,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Bumps (bump)&quot;),
-          qplot(t,mu.blk, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Blocks (blk)&quot;),
-          qplot(t,mu.ang, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Angles (ang)&quot;),
-          qplot(t,mu.dop, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Doppler (dop)&quot;),
-          qplot(t,mu.blip,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Blip (blip)&quot;),
-          qplot(t,mu.cor, geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Corner (cor)&quot;),
+plot.signal &lt;- function (t, y, label)
+  quickplot(t,y,geom = &quot;line&quot;,color = I(&quot;darkorange&quot;),
+            xlab = &quot;&quot;,ylab = &quot;&quot;,main = label)
+plot_grid(plot.signal(t,mu.sp,&quot;Spikes (sp)&quot;),
+          plot.signal(t,mu.bump,&quot;Bumps (bump)&quot;),
+          plot.signal(t,mu.blk,&quot;Blocks (blk)&quot;),
+          plot.signal(t,mu.ang,&quot;Angles (ang)&quot;),
+          plot.signal(t,mu.dop,&quot;Doppler (dop)&quot;),
+          plot.signal(t,mu.blip,&quot;Blip (blip)&quot;),
+          plot.signal(t,mu.cor,&quot;Corner (cor)&quot;),
           nrow = 4,ncol = 2)</code></pre>
 <p><img src="figure/gaussian_signals.Rmd/plot-mean-functions-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
@@ -935,6 +969,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/c6e3cd3e0fea51b6a11210a4f7807426e70fa64e/docs/figure/gaussian_signals.Rmd/plot-mean-functions-1.png" target="_blank">c6e3cd3</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussian_signals.Rmd/plot-mean-functions-1.png" target="_blank">f0221c5</a>
@@ -987,13 +1032,12 @@ Peter Carbonetto
 <div id="plot-the-signal-variances" class="section level2">
 <h2>Plot the signal variances</h2>
 <p>These plots show the variance functions used in generating the Gaussian data sets. In practice, these functions are rescaled in the simulations to achieve the desired signal-to-noise ratios (see the paper for a more detailed explanation).</p>
-<pre class="r"><code>plot_grid(
-  qplot(t,var1,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Constant variance (v1)&quot;),
-  qplot(t,var2,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Triple exponential (v2)&quot;),
-  qplot(t,var3,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Doppler (v3)&quot;),
-  qplot(t,var4,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Bumps (v4)&quot;),
-  qplot(t,var5,geom=&quot;line&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;,main=&quot;Clipped (v5)&quot;),
-  nrow = 3,ncol = 2)</code></pre>
+<pre class="r"><code>plot_grid(plot.signal(t,var1,&quot;Constant variance (v1)&quot;),
+          plot.signal(t,var2,&quot;Triple exponential (v2)&quot;),
+          plot.signal(t,var3,&quot;Doppler (v3)&quot;),
+          plot.signal(t,var4,&quot;Bumps (v4)&quot;),
+          plot.signal(t,var5,&quot;Clipped (v5)&quot;),
+          nrow = 3,ncol = 2)</code></pre>
 <p><img src="figure/gaussian_signals.Rmd/plot-variance-functions-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-variance-functions-1">
@@ -1017,6 +1061,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/c6e3cd3e0fea51b6a11210a4f7807426e70fa64e/docs/figure/gaussian_signals.Rmd/plot-variance-functions-1.png" target="_blank">c6e3cd3</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussian_signals.Rmd/plot-variance-functions-1.png" target="_blank">f0221c5</a>
