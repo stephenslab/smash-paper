@@ -30,66 +30,32 @@ n <- 1024
 t <- 1:n/n
 ```
 
-Define the Angle mean function.
-
-```{r define-angle} 
-sig = ((2 * t + 0.5) * (t <= 0.15)) +
-      ((-12 * (t - 0.15) + 0.8) * (t > 0.15 & t <= 0.2)) +
-      0.2 * (t > 0.2 & t <= 0.5) + 
-      ((6 * (t - 0.5) + 0.2) * (t > 0.5 & t <= 0.6)) +
-      ((-10 * (t - 0.6) + 0.8) * (t > 0.6 & t <= 0.65)) +
-      ((-0.5 * (t - 0.65) + 0.3) * (t > 0.65 & t <= 0.85)) +
-      ((2 * (t - 0.85) + 0.2) * (t > 0.85))
-mu.ang = 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569
-```
-Define the Block mean and variance functions.
-
-```{r define-block}
-pos    = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
-hgt    = 2.88/5 * c(4, (-5), 3, (-4), 5, (-4.2), 2.1, 4.3, (-3.1), 2.1, (-4.2))
-mu.blk = rep(0, n)
-for (j in 1:length(pos))
-  mu.blk = mu.blk + (1 + sign(t - pos[j])) * (hgt[j]/2)
-mu.cblk = mu.blk
-mu.cblk[mu.cblk < 0] = 0
-```
-
 Define the mean functions.
 
 ```{r define-mean}
 mu.sp   <- spike.fn(t,"mean")
 mu.bump <- bumps.fn(t,"mean")
+mu.blk  <- blocks.fn(t,"mean")
+mu.ang  <- angles.fn(t,"mean")
 mu.dop  <- doppler.fn(t,"mean")
 mu.blip <- blip.fn(t,"mean")
 mu.cor  <- cor.fn(t,"mean")
 ```
 
-Define the remainder of the mean functions.
-
-```{r define-mean-2}
-mu.blk  = 0.2 + 0.6 * (mu.blk - min(mu.blk))/max(mu.blk - min(mu.blk))
-mu.ang  = (1 + mu.ang)/5
-```
-
 Define the variance functions.
 
 ```{r define-variance}
-var1 = rep(1, n)
-var2 = (0.01 + 4 * (exp(-550 * (t - 0.2)^2) +
-                     exp(-200 * (t - 0.5)^2) +
-                     exp(-950 * (t - 0.8)^2)))
+var1 <- cons.fn(t,"var")
+var2 <- texp.fn(t,"var")
 var3 <- doppler.fn(t,"var")
 var4 <- bumps.fn(t,"var")
-var5 = 0.01 + 1 * (mu.cblk - min(mu.cblk))/max(mu.cblk)
-var1 = var1/2
-var2 = var2/max(var2)
-var5 = var5/max(var5)
+var5 <- cblocks.fn(t,"var")
 ```
 
 Plot the signal means
 ---------------------
 
-This function will be used to draw the mean and variance functions.
+This function is used to draw the mean and variance functions.
 
 ```{r define-plot-signal}
 plot.signal <- function (t, y, label)
