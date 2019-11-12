@@ -16,8 +16,8 @@ range, we simulated 100 data sets. In the plots and tables below, we
 summarize the error (MISE) in the estimates computed in the 100 data
 sets from each simulation setting.
 
-The plots for the "Bursts" simulations were included in the
-manuscript.
+The plots shown below for the "Bursts" simulations were included in
+the manuscript.
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center",
@@ -82,7 +82,7 @@ different ranges of intensities:
 
 ```{r plot-spikes-function, fig.height=4, fig.width=8}
 mu.s <- spike.f(t)
-plot(t,mu.s,xlab = "",ylab = "",type = "l")
+plot(t,mu.s,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
 ```
 
 This table summarizes the results from the Spikes simulations:
@@ -133,21 +133,22 @@ create.violin.plots <- function (pdat1, pdat8, pdat128) {
         geom_boxplot(width = 0.15,outlier.shape = NA) +
         coord_flip() +
         labs(x = "",y = "MISE",title = "intensities (1/100,3)") +
-		theme_cowplot()
+		theme_cowplot() +
+		theme(axis.line = element_blank())
   p8 <- ggplot(pdat8,aes(x = method,y = mise)) +
         geom_violin(fill = "skyblue",color = "skyblue") +
         geom_boxplot(width = 0.15,outlier.shape = NA) +
-  	    scale_x_discrete(breaks = NULL) +
         coord_flip() +
         labs(x = "",y = "MISE",title = "intensities (1/8,8)") +
-		theme_cowplot()
+		theme_cowplot() +
+		theme(axis.line = element_blank())
   p128 <- ggplot(pdat128,aes(x = method,y = mise)) +
         geom_violin(fill = "skyblue",color = "skyblue") +
         geom_boxplot(width = 0.15,outlier.shape = NA) +
- 	    scale_x_discrete(breaks = NULL) +
         coord_flip() +
         labs(x = "",y = "MISE",title = "intensities (1/128,128)") +
-		theme_cowplot()
+		theme_cowplot() +
+		theme(axis.line = element_blank())
   return(plot_grid(p1,p8,p128,nrow = 1,ncol = 3))
 }
 create.violin.plots(pdat1,pdat8,pdat128)
@@ -169,7 +170,7 @@ sig <- ((2 * t + 0.5) * (t <= 0.15)) +
   ((-0.5 * (t - 0.65) + 0.3) * (t > 0.65 & t <= 0.85)) +
   ((2 * (t - 0.85) + 0.2) * (t > 0.85))
 mu.ang <- 3/5 * ((5/(max(sig) - min(sig))) * sig - 1.6) - 0.0419569
-plot(t,mu.ang,xlab = "",ylab = "",type = "l")
+plot(t,mu.ang,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
 ```
 
 This table summarizes the results from the Angles simulations:
@@ -192,7 +193,7 @@ simulated at the given range of intensities.
 The combined violin-boxplots provide a visualization of the same
 results:
 
-```{r angles-violin-plots, fig.height=3.5, fig.width=10}
+```{r angles-violin-plots, fig.height=3.25, fig.width=10}
 mise.hf.ti.r.ang.1   <- colMeans(rbind(mise.hf.ti.r.4.ang.1,
                                        mise.hf.ti.r.5.ang.1,
                                        mise.hf.ti.r.6.ang.1,
@@ -227,7 +228,7 @@ different ranges of intensities:
 heavi <- 4 * sin(4 * pi * t) - sign(t - 0.3) - sign(0.72 - t)
 mu.hs <- heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
 mu.hs <- mu.hs - min(mu.hs)
-plot(t,mu.hs,xlab = "",ylab = "",type = "l")
+plot(t,mu.hs,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
 ```
 
 This table summarizes the results from the Heavisine simulations:
@@ -250,7 +251,7 @@ simulated at the given range of intensities.
 The combined violin-boxplots provide a visualization of the same
 results:
 
-```{r heavisine-violin-plots, fig.height=3.5, fig.width=10}
+```{r heavisine-violin-plots, fig.height=3.25, fig.width=10}
 mise.hf.ti.r.hs.1   <- colMeans(rbind(mise.hf.ti.r.4.hs.1,
                                       mise.hf.ti.r.5.hs.1,
                                       mise.hf.ti.r.6.hs.1,
@@ -289,7 +290,7 @@ I_2 <- exp(-(abs(t - 0.3)/0.01)^1.2) * (t <= 0.3) +
 I_3 <- exp(-(abs(t - 0.4)/0.01)^1.2) * (t <= 0.4) +
        exp(-(abs(t - 0.4)/0.03)^1.2) * (t > 0.4)
 mu.bur <- 2.99/4.51804 * (4 * I_1 + 3 * I_2 + 4.5 * I_3)
-plot(t,mu.bur,xlab = "",ylab = "",type = "l")
+plot(t,mu.bur,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
 ```
 
 This table summarizes the results from the Bursts simulations:
@@ -312,7 +313,7 @@ simulated at the given range of intensities.
 The combined violin-boxplots provide a visualization of the same
 results:
 
-```{r bursts-violin-plots, fig.height=3.5, fig.width=10}
+```{r bursts-violin-plots, fig.height=3.25, fig.width=10}
 mise.hf.ti.r.bur.1   <- colMeans(rbind(mise.hf.ti.r.4.bur.1,
                                        mise.hf.ti.r.5.bur.1,
                                        mise.hf.ti.r.6.bur.1,
@@ -350,7 +351,7 @@ mu.cb <- rep(0,n)
 for (j in 1:length(pos))
   mu.cb <- mu.cb + (1 + sign(t - pos[j])) * (hgt[j]/2)
 mu.cb[mu.cb < 0] <- 0
-plot(t,mu.cb,xlab = "",ylab = "",type = "l")
+plot(t,mu.cb,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
 ```
 
 This table summarizes the results from the Clipped Blocks simulations:
@@ -373,7 +374,7 @@ simulated at the given range of intensities.
 The combined violin-boxplots provide a visualization of the same
 results:
 
-```{r cb-violin-plots, fig.height=3.5, fig.width=10}
+```{r cb-violin-plots, fig.height=3.25, fig.width=10}
 mise.hf.ti.r.cb.1   <- colMeans(rbind(mise.hf.ti.r.4.cb.1,
                                       mise.hf.ti.r.5.cb.1,
                                       mise.hf.ti.r.6.cb.1,
@@ -411,7 +412,7 @@ wth  <- c(0.005,0.005,0.006,0.01,0.01,0.03,0.01,0.01,0.005,0.008,0.005)
 mu.b <- rep(0, n)
 for (j in 1:length(pos))
   mu.b <- mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
-plot(t,mu.b,xlab = "",ylab = "",type = "l")
+plot(t,mu.b,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
 ```
 	 
 This table summarizes the results from the Bumps simulations:
@@ -434,7 +435,7 @@ simulated at the given range of intensities.
 The combined violin-boxplots provide a visualization of the same
 results:
 
-```{r bumps-violin-plots, fig.height=3.5, fig.width=10}
+```{r bumps-violin-plots, fig.height=3.25, fig.width=10}
 mise.hf.ti.r.b.1   <- colMeans(rbind(mise.hf.ti.r.4.b.1,
                                      mise.hf.ti.r.5.b.1,
                                      mise.hf.ti.r.6.b.1,
