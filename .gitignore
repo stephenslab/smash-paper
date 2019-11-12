@@ -1,4 +1,5 @@
 dsc/code/Wavelab850/MEXSource/*.mex*
 dsc/results
 *.Rproj.user*
+.Rhistory
 
