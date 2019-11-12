@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -69,9 +70,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -85,7 +84,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -95,6 +93,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -110,7 +111,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -130,6 +130,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -151,19 +188,73 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -235,7 +326,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-05-29
+<strong>Last updated:</strong> 2019-11-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -245,7 +336,7 @@ div.section {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.3.0.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.5.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -266,10 +357,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreebffeca40e9500e027f4c64972a791a5cd74d4a42targetblankbffeca4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/bffeca40e9500e027f4c64972a791a5cd74d4a42" target="_blank">bffeca4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree35a397ae8ecf07cf8a5b0da3d165ad6729cd39b8targetblank35a397aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/35a397ae8ecf07cf8a5b0da3d165ad6729cd39b8" target="_blank">35a397a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreebffeca40e9500e027f4c64972a791a5cd74d4a42targetblankbffeca4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree35a397ae8ecf07cf8a5b0da3d165ad6729cd39b8targetblank35a397aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -303,6 +394,9 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
+
+Untracked files:
+    Untracked:  files.txt
 
 </code></pre>
 <p>
@@ -346,6 +440,40 @@ Message
 html
 </td>
 <td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/e574eec52585f7a5b7c51d2fee5affa76127cf5f/docs/index.html" target="_blank">e574eec</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-05-29
+</td>
+<td>
+Removed code chunk from home page.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/bffeca40e9500e027f4c64972a791a5cd74d4a42/analysis/index.Rmd" target="_blank">bffeca4</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-05-29
+</td>
+<td>
+wflow_publish(“analysis/index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
 <a href="https://rawcdn.githack.com/stephenslab/smash-paper/29686e20d2128b5ce3454575c42498bfa3c0a35a/docs/index.html" target="_blank">29686e2</a>
 </td>
 <td>
@@ -356,6 +484,23 @@ Peter Carbonetto
 </td>
 <td>
 More testing of wflow_publish() on index.Rmd.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/23277eec48c1c59099c92dacd9fb8221600b3398/docs/index.html" target="_blank">23277ee</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-05-29
+</td>
+<td>
+Testing workflowr::wflow_publish on index.Rmd.
 </td>
 </tr>
 <tr>
@@ -373,6 +518,57 @@ Peter Carbonetto
 </td>
 <td>
 wflow_publish(“analysis/index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/ee4e1efedd1a8475ff71d6a9d28dd28d16d865f2/docs/index.html" target="_blank">ee4e1ef</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-03-14
+</td>
+<td>
+Re-built home page with updated citation info; addresses Issue #2.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/2d1870b03ca0fff3063dac598683ad3b8d5672f0/analysis/index.Rmd" target="_blank">2d1870b</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-03-14
+</td>
+<td>
+Updated LICENSE; updated main workflowr page.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/bf8b368bebc1a6f6cf63b4066dfc6452e1c4fe25/docs/index.html" target="_blank">bf8b368</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-21
+</td>
+<td>
+Fixed plots for Bursts simulations.
 </td>
 </tr>
 <tr>
@@ -403,7 +599,7 @@ html
 Peter Carbonetto
 </td>
 <td>
-2018-12-20
+2018-12-21
 </td>
 <td>
 Added info about Poisson results in output directory.
@@ -496,6 +692,23 @@ wflow_publish(“index.Rmd”)
 </tr>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/755a5a3ef71760894bb4c81100269ef6461c9cca/docs/index.html" target="_blank">755a5a3</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-20
+</td>
+<td>
+Added content to “What’s included in the git repository” section.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
@@ -577,6 +790,23 @@ Peter Carbonetto
 </td>
 <td>
 I have an initial setup of the Shiny server document.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/8caff70d5899672d7557ee2aa563c07dfe527581/docs/index.html" target="_blank">8caff70</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-06
+</td>
+<td>
+Re-built the workflowr pages after several minor changes to the text
 </td>
 </tr>
 <tr>
@@ -700,6 +930,23 @@ wflow_publish(c(“gaussian_signals.Rmd”, “index.Rmd”))
 </tr>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/6d2dec360606c984274ca89738826f147bdb96fe/docs/index.html" target="_blank">6d2dec3</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-09
+</td>
+<td>
+Added link to TOC in home page.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
@@ -713,6 +960,57 @@ Peter Carbonetto
 </td>
 <td>
 Moved around some files and revised TOC in home page.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/40956da644403a8e5e668128238cbda97b841110/docs/index.html" target="_blank">40956da</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-08
+</td>
+<td>
+Another minor edit to the home page.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a181e84c050ef563b6b2c93c453d78f481869848/analysis/index.Rmd" target="_blank">a181e84</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-08
+</td>
+<td>
+wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/04a6b8a05e3e8fbfaaaa48e3d5d65ad0916cee22/docs/index.html" target="_blank">04a6b8a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-08
+</td>
+<td>
+Adjusted formatting of TOC in home page.
 </td>
 </tr>
 <tr>
@@ -734,6 +1032,23 @@ wflow_publish(“index.Rmd”)
 </tr>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/5bfcb05b49481e347ba53f942ed7255bf679dd4f/docs/index.html" target="_blank">5bfcb05</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-08
+</td>
+<td>
+Fixing up the TOC for the home page.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
@@ -747,6 +1062,23 @@ Peter Carbonetto
 </td>
 <td>
 wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/e6a06eda157a36cb1eabaea07964ad159eeeaa8e/docs/index.html" target="_blank">e6a06ed</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-08
+</td>
+<td>
+Re-built the home page; wflow_publish(“index.Rmd”)
 </td>
 </tr>
 <tr>
@@ -785,6 +1117,40 @@ Small edit to home page.
 </tr>
 <tr>
 <td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/e94d1cea5e5535a437b4060c5356605eadecf880/analysis/index.Rmd" target="_blank">e94d1ce</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-06
+</td>
+<td>
+wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/762f342154e7405cd152aa3dd3322473c07ac7f2/docs/index.html" target="_blank">762f342</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-06
+</td>
+<td>
+Some more minor fixes to the home page.
+</td>
+</tr>
+<tr>
+<td>
 html
 </td>
 <td>
@@ -815,6 +1181,23 @@ Peter Carbonetto
 </td>
 <td>
 wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/145b7e538fd371b43172d6d97249afd3baeacf5b/docs/index.html" target="_blank">145b7e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-06
+</td>
+<td>
+A few improvements to the home page.
 </td>
 </tr>
 <tr>
@@ -934,6 +1317,23 @@ Peter Carbonetto
 </td>
 <td>
 wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/4005f5e074ed505de4dac5baf54350da7aef3865/docs/index.html" target="_blank">4005f5e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-08-23
+</td>
+<td>
+Created home page for the first time.
 </td>
 </tr>
 <tr>
@@ -1076,6 +1476,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
