@@ -9,12 +9,14 @@ SMASH, for reconstructing a spatially structured signal from
 Poisson-distributed data. Similar to the Gaussian simulations, we
 generated data sets using a variety of test functions and intensity
 ranges. Specifically, we considered 6 test functions, rescaling the
-test function so that the smallest intensity was x and the largest
-intensity was y, with (x,y) set to either (1/100, 3), (1/8, 8) or
-(1/128, 128). For each combination of test function and intensity
-range, we simulated 100 data sets. In the plots and tables below, we
-summarize the error (MISE) in the estimates computed in the 100 data
-sets from each simulation setting.
+test function so that the smallest intensity was $x$ and the largest
+intensity was $y$, with $(x,y)$ set to either $(1/100, 3)$, $(1/8, 8)$
+or $(1/128, 128)$.
+
+For each combination of test function and intensity range, we
+simulated 100 data sets. In the plots and tables below, we summarize
+the error (MISE) in the estimates computed in the 100 data sets from
+each simulation setting.
 
 The plots shown below for the "Bursts" simulations were included in
 the manuscript.
@@ -50,9 +52,11 @@ t <- 1:n/n
 Set up environment
 ------------------
 
-Load the ggplot2 cowplot and xtable packages.
+Load the knitr, kableExtra, ggplot2 and cowplot packages.
 
 ```{r load-pkgs, message=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
 library(ggplot2)
 library(cowplot)
 library(xtable)
@@ -93,8 +97,9 @@ mise.s.table <- cbind(mise.s.1[methods],
                       mise.s.128[methods])
 rownames(mise.s.table) <- table.row.names
 colnames(mise.s.table) <- table.col.names
-print(xtable(mise.s.table,caption = " "),type = "html",
-      html.table.attributes = "border=0")
+kable(mise.s.table,format = "html",
+  table.attr = paste("class=\"table\";","style=\"font-family: sans-serif;",
+                     "width: auto; margin-left: auto; margin-right: auto\""))
 ```
 
 Each column shows the results at a different range of intensities.
@@ -102,8 +107,8 @@ The individual table entries give the average error (MISE) in the
 estimates, in which the average is taken over the 100 data sets
 simulated at the given range of intensities.
 
-The combined violin-boxplots provide a visualization of the same
-results:
+The combined violin-boxplots provide a more detailed summary of
+the same results:
 
 ```{r spikes-violin-plots, fig.height=3.5, fig.width=10}
 m                  <- length(mise.ash.s.1)
@@ -134,21 +139,24 @@ create.violin.plots <- function (pdat1, pdat8, pdat128) {
         coord_flip() +
         labs(x = "",y = "MISE",title = "intensities (1/100,3)") +
 		theme_cowplot() +
-		theme(axis.line = element_blank())
+		theme(plot.title = element_text(size = 14,face = "plain"),
+		      axis.line = element_blank())
   p8 <- ggplot(pdat8,aes(x = method,y = mise)) +
         geom_violin(fill = "skyblue",color = "skyblue") +
         geom_boxplot(width = 0.15,outlier.shape = NA) +
         coord_flip() +
         labs(x = "",y = "MISE",title = "intensities (1/8,8)") +
 		theme_cowplot() +
-		theme(axis.line = element_blank())
+		theme(plot.title = element_text(size = 14,face = "plain"),
+		      axis.line = element_blank())
   p128 <- ggplot(pdat128,aes(x = method,y = mise)) +
         geom_violin(fill = "skyblue",color = "skyblue") +
         geom_boxplot(width = 0.15,outlier.shape = NA) +
         coord_flip() +
         labs(x = "",y = "MISE",title = "intensities (1/128,128)") +
 		theme_cowplot() +
-		theme(axis.line = element_blank())
+		theme(plot.title = element_text(size = 14,face = "plain"),
+		      axis.line = element_blank())
   return(plot_grid(p1,p8,p128,nrow = 1,ncol = 3))
 }
 create.violin.plots(pdat1,pdat8,pdat128)
