@@ -26,34 +26,8 @@ Generate the ground-truth signals
 Here, `n` specifies the length of the signals.
 
 ```{r specify-n}
-n = 1024
-t = 1:n/n
-```
-
-Define the Spikes mean function.
-
-```{r define-spikes}
-mu.s = spike.f(t)
-```
-
-Define the Bumps variance function.
-
-```{r define-bumps}
-pos = c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
-hgt = 2.97/5 * c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
-wth = c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005, 0.008, 0.005)
-mu.b = rep(0, n)
-for (j in 1:length(pos))
-  mu.b = mu.b + hgt[j]/((1 + (abs(t - pos[j])/wth[j]))^4)
-```
-
-Define the Doppler mean function.
-
-```{r define-doppler}
-mu.dop     = dop.f(t)
-mu.dop     = 3/(max(mu.dop) - min(mu.dop)) * (mu.dop - min(mu.dop))
-mu.dop.var = 10 * dop.f(t)
-mu.dop.var = mu.dop.var - min(mu.dop.var)
+n <- 1024
+t <- 1:n/n
 ```
 
 Define the Angle mean function.
@@ -80,56 +54,54 @@ mu.cblk = mu.blk
 mu.cblk[mu.cblk < 0] = 0
 ```
 
-Define the "Blip" mean function.
+Define the mean functions.
 
-```{r define-blip}
-mu.blip = blip.fn(t,"mean")
-```
-  
-Define the "Corner" mean function.
-
-```{r define-corner}
-mu.cor = cor.fn(t,"mean")
+```{r define-mean}
+mu.sp   <- spike.fn(t,"mean")
+mu.bump <- bumps.fn(t,"mean")
+mu.dop  <- doppler.fn(t,"mean")
+mu.blip <- blip.fn(t,"mean")
+mu.cor  <- cor.fn(t,"mean")
 ```
 
 Define the remainder of the mean functions.
 
-```{r define-mean}
-mu.sp   = (1 + mu.s)/5
-mu.bump = (1 + mu.b)/5
+```{r define-mean-2}
 mu.blk  = 0.2 + 0.6 * (mu.blk - min(mu.blk))/max(mu.blk - min(mu.blk))
 mu.ang  = (1 + mu.ang)/5
-mu.dop  = (1 + mu.dop)/5
 ```
 
 Define the variance functions.
 
 ```{r define-variance}
 var1 = rep(1, n)
-var2 = (1e-02 + 4 * (exp(-550 * (t - 0.2)^2) +
+var2 = (0.01 + 4 * (exp(-550 * (t - 0.2)^2) +
                      exp(-200 * (t - 0.5)^2) +
                      exp(-950 * (t - 0.8)^2)))
-var3 = (1e-02 + 2 * mu.dop.var)
-var4 = 0.01 + mu.b
+var3 <- doppler.fn(t,"var")
+var4 <- bumps.fn(t,"var")
 var5 = 0.01 + 1 * (mu.cblk - min(mu.cblk))/max(mu.cblk)
 var1 = var1/2
 var2 = var2/max(var2)
-var3 = var3/max(var3)
-var4 = var4/max(var4)
 var5 = var5/max(var5)
 ```
 
 Plot the signal means
 ---------------------
 
+This function will be used to draw the mean and variance functions.
+
+```{r define-plot-signal}
+plot.signal <- function (t, y, label)
+  quickplot(t,y,geom = "line",color = I("darkorange"),
+            xlab = "",ylab = "",main = label)
+```
+
 These plots show each of the mean functions used in generating the
 Gaussian data sets.
 
 ```{r plot-mean-functions, fig.height=10, fig.width=6}
 theme_set(theme_cowplot())
-plot.signal <- function (t, y, label)
-  quickplot(t,y,geom = "line",color = I("darkorange"),
-            xlab = "",ylab = "",main = label)
 plot_grid(plot.signal(t,mu.sp,"Spikes (sp)"),
           plot.signal(t,mu.bump,"Bumps (bump)"),
           plot.signal(t,mu.blk,"Blocks (blk)"),
