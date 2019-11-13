@@ -382,16 +382,16 @@ mise.hf.ti.r.b.128 <- colMeans(rbind(mise.hf.ti.r.4.b.128,
 									 mise.hf.ti.r.5.b.128,
 									 mise.hf.ti.r.6.b.128,
 									 mise.hf.ti.r.7.b.128))
-pdat.hf.1   <- get.violin.plot.data(list("Haar-Fisz" = mise.hf.ti.r.b.1,
-                                         BMSM        = mise.BMSM.b.1,
-		  						         SMASH       = mise.ash.b.1))
-pdat.hf.8   <- get.violin.plot.data(list("Haar-Fisz" = mise.hf.ti.r.b.8,
-                                         BMSM        = mise.BMSM.b.8,
-				   				         SMASH       = mise.ash.b.8))
-pdat.hf.128 <- get.violin.plot.data(list("Haar-Fisz" = mise.hf.ti.r.b.128,
-                                         BMSM        = mise.BMSM.b.128,
-									     SMASH       = mise.ash.b.128))
-create.violin.plots(pdat.hf.1,pdat.hf.8,pdat.hf.128)
+pdat.hf1   <- get.violin.plot.data(list("Haar-Fisz" = mise.hf.ti.r.b.1,
+                                        "BMSM"      = mise.BMSM.b.1,
+	  						            "SMASH"     = mise.ash.b.1))
+pdat.hf8   <- get.violin.plot.data(list("Haar-Fisz" = mise.hf.ti.r.b.8,
+                                        "BMSM"      = mise.BMSM.b.8,
+				   				        "SMASH"     = mise.ash.b.8))
+pdat.hf128 <- get.violin.plot.data(list("Haar-Fisz" = mise.hf.ti.r.b.128,
+                                        "BMSM"      = mise.BMSM.b.128,
+									    "SMASH"     = mise.ash.b.128))
+create.violin.plots(pdat.hf1,pdat.hf8,pdat.hf128)
 ```
 
 Combined results
