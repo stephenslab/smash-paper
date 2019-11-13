@@ -13,12 +13,12 @@ spike.fn <- function (t, type = c("mean","var")) {
 
 # This is used by spikes.fn to define the "Spikes" mean and variance
 # functions.
-spike.f <- function (x)
-  0.75 * exp(-500   * (x - 0.23)^2) +
-  1.5  * exp(-2000  * (x - 0.33)^2) +
-  3    * exp(-8000  * (x - 0.47)^2) + 
-  2.25 * exp(-16000 * (x - 0.69)^2) +
-  0.5  * exp(-32000 * (x - 0.83)^2)
+spike.f <- function (t)
+  0.75 * exp(-500   * (t - 0.23)^2) +
+  1.5  * exp(-2000  * (t - 0.33)^2) +
+  3    * exp(-8000  * (t - 0.47)^2) + 
+  2.25 * exp(-16000 * (t - 0.69)^2) +
+  0.5  * exp(-32000 * (t - 0.83)^2)
 
 # This defines the "Bumps" mean and variance functions.
 bumps.fn <- function (t, type = c("mean","var")) {
@@ -37,24 +37,30 @@ bumps.f <- function (t) {
   hgt  <- 2.97/5*c(4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2)
   wth  <- c(0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005,
             0.008, 0.005)
-  f = rep(0,length(t))
+  f <- rep(0,length(t))
   for (i in 1:length(pos))
     f <- f + hgt[i]/((1 + (abs(t - pos[i])/wth[i]))^4)
   return(f)
 }
 
-# This defines the "Blocks" mean and variance functions.
+# This defines the "Blocks" mean function.
 blocks.fn <- function (t, type = c("mean","var")) {
   type <- match.arg(type)
+  f    <- blocks.f(t)  
+  if (type == "mean")
+    return(0.2 + 0.6 * (f - min(f))/max(f - min(f)))
+  else if (type == "var")
+    return(NULL)
+}
+
+# This is used by blocks.fn tto define the "Blocks" mean function.
+blocks.f <- function (t) {
   pos  <- c(0.1, 0.13, 0.15, 0.23, 0.25, 0.4, 0.44, 0.65, 0.76, 0.78, 0.81)
   hgt  <- 2.88/5 * c(4, -5, 3, -4, 5, -4.2, 2.1, 4.3, -3.1, 2.1, -4.2)
   f    <- rep(0,length(t))
   for (i in 1:length(pos))
     f <- f + (1 + sign(t - pos[i])) * hgt[i]/2
-  if (type == "mean")
-    return(0.2 + 0.6 * (f - min(f))/max(f - min(f)))
-  else if (type == "var")
-    return(NULL)
+  return(f)
 }
 
 # This defines the "Angles" mean function.
@@ -67,7 +73,7 @@ angles.fn <- function (t, type = c("mean","var")) {
 }
 
 # This is used by angles.fn to define the "Angles" mean function.
-angles.f <- function (x) {
+angles.f <- function (t) {
   s <- ((2 * t + 0.5) * (t <= 0.15)) +
        ((-12 * (t - 0.15) + 0.8) * (t > 0.15 & t <= 0.2)) +
        0.2 * (t > 0.2 & t <= 0.5) +
@@ -95,35 +101,47 @@ doppler.fn <- function (t, type = c("mean","var")) {
 
 # This is used by doppler.fn to define the "Doppler" mean and variance
 # functions.
-dop.f <- function(x)
-  sqrt(x * (1 - x)) * sin((2 * pi * 1.05)/(x + 0.05))
+dop.f <- function (t)
+  sqrt(t * (1 - t)) * sin((2 * pi * 1.05)/(t + 0.05))
 
 # This defines the "Blip" mean function.
 blip.fn <- function (t, type = c("mean","var")) {
-  f <- (0.32 + 0.6 * t + 0.3 * exp(-100 * (t - 0.3)^2)) * (t >= 0 & t <= 0.8) +
-       (-0.28 + 0.6 * t + 0.3 * exp(-100 * (t - 1.3)^2)) * (t > 0.8 & t <= 1)
+  type <- match.arg(type)
+  f    <- blip.fn(t)
   if (type == "mean")
     return(f)
   else if (type == "var")
     return(NULL)
 }
 
+# This is used by blip.fn to define the "Blip" mean function.
+blip.f <- function (t)
+  (0.32 + 0.6 * t + 0.3 * exp(-100 * (t - 0.3)^2)) * (t >= 0 & t <= 0.8) +
+  (-0.28 + 0.6 * t + 0.3 * exp(-100 * (t - 1.3)^2)) * (t > 0.8 & t <= 1)
+
 # This defines the "Corner" mean function.
-cor.fn <- function(t, type = c("mean","var")) {
+cor.fn <- function (t, type = c("mean","var")) {
   type <- match.arg(type)
-  f    <- 623.87 * t^3 * (1 - 2 * t) * (t >= 0 & t <= 0.5) +
-          187.161 * (0.125 - t^3) * t^4 * (t > 0.5 & t <= 0.8) +
-          3708.470441 * (t - 1)^3 * (t > 0.8 & t <= 1)
-  f    <- (0.6/(max(f) - min(f))) * f
+  f    <- cor.f(t)
   if (type == "mean")
     return(f - min(f) + 0.2)
   else if (type == "var")
     return(NULL)
 }
 
+# This is used by cor.fn to define the "Corner" mean function.
+cor.f <- function (t) {
+  f    <- 623.87 * t^3 * (1 - 2 * t) * (t >= 0 & t <= 0.5) +
+          187.161 * (0.125 - t^3) * t^4 * (t > 0.5 & t <= 0.8) +
+          3708.470441 * (t - 1)^3 * (t > 0.8 & t <= 1)
+  f    <- (0.6/(max(f) - min(f))) * f
+  return(f)
+}
+
 # This defines the constant variance function.
 cons.fn = function (t, type = c("var","mean")) {
-  f <- rep(1,length(t))
+  type <- match.arg(type)
+  f    <- rep(1,length(t))
   if (type == "mean") {
     return(NULL)
   } else if (type == "var") {
@@ -133,7 +151,8 @@ cons.fn = function (t, type = c("var","mean")) {
   
 # This defines the "Clipped Blocks" variance function.
 cblocks.fn <- function (t, type = c("var","mean")) {
-  f <- cblocks.f(t)
+  type <- match.arg(type)
+  f    <- cblocks.f(t)
   if (type == "mean")
     return(NULL)
   else if (type == "var")
@@ -153,13 +172,18 @@ cblocks.f <- function (t) {
 }
 
 # This defines the "triple exponential" variance function.
-texp.fn <- function(t, type = c("var","mean")) {
-  f <- 1e-04 + 4*(exp(-550 * (t - 0.2)^2) +
-                  exp(-200 * (t - 0.5)^2) +
-                  exp(-950 * (t - 0.8)^2))
+texp.fn <- function (t, type = c("var","mean")) {
+  type <- match.arg(type)
+  f    <- fexp.f(t)
   if (type == "mean")
     return(NULL)
   else if (type == "var")
     return(f)
-  
 }
+
+# This is used by texp.fn to define the "triple exponential" variance
+# function.
+texp.f <- function (t)
+  1e-04 + 4*(exp(-550 * (t - 0.2)^2) +
+             exp(-200 * (t - 0.5)^2) +
+             exp(-950 * (t - 0.8)^2))
