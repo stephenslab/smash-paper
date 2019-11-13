@@ -419,10 +419,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree1f76230cd4c2d52e6051a184bce6165085644694targetblank1f76230a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/1f76230cd4c2d52e6051a184bce6165085644694" target="_blank">1f76230</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree4576145f63a4e71a17c6d3ac1b1c576c242b7ea0targetblank4576145a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/4576145f63a4e71a17c6d3ac1b1c576c242b7ea0" target="_blank">4576145</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree1f76230cd4c2d52e6051a184bce6165085644694targetblank1f76230a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree4576145f63a4e71a17c6d3ac1b1c576c242b7ea0targetblank4576145a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -459,9 +459,6 @@ Ignored files:
 
 Untracked files:
     Untracked:  files.txt
-
-Unstaged changes:
-    Modified:   code/signals.R
 
 </code></pre>
 <p>
@@ -500,6 +497,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/4576145f63a4e71a17c6d3ac1b1c576c242b7ea0/analysis/poisson.Rmd" target="_blank">4576145</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-13
+</td>
+<td>
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/c890a40b38017112dc3d2a2bceac1ba536faf6b1/docs/poisson.html" target="_blank">c890a40</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+Re-ran poisson and gaussian_signals analyses with new code in signals.R.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1848,9 +1879,7 @@ Peter Carbonetto
 <div id="heavisine-data" class="section level2">
 <h2>Heavisine data</h2>
 <p>This is the function used to simulate the “Heavisine” data sets at different ranges of intensities:</p>
-<pre class="r"><code>heavi &lt;- 4 * sin(4 * pi * t) - sign(t - 0.3) - sign(0.72 - t)
-mu.hs &lt;- heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
-mu.hs &lt;- mu.hs - min(mu.hs)
+<pre class="r"><code>mu.hs &lt;- heavi.f(t)
 plot(t,mu.hs,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,lwd = 2,col = &quot;darkorange&quot;)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-heavisine-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
@@ -2154,13 +2183,7 @@ Peter Carbonetto
 <div id="bursts-data" class="section level2">
 <h2>Bursts data</h2>
 <p>This is the function used to simulate the “Bursts” data sets at different ranges of intensities:</p>
-<pre class="r"><code>I_1 &lt;- exp(-(abs(t - 0.2)/0.01)^1.2) * (t &lt;= 0.2) +
-       exp(-(abs(t - 0.2)/0.03)^1.2) * (t &gt; 0.2)
-I_2 &lt;- exp(-(abs(t - 0.3)/0.01)^1.2) * (t &lt;= 0.3) +
-       exp(-(abs(t - 0.3)/0.03)^1.2) * (t &gt; 0.3)
-I_3 &lt;- exp(-(abs(t - 0.4)/0.01)^1.2) * (t &lt;= 0.4) +
-       exp(-(abs(t - 0.4)/0.03)^1.2) * (t &gt; 0.4)
-mu.bur &lt;- 2.99/4.51804 * (4 * I_1 + 3 * I_2 + 4.5 * I_3)
+<pre class="r"><code>mu.bur &lt;- bursts.f(t)
 plot(t,mu.bur,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,lwd = 2,col = &quot;darkorange&quot;)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-bursts-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
