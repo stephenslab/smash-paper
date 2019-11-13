@@ -10,6 +10,15 @@ create.results.table <- function (dat) {
                    "width: auto; margin-left: auto; margin-right: auto\"")))
 }
 
+get.violin.plot.data <- function (mise) {
+  out <- NULL
+  n   <- length(methods)
+  for (i in 1:n)
+    out <- rbind(out,data.frame(method = names(mise)[i],mise = mise[[i]]))
+  out <- transform(out,method = factor(method))
+  return(out)
+}
+
 create.violin.plots <- function (pdat1, pdat8, pdat128) {
   p1 <- ggplot(pdat1,aes(x = method,y = mise)) +
         geom_violin(fill = "skyblue",color = "skyblue") +
