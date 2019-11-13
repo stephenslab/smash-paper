@@ -60,12 +60,11 @@ library(cowplot)
 ```
 
 Some of the test functions are defined in `signals.R`, so we load them
-here. Some additional functions are defined in file
-`poisson.functions.R`.
+here. Some additional functions are defined in file `poisson.functions.R`.
 
 ```{r load-functions}
-source("../code/poisson.functions.R")
 source("../code/signals.R")
+source("../code/poisson.functions.R")
 ```
 
 Load results
@@ -383,14 +382,19 @@ mise.hf.ti.r.b.128 <- colMeans(rbind(mise.hf.ti.r.4.b.128,
 									 mise.hf.ti.r.5.b.128,
 									 mise.hf.ti.r.6.b.128,
 									 mise.hf.ti.r.7.b.128))
-pdat1 <-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.b.1,mise.BMSM.b.1,mise.ash.b.1))
-pdat8 <-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.b.8,mise.BMSM.b.8,mise.ash.b.8))
-pdat128 <-
-  data.frame(method=factor(rep(method.labels,each = m),method.labels),
-             mise  =c(mise.hf.ti.r.b.128,mise.BMSM.b.128,mise.ash.b.128))
-create.violin.plots(pdat1,pdat8,pdat128)
+pdat.hf.1   <- get.violin.plot.data(list("Haar-Fisz" = mise.hf.ti.r.b.1,
+                                         BMSM        = mise.BMSM.b.1,
+		  						         SMASH       = mise.ash.b.1))
+pdat.hf.8   <- get.violin.plot.data(list("Haar-Fisz" = mise.hf.ti.r.b.8,
+                                         BMSM        = mise.BMSM.b.8,
+				   				         SMASH       = mise.ash.b.8))
+pdat.hf.128 <- get.violin.plot.data(list("Haar-Fisz" = mise.hf.ti.r.b.128,
+                                         BMSM        = mise.BMSM.b.128,
+									     SMASH       = mise.ash.b.128))
+create.violin.plots(pdat.hf.1,pdat.hf.8,pdat.hf.128)
 ```
+
+Combined results
+----------------
+
+*Create plot showing combined results here.*
