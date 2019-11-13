@@ -107,7 +107,7 @@ dop.f <- function (t)
 # This defines the "Blip" mean function.
 blip.fn <- function (t, type = c("mean","var")) {
   type <- match.arg(type)
-  f    <- blip.fn(t)
+  f    <- blip.f(t)
   if (type == "mean")
     return(f)
   else if (type == "var")
@@ -174,7 +174,7 @@ cblocks.f <- function (t) {
 # This defines the "triple exponential" variance function.
 texp.fn <- function (t, type = c("var","mean")) {
   type <- match.arg(type)
-  f    <- fexp.f(t)
+  f    <- texp.f(t)
   if (type == "mean")
     return(NULL)
   else if (type == "var")
