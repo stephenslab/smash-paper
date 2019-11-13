@@ -190,9 +190,7 @@ This is the function used to simulate the "Heavisine" data sets at
 different ranges of intensities:
 
 ```{r plot-heavisine-function, fig.height=4, fig.width=8}
-heavi <- 4 * sin(4 * pi * t) - sign(t - 0.3) - sign(0.72 - t)
-mu.hs <- heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
-mu.hs <- mu.hs - min(mu.hs)
+mu.hs <- heavi.f(t)
 plot(t,mu.hs,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
 ```
 
@@ -245,13 +243,7 @@ This is the function used to simulate the "Bursts" data sets at
 different ranges of intensities:
 
 ```{r plot-bursts-function, fig.height=4, fig.width=8}
-I_1 <- exp(-(abs(t - 0.2)/0.01)^1.2) * (t <= 0.2) +
-       exp(-(abs(t - 0.2)/0.03)^1.2) * (t > 0.2)
-I_2 <- exp(-(abs(t - 0.3)/0.01)^1.2) * (t <= 0.3) +
-       exp(-(abs(t - 0.3)/0.03)^1.2) * (t > 0.3)
-I_3 <- exp(-(abs(t - 0.4)/0.01)^1.2) * (t <= 0.4) +
-       exp(-(abs(t - 0.4)/0.03)^1.2) * (t > 0.4)
-mu.bur <- 2.99/4.51804 * (4 * I_1 + 3 * I_2 + 4.5 * I_3)
+mu.bur <- bursts.f(t)
 plot(t,mu.bur,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
 ```
 
