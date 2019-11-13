@@ -187,3 +187,23 @@ texp.f <- function (t)
   1e-04 + 4*(exp(-550 * (t - 0.2)^2) +
              exp(-200 * (t - 0.5)^2) +
              exp(-950 * (t - 0.8)^2))
+
+# This defines the "Heavisine" signal.
+heavi.f <- function (t) {
+  heavi <- 4 * sin(4 * pi * t) - sign(t - 0.3) - sign(0.72 - t)
+  f <- heavi/sqrt(var(heavi)) * 1 * 2.99/3.366185
+  f <- f - min(f)
+  return(f)
+}
+
+# This defines the "Bursts" signal.
+bursts.f <- function (t) {
+  I1 <- exp(-(abs(t - 0.2)/0.01)^1.2) * (t <= 0.2) +
+        exp(-(abs(t - 0.2)/0.03)^1.2) * (t > 0.2)
+  I2 <- exp(-(abs(t - 0.3)/0.01)^1.2) * (t <= 0.3) +
+        exp(-(abs(t - 0.3)/0.03)^1.2) * (t > 0.3)
+  I3 <- exp(-(abs(t - 0.4)/0.01)^1.2) * (t <= 0.4) +
+        exp(-(abs(t - 0.4)/0.03)^1.2) * (t > 0.4)
+  f  <- 2.99/4.51804 * (4*I1 + 3*I2 + 4.5*I3)
+  return(f)
+}
