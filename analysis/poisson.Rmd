@@ -52,9 +52,10 @@ t <- 1:n/n
 Set up environment
 ------------------
 
-Load the knitr, kableExtra, ggplot2 and cowplot packages.
+Load the plyr, knitr, kableExtra, ggplot2 and cowplot packages.
 
 ```{r load-pkgs, message=FALSE, warning=FALSE}
+library(plyr)
 library(knitr)
 library(kableExtra)
 library(ggplot2)
@@ -399,4 +400,58 @@ create.violin.plots(pdat.b1,pdat.b8,pdat.b128)
 Combined results
 ----------------
 
-*Create plot showing combined results here.*
+These plots summarize the results for all 6 simulation scenarios.
+
+```{r summarize-all-results, fig.height=6, fig.width=10}
+pdat.s1$simulation   <- "Spikes"
+pdat.s8$simulation   <- "Spikes"
+pdat.s128$simulation <- "Spikes"
+pdat.s1$intensity    <- "(1/100, 3)"
+pdat.s8$intensity    <- "(1/8, 8)"
+pdat.s128$intensity  <- "(1/128, 128)"
+
+pdat.ang1$simulation   <- "Angles"
+pdat.ang8$simulation   <- "Angles"
+pdat.ang128$simulation <- "Angles"
+pdat.ang1$intensity    <- "(1/100, 3)"
+pdat.ang8$intensity    <- "(1/8, 8)"
+pdat.ang128$intensity  <- "(1/128, 128)"
+
+pdat.hs1$simulation   <- "Heavisine"
+pdat.hs8$simulation   <- "Heavisine"
+pdat.hs128$simulation <- "Heavisine"
+pdat.hs1$intensity    <- "(1/100, 3)"
+pdat.hs8$intensity    <- "(1/8, 8)"
+pdat.hs128$intensity  <- "(1/128, 128)"
+
+pdat.bur1$simulation   <- "Bursts"
+pdat.bur8$simulation   <- "Bursts"
+pdat.bur128$simulation <- "Bursts"
+pdat.bur1$intensity    <- "(1/100, 3)"
+pdat.bur8$intensity    <- "(1/8, 8)"
+pdat.bur128$intensity  <- "(1/128, 128)"
+
+pdat.cb1$simulation   <- "Clipped"
+pdat.cb8$simulation   <- "Clipped"
+pdat.cb128$simulation <- "Clipped"
+pdat.cb1$intensity    <- "(1/100, 3)"
+pdat.cb8$intensity    <- "(1/8, 8)"
+pdat.cb128$intensity  <- "(1/128, 128)"
+
+pdat.b1$simulation   <- "Bumps"
+pdat.b8$simulation   <- "Bumps"
+pdat.b128$simulation <- "Bumps"
+pdat.b1$intensity    <- "(1/100, 3)"
+pdat.b8$intensity    <- "(1/8, 8)"
+pdat.b128$intensity  <- "(1/128, 128)"
+
+pdat <- rbind(pdat.s1,pdat.s8,pdat.s128,
+              pdat.ang1,pdat.ang8,pdat.ang128,
+              pdat.hs1,pdat.hs8,pdat.hs128,
+              pdat.bur1,pdat.bur8,pdat.bur128,
+              pdat.cb1,pdat.cb8,pdat.cb128)
+p1   <- create.bar.plots(pdat,show.legend = FALSE)
+pdat <- rbind(pdat.b1,pdat.b8,pdat.b128)
+p2   <- create.bar.plots(pdat)
+plot_grid(p1,p2,nrow = 1,rel_widths =  c(7,4))
+```
