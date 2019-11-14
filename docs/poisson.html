@@ -419,10 +419,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree06f113f7eb954266018672b9f52a27ea312044eftargetblank06f113fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/06f113f7eb954266018672b9f52a27ea312044ef" target="_blank">06f113f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreef6a2109f2530e402caac4d581b5e563883f0c741targetblankf6a2109a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/f6a2109f2530e402caac4d581b5e563883f0c741" target="_blank">f6a2109</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree06f113f7eb954266018672b9f52a27ea312044eftargetblank06f113fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreef6a2109f2530e402caac4d581b5e563883f0c741targetblankf6a2109a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -497,6 +497,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f6a2109f2530e402caac4d581b5e563883f0c741/analysis/poisson.Rmd" target="_blank">f6a2109</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-14
+</td>
+<td>
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/dded357ab7ac0725f861a93e4af13fa68f1d9f9a/analysis/poisson.Rmd" target="_blank">dded357</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-13
+</td>
+<td>
+Some small adjustments to the plotting code in poisson.Rmd.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/248e31ec44c92b7f6ec17212e39d49523ccda344/docs/poisson.html" target="_blank">248e31e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-13
+</td>
+<td>
+Re-built poisson analysis after simplifying creation of a violin plot.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1253,8 +1304,8 @@ Re-organized some of the files used in the Poisson numerical comparisons.
 </div>
 </div>
 <p>Here we create plots and tables to compare various methods, including SMASH, for reconstructing a spatially structured signal from Poisson-distributed data. Similar to the Gaussian simulations, we generated data sets using a variety of test functions and intensity ranges. Specifically, we considered 6 test functions, rescaling the test function so that the smallest intensity was <span class="math inline">\(x\)</span> and the largest intensity was <span class="math inline">\(y\)</span>, with <span class="math inline">\((x,y)\)</span> set to either <span class="math inline">\((1/100, 3)\)</span>, <span class="math inline">\((1/8, 8)\)</span> or <span class="math inline">\((1/128, 128)\)</span>.</p>
-<p>For each combination of test function and intensity range, we simulated 100 data sets. In the plots and tables below, we summarize the error (MISE) in the estimates computed in the 100 data sets from each simulation setting.</p>
-<p>The plots for the “Bursts” simulations shown below were also included in the manuscript.</p>
+<p>For each combination of test function and intensity range, we simulated 100 data sets. In the plots and tables below, we summarize the error (MISE) in the estimates computed in the 100 data sets from each simulation setting. A final summary of all the simulations is shown at the end.</p>
+<p>The plots shown below for the “Bursts” simulations, as well as the bar plots summarizing all the Poisson simulations, were included in the manuscript.</p>
 <div id="analysis-settings" class="section level2">
 <h2>Analysis settings</h2>
 <p>We will view the results from these methods:</p>
@@ -1468,9 +1519,7 @@ Haar-Fisz
 </table>
 <p>Each column shows the results at a different range of intensities. The individual table entries give the average error (MISE) in the estimates, in which the average is taken over the 100 data sets simulated at the given range of intensities.</p>
 <p>The combined violin-boxplots provide a more detailed summary of the same results:</p>
-<pre class="r"><code>m                  &lt;- length(mise.ash.s.1)
-method.labels      &lt;- c(&quot;Haar-Fisz&quot;,&quot;BMSM&quot;,&quot;SMASH&quot;)
-mise.hf.ti.r.s.1   &lt;- colMeans(rbind(mise.hf.ti.r.4.s.1,
+<pre class="r"><code>mise.hf.ti.r.s.1   &lt;- colMeans(rbind(mise.hf.ti.r.4.s.1,
                                      mise.hf.ti.r.5.s.1,
                                      mise.hf.ti.r.6.s.1,
                                      mise.hf.ti.r.7.s.1))
@@ -1482,14 +1531,16 @@ mise.hf.ti.r.s.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.s.128,
                                      mise.hf.ti.r.5.s.128,
                                      mise.hf.ti.r.6.s.128,
                                      mise.hf.ti.r.7.s.128))
-pdat1 &lt;- data.frame(method = factor(rep(method.labels,each = m),method.labels),
-                    mise   = c(mise.hf.ti.r.s.1,mise.BMSM.s.1,mise.ash.s.1))
-pdat8 &lt;- data.frame(method = factor(rep(method.labels,each = m),method.labels),
-                    mise   = c(mise.hf.ti.r.s.8,mise.BMSM.s.8,mise.ash.s.8))
-pdat128 &lt;-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.s.128,mise.BMSM.s.128,mise.ash.s.128))
-create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
+pdat.s1   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.s.1,
+                                       &quot;BMSM&quot;      = mise.BMSM.s.1,
+                                       &quot;SMASH&quot;     = mise.ash.s.1))
+pdat.s8   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.s.8,
+                                       &quot;BMSM&quot;      = mise.BMSM.s.8,
+                                       &quot;SMASH&quot;     = mise.ash.s.8))
+pdat.s128 &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.s.128,
+                                       &quot;BMSM&quot;      = mise.BMSM.s.128,
+                                       &quot;SMASH&quot;     = mise.ash.s.128))
+create.violin.plots(pdat.s1,pdat.s8,pdat.s128)</code></pre>
 <p><img src="figure/poisson.Rmd/spikes-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-spikes-violin-plots-1">
@@ -1795,16 +1846,16 @@ mise.hf.ti.r.ang.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.ang.128,
                                        mise.hf.ti.r.5.ang.128,
                                        mise.hf.ti.r.6.ang.128,
                                        mise.hf.ti.r.7.ang.128))
-pdat1 &lt;-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.ang.1,mise.BMSM.ang.1,mise.ash.ang.1))
-pdat8 &lt;-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.ang.8,mise.BMSM.ang.8,mise.ash.ang.8))
-pdat128 &lt;-
-  data.frame(method=factor(rep(method.labels,each = m),method.labels),
-             mise  =c(mise.hf.ti.r.ang.128,mise.BMSM.ang.128,mise.ash.ang.128))
-create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
+pdat.ang1   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.ang.1,
+                                         &quot;BMSM&quot;      = mise.BMSM.ang.1,
+                                         &quot;SMASH&quot;     = mise.ash.ang.1))
+pdat.ang8   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.ang.8,
+                                         &quot;BMSM&quot;      = mise.BMSM.ang.8,
+                                         &quot;SMASH&quot;     = mise.ash.ang.8))
+pdat.ang128 &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.ang.128,
+                                         &quot;BMSM&quot;      = mise.BMSM.ang.128,
+                                         &quot;SMASH&quot;     = mise.ash.ang.128))
+create.violin.plots(pdat.ang1,pdat.ang8,pdat.ang128)</code></pre>
 <p><img src="figure/poisson.Rmd/angles-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-angles-violin-plots-1">
@@ -2110,16 +2161,16 @@ mise.hf.ti.r.hs.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.hs.128,
                                       mise.hf.ti.r.5.hs.128,
                                       mise.hf.ti.r.6.hs.128,
                                       mise.hf.ti.r.7.hs.128))
-pdat1 &lt;-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.hs.1,mise.BMSM.hs.1,mise.ash.hs.1))
-pdat8 &lt;-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.hs.8,mise.BMSM.hs.8,mise.ash.hs.8))
-pdat128 &lt;-
-  data.frame(method=factor(rep(method.labels,each = m),method.labels),
-             mise  =c(mise.hf.ti.r.hs.128,mise.BMSM.hs.128,mise.ash.hs.128))
-create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
+pdat.hs1   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.hs.1,
+                                        &quot;BMSM&quot;      = mise.BMSM.hs.1,
+                                        &quot;SMASH&quot;     = mise.ash.hs.1))
+pdat.hs8   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.hs.8,
+                                        &quot;BMSM&quot;      = mise.BMSM.hs.8,
+                                        &quot;SMASH&quot;     = mise.ash.hs.8))
+pdat.hs128 &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.hs.128,
+                                        &quot;BMSM&quot;      = mise.BMSM.hs.128,
+                                        &quot;SMASH&quot;     = mise.ash.hs.128))
+create.violin.plots(pdat.hs1,pdat.hs8,pdat.hs128)</code></pre>
 <p><img src="figure/poisson.Rmd/heavisine-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-heavisine-violin-plots-1">
@@ -2414,16 +2465,16 @@ mise.hf.ti.r.bur.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.bur.128,
                                        mise.hf.ti.r.5.bur.128,
                                        mise.hf.ti.r.6.bur.128,
                                        mise.hf.ti.r.7.bur.128))
-pdat1 &lt;-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.bur.1,mise.BMSM.bur.1,mise.ash.bur.1))
-pdat8 &lt;-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.bur.8,mise.BMSM.bur.8,mise.ash.bur.8))
-pdat128 &lt;-
-  data.frame(method=factor(rep(method.labels,each = m),method.labels),
-             mise  =c(mise.hf.ti.r.bur.128,mise.BMSM.bur.128,mise.ash.bur.128))
-create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
+pdat.bur1   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.bur.1,
+                                         &quot;BMSM&quot;      = mise.BMSM.bur.1,
+                                         &quot;SMASH&quot;     = mise.ash.bur.1))
+pdat.bur8   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.bur.8,
+                                         &quot;BMSM&quot;      = mise.BMSM.bur.8,
+                                         &quot;SMASH&quot;     = mise.ash.bur.8))
+pdat.bur128 &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.bur.128,
+                                         &quot;BMSM&quot;      = mise.BMSM.bur.128,
+                                         &quot;SMASH&quot;     = mise.ash.bur.128))
+create.violin.plots(pdat.bur1,pdat.bur8,pdat.bur128)</code></pre>
 <p><img src="figure/poisson.Rmd/bursts-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-bursts-violin-plots-1">
@@ -2718,16 +2769,16 @@ mise.hf.ti.r.cb.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.cb.128,
                                       mise.hf.ti.r.5.cb.128,
                                       mise.hf.ti.r.6.cb.128,
                                       mise.hf.ti.r.7.cb.128))
-pdat1 &lt;-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.cb.1,mise.BMSM.cb.1,mise.ash.cb.1))
-pdat8 &lt;-
-  data.frame(method = factor(rep(method.labels,each = m),method.labels),
-             mise   = c(mise.hf.ti.r.cb.8,mise.BMSM.cb.8,mise.ash.cb.8))
-pdat128 &lt;-
-  data.frame(method=factor(rep(method.labels,each = m),method.labels),
-             mise  =c(mise.hf.ti.r.cb.128,mise.BMSM.cb.128,mise.ash.cb.128))
-create.violin.plots(pdat1,pdat8,pdat128)</code></pre>
+pdat.cb1   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.cb.1,
+                                        &quot;BMSM&quot;      = mise.BMSM.cb.1,
+                                        &quot;SMASH&quot;     = mise.ash.cb.1))
+pdat.cb8   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.cb.8,
+                                        &quot;BMSM&quot;      = mise.BMSM.cb.8,
+                                        &quot;SMASH&quot;     = mise.ash.cb.8))
+pdat.cb128 &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.cb.128,
+                                        &quot;BMSM&quot;      = mise.BMSM.cb.128,
+                                        &quot;SMASH&quot;     = mise.ash.cb.128))
+create.violin.plots(pdat.cb1,pdat.cb8,pdat.cb128)</code></pre>
 <p><img src="figure/poisson.Rmd/cb-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cb-violin-plots-1">
@@ -3022,16 +3073,16 @@ mise.hf.ti.r.b.128 &lt;- colMeans(rbind(mise.hf.ti.r.4.b.128,
                                      mise.hf.ti.r.5.b.128,
                                      mise.hf.ti.r.6.b.128,
                                      mise.hf.ti.r.7.b.128))
-pdat.hf.1   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.b.1,
-                                         BMSM        = mise.BMSM.b.1,
-                                         SMASH       = mise.ash.b.1))
-pdat.hf.8   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.b.8,
-                                         BMSM        = mise.BMSM.b.8,
-                                         SMASH       = mise.ash.b.8))
-pdat.hf.128 &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.b.128,
-                                         BMSM        = mise.BMSM.b.128,
-                                         SMASH       = mise.ash.b.128))
-create.violin.plots(pdat.hf.1,pdat.hf.8,pdat.hf.128)</code></pre>
+pdat.b1   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.b.1,
+                                       &quot;BMSM&quot;      = mise.BMSM.b.1,
+                                       &quot;SMASH&quot;     = mise.ash.b.1))
+pdat.b8   &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.b.8,
+                                       &quot;BMSM&quot;      = mise.BMSM.b.8,
+                                       &quot;SMASH&quot;     = mise.ash.b.8))
+pdat.b128 &lt;- get.violin.plot.data(list(&quot;Haar-Fisz&quot; = mise.hf.ti.r.b.128,
+                                       &quot;BMSM&quot;      = mise.BMSM.b.128,
+                                       &quot;SMASH&quot;     = mise.ash.b.128))
+create.violin.plots(pdat.b1,pdat.b8,pdat.b128)</code></pre>
 <p><img src="figure/poisson.Rmd/bumps-violin-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-bumps-violin-plots-1">
