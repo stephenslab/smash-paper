@@ -75,8 +75,7 @@ create.bar.plots <- function (pdat, show.legend = TRUE) {
   return(ggplot(pdat,aes_string(x = "method",y = "mean",fill = "method")) +
     geom_col(width = 0.65,show.legend = show.legend) +
     geom_errorbar(aes_string(x = "method",ymin = "low",ymax = "high"),
-                  color = "black",inherit.aes = FALSE,width = 0.5,
-                  size = 0.3) +
+                  color = "black",inherit.aes = FALSE,width = 0.2,size = 0.3) +
     scale_x_discrete(breaks = NULL) +
     scale_fill_manual(values = c("dodgerblue","darkblue","darkorange")) +
     facet_grid(intensity ~ simulation,scales = "free") +
