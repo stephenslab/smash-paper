@@ -453,5 +453,5 @@ pdat <- rbind(pdat.s1,pdat.s8,pdat.s128,
 p1   <- create.bar.plots(pdat,show.legend = FALSE)
 pdat <- rbind(pdat.b1,pdat.b8,pdat.b128)
 p2   <- create.bar.plots(pdat)
-plot_grid(p1,p2,nrow = 1,rel_widths =  c(7,4))
+plot_grid(p1,p2,nrow = 1,rel_widths = c(7,4))
 ```
