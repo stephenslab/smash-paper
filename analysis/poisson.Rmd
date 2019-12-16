@@ -72,6 +72,10 @@ source("../code/poisson.functions.R")
 
 Initialize the sequence of pseudorandom numbers.
 
+```{r set-seed}
+set.seed(1)
+```
+
 Load results
 ------------
 
