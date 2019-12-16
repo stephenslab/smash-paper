@@ -70,6 +70,8 @@ source("../code/signals.R")
 source("../code/poisson.functions.R")
 ```
 
+Initialize the sequence of pseudorandom numbers.
+
 Load results
 ------------
 
@@ -82,12 +84,14 @@ load("../output/pois.RData")
 Spikes data
 -----------
 
-This is the function used to simulate the "Spikes" data sets at
-different ranges of intensities:
+This plot shows the function used to simulate the "Spikes" data sets
+at the $(1/100, 3)$ intensity range, along with an example data set
+(black circles):
 
-```{r plot-spikes-function, fig.height=4, fig.width=8}
-mu.s <- spike.f(t)
-plot(t,mu.s,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
+```{r plot-spikes-function, fig.height=2.5, fig.width=8}
+mu.s <- 0.01 + spike.f(t)
+x    <- rpois(n,mu.s)
+create.signal.plot(mu.s,x)
 ```
 
 This table summarizes the results from the Spikes simulations:
@@ -138,9 +142,10 @@ Angles data
 This is the function used to simulate the "Angles" data sets at
 different ranges of intensities:
 
-```{r plot-angles-function, fig.height=4, fig.width=8}
-mu.ang <- angles.f(t)
-plot(t,mu.ang,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
+```{r plot-angles-function, fig.height=2.5, fig.width=8}
+mu.ang <- 0.01 + angles.f(t)
+x      <- rpois(n,mu.ang)
+create.signal.plot(mu.ang,x)
 ```
 
 This table summarizes the results from the Angles simulations:
@@ -191,9 +196,10 @@ Heavisine data
 This is the function used to simulate the "Heavisine" data sets at
 different ranges of intensities:
 
-```{r plot-heavisine-function, fig.height=4, fig.width=8}
-mu.hs <- heavi.f(t)
-plot(t,mu.hs,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
+```{r plot-heavisine-function, fig.height=2.5, fig.width=8}
+mu.hs <- 0.01 + heavi.f(t)
+x     <- rpois(n,mu.hs)
+create.signal.plot(mu.hs,x)
 ```
 
 This table summarizes the results from the Heavisine simulations:

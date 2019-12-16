@@ -310,7 +310,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -319,7 +319,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -328,17 +328,17 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-11-14
+<strong>Last updated:</strong> 2019-12-16
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>smash-paper/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.5.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.5.0.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -347,12 +347,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -419,10 +419,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree1efa89de3a052648086f6d9e5d51c49618618029targetblank1efa89da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/1efa89de3a052648086f6d9e5d51c49618618029" target="_blank">1efa89d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreeaca0299fae6e6f6aede6d80c7031630083644e13targetblankaca0299a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/aca0299fae6e6f6aede6d80c7031630083644e13" target="_blank">aca0299</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree1efa89de3a052648086f6d9e5d51c49618618029targetblank1efa89da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreeaca0299fae6e6f6aede6d80c7031630083644e13targetblankaca0299a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -458,7 +458,13 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 Untracked files:
+    Untracked:  analysis/poisson.R
+    Untracked:  analysis/poisson.R~
     Untracked:  files.txt
+
+Unstaged changes:
+    Modified:   analysis/poisson.Rmd
+    Modified:   code/poisson.functions.R
 
 </code></pre>
 <p>
@@ -497,6 +503,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/aca0299fae6e6f6aede6d80c7031630083644e13/analysis/poisson.Rmd" target="_blank">aca0299</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-14
+</td>
+<td>
+Small edit to code in poisson.Rmd.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/b013a9f8cd6bbcba96625d3f4313bd00514f68c6/docs/poisson.html" target="_blank">b013a9f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-14
+</td>
+<td>
+Adjusted bar plots in Poisson simulations analysis.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1377,6 +1417,7 @@ library(cowplot)</code></pre>
 <p>Some of the test functions are defined in <code>signals.R</code>, so we load them here. Some additional functions are defined in file <code>poisson.functions.R</code>.</p>
 <pre class="r"><code>source(&quot;../code/signals.R&quot;)
 source(&quot;../code/poisson.functions.R&quot;)</code></pre>
+<p>Initialize the sequence of pseudorandom numbers.</p>
 </div>
 <div id="load-results" class="section level2">
 <h2>Load results</h2>
@@ -1385,9 +1426,10 @@ source(&quot;../code/poisson.functions.R&quot;)</code></pre>
 </div>
 <div id="spikes-data" class="section level2">
 <h2>Spikes data</h2>
-<p>This is the function used to simulate the “Spikes” data sets at different ranges of intensities:</p>
-<pre class="r"><code>mu.s &lt;- spike.f(t)
-plot(t,mu.s,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,lwd = 2,col = &quot;darkorange&quot;)</code></pre>
+<p>This plot shows the function used to simulate the “Spikes” data sets at the <span class="math inline">\((1/100, 3)\)</span> intensity range, along with an example data set (black circles):</p>
+<pre class="r"><code>mu.s &lt;- 0.01 + spike.f(t)
+x    &lt;- rpois(n,mu.s)
+create.signal.plot(mu.s,x)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-spikes-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-spikes-function-1">
@@ -1701,8 +1743,9 @@ Peter Carbonetto
 <div id="angles-data" class="section level2">
 <h2>Angles data</h2>
 <p>This is the function used to simulate the “Angles” data sets at different ranges of intensities:</p>
-<pre class="r"><code>mu.ang &lt;- angles.f(t)
-plot(t,mu.ang,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,lwd = 2,col = &quot;darkorange&quot;)</code></pre>
+<pre class="r"><code>mu.ang &lt;- 0.01 + angles.f(t)
+x      &lt;- rpois(n,mu.ang)
+create.signal.plot(mu.ang,x)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-angles-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-angles-function-1">
@@ -2016,8 +2059,9 @@ Peter Carbonetto
 <div id="heavisine-data" class="section level2">
 <h2>Heavisine data</h2>
 <p>This is the function used to simulate the “Heavisine” data sets at different ranges of intensities:</p>
-<pre class="r"><code>mu.hs &lt;- heavi.f(t)
-plot(t,mu.hs,xlab = &quot;&quot;,ylab = &quot;&quot;,type = &quot;l&quot;,lwd = 2,col = &quot;darkorange&quot;)</code></pre>
+<pre class="r"><code>mu.hs &lt;- 0.01 + heavi.f(t)
+x     &lt;- rpois(n,mu.hs)
+create.signal.plot(mu.hs,x)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-heavisine-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-heavisine-function-1">
@@ -3293,7 +3337,7 @@ pdat &lt;- rbind(pdat.s1,pdat.s8,pdat.s128,
 p1   &lt;- create.bar.plots(pdat,show.legend = FALSE)
 pdat &lt;- rbind(pdat.b1,pdat.b8,pdat.b128)
 p2   &lt;- create.bar.plots(pdat)
-plot_grid(p1,p2,nrow = 1,rel_widths =  c(7,4))</code></pre>
+plot_grid(p1,p2,nrow = 1,rel_widths = c(7,4))</code></pre>
 <p><img src="figure/poisson.Rmd/summarize-all-results-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-summarize-all-results-1">
@@ -3317,6 +3361,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/b013a9f8cd6bbcba96625d3f4313bd00514f68c6/docs/figure/poisson.Rmd/summarize-all-results-1.png" target="_blank">b013a9f</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/3a62540da632adc5e8c33934f4f87f0df8d25171/docs/figure/poisson.Rmd/summarize-all-results-1.png" target="_blank">3a62540</a>
@@ -3359,23 +3414,23 @@ Peter Carbonetto
 # [5] plyr_1.8.4      
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.1        highr_0.8         compiler_3.4.3   
-#  [4] pillar_1.3.1      later_0.8.0       git2r_0.26.1     
-#  [7] workflowr_1.5.0   tools_3.4.3       digest_0.6.18    
-# [10] gtable_0.2.0      evaluate_0.13     tibble_2.1.1     
-# [13] viridisLite_0.3.0 pkgconfig_2.0.2   rlang_0.3.1      
-# [16] rstudioapi_0.10   yaml_2.2.0        xfun_0.7         
-# [19] withr_2.1.2.9000  dplyr_0.8.0.1     stringr_1.4.0    
-# [22] httr_1.4.0        xml2_1.2.0        fs_1.2.7         
-# [25] hms_0.4.2         tidyselect_0.2.5  grid_3.4.3       
-# [28] rprojroot_1.3-2   webshot_0.5.1     glue_1.3.1       
-# [31] R6_2.4.0          rmarkdown_1.16    reshape2_1.4.3   
-# [34] purrr_0.2.5       readr_1.3.1       magrittr_1.5     
-# [37] whisker_0.3-2     backports_1.1.2   scales_0.5.0     
-# [40] promises_1.0.1    htmltools_0.3.6   assertthat_0.2.1 
-# [43] rvest_0.3.2       colorspace_1.4-0  httpuv_1.5.0     
-# [46] labeling_0.3      stringi_1.4.3     lazyeval_0.2.1   
-# [49] munsell_0.4.3     crayon_1.3.4</code></pre>
+#  [1] Rcpp_1.0.1           highr_0.8            compiler_3.4.3      
+#  [4] pillar_1.3.1         later_0.8.0          git2r_0.26.1        
+#  [7] workflowr_1.5.0.9000 tools_3.4.3          digest_0.6.18       
+# [10] gtable_0.2.0         evaluate_0.13        tibble_2.1.1        
+# [13] viridisLite_0.3.0    pkgconfig_2.0.2      rlang_0.4.2         
+# [16] rstudioapi_0.10      yaml_2.2.0           xfun_0.7            
+# [19] withr_2.1.2.9000     dplyr_0.8.0.1        stringr_1.4.0       
+# [22] httr_1.4.0           xml2_1.2.0           fs_1.2.7            
+# [25] hms_0.4.2            tidyselect_0.2.5     grid_3.4.3          
+# [28] rprojroot_1.3-2      webshot_0.5.1        glue_1.3.1          
+# [31] R6_2.4.0             rmarkdown_1.17       reshape2_1.4.3      
+# [34] purrr_0.2.5          readr_1.3.1          magrittr_1.5        
+# [37] whisker_0.3-2        backports_1.1.2      scales_0.5.0        
+# [40] promises_1.0.1       htmltools_0.3.6      assertthat_0.2.1    
+# [43] rvest_0.3.2          colorspace_1.4-0     httpuv_1.5.0        
+# [46] labeling_0.3         stringi_1.4.3        lazyeval_0.2.1      
+# [49] munsell_0.4.3        crayon_1.3.4</code></pre>
 </div>
 </div>
 

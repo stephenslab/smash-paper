@@ -1,5 +1,13 @@
 # This file defines some functions used by the "poisson" analysis.
 
+# Create a plot showing the test function (mu) and an example data set
+# simulated using that test function (x).
+create.signal.plot <- function (mu, x)
+  ggplot(data.frame(x = t,y = x),aes_string(x = "x",y = "y")) +
+    geom_point(color = "black",shape = 1) +
+    geom_line(dat = data.frame(x = t,y = mu),color = "darkorange",size = 1) +
+    labs(x = "",y = "")
+
 # This function is used to create the tables in the "poisson"
 # analysis.
 create.results.table <- function (dat) {
