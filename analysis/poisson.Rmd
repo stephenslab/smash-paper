@@ -95,7 +95,7 @@ at the $(1/100, 3)$ intensity range, along with an example data set
 ```{r plot-spikes-function, fig.height=2.5, fig.width=8}
 mu.s <- 0.01 + spike.f(t)
 x    <- rpois(n,mu.s)
-create.signal.plot(mu.s,x)
+create.signal.plot(t,x,mu.s)
 ```
 
 This table summarizes the results from the Spikes simulations:
@@ -149,7 +149,7 @@ different ranges of intensities:
 ```{r plot-angles-function, fig.height=2.5, fig.width=8}
 mu.ang <- 0.01 + angles.f(t)
 x      <- rpois(n,mu.ang)
-create.signal.plot(mu.ang,x)
+create.signal.plot(t,x,mu.ang)
 ```
 
 This table summarizes the results from the Angles simulations:
@@ -203,7 +203,7 @@ different ranges of intensities:
 ```{r plot-heavisine-function, fig.height=2.5, fig.width=8}
 mu.hs <- 0.01 + heavi.f(t)
 x     <- rpois(n,mu.hs)
-create.signal.plot(mu.hs,x)
+create.signal.plot(t,x,mu.hs)
 ```
 
 This table summarizes the results from the Heavisine simulations:
@@ -257,7 +257,7 @@ different ranges of intensities:
 ```{r plot-bursts-function, fig.height=2.5, fig.width=8}
 mu.bur <- 0.01 + bursts.f(t)
 x      <- rpois(n,mu.bur)
-create.signal.plot(mu.bur,x)
+create.signal.plot(t,x,mu.bur)
 ```
 
 This table summarizes the results from the Bursts simulations:
@@ -311,7 +311,7 @@ different ranges of intensities:
 ```{r plot-cb-function, fig.height=4, fig.width=8}
 mu.cb <- 0.01 + cblocks.f(t)
 x     <- rpois(n,mu.cb)
-create.signal.plot(mu.cb,x)
+create.signal.plot(t,x,mu.cb)
 ```
 
 This table summarizes the results from the Clipped Blocks simulations:
@@ -365,7 +365,7 @@ different ranges of intensities:
 ```{r plot-bumps-function, fig.height=4, fig.width=8}
 mu.b <- 0.01 + bumps.f(t)
 x    <- rpois(n,mu.b)
-create.signal.plot(mu.b,x)
+create.signal.plot(t,x,mu.b)
 ```
 	 
 This table summarizes the results from the Bumps simulations:
