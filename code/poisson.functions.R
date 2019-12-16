@@ -2,7 +2,7 @@
 
 # Create a plot showing the test function (mu) and an example data set
 # simulated using that test function (x).
-create.signal.plot <- function (mu, x)
+create.signal.plot <- function (t, x, mu)
   ggplot(data.frame(x = t,y = x),aes_string(x = "x",y = "y")) +
     geom_point(color = "black",shape = 1) +
     geom_line(dat = data.frame(x = t,y = mu),color = "darkorange",size = 1) +
