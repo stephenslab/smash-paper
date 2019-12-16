@@ -250,9 +250,10 @@ Bursts data
 This is the function used to simulate the "Bursts" data sets at
 different ranges of intensities:
 
-```{r plot-bursts-function, fig.height=4, fig.width=8}
-mu.bur <- bursts.f(t)
-plot(t,mu.bur,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
+```{r plot-bursts-function, fig.height=2.5, fig.width=8}
+mu.bur <- 0.01 + bursts.f(t)
+x      <- rpois(n,mu.bur)
+create.signal.plot(mu.bur,x)
 ```
 
 This table summarizes the results from the Bursts simulations:
@@ -304,8 +305,9 @@ This is the function used to simulate the "Clipped Blocks" data sets at
 different ranges of intensities:
 
 ```{r plot-cb-function, fig.height=4, fig.width=8}
-mu.cb <- cblocks.f(t)
-plot(t,mu.cb,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
+mu.cb <- 0.01 + cblocks.f(t)
+x     <- rpois(n,mu.cb)
+create.signal.plot(mu.cb,x)
 ```
 
 This table summarizes the results from the Clipped Blocks simulations:
@@ -357,8 +359,9 @@ This is the function used to simulate the "Bumps" data sets at
 different ranges of intensities:
 
 ```{r plot-bumps-function, fig.height=4, fig.width=8}
-mu.b <- bumps.f(t)
-plot(t,mu.b,xlab = "",ylab = "",type = "l",lwd = 2,col = "darkorange")
+mu.b <- 0.01 + bumps.f(t)
+x    <- rpois(n,mu.b)
+create.signal.plot(mu.b,x)
 ```
 	 
 This table summarizes the results from the Bumps simulations:
