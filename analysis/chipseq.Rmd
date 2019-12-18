@@ -89,7 +89,7 @@ Next, we apply SMASH to the read counts to estimate the mean and
 variance of the underlying signal. It could also take several minutes to
 complete this step.
 
-```{r run-smash}
+```{r run-smash, warning=FALSE}
 res <- smash.poiss(counts,post.var = TRUE)
 ```
 
@@ -99,7 +99,7 @@ Plot the SMASH and Haar-Fisz estimates
 To provide a "baseline" to compare against the SMASH estimates, we
 retrieve the peaks identified in the same ChIP-seq data using the MACS
 software. Again, these data should have been included with the git
-repository you downloaded.
+repository you downloaded by following the instructions above.
 
 ```{r load-macs-peaks}
 macs.file <- "../data/Gm1287peaks_chr1_sorted.txt"
@@ -111,13 +111,11 @@ This next plot shows the intensity functions estimated by SMASH
 count data are depicted as light blue circles, in which the area of
 each circle is scaled by the number of data points that fall within
 each 1.6-kb "bin". (We show counts summarized within bins because
-there are too many data points to plot them individually.)
-
-The peaks identified by the MACS software are shown as red
-triangles. (Specifically, these are the *mean positions* of the
-identified peak intervals; the peak intervals are short enough that it
-is not useful to show both the start and end positions of these
-intervals.)
+there are too many data points to plot them individually.) The peaks
+identified by the MACS software are shown as red triangles.
+(Specifically, these are the *mean positions* of the identified peak
+intervals; the peak intervals are short enough that it is not useful
+to show both the start and end positions of these intervals.)
 
 ```{r plot-smash-estimates, fig.height=3, fig.width=9}
 create.chipseq.plot(bppos/1e6,counts,res$est,res.hf,
@@ -127,8 +125,10 @@ create.chipseq.plot(bppos/1e6,counts,res$est,res.hf,
 ```
 
 Based on this plot, it is clear that the strongest Haar-Fisz and SMASH
-intensity estimates align very closely with the peaks found by
-MACS. Intriguingly, the SMASH estimates also suggest the presence of
-several additional weaker peaks that were not identified by MACS.
+intensity estimates align very closely with the peaks found by MACS,
+although the Haar-Fisz method failed to replicate at least two of
+the MACS peaks. Intriguingly, the SMASH estimates also suggest the
+presence of several additional weaker peaks that were not identified
+by MACS.
 
 [smash-github]: https://github.com/stephenslab/smash-paper

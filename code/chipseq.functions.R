@@ -1,3 +1,16 @@
+# This is the Gaussian denoising routine used in the Haar-Fisz method;
+# this specifies the "meth.1" argument in the call to "denoise.poisson"
+# from the haarfisz package.
+hf.la10.ti4 <- function (x) {
+  TT      <- length(x)
+  thresh  <- sqrt(2*log(TT))
+  x.w     <- wd(x,10,"DaubLeAsymm",type = "station")
+  x.w.t   <- threshold(x.w,levels = 4:(x.w$nlevels-1),policy = "manual",
+                       value = thresh,type = "hard")
+  x.w.t.r <- AvBasis(convert(x.w.t))
+  return(x.w.t.r)
+}
+
 # Load the MACS peaks data from a text file, returning all peaks
 # within the selected range of base-pair positions.
 read.macs.peaks <- function (file, min.pos, max.pos) {
@@ -16,23 +29,11 @@ read.macs.peaks <- function (file, min.pos, max.pos) {
               end    = peaks[i,3]))
 }
 
-# This is the Gaussian denoising routine used in the Haar-Fisz method;
-# this specifies the "meth.1" argument in the call to "denoise.poisson"
-# from the haarfisz package.
-hf.la10.ti4 <- function (x) {
-  TT      <- length(x)
-  thresh  <- sqrt(2*log(TT))
-  x.w     <- wd(x,10,"DaubLeAsymm",type = "station")
-  x.w.t   <- threshold(x.w,levels = 4:(x.w$nlevels-1),policy = "manual",
-                       value = thresh,type = "hard")
-  x.w.t.r <- AvBasis(convert(x.w.t))
-  return(x.w.t.r)
-}
-
 # Create a plot showing. This is a very *ad hoc* implementation that
 # will only work for the specific data set that was analyzed in the
 # "chipseq.Rmd" example.
-create.chipseq.plot <- function (pos, counts, smash.est, peaks, nbreaks) {
+create.chipseq.plot <- function (pos, counts, smash.est, hf.est, peaks,
+                                 nbreaks) {
 
   # Sum the read counts in equally sized "bins" (small chromosome
   # intervals).
@@ -54,7 +55,10 @@ create.chipseq.plot <- function (pos, counts, smash.est, peaks, nbreaks) {
          scale_size(range = c(0.5,3.5)) +
          geom_line(data = data.frame(position = pos,y = 4*smash.est),
                    mapping = aes_string(x = "position",y = "y"),
-                   color = "darkorange",inherit.aes = FALSE) +
+                   color = "darkorange",size = 0.75,inherit.aes = FALSE) +
+         geom_line(data = data.frame(position = pos,y = 4*hf.est),
+                   mapping = aes_string(x = "position",y = "y"),
+                   color = "darkblue",size = 0.5,inherit.aes = FALSE) +
          geom_point(data = data.frame(position = peaks,y = -1),
                     mapping = aes_string(x = "position",y = "y"),color = "red",
                     inherit.aes = FALSE,shape = 2,size = 2) +
