@@ -74,26 +74,22 @@ Note that there are two replicates of the GM12878 cell line, so we
 analyze the combined read counts from both replicates, stored in the
 `counts` vectors.
 
-Run SMASH
----------
+Run SMASH and Haar-Fisz methods
+-------------------------------
+
+The Haar-Fisz method transforms the Poisson counts, then applies
+Gaussian wavelet methods to the transformed data.
+
+```{r run-haar-fisz}
+res.hf <- denoise.poisson(counts,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+```
 
 Next, we apply SMASH to the read counts to estimate the mean and
 variance of the underlying signal. It may take several minutes to
 complete this step.
 
 ```{r run-smash}
-hf.la10.ti4=function (x, filter.number = 10, family = "DaubLeAsymm", min.level = 4, noise.level = 1) 
-{
-    TT <- length(x)
-    thresh <- noise.level * sqrt(2 * log(TT))
-    x.w <- wd(x, filter.number, family, type = "station")
-    x.w.t <- threshold(x.w, levels = (min.level):(x.w$nlevels - 1), policy = "manual", value = thresh, type = "hard")
-    x.w.t.r <- AvBasis(convert(x.w.t))
-    return(x.w.t.r)
-}
-
-res <- smash.poiss(counts,post.var = TRUE)
-res.hf <- denoise.poisson(counts, meth.1=hf.la10.ti4, cs.1=50, hybrid=F)
+res    <- smash.poiss(counts,post.var = TRUE)
 ```
 
 Plot the SMASH estimates
@@ -135,7 +131,7 @@ the SMASH estimates also suggest the presence of several additional
 weaker peaks that were not identified by MACS.
 
 We compare the results against those produced by Haar-Fisz
-```{r plot-smash-estimates, fig.height=3, fig.width=9}
+```{r plot-smash-estimates-2, fig.height=3, fig.width=9}
 create.chipseq.plot(bppos/1e6,counts,res.hf,(peaks$start + peaks$end)/2e6,
                     nbreaks = 80) +
   scale_x_continuous(limits = c(0.88,1.02),breaks = seq(0.88,1.02,0.02)) +

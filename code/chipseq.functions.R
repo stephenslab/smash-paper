@@ -16,6 +16,19 @@ read.macs.peaks <- function (file, min.pos, max.pos) {
               end    = peaks[i,3]))
 }
 
+# This is the Gaussian denoising routine used in the Haar-Fisz method;
+# this specifies the "meth.1" argument in the call to "denoise.poisson"
+# from the haarfisz package.
+hf.la10.ti4 <- function (x) {
+  TT      <- length(x)
+  thresh  <- sqrt(2*log(TT))
+  x.w     <- wd(x,10,"DaubLeAsymm",type = "station")
+  x.w.t   <- threshold(x.w,levels = 4:(x.w$nlevels-1),policy = "manual",
+                       value = thresh,type = "hard")
+  x.w.t.r <- AvBasis(convert(x.w.t))
+  return(x.w.t.r)
+}
+
 # Create a plot showing. This is a very *ad hoc* implementation that
 # will only work for the specific data set that was analyzed in the
 # "chipseq.Rmd" example.
