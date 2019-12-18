@@ -179,9 +179,10 @@ lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = "limegreen",lty = "dotted")
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 ```
 
-The TI thresholding estimate, like the SMASH estimate with
-homoskedastic variances, shows notable artifacts. When TI thresholding
-estimates the variance using RMAD, or when it is provided with the
-SMASH variance estimate, the mean signal is substantially smoother.
+The TI thresholding estimate with constant variance, like the SMASH
+estimate with homoskedastic variances (in the plot above), shows
+notable artifacts. By contrast, when TI thresholding is provided with
+either the RMAD or SMASH variance estimates, the mean signal is
+substantially smoother.
 
 [smash-github]: https://github.com/stephenslab/smash-paper
