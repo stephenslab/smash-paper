@@ -78,22 +78,23 @@ Run SMASH and Haar-Fisz methods
 -------------------------------
 
 The Haar-Fisz method transforms the Poisson counts, then applies
-Gaussian wavelet methods to the transformed data.
+Gaussian wavelet methods to the transformed data. Note that this call
+can take several minutes to run on a modern desktop computer.
 
 ```{r run-haar-fisz}
 res.hf <- denoise.poisson(counts,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
 ```
 
 Next, we apply SMASH to the read counts to estimate the mean and
-variance of the underlying signal. It may take several minutes to
+variance of the underlying signal. It could also take several minutes to
 complete this step.
 
 ```{r run-smash}
-res    <- smash.poiss(counts,post.var = TRUE)
+res <- smash.poiss(counts,post.var = TRUE)
 ```
 
-Plot the SMASH estimates
-------------------------
+Plot the SMASH and Haar-Fisz estimates
+--------------------------------------
 
 To provide a "baseline" to compare against the SMASH estimates, we
 retrieve the peaks identified in the same ChIP-seq data using the MACS
@@ -105,12 +106,12 @@ macs.file <- "../data/Gm1287peaks_chr1_sorted.txt"
 peaks <- read.macs.peaks(macs.file,min(bppos),max(bppos))
 ```
 
-This next plot shows the intensity function estimated by SMASH (orange
-line). The read count data are depicted as light blue circles, in
-which the area of each circle is scaled by the number of data points
-that fall within each 1.6-kb "bin". (We show counts summarized within
-bins because there are too many data points to plot them
-individually.)
+This next plot shows the intensity functions estimated by SMASH
+(orange line) and the Haar-Fisz method (dark blue line). The read
+count data are depicted as light blue circles, in which the area of
+each circle is scaled by the number of data points that fall within
+each 1.6-kb "bin". (We show counts summarized within bins because
+there are too many data points to plot them individually.)
 
 The peaks identified by the MACS software are shown as red
 triangles. (Specifically, these are the *mean positions* of the
@@ -119,23 +120,15 @@ is not useful to show both the start and end positions of these
 intervals.)
 
 ```{r plot-smash-estimates, fig.height=3, fig.width=9}
-create.chipseq.plot(bppos/1e6,counts,res$est,(peaks$start + peaks$end)/2e6,
-                    nbreaks = 80) +
+create.chipseq.plot(bppos/1e6,counts,res$est,res.hf,
+                    (peaks$start + peaks$end)/2e6,nbreaks = 80) +
   scale_x_continuous(limits = c(0.88,1.02),breaks = seq(0.88,1.02,0.02)) +
   scale_y_continuous(limits = c(-1,9),breaks = seq(0,8,2))
 ```
 
-Based on this plot, it is clear that the the strongest SMASH intensity
-estimates align very closely with the peaks found by MACS. Intriguingly,
-the SMASH estimates also suggest the presence of several additional
-weaker peaks that were not identified by MACS.
-
-We compare the results against those produced by Haar-Fisz
-```{r plot-smash-estimates-2, fig.height=3, fig.width=9}
-create.chipseq.plot(bppos/1e6,counts,res.hf,(peaks$start + peaks$end)/2e6,
-                    nbreaks = 80) +
-  scale_x_continuous(limits = c(0.88,1.02),breaks = seq(0.88,1.02,0.02)) +
-  scale_y_continuous(limits = c(-1,9),breaks = seq(0,8,2))
-```
+Based on this plot, it is clear that the strongest Haar-Fisz and SMASH
+intensity estimates align very closely with the peaks found by
+MACS. Intriguingly, the SMASH estimates also suggest the presence of
+several additional weaker peaks that were not identified by MACS.
 
 [smash-github]: https://github.com/stephenslab/smash-paper
