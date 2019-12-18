@@ -48,9 +48,8 @@ tithresh.cons.wrapper = function (x.ini, y.ini) {
   # Take the median of observations with repeated x values.
   x = unique(x.ini)
   y = 0
-  for(i in 1:length(x)){
+  for(i in 1:length(x))
     y[i] = median(y.ini[x.ini == x[i]])
-  }
   
   # Mirror the data twice to make it periodic and a power of 2.
   y.exp = c(y, y[length(y):(2*length(y) - 2^ceiling(log2(length(y))) + 1)])
@@ -58,7 +57,7 @@ tithresh.cons.wrapper = function (x.ini, y.ini) {
   
   y.noise = sig.est.func(y.final, length(y.final))
   
-  # Run TI thresholding with emprical bayes thresholding.
+  # Run TI thresholding with emprical Bayes thresholding.
   y.est = waveti.ebayes(y.final, min.level = 2, noise.level = y.noise)
   
   y.mu.est = y.est[1:length(y)]
@@ -72,9 +71,8 @@ smash.cons.wrapper = function (x.ini, y.ini) {
   # Take the median of observations with repeated x values.
   x = unique(x.ini)
   y = 0
-  for(i in 1:length(x)){
+  for(i in 1:length(x))
     y[i] = median(y.ini[x.ini == x[i]])
-  }
   
   # Mirror the data twice to make it periodic and a power of 2.
   y.exp = c(y, y[length(y):(2*length(y) - 2^ceiling(log2(length(y))) + 1)])
@@ -97,15 +95,14 @@ tithresh.wrapper = function (x.ini, y.ini) {
   # Take the median of observations with repeated x values.
   x = unique(x.ini)
   y = 0
-  for(i in 1:length(x)){
+  for(i in 1:length(x))
     y[i] = median(y.ini[x.ini == x[i]])
-  }
   
   # Mirror the data twice to make it periodic and a power of 2.
   y.exp = c(y, y[length(y):(2*length(y) - 2^ceiling(log2(length(y))) + 1)])
   y.final = c(y.exp, y.exp[length(y.exp):1])
   
-  # Run TI thresholding with emprical bayes thresholding.
+  # Run TI thresholding with emprical Bayes thresholding.
   y.est = ti.thresh(y.final, method = 'smash', min.level = 2)
   
   y.mu.est = y.est[1:length(y)]
@@ -113,21 +110,21 @@ tithresh.wrapper = function (x.ini, y.ini) {
 }
 
 # Wrapper function to return estimated mean given raw data for TI
-# thresholding with RMAD.
+# thresholding with variance estimated using the "median absolute
+# deviation", or RMAD, method.
 tithresh.rmad.wrapper = function (x.ini, y.ini) {
     
   # Take the median of observations with repeated x values.
   x = unique(x.ini)
   y = 0
-  for(i in 1:length(x)){
+  for(i in 1:length(x))
     y[i] = median(y.ini[x.ini == x[i]])
-  }
   
   # Mirror the data twice to make it periodic and a power of 2.
   y.exp = c(y, y[length(y):(2*length(y) - 2^ceiling(log2(length(y))) + 1)])
   y.final = c(y.exp, y.exp[length(y.exp):1])
   
-  # Run TI thresholding with emprical bayes thresholding.
+  # Run TI thresholding with emprical Bayes thresholding.
   y.est = ti.thresh(y.final, method = 'rmad')
   
   y.mu.est = y.est[1:length(y)]
