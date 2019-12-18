@@ -102,34 +102,15 @@ lines(res.mc$x,res.mc$mu.est - 2*sqrt(res.mc$var.est),
 points(res.mc$x,res.mc$y,pch = 1,cex = 1,col = "black")
 ```
 
-Apply SMASH again, this time assuming equal variances
------------------------------------------------------
+SMASH, homoskedastic vs. heteroskedastic
+----------------------------------------
 
-Apply SMASH (assuming equal variances) to the Motorcycle Accident data
-set.
+Apply SMASH, this time assuming equal variances, to the Motorcycle
+Accident data set:
 
 ```{r run-smash-homo}
 res.cons.mc <- smash.cons.wrapper(x.ini.mc,y.ini.mc)
 ```
-
-Apply TI thresholding to the Motorcycle Accident data
------------------------------------------------------
-
-Apply TI thresholding to the Motorcycle Accident data set.
-
-```{r run-tithresh}
-res.ti.cons.mc <- tithresh.cons.wrapper(x.ini.mc,y.ini.mc)
-```
-
-Apply TI thresholding to the Motorcycle Accident data, this time using
-the variances estimated by SMASH.
-
-```{r run-tithresh-with-smash-var}
-res.ti.mc <- tithresh.wrapper(x.ini.mc,y.ini.mc)
-```
-
-Compare results from all methods
---------------------------------
 
 In this second plot, we compare the mean estimate provided by SMASH
 (with heteroskedastic variances; orange line) against homoskedastic
@@ -146,10 +127,43 @@ lines(res.cons.mc$x,res.cons.mc$mu.est,lwd = 2,lty = "dotted",
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 ```
 
-And in this next plot, we compare the SMASH estimates (the orange
-line) against the the mean estimates obtained by TI thresholding (dark
-blue line), and TI thresholding when the variances have been estimated
-by SMASH (dotted green line).
+While the estimates are similar, heteroskedastic SMASH yields a
+noticeably smoother curve.
+
+Apply TI thresholding to the Motorcycle Accident data
+-----------------------------------------------------
+
+Apply TI thresholding to the Motorcycle Accident data set. In this
+first run, the variance is assumed to be constant.
+
+```{r run-tithresh}
+res.ti.cons.mc <- tithresh.cons.wrapper(x.ini.mc,y.ini.mc)
+```
+
+Apply TI thresholding to the Motorcycle Accident data, this time using
+the variances estimated using the "median absolute deviation", or
+RMAD, method.
+
+```{r run-tithresh-rmad}
+res.ti.rmad.mc <- tithresh.rmad.wrapper(x.ini.mc,y.ini.mc)
+```
+
+Apply TI thresholding to the Motorcycle Accident data, this time using
+the variances estimated by SMASH.
+
+```{r run-tithresh-with-smash-var}
+res.ti.mc <- tithresh.wrapper(x.ini.mc,y.ini.mc)
+```
+
+Compare SMASH vs. TI thresholding
+---------------------------------
+
+In this next plot, we compare the SMASH estimates with heteroskedastic
+variances (the same orange line as above) against the the mean estimates
+obtained by TI thresholding with constant variance (solid dark blue
+line), TI thresholding with RMAD variance estimates (solid light blue
+line), and TI thresholding when the variances have been estimated by
+SMASH (dotted green line).
 
 ```{r plot-ti-thresh-estimates, fig.height=5, fig.width=7}
 plot(res.mc$x,res.mc$mu.est,type = "l",
@@ -158,36 +172,16 @@ plot(res.mc$x,res.mc$mu.est,type = "l",
 	 xlab = "time (ms)",ylab = "acceleration (g)",lwd = 2,
 	 col = "darkorange",xlim = c(0,60),xaxp = c(0,60,6))
 lines(res.ti.cons.mc$x,res.ti.cons.mc$mu.est,lwd = 2,lty = "solid",
-      col = "darkblue")
+	 col = "darkblue")
+lines(res.ti.rmad.mc$x,res.ti.rmad.mc$mu.est,lwd = 2,lty = "solid",
+      col = "dodgerblue")
 lines(res.ti.mc$x,res.ti.mc$mu.est,lwd = 2,col = "limegreen",lty = "dotted")
 points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 ```
 
-The TI thresholding estimate and the SMASH estimate with homoskedastic
-variances both show notable artifacts. When the TI thresholding method
-is provided with the SMASH variance estimate, the mean signal is
-substantially smoother.
-
-Finally, we compare the SMASH estimates (the orange
-line) against the the mean estimates obtained by TI thresholding (dark
-blue line) using RMAD.
-
-```{r plot-ti-thresh-estimates, fig.height=5, fig.width=7}
-res.ti.rmad.mc <- tithresh.rmad.wrapper(x.ini.mc,y.ini.mc)
-
-plot(res.mc$x,res.mc$mu.est,type = "l",
-     ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
-              max(res.mc$y + 2 * sqrt(res.mc$var.est))),
-	 xlab = "time (ms)",ylab = "acceleration (g)",lwd = 2,
-	 col = "darkorange",xlim = c(0,60),xaxp = c(0,60,6))
-lines(res.ti.rmad.mc$x,res.ti.rmad.mc$mu.est,lwd = 2,lty = "solid",
-      col = "darkblue")
-points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
-lines(res.mc$x, res.mc$mu.est + 2*sqrt(res.mc$var.est),lty = 5,
-	 lwd = 2,col = "dodgerblue")
-lines(res.mc$x,res.mc$mu.est - 2*sqrt(res.mc$var.est),
-      lty = 5,lwd = 2,col = "dodgerblue")
-legend(30, -100, c("TI-thresholding mean estimate", "SMASH mean estimate", "SMASH variance estimate"), col = c("darkblue", "darkorange", "dodgerblue"), bty = "n", lwd = 1, lty = c(1, 1, 5), pt.cex = 1, cex = 0.75)
-```
+The TI thresholding estimate, like the SMASH estimate with
+homoskedastic variances, shows notable artifacts. When TI thresholding
+estimates the variance using RMAD, or when it is provided with the
+SMASH variance estimate, the mean signal is substantially smoother.
 
 [smash-github]: https://github.com/stephenslab/smash-paper
