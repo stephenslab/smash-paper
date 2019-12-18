@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Zhengrong Xing, Peter Carbonetto and Matthew Stephens" />
@@ -70,9 +71,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -86,7 +85,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -96,6 +94,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -111,7 +112,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -131,6 +131,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -152,19 +189,73 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -212,39 +303,133 @@ div.section {
 
 
 <h1 class="title toc-ignore">ChIP-seq example</h1>
-<h4 class="author"><em>Zhengrong Xing, Peter Carbonetto and Matthew Stephens</em></h4>
+<h4 class="author">Zhengrong Xing, Peter Carbonetto and Matthew Stephens</h4>
 
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-12-07</p>
-<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
-<ul>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2019-12-18
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>smash-paper/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.5.0.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
 <p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
 <p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(1)</code> </summary></p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed1code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(1)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed1code" class="panel-collapse collapse">
+<div class="panel-body">
 <p>The command <code>set.seed(1)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
 <p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
-</details>
-</li>
-<li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/5c617d013a1b31cd0b38ec4f481dff2c97b3c5db" target="_blank">5c617d0</a> </summary></p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee576395bd3389044c27856a9e3649bcdd99e3f15targetblanke576395a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/e576395bd3389044c27856a9e3649bcdd99e3f15" target="_blank">e576395</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee576395bd3389044c27856a9e3649bcdd99e3f15targetblanke576395a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
 <pre><code>
 Ignored files:
+    Ignored:    analysis/figure/
     Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
@@ -273,259 +458,413 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
+Untracked files:
+    Untracked:  files.txt
+
+Unstaged changes:
+    Modified:   code/chipseq.functions.R
+
 </code></pre>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
-</li>
-</ul>
-<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
-<ul>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 File
 </th>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
-<th style="text-align:left;">
+<th>
 Message
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/a09d13e0da52753972ac66cc8a6af7b791d53b5e/analysis/chipseq.Rmd" target="_blank">a09d13e</a>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/e576395bd3389044c27856a9e3649bcdd99e3f15/analysis/chipseq.Rmd" target="_blank">e576395</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
+2019-12-18
+</td>
+<td>
+wflow_publish(“chipseq.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f899adfc8ea33afa450be65d42e427b8c2f18e67/analysis/chipseq.Rmd" target="_blank">f899adf</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-18
+</td>
+<td>
+Working on code to run HF method in chipseq example.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/500381a3f5d9799d9c93ae022519fb216c9b5d0e/analysis/chipseq.Rmd" target="_blank">500381a</a>
+</td>
+<td>
+Zhengrong Xing
+</td>
+<td>
+2019-10-28
+</td>
+<td>
+move gausdemo; add HF for chipseq
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/99d1f34c2a6ba39fc3b494015335c01a75eef2e4/docs/chipseq.html" target="_blank">99d1f34</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-12-07
+</td>
+<td>
+Re-built all the outdated workflowr webpages.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a09d13e0da52753972ac66cc8a6af7b791d53b5e/analysis/chipseq.Rmd" target="_blank">a09d13e</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
 2018-11-09
 </td>
-<td style="text-align:left;">
+<td>
 Adjusted setup steps in a few of the R Markdown files.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-Rmd
+<td>
+html
 </td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/d9f6b8194fe75a46bf88a091232eeb4c6f1ce748/analysis/chipseq.Rmd" target="_blank">d9f6b81</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/0fa970b5c66c6928e91315ae3a9b4933d7ccc232/docs/chipseq.html" target="_blank">0fa970b</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-07
 </td>
-<td style="text-align:left;">
+<td>
+Some small adjustments to the chipseq example text.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/d9f6b8194fe75a46bf88a091232eeb4c6f1ce748/analysis/chipseq.Rmd" target="_blank">d9f6b81</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-11-07
+</td>
+<td>
 wflow_publish(“chipseq.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/0b159247251207aa12ccdcbbca5ce2e4862c7cfe/docs/chipseq.html" target="_blank">0b15924</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/0b159247251207aa12ccdcbbca5ce2e4862c7cfe/docs/chipseq.html" target="_blank">0b15924</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-07
 </td>
-<td style="text-align:left;">
+<td>
 Added setup instructions to chipseq analysis.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f5dec9c3ba71ed35a6a57ee24d8ad6ab59157e5e/analysis/chipseq.Rmd" target="_blank">f5dec9c</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-07
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“chipseq.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f9f193c148d834ebf720a663eb82563444c643f8/analysis/chipseq.Rmd" target="_blank">f9f193c</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-07
 </td>
-<td style="text-align:left;">
+<td>
 Revised setup instructions for a couple .Rmd files.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/9cf40ea770cf97ad9e336e42805e6aa5151410c0/docs/chipseq.html" target="_blank">9cf40ea</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/9cf40ea770cf97ad9e336e42805e6aa5151410c0/docs/chipseq.html" target="_blank">9cf40ea</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-07
 </td>
-<td style="text-align:left;">
+<td>
 Build site.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/63bc42d65f6fa34c10ebbc8ec8f8e4dc72e17b79/analysis/chipseq.Rmd" target="_blank">63bc42d</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-11-07
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“chipseq.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/891e8629af0750ba604e79f8945bf800db6b1033/analysis/chipseq.Rmd" target="_blank">891e862</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-10-18
-</td>
-<td style="text-align:left;">
-wflow_publish(“chipseq.Rmd”)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/368307047937fe6df66fee00114f0d7702b1cb88/analysis/chipseq.Rmd" target="_blank">3683070</a>
-</td>
-<td style="text-align:left;">
-Peter Carbonetto
-</td>
-<td style="text-align:left;">
-2018-10-18
-</td>
-<td style="text-align:left;">
-wflow_publish(“chipseq.Rmd”)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
+<td>
 html
 </td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/stephenslab/smash-paper/17b5a4779d2bf0016efd666ddc827a6381aa6370/docs/chipseq.html" target="_blank">17b5a47</a>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/b66089f18e3c87056c2e8f2367ecd0fe0fcf1932/docs/chipseq.html" target="_blank">b66089f</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
+2018-10-19
+</td>
+<td>
+Added a bit of explanatory text to the end of the chipseq.Rmd analysis.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/891e8629af0750ba604e79f8945bf800db6b1033/analysis/chipseq.Rmd" target="_blank">891e862</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-10-19
+</td>
+<td>
+wflow_publish(“chipseq.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/f49c9272be98a3353d9fedfd8307fa3259c414d6/docs/chipseq.html" target="_blank">f49c927</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
 2018-10-18
 </td>
-<td style="text-align:left;">
+<td>
+Adjusted size of figure in chipseq example.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/368307047937fe6df66fee00114f0d7702b1cb88/analysis/chipseq.Rmd" target="_blank">3683070</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-10-18
+</td>
+<td>
+wflow_publish(“chipseq.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/17b5a4779d2bf0016efd666ddc827a6381aa6370/docs/chipseq.html" target="_blank">17b5a47</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-10-18
+</td>
+<td>
 Adjusted chipseq R Markdown source.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/38211a8cf292badd33a93f5f846c447475c17f1d/analysis/chipseq.Rmd" target="_blank">38211a8</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-18
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“chipseq.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/b9c076d34fdec7d85de7a70969a63bee6b94add4/docs/chipseq.html" target="_blank">b9c076d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-10-18
+</td>
+<td>
+First wflow_publish(“chipseq.Rmd”).
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/90e3ac9a78b39b961afaedf17a1434c9dd57b27f/analysis/chipseq.Rmd" target="_blank">90e3ac9</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-18
 </td>
-<td style="text-align:left;">
+<td>
 wflow_publish(“chipseq.Rmd”)
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td>
 Rmd
 </td>
-<td style="text-align:left;">
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/1ef7492ef2b2b8379d56da4b4864359db7c5ef42/analysis/chipseq.Rmd" target="_blank">1ef7492</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
 2018-10-18
 </td>
-<td style="text-align:left;">
+<td>
 Working on chipseq R Markdown file.
 </td>
 </tr>
 </tbody>
 </table>
-</ul>
-<p></details></p>
-<hr />
+</div>
+<hr>
+</div>
+</div>
+</div>
 <p>This is an illustration of “SMoothing by Adaptive SHrinkage” (SMASH) applied to chromatin immunoprecipitation sequencing (“ChIP-seq”) data. This implements the SMASH analysis presented in Sec. 5.2 of the manuscript.</p>
 <div id="initial-setup-instructions" class="section level2">
 <h2>Initial setup instructions</h2>
@@ -544,7 +883,8 @@ Working on chipseq R Markdown file.
 <pre class="r"><code>source(&quot;../code/chipseq.functions.R&quot;)
 library(smashr)
 library(ggplot2)
-library(cowplot)</code></pre>
+library(cowplot)
+library(haarfisz)</code></pre>
 </div>
 <div id="load-the-chip-seq-data" class="section level2">
 <h2>Load the ChIP-seq data</h2>
@@ -554,57 +894,115 @@ bppos  &lt;- 880001:1011072
 counts &lt;- M[1,] + M[,2]</code></pre>
 <p>Note that there are two replicates of the GM12878 cell line, so we analyze the combined read counts from both replicates, stored in the <code>counts</code> vectors.</p>
 </div>
-<div id="run-smash" class="section level2">
-<h2>Run SMASH</h2>
-<p>Next, we apply SMASH to the read counts to estimate the mean and variance of the underlying signal. It may take several minutes to complete this step.</p>
-<pre class="r"><code>res &lt;- smash.poiss(counts,post.var = TRUE)</code></pre>
+<div id="run-smash-and-haar-fisz-methods" class="section level2">
+<h2>Run SMASH and Haar-Fisz methods</h2>
+<p>The Haar-Fisz method transforms the Poisson counts, then applies Gaussian wavelet methods to the transformed data. Note that this call can take several minutes to run on a modern desktop computer.</p>
+<pre class="r"><code>res.hf &lt;- denoise.poisson(counts,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)</code></pre>
+<p>Next, we apply SMASH to the read counts to estimate the mean and variance of the underlying signal. It could also take several minutes to complete this step.</p>
+<pre class="r"><code>res &lt;- smash.poiss(counts,post.var = TRUE)
+# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+# = control, : Optimization failed to converge. Results may be unreliable.
+# Try increasing maxiter and rerunning.
+
+# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+# = control, : Optimization failed to converge. Results may be unreliable.
+# Try increasing maxiter and rerunning.
+
+# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+# = control, : Optimization failed to converge. Results may be unreliable.
+# Try increasing maxiter and rerunning.
+
+# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+# = control, : Optimization failed to converge. Results may be unreliable.
+# Try increasing maxiter and rerunning.
+
+# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+# = control, : Optimization failed to converge. Results may be unreliable.
+# Try increasing maxiter and rerunning.
+
+# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
+# = control, : Optimization failed to converge. Results may be unreliable.
+# Try increasing maxiter and rerunning.</code></pre>
 </div>
-<div id="plot-the-smash-estimates" class="section level2">
-<h2>Plot the SMASH estimates</h2>
+<div id="plot-the-smash-and-haar-fisz-estimates" class="section level2">
+<h2>Plot the SMASH and Haar-Fisz estimates</h2>
 <p>To provide a “baseline” to compare against the SMASH estimates, we retrieve the peaks identified in the same ChIP-seq data using the MACS software. Again, these data should have been included with the git repository you downloaded.</p>
 <pre class="r"><code>macs.file &lt;- &quot;../data/Gm1287peaks_chr1_sorted.txt&quot;
 peaks &lt;- read.macs.peaks(macs.file,min(bppos),max(bppos))</code></pre>
-<p>This next plot shows the intensity function estimated by SMASH (orange line). The read count data are depicted as light blue circles, in which the area of each circle is scaled by the number of data points that fall within each 1.6-kb “bin”. (We show counts summarized within bins because there are too many data points to plot them individually.)</p>
+<p>This next plot shows the intensity functions estimated by SMASH (orange line) and the Haar-Fisz method (dark blue line). The read count data are depicted as light blue circles, in which the area of each circle is scaled by the number of data points that fall within each 1.6-kb “bin”. (We show counts summarized within bins because there are too many data points to plot them individually.)</p>
 <p>The peaks identified by the MACS software are shown as red triangles. (Specifically, these are the <em>mean positions</em> of the identified peak intervals; the peak intervals are short enough that it is not useful to show both the start and end positions of these intervals.)</p>
-<pre class="r"><code>create.chipseq.plot(bppos/1e6,counts,res$est,(peaks$start + peaks$end)/2e6,
-                    nbreaks = 80) +
+<pre class="r"><code>create.chipseq.plot(bppos/1e6,counts,res$est,res.hf,
+                    (peaks$start + peaks$end)/2e6,nbreaks = 80) +
   scale_x_continuous(limits = c(0.88,1.02),breaks = seq(0.88,1.02,0.02)) +
   scale_y_continuous(limits = c(-1,9),breaks = seq(0,8,2))</code></pre>
 <p><img src="figure/chipseq.Rmd/plot-smash-estimates-1.png" width="864" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of plot-smash-estimates-1.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-smash-estimates-1">
+Past versions of plot-smash-estimates-1.png
+</button>
+</p>
+<div id="fig-plot-smash-estimates-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
 <thead>
 <tr>
-<th style="text-align:left;">
+<th>
 Version
 </th>
-<th style="text-align:left;">
+<th>
 Author
 </th>
-<th style="text-align:left;">
+<th>
 Date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
-<a href="https://github.com/stephenslab/smash-paper/blob/17b5a4779d2bf0016efd666ddc827a6381aa6370/docs/figure/chipseq.Rmd/plot-smash-estimates-1.png" target="_blank">17b5a47</a>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f49c9272be98a3353d9fedfd8307fa3259c414d6/docs/figure/chipseq.Rmd/plot-smash-estimates-1.png" target="_blank">f49c927</a>
 </td>
-<td style="text-align:left;">
+<td>
 Peter Carbonetto
 </td>
-<td style="text-align:left;">
+<td>
+2018-10-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/17b5a4779d2bf0016efd666ddc827a6381aa6370/docs/figure/chipseq.Rmd/plot-smash-estimates-1.png" target="_blank">17b5a47</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2018-10-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/b9c076d34fdec7d85de7a70969a63bee6b94add4/docs/figure/chipseq.Rmd/plot-smash-estimates-1.png" target="_blank">b9c076d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
 2018-10-18
 </td>
 </tr>
 </tbody>
 </table>
-<p></details></p>
-<p>Based on this plot, it is clear that the the strongest SMASH intensity estimates align very closely with the peaks found by MACS. Intriguingly, the SMASH estimates also suggest the presence of several additional weaker peaks that were not identified by MACS.</p>
 </div>
-<div id="session-information" class="section level2">
-<h2>Session information</h2>
+</div>
+<p>Based on this plot, it is clear that the strongest Haar-Fisz and SMASH intensity estimates align very closely with the peaks found by MACS. Intriguingly, the SMASH estimates also suggest the presence of several additional weaker peaks that were not identified by MACS.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()
 # R version 3.4.3 (2017-11-30)
 # Platform: x86_64-apple-darwin15.6.0 (64-bit)
@@ -621,29 +1019,30 @@ Peter Carbonetto
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] cowplot_0.9.3 ggplot2_3.1.0 smashr_1.2-0 
+# [1] haarfisz_4.5     wavethresh_4.6.8 MASS_7.3-48      cowplot_0.9.4   
+# [5] ggplot2_3.2.0    smashr_1.2-5    
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.0        bindr_0.1.1       pillar_1.2.1     
-#  [4] plyr_1.8.4        compiler_3.4.3    git2r_0.23.0     
-#  [7] workflowr_1.1.1   R.methodsS3_1.7.1 R.utils_2.6.0    
-# [10] bitops_1.0-6      iterators_1.0.9   tools_3.4.3      
-# [13] digest_0.6.17     tibble_1.4.2      evaluate_0.11    
-# [16] gtable_0.2.0      lattice_0.20-35   pkgconfig_2.0.2  
-# [19] rlang_0.2.2       Matrix_1.2-12     foreach_1.4.4    
-# [22] yaml_2.2.0        parallel_3.4.3    bindrcpp_0.2.2   
-# [25] withr_2.1.2       dplyr_0.7.6       stringr_1.3.1    
-# [28] knitr_1.20        REBayes_1.3       caTools_1.17.1   
-# [31] tidyselect_0.2.4  rprojroot_1.3-2   grid_3.4.3       
-# [34] glue_1.3.0        data.table_1.11.4 R6_2.2.2         
-# [37] rmarkdown_1.10    purrr_0.2.5       ashr_2.2-23      
-# [40] magrittr_1.5      whisker_0.3-2     backports_1.1.2  
-# [43] scales_0.5.0      codetools_0.2-15  htmltools_0.3.6  
-# [46] MASS_7.3-48       assertthat_0.2.0  colorspace_1.4-0 
-# [49] labeling_0.3      wavethresh_4.6.8  stringi_1.2.4    
-# [52] Rmosek_8.0.69     lazyeval_0.2.1    doParallel_1.0.11
-# [55] pscl_1.5.2        munsell_0.4.3     truncnorm_1.0-8  
-# [58] SQUAREM_2017.10-1 R.oo_1.21.0</code></pre>
+#  [1] tidyselect_0.2.5     xfun_0.7             ashr_2.2-39         
+#  [4] purrr_0.2.5          lattice_0.20-35      colorspace_1.4-0    
+#  [7] htmltools_0.3.6      yaml_2.2.0           rlang_0.4.2         
+# [10] mixsqp_0.3-6         later_0.8.0          pillar_1.3.1        
+# [13] glue_1.3.1           withr_2.1.2.9000     foreach_1.4.4       
+# [16] plyr_1.8.4           stringr_1.4.0        munsell_0.4.3       
+# [19] gtable_0.2.0         workflowr_1.5.0.9000 caTools_1.17.1.2    
+# [22] codetools_0.2-15     evaluate_0.13        labeling_0.3        
+# [25] knitr_1.23           pscl_1.5.2           doParallel_1.0.14   
+# [28] httpuv_1.5.0         parallel_3.4.3       Rcpp_1.0.1          
+# [31] promises_1.0.1       backports_1.1.2      scales_0.5.0        
+# [34] truncnorm_1.0-8      fs_1.2.7             digest_0.6.18       
+# [37] stringi_1.4.3        dplyr_0.8.0.1        grid_3.4.3          
+# [40] rprojroot_1.3-2      tools_3.4.3          bitops_1.0-6        
+# [43] magrittr_1.5         lazyeval_0.2.1       tibble_2.1.1        
+# [46] crayon_1.3.4         whisker_0.3-2        pkgconfig_2.0.2     
+# [49] Matrix_1.2-12        SQUAREM_2017.10-1    data.table_1.12.0   
+# [52] assertthat_0.2.1     rmarkdown_1.17       iterators_1.0.10    
+# [55] R6_2.4.0             git2r_0.26.1         compiler_3.4.3</code></pre>
+</div>
 </div>
 
 <script type="text/x-mathjax-config">
@@ -651,6 +1050,7 @@ Peter Carbonetto
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
 http://docs.mathjax.org/en/latest/configuration.html.  This will make
@@ -662,14 +1062,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-<hr>
-<p>
-  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
-  analysis was created with
-  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
-</p>
-<hr>
 
 
 
@@ -687,6 +1079,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
