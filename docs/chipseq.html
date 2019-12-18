@@ -419,17 +419,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee576395bd3389044c27856a9e3649bcdd99e3f15targetblanke576395a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/e576395bd3389044c27856a9e3649bcdd99e3f15" target="_blank">e576395</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree7f7b18ddb4ea89903abd4d1dd06b3866ac866a25targetblank7f7b18da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/7f7b18ddb4ea89903abd4d1dd06b3866ac866a25" target="_blank">7f7b18d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee576395bd3389044c27856a9e3649bcdd99e3f15targetblanke576395a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree7f7b18ddb4ea89903abd4d1dd06b3866ac866a25targetblank7f7b18da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    analysis/figure/
     Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
@@ -460,9 +459,6 @@ Ignored files:
 
 Untracked files:
     Untracked:  files.txt
-
-Unstaged changes:
-    Modified:   code/chipseq.functions.R
 
 </code></pre>
 <p>
@@ -501,6 +497,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/7f7b18ddb4ea89903abd4d1dd06b3866ac866a25/analysis/chipseq.Rmd" target="_blank">7f7b18d</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-18
+</td>
+<td>
+Made a few small revisions to the text in the chipseq analysis.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/2319196c08a123d466724bc71d6541069013301a/docs/chipseq.html" target="_blank">2319196</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-18
+</td>
+<td>
+Re-built the chipseq analysis after adding the HF method and making
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -899,38 +929,14 @@ counts &lt;- M[1,] + M[,2]</code></pre>
 <p>The Haar-Fisz method transforms the Poisson counts, then applies Gaussian wavelet methods to the transformed data. Note that this call can take several minutes to run on a modern desktop computer.</p>
 <pre class="r"><code>res.hf &lt;- denoise.poisson(counts,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)</code></pre>
 <p>Next, we apply SMASH to the read counts to estimate the mean and variance of the underlying signal. It could also take several minutes to complete this step.</p>
-<pre class="r"><code>res &lt;- smash.poiss(counts,post.var = TRUE)
-# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-# = control, : Optimization failed to converge. Results may be unreliable.
-# Try increasing maxiter and rerunning.
-
-# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-# = control, : Optimization failed to converge. Results may be unreliable.
-# Try increasing maxiter and rerunning.
-
-# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-# = control, : Optimization failed to converge. Results may be unreliable.
-# Try increasing maxiter and rerunning.
-
-# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-# = control, : Optimization failed to converge. Results may be unreliable.
-# Try increasing maxiter and rerunning.
-
-# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-# = control, : Optimization failed to converge. Results may be unreliable.
-# Try increasing maxiter and rerunning.
-
-# Warning in estimate_mixprop(data, g, prior, optmethod = optmethod, control
-# = control, : Optimization failed to converge. Results may be unreliable.
-# Try increasing maxiter and rerunning.</code></pre>
+<pre class="r"><code>res &lt;- smash.poiss(counts,post.var = TRUE)</code></pre>
 </div>
 <div id="plot-the-smash-and-haar-fisz-estimates" class="section level2">
 <h2>Plot the SMASH and Haar-Fisz estimates</h2>
-<p>To provide a “baseline” to compare against the SMASH estimates, we retrieve the peaks identified in the same ChIP-seq data using the MACS software. Again, these data should have been included with the git repository you downloaded.</p>
+<p>To provide a “baseline” to compare against the SMASH estimates, we retrieve the peaks identified in the same ChIP-seq data using the MACS software. Again, these data should have been included with the git repository you downloaded by following the instructions above.</p>
 <pre class="r"><code>macs.file &lt;- &quot;../data/Gm1287peaks_chr1_sorted.txt&quot;
 peaks &lt;- read.macs.peaks(macs.file,min(bppos),max(bppos))</code></pre>
-<p>This next plot shows the intensity functions estimated by SMASH (orange line) and the Haar-Fisz method (dark blue line). The read count data are depicted as light blue circles, in which the area of each circle is scaled by the number of data points that fall within each 1.6-kb “bin”. (We show counts summarized within bins because there are too many data points to plot them individually.)</p>
-<p>The peaks identified by the MACS software are shown as red triangles. (Specifically, these are the <em>mean positions</em> of the identified peak intervals; the peak intervals are short enough that it is not useful to show both the start and end positions of these intervals.)</p>
+<p>This next plot shows the intensity functions estimated by SMASH (orange line) and the Haar-Fisz method (dark blue line). The read count data are depicted as light blue circles, in which the area of each circle is scaled by the number of data points that fall within each 1.6-kb “bin”. (We show counts summarized within bins because there are too many data points to plot them individually.) The peaks identified by the MACS software are shown as red triangles. (Specifically, these are the <em>mean positions</em> of the identified peak intervals; the peak intervals are short enough that it is not useful to show both the start and end positions of these intervals.)</p>
 <pre class="r"><code>create.chipseq.plot(bppos/1e6,counts,res$est,res.hf,
                     (peaks$start + peaks$end)/2e6,nbreaks = 80) +
   scale_x_continuous(limits = c(0.88,1.02),breaks = seq(0.88,1.02,0.02)) +
@@ -958,6 +964,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/2319196c08a123d466724bc71d6541069013301a/docs/figure/chipseq.Rmd/plot-smash-estimates-1.png" target="_blank">2319196</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f49c9272be98a3353d9fedfd8307fa3259c414d6/docs/figure/chipseq.Rmd/plot-smash-estimates-1.png" target="_blank">f49c927</a>
@@ -995,7 +1012,7 @@ Peter Carbonetto
 </table>
 </div>
 </div>
-<p>Based on this plot, it is clear that the strongest Haar-Fisz and SMASH intensity estimates align very closely with the peaks found by MACS. Intriguingly, the SMASH estimates also suggest the presence of several additional weaker peaks that were not identified by MACS.</p>
+<p>Based on this plot, it is clear that the strongest Haar-Fisz and SMASH intensity estimates align very closely with the peaks found by MACS, although the Haar-Fisz method failed to replicate at least two of the MACS peaks. Intriguingly, the SMASH estimates also suggest the presence of several additional weaker peaks that were not identified by MACS.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
