@@ -10,11 +10,12 @@ Gaussian-distributed observations of the signal. We consider scenarios
 in which the data have homoskedastic errors (constant variance) and
 heteroskedastic errors (non-constant variance).
 
-Since the simulation experiments are computationally intensive, they
-were implemented separately. (For instructions on re-running these
-simulation experiments, see the README in the "dsc" directory of the
-git repository). Here we create plots to summarize the results of
-these experiments.
+Since the simulation experiments are computationally intensive, here
+we only illustrate the application of the signal denoising methods,
+and create plots summarizing the results of the full experiments; the
+full experiments were implemented separately. (For instructions on
+re-running these simulation experiments, see the README in the "dsc"
+directory of the git repository).
 
 ```{r knitr-opts, include=FALSE}
 knitr::opts_chunk$set(comment = "#",collapse = TRUE,fig.align = "center")
@@ -31,6 +32,7 @@ library(smashr)
 library(ggplot2)
 library(cowplot)
 source("../code/signals.R")
+source("../code/gaussmeanest.functions.R")
 ```
 
 Load results
@@ -47,62 +49,24 @@ Simulated data with constant variances
 
 This plot reproduces Fig. 2 of the manuscript, which compares the
 accuracy of the mean curves estimated from the data sets that were
-simulated using the "Spikes" mean function with constant variance.
+simulated using the "Spikes" mean function with constant variance and
+a signal-to-noise ratio of 3.
 
-First, extract the results used to generate this plot.
+First, extract the results used to generate this plot, and transform
+them into a data frame suitable for plotting using ggplot2.
 
 ```{r plot-1-extract-data}
-homo.data.smash <-
-  res[res$.id    == "sp.3.v1" &
-      res$method == "smash.s8",]
-homo.data.smash.homo <-
-  res[res$.id    == "sp.3.v1" &
-      res$method == "smash.homo.s8",]
-homo.data.tithresh <-
-  res[res$.id == "sp.3.v1" &
-      res$method == "tithresh.homo.s8",]
-homo.data.ebayes <-
-  res[res$.id    == "sp.3.v1" &
-      res$method == "ebayesthresh",]
-homo.data.smash.true <-
-  res[res$.id == "sp.3.v1" &
-  res$method  == "smash.true.s8",]
-homo.data <-
-  res[res$.id == "sp.3.v1" &
-  (res$method == "smash.s8" |
-   res$method == "ebayesthresh" |
-   res$method == "tithresh.homo.s8"),]
-```
-
-Transform these results into a data frame suitable for ggplot2.
-
-```{r plot-1-transform-data}
-pdat <-
-  rbind(data.frame(method      = "smash",
-                   method.type = "est",
-                   mise        = homo.data.smash$mise),
-        data.frame(method      = "smash.homo",
-                   method.type = "homo",
-                   mise        = homo.data.smash.homo$mise),
-        data.frame(method      = "tithresh",
-                   method.type = "homo",
-                   mise        = homo.data.tithresh$mise),
-        data.frame(method      = "ebayesthresh",
-                   method.type = "homo",
-                   mise        = homo.data.ebayes$mise),
-        data.frame(method      = "smash.true",
-                   method.type = "true",
-                   mise        = homo.data.smash.true$mise))
-pdat <-
-  transform(pdat,
-            method = factor(method,
-                            names(sort(tapply(pdat$mise,pdat$method,mean),
-                                       decreasing = TRUE))))
+pdat <- get.results.homosked(res,"sp.3.v1")
 ```
 
 Create the combined boxplot and violin plot using ggplot2.
 
 ```{r plot-1-create, fig.height=4, fig.width=5}
+pdat <-
+  transform(pdat,
+            method = factor(method,
+                            names(sort(tapply(pdat$mise,pdat$method,mean),
+                                       decreasing = TRUE))))
 p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
      geom_violin(fill = "skyblue",color = "skyblue") +
      geom_boxplot(width = 0.15,outlier.shape = NA) +
@@ -118,6 +82,9 @@ print(p)
 
 From this plot, we see that the three variations of SMASH all
 outperformed EbayesThresh and TI thresholding in this setting.
+
+*TO DO: Add bar plots summarizing results from all 7 scenarios and 2
+signal-to-noise ratios.*
 
 Next, we compare the same methods in simulated data sets with
 heteroskedastic errors.
@@ -257,6 +224,8 @@ plot(mu,type = "l", ylim = c(-0.05,1),xlab = "position",ylab = "",
 lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
 lines(mu - 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
 ```
+
+
 
 Now, we plot the ground-truth signal (the mean function, drawn as
 a black line) and the signals recovered by TI thresholding (light blue
