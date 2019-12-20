@@ -28,6 +28,7 @@ Load the ggplot2 and cowplot packages, and the functions definining
 the mean and variances used to simulate the data.
 
 ```{r load-pkgs, message=FALSE, warning=FALSE}
+library(plyr)
 library(smashr)
 library(ggplot2)
 library(cowplot)
@@ -55,13 +56,13 @@ a signal-to-noise ratio of 3.
 First, extract the results used to generate this plot, and transform
 them into a data frame suitable for plotting using ggplot2.
 
-```{r plot-1-extract-data}
+```{r homo-extract-data}
 pdat <- get.results.homosked(res,"sp.3.v1")
 ```
 
 Create the combined boxplot and violin plot using ggplot2.
 
-```{r plot-1-create, fig.height=4, fig.width=5}
+```{r create-violin-plot-homo, fig.height=4, fig.width=5}
 pdat <-
   transform(pdat,
             method = factor(method,
@@ -80,11 +81,30 @@ p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
 print(p)
 ```
 
-From this plot, we see that the three variations of SMASH all
+From this plot, we see that the three variants of SMASH all
 outperformed EbayesThresh and TI thresholding in this setting.
 
-*TO DO: Add bar plots summarizing results from all 7 scenarios and 2
-signal-to-noise ratios.*
+These plots summarize the results for all 7 simulation scenarios and
+the two signal-to-noise ratios (1 and 3), including the "Spikes"
+scenario shown in greater detail in the violin plot above.
+
+```{r extract-data-for-barplots-homo, fig.height=5, fig.width=8}
+create.bar.plots(rbind(
+  data.frame(sim = "sp",  snr = 1,get.results.homosked(res,"sp.1.v1")),
+  data.frame(sim = "bump",snr = 1,get.results.homosked(res,"bump.1.v1")),
+  data.frame(sim = "blkp",snr = 1,get.results.homosked(res,"blk.1.v1")),
+  data.frame(sim = "ang", snr = 1,get.results.homosked(res,"ang.1.v1")),
+  data.frame(sim = "dop", snr = 1,get.results.homosked(res,"dop.1.v1")),
+  data.frame(sim = "blip",snr = 1,get.results.homosked(res,"blip.1.v1")),
+  data.frame(sim = "cor", snr = 1,get.results.homosked(res,"cor.1.v1")),
+  data.frame(sim = "sp",  snr = 3,get.results.homosked(res,"sp.3.v1")),
+  data.frame(sim = "bump",snr = 3,get.results.homosked(res,"bump.3.v1")),
+  data.frame(sim = "blkp",snr = 3,get.results.homosked(res,"blk.3.v1")),
+  data.frame(sim = "ang", snr = 3,get.results.homosked(res,"ang.3.v1")),
+  data.frame(sim = "dop", snr = 3,get.results.homosked(res,"dop.3.v1")),
+  data.frame(sim = "blip",snr = 3,get.results.homosked(res,"blip.3.v1")),
+  data.frame(sim = "cor", snr = 3,get.results.homosked(res,"cor.3.v1"))))
+```
 
 Next, we compare the same methods in simulated data sets with
 heteroskedastic errors.
