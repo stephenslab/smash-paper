@@ -308,7 +308,7 @@ Clipped Blocks data
 This is the function used to simulate the "Clipped Blocks" data sets at
 different ranges of intensities:
 
-```{r plot-cb-function, fig.height=4, fig.width=8}
+```{r plot-cb-function, fig.height=2.5, fig.width=8}
 mu.cb <- 0.01 + cblocks.f(t)
 x     <- rpois(n,mu.cb)
 create.signal.plot(t,x,mu.cb)
@@ -362,7 +362,7 @@ Bumps data
 This is the function used to simulate the "Bumps" data sets at
 different ranges of intensities:
 
-```{r plot-bumps-function, fig.height=4, fig.width=8}
+```{r plot-bumps-function, fig.height=2.5, fig.width=8}
 mu.b <- 0.01 + bumps.f(t)
 x    <- rpois(n,mu.b)
 create.signal.plot(t,x,mu.b)
