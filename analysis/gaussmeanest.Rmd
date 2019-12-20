@@ -27,6 +27,7 @@ Load the ggplot2 and cowplot packages, and the functions definining
 the mean and variances used to simulate the data.
 
 ```{r load-pkgs, message=FALSE, warning=FALSE}
+library(smashr)
 library(ggplot2)
 library(cowplot)
 source("../code/signals.R")
@@ -37,7 +38,7 @@ Load results
 
 Load the results of the simulation experiments.
 
-```{r load-results}
+```{r load-results, warning=FALSE}
 load("../output/dscr.RData")
 ```
 
@@ -128,12 +129,12 @@ In this scenario, the data sets were simulated using the "Spikes" mean
 function and the "Clipped Blocks" variance function. The next two
 plots reproduce part of Fig. 3 in the manuscript.
 
-This plot shows the mean function as a block line, and the +/- 2
+This plot shows the mean function as a black line, and the +/- 2
 standard deviations as orange lines:
 
 ```{r spikes-signal, fig.height=4, fig.width=6}
 t         <- (1:1024)/1024
-mu        <- spikes.fn(t,"mean")
+mu        <- spike.fn(t,"mean")
 sigma.ini <- sqrt(cblocks.fn(t,"var"))
 sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
 par(cex.axis = 1,cex.lab = 1.25)
@@ -146,13 +147,12 @@ Now, we plot the ground-truth signal (the mean function, drawn as
 a black line) and the signals recovered by TI thresholding (light blue
 line) and SMASH (the red line) for one simulated dataset as an illustration
 
-```{r spikes-signal, fig.height=4, fig.width=6}
+```{r spikes-signal-with-estimates, fig.height=4, fig.width=6}
 t         <- (1:1024)/1024
-mu        <- spikes.fn(t,"mean")
+mu        <- spike.fn(t,"mean")
 sigma.ini <- sqrt(cblocks.fn(t,"var"))
 sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
-x.sim  <- rnorm(n,mu,sd.fn)
-
+x.sim  <- rnorm(1024,mu,sd.fn)
 mu.smash <- smash(x.sim,family = "DaubLeAsymm",filter.number = 8)
 mu.ti    <- ti.thresh(x.sim,method = "rmad",family = "DaubLeAsymm",
                       filter.number = 8)
@@ -245,7 +245,7 @@ In this next scenario, the data sets were simulated using the "Corner"
 mean function and the "Doppler" variance function. These plots were
 also used in Fig. 3 of the manuscript.
 
-This plot shows the mean function as a block line, and the +/- 2
+This plot shows the mean function as a black line, and the +/- 2
 standard deviations as orange lines:
 
 ```{r corner-signal, fig.height=4, fig.width=6}
@@ -262,13 +262,12 @@ Now, we plot the ground-truth signal (the mean function, drawn as
 a black line) and the signals recovered by TI thresholding (light blue
 line) and SMASH (the red line) for one simulated dataset as an illustration
 
-```{r spikes-signal, fig.height=4, fig.width=6}
+```{r corner-signal-with-estimates, fig.height=4, fig.width=6}
 t         <- (1:1024)/1024
 mu        <- cor.fn(t,"mean") 
 sigma.ini <- sqrt(doppler.fn(t,"var"))
 sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
-x.sim  <- rnorm(n,mu,sd.fn)
-
+x.sim  <- rnorm(1024,mu,sd.fn)
 mu.smash <- smash(x.sim,family = "DaubLeAsymm",filter.number = 8)
 mu.ti    <- ti.thresh(x.sim,method = "rmad",family = "DaubLeAsymm",
                       filter.number = 8)
@@ -278,7 +277,6 @@ plot(mu,type = "l",col = "black",lwd = 3,xlab = "position",ylab = "",
 lines(mu.ti,col = "dodgerblue",lwd = 3)
 lines(mu.smash,col = "orangered",lwd = 3)
 ```
-
 
 Extract the results from running these simulations.
 
@@ -351,120 +349,4 @@ print(p)
 
 Similar to the "Spikes" scenario, we see that the SMASH method, when
 allowing for heteroskedastic variances, outperforms both the TI
-thresholding and EbayesThresh approaches.
-
-Simulated data with heteroskedastic errors: "Blip" mean signal and "Constant" variance
----------------------------------------------------------------------------------------
-
-In this next scenario, the data sets were simulated using the "Blip"
-mean function and the "Constant" variance function. These plots were
-also used in Fig. 3 of the manuscript.
-
-This plot shows the mean function as a block line, and the +/- 2
-standard deviations as orange lines:
-
-```{r corner-signal, fig.height=4, fig.width=6}
-mu        <- blip.fn(t,"mean") 
-sigma.ini <- sqrt(cons.fn(t,"var"))
-sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/1
-plot(mu,type = "l", ylim = c(-0.25,1.25),xlab = "position",ylab = "",
-     lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
-lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
-lines(mu - 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
-```
-
-Now, we plot the ground-truth signal (the mean function, drawn as
-a black line) and the signals recovered by TI thresholding (light blue
-line) and SMASH (the red line) for one simulated dataset as an illustration
-
-```{r spikes-signal, fig.height=4, fig.width=6}
-t         <- (1:1024)/1024
-mu        <- blip.fn(t,"mean") 
-sigma.ini <- sqrt(cons.fn(t,"var"))
-sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/1
-set.seed(102719)
-x.sim  <- rnorm(n,mu,sd.fn)
-
-mu.smash <- smash(x.sim,family = "DaubLeAsymm",filter.number = 8)
-mu.ti    <- ti.thresh(x.sim,method = "rmad",family = "DaubLeAsymm",
-                      filter.number = 8)
-par(cex.axis = 1)
-plot(mu,type = "l",col = "black",lwd = 3,xlab = "position",ylab = "",
-     ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4))
-lines(mu.ti,col = "dodgerblue",lwd = 3)
-lines(mu.smash,col = "orangered",lwd = 3)
-
-```
-
-Extract the results from running these simulations.
-
-```{r plot-3-extract-data}
-hetero.data.smash.2 <-
-  res[res$.id == "blip.1.v1" & res$method == "smash.s8",]
-hetero.data.smash.homo.2 <-
-  res[res$.id == "blip.1.v1" & res$method == "smash.homo.s8",]
-hetero.data.tithresh.homo.2 <-
-  res[res$.id == "blip.1.v1" & res$method == "tithresh.homo.s8",]
-hetero.data.tithresh.rmad.2 <-
-  res[res$.id == "blip.1.v1" & res$method == "tithresh.rmad.s8",]
-hetero.data.tithresh.smash.2 <-
-  res[res$.id == "blip.1.v1" & res$method == "tithresh.smash.s8",]
-hetero.data.tithresh.true.2 <-
-  res[res$.id == "blip.1.v1" & res$method == "tithresh.true.s8",]
-hetero.data.ebayes.2 <-
-  res[res$.id == "blip.1.v1" & res$method == "ebayesthresh",]
-hetero.data.smash.true.2 <-
-  res[res$.id == "blip.1.v1" & res$method == "smash.true.s8",]
-```
-
-Transform these results into a data frame suitable for ggplot2.
-
-```{r plot-3-transform-data}
-pdat <-
-  rbind(data.frame(method      = "smash",
-                   method.type = "est",
-                   mise        = hetero.data.smash.2$mise),
-        data.frame(method      = "smash.homo",
-                   method.type = "homo",
-                   mise        = hetero.data.smash.homo.2$mise),
-        data.frame(method      = "tithresh.rmad",
-                   method.type = "tithresh",
-                   mise        = hetero.data.tithresh.rmad.2$mise),
-        data.frame(method      = "tithresh.smash",
-                   method.type = "tithresh",
-                   mise        = hetero.data.tithresh.smash.2$mise),
-        data.frame(method      = "tithresh.true",
-                   method.type = "tithresh",
-                   mise        = hetero.data.tithresh.true.2$mise),
-        data.frame(method      = "ebayesthresh",
-                   method.type = "homo",
-                   mise        = hetero.data.ebayes.2$mise),
-        data.frame(method      = "smash.true",
-                   method.type = "true",
-                   mise        = hetero.data.smash.true.2$mise))
-pdat <-
-  transform(pdat,
-            method = factor(method,
-                            names(sort(tapply(pdat$mise,pdat$method,mean),
-                                       decreasing = TRUE))))
-```
-
-Create the combined boxplot and violin plot using ggplot2.
-
-```{r plot-3-create, fig.height=4, fig.width=5}
-p <- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
-     geom_violin(fill = "skyblue",color = "skyblue") +
-     geom_boxplot(width = 0.15,outlier.shape = NA) +
-     scale_fill_manual(values=c("darkorange","dodgerblue","limegreen","gold"),
-                       guide = FALSE) +
-     coord_flip() +
-     scale_y_continuous(breaks = seq(1,5)) +
-     labs(x = "",y = "MISE") +
-     theme(axis.line = element_blank(),
-           axis.ticks.y = element_blank())
-print(p)
-```
-
-Similar to the "Spikes" and "Corner" scenarios, we see that the SMASH method, even when
-the variance is homoskedastic, outperforms both the TI
 thresholding and EbayesThresh approaches.
