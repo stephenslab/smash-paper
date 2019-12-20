@@ -88,7 +88,7 @@ These plots summarize the results for all 7 simulation scenarios and
 the two signal-to-noise ratios (1 and 3), including the "Spikes"
 scenario shown in greater detail in the violin plot above.
 
-```{r extract-data-for-barplots-homo, fig.height=5, fig.width=8}
+```{r summarize-results-homo, fig.height=4, fig.width=8}
 create.bar.plots(rbind(
   data.frame(sim = "sp",  snr = 1,get.results.homosked(res,"sp.1.v1")),
   data.frame(sim = "bump",snr = 1,get.results.homosked(res,"bump.1.v1")),
