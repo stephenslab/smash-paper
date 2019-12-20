@@ -419,10 +419,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree02f9167ba34ef10c8b6d78a335a42f305e716e49targetblank02f9167a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/02f9167ba34ef10c8b6d78a335a42f305e716e49" target="_blank">02f9167</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree70dedc0f9524a71fa422a4384c6e3a3c0f4c63fdtargetblank70dedc0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/70dedc0f9524a71fa422a4384c6e3a3c0f4c63fd" target="_blank">70dedc0</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree02f9167ba34ef10c8b6d78a335a42f305e716e49targetblank02f9167a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree70dedc0f9524a71fa422a4384c6e3a3c0f4c63fdtargetblank70dedc0a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -502,6 +502,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/70dedc0f9524a71fa422a4384c6e3a3c0f4c63fd/analysis/gaussmeanest.Rmd" target="_blank">70dedc0</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+<td>
+wflow_publish(“gaussmeanest.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/3cdef118cbd4a03ed4c121c7dec0c6d467021c1e/docs/gaussmeanest.html" target="_blank">3cdef11</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+<td>
+Added bar charts to gaussmeanest analysis summarizing results of
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -821,6 +855,43 @@ p &lt;- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
            axis.ticks.y = element_blank())
 print(p)</code></pre>
 <p><img src="figure/gaussmeanest.Rmd/create-violin-plot-homo-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-create-violin-plot-homo-1">
+Past versions of create-violin-plot-homo-1.png
+</button>
+</p>
+<div id="fig-create-violin-plot-homo-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/3cdef118cbd4a03ed4c121c7dec0c6d467021c1e/docs/figure/gaussmeanest.Rmd/create-violin-plot-homo-1.png" target="_blank">3cdef11</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>From this plot, we see that the three variants of SMASH all outperformed EbayesThresh and TI thresholding in this setting.</p>
 <p>These plots summarize the results for all 7 simulation scenarios and the two signal-to-noise ratios (1 and 3), including the “Spikes” scenario shown in greater detail in the violin plot above.</p>
 <pre class="r"><code>create.bar.plots(rbind(
@@ -838,7 +909,7 @@ print(p)</code></pre>
   data.frame(sim = &quot;dop&quot;, snr = 3,get.results.homosked(res,&quot;dop.3.v1&quot;)),
   data.frame(sim = &quot;blip&quot;,snr = 3,get.results.homosked(res,&quot;blip.3.v1&quot;)),
   data.frame(sim = &quot;cor&quot;, snr = 3,get.results.homosked(res,&quot;cor.3.v1&quot;))))</code></pre>
-<p><img src="figure/gaussmeanest.Rmd/extract-data-for-barplots-homo-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/gaussmeanest.Rmd/summarize-results-homo-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Next, we compare the same methods in simulated data sets with heteroskedastic errors.</p>
 </div>
 <div id="simulated-data-with-heteroskedastic-errors-spikes-mean-signal-and-clipped-blocks-variance" class="section level2">
