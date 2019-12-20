@@ -419,17 +419,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree85aa594e808f76478a2d5a1857337a055ae616e1targetblank85aa594a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/85aa594e808f76478a2d5a1857337a055ae616e1" target="_blank">85aa594</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree4d7aae39d4e90b0d351c21b805779cbf1ff55980targetblank4d7aae3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/4d7aae39d4e90b0d351c21b805779cbf1ff55980" target="_blank">4d7aae3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree85aa594e808f76478a2d5a1857337a055ae616e1targetblank85aa594a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree4d7aae39d4e90b0d351c21b805779cbf1ff55980targetblank4d7aae3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    analysis/figure/
     Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
@@ -459,6 +458,7 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 Untracked files:
+    Untracked:  analysis/gaussmeanest.R
     Untracked:  files.txt
 
 Unstaged changes:
@@ -501,6 +501,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/4d7aae39d4e90b0d351c21b805779cbf1ff55980/analysis/gaussmeanest.Rmd" target="_blank">4d7aae3</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+<td>
+wflow_publish(“gaussmeanest.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/8998bb8262a81bb180e4ee67128b2c827eb99b37/docs/gaussmeanest.html" target="_blank">8998bb8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+<td>
+Re-built gaussmeanest analysis after Zhengrong’s recent additions.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -713,14 +747,15 @@ Moved around some files and revised TOC in home page.
 </div>
 </div>
 <p>In this analysis, we assess the ability of different signal denoising methods to recover the true signal after being provided with Gaussian-distributed observations of the signal. We consider scenarios in which the data have homoskedastic errors (constant variance) and heteroskedastic errors (non-constant variance).</p>
-<p>Since the simulation experiments are computationally intensive, they were implemented separately. (For instructions on re-running these simulation experiments, see the README in the “dsc” directory of the git repository). Here we create plots to summarize the results of these experiments.</p>
+<p>Since the simulation experiments are computationally intensive, here we only illustrate the application of the signal denoising methods, and create plots summarizing the results of the full experiments; the full experiments were implemented separately. (For instructions on re-running these simulation experiments, see the README in the “dsc” directory of the git repository).</p>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>Load the ggplot2 and cowplot packages, and the functions definining the mean and variances used to simulate the data.</p>
 <pre class="r"><code>library(smashr)
 library(ggplot2)
 library(cowplot)
-source(&quot;../code/signals.R&quot;)</code></pre>
+source(&quot;../code/signals.R&quot;)
+source(&quot;../code/gaussmeanest.functions.R&quot;)</code></pre>
 </div>
 <div id="load-results" class="section level2">
 <h2>Load results</h2>
@@ -729,52 +764,16 @@ source(&quot;../code/signals.R&quot;)</code></pre>
 </div>
 <div id="simulated-data-with-constant-variances" class="section level2">
 <h2>Simulated data with constant variances</h2>
-<p>This plot reproduces Fig. 2 of the manuscript, which compares the accuracy of the mean curves estimated from the data sets that were simulated using the “Spikes” mean function with constant variance.</p>
-<p>First, extract the results used to generate this plot.</p>
-<pre class="r"><code>homo.data.smash &lt;-
-  res[res$.id    == &quot;sp.3.v1&quot; &amp;
-      res$method == &quot;smash.s8&quot;,]
-homo.data.smash.homo &lt;-
-  res[res$.id    == &quot;sp.3.v1&quot; &amp;
-      res$method == &quot;smash.homo.s8&quot;,]
-homo.data.tithresh &lt;-
-  res[res$.id == &quot;sp.3.v1&quot; &amp;
-      res$method == &quot;tithresh.homo.s8&quot;,]
-homo.data.ebayes &lt;-
-  res[res$.id    == &quot;sp.3.v1&quot; &amp;
-      res$method == &quot;ebayesthresh&quot;,]
-homo.data.smash.true &lt;-
-  res[res$.id == &quot;sp.3.v1&quot; &amp;
-  res$method  == &quot;smash.true.s8&quot;,]
-homo.data &lt;-
-  res[res$.id == &quot;sp.3.v1&quot; &amp;
-  (res$method == &quot;smash.s8&quot; |
-   res$method == &quot;ebayesthresh&quot; |
-   res$method == &quot;tithresh.homo.s8&quot;),]</code></pre>
-<p>Transform these results into a data frame suitable for ggplot2.</p>
+<p>This plot reproduces Fig. 2 of the manuscript, which compares the accuracy of the mean curves estimated from the data sets that were simulated using the “Spikes” mean function with constant variance and a signal-to-noise ratio of 3.</p>
+<p>First, extract the results used to generate this plot, and transform them into a data frame suitable for plotting using ggplot2.</p>
+<pre class="r"><code>pdat &lt;- get.results.homosked(res,&quot;sp.3.v1&quot;)</code></pre>
+<p>Create the combined boxplot and violin plot using ggplot2.</p>
 <pre class="r"><code>pdat &lt;-
-  rbind(data.frame(method      = &quot;smash&quot;,
-                   method.type = &quot;est&quot;,
-                   mise        = homo.data.smash$mise),
-        data.frame(method      = &quot;smash.homo&quot;,
-                   method.type = &quot;homo&quot;,
-                   mise        = homo.data.smash.homo$mise),
-        data.frame(method      = &quot;tithresh&quot;,
-                   method.type = &quot;homo&quot;,
-                   mise        = homo.data.tithresh$mise),
-        data.frame(method      = &quot;ebayesthresh&quot;,
-                   method.type = &quot;homo&quot;,
-                   mise        = homo.data.ebayes$mise),
-        data.frame(method      = &quot;smash.true&quot;,
-                   method.type = &quot;true&quot;,
-                   mise        = homo.data.smash.true$mise))
-pdat &lt;-
   transform(pdat,
             method = factor(method,
                             names(sort(tapply(pdat$mise,pdat$method,mean),
-                                       decreasing = TRUE))))</code></pre>
-<p>Create the combined boxplot and violin plot using ggplot2.</p>
-<pre class="r"><code>p &lt;- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
+                                       decreasing = TRUE))))
+p &lt;- ggplot(pdat,aes(x = method,y = mise,fill = method.type)) +
      geom_violin(fill = &quot;skyblue&quot;,color = &quot;skyblue&quot;) +
      geom_boxplot(width = 0.15,outlier.shape = NA) +
      scale_y_continuous(breaks = seq(6,16,2)) +
@@ -810,6 +809,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/8998bb8262a81bb180e4ee67128b2c827eb99b37/docs/figure/gaussmeanest.Rmd/plot-1-create-1.png" target="_blank">8998bb8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/plot-1-create-1.png" target="_blank">f0221c5</a>
 </td>
 <td>
@@ -835,6 +845,7 @@ Peter Carbonetto
 </div>
 </div>
 <p>From this plot, we see that the three variations of SMASH all outperformed EbayesThresh and TI thresholding in this setting.</p>
+<p><em>TO DO: Add bar plots summarizing results from all 7 scenarios and 2 signal-to-noise ratios.</em></p>
 <p>Next, we compare the same methods in simulated data sets with heteroskedastic errors.</p>
 </div>
 <div id="simulated-data-with-heteroskedastic-errors-spikes-mean-signal-and-clipped-blocks-variance" class="section level2">
@@ -873,6 +884,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/8998bb8262a81bb180e4ee67128b2c827eb99b37/docs/figure/gaussmeanest.Rmd/spikes-signal-1.png" target="_blank">8998bb8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/spikes-signal-1.png" target="_blank">f0221c5</a>
@@ -914,6 +936,43 @@ plot(mu,type = &quot;l&quot;,col = &quot;black&quot;,lwd = 3,xlab = &quot;positi
 lines(mu.ti,col = &quot;dodgerblue&quot;,lwd = 3)
 lines(mu.smash,col = &quot;orangered&quot;,lwd = 3)</code></pre>
 <p><img src="figure/gaussmeanest.Rmd/spikes-signal-with-estimates-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-spikes-signal-with-estimates-1">
+Past versions of spikes-signal-with-estimates-1.png
+</button>
+</p>
+<div id="fig-spikes-signal-with-estimates-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/8998bb8262a81bb180e4ee67128b2c827eb99b37/docs/figure/gaussmeanest.Rmd/spikes-signal-with-estimates-1.png" target="_blank">8998bb8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Extract the results from running the simulations.</p>
 <pre class="r"><code>hetero.data.smash &lt;-
   res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;smash.s8&quot;,]
@@ -996,6 +1055,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/8998bb8262a81bb180e4ee67128b2c827eb99b37/docs/figure/gaussmeanest.Rmd/plot-2-create-1.png" target="_blank">8998bb8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/plot-2-create-1.png" target="_blank">f0221c5</a>
 </td>
 <td>
@@ -1058,6 +1128,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/8998bb8262a81bb180e4ee67128b2c827eb99b37/docs/figure/gaussmeanest.Rmd/corner-signal-1.png" target="_blank">8998bb8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/corner-signal-1.png" target="_blank">f0221c5</a>
 </td>
 <td>
@@ -1097,6 +1178,43 @@ plot(mu,type = &quot;l&quot;,col = &quot;black&quot;,lwd = 3,xlab = &quot;positi
 lines(mu.ti,col = &quot;dodgerblue&quot;,lwd = 3)
 lines(mu.smash,col = &quot;orangered&quot;,lwd = 3)</code></pre>
 <p><img src="figure/gaussmeanest.Rmd/corner-signal-with-estimates-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-corner-signal-with-estimates-1">
+Past versions of corner-signal-with-estimates-1.png
+</button>
+</p>
+<div id="fig-corner-signal-with-estimates-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/8998bb8262a81bb180e4ee67128b2c827eb99b37/docs/figure/gaussmeanest.Rmd/corner-signal-with-estimates-1.png" target="_blank">8998bb8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Extract the results from running these simulations.</p>
 <pre class="r"><code>hetero.data.smash.2 &lt;-
   res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;smash.s8&quot;,]
@@ -1177,6 +1295,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/8998bb8262a81bb180e4ee67128b2c827eb99b37/docs/figure/gaussmeanest.Rmd/plot-3-create-1.png" target="_blank">8998bb8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/plot-3-create-1.png" target="_blank">f0221c5</a>
