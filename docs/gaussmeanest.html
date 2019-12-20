@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -233,6 +232,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -328,7 +328,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-27
+<strong>Last updated:</strong> 2019-12-20
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -338,7 +338,7 @@ div.section {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -419,21 +419,50 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee574eec52585f7a5b7c51d2fee5affa76127cf5ftargetblanke574eeca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/e574eec52585f7a5b7c51d2fee5affa76127cf5f" target="_blank">e574eec</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree85aa594e808f76478a2d5a1857337a055ae616e1targetblank85aa594a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/85aa594e808f76478a2d5a1857337a055ae616e1" target="_blank">85aa594</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee574eec52585f7a5b7c51d2fee5affa76127cf5ftargetblanke574eeca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree85aa594e808f76478a2d5a1857337a055ae616e1targetblank85aa594a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
+Ignored files:
+    Ignored:    analysis/figure/
+    Ignored:    dsc/code/Wavelab850/MEXSource/CPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/DownDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FCPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWPSynthesis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/FWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IAIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IMIPT.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT2_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PBS.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_PO.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/IWT_TI.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/LMIRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/MedRefineSeq.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadHi.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/UpDyadLo.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/WPAnalysis.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dct_iv.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
+    Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
+
 Untracked files:
-    Untracked:  .Rhistory
-    Untracked:  .Rproj.user/
+    Untracked:  files.txt
 
 Unstaged changes:
-    Modified:   smash-paper.Rproj
+    Modified:   analysis/gausfullres.Rmd
 
 </code></pre>
 <p>
@@ -472,6 +501,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/85aa594e808f76478a2d5a1857337a055ae616e1/analysis/gaussmeanest.Rmd" target="_blank">85aa594</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+<td>
+wflow_publish(“gaussmeanest.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/analysis/gaussmeanest.Rmd" target="_blank">f0221c5</a>
+</td>
+<td>
+Zhengrong Xing
+</td>
+<td>
+2019-10-27
+</td>
+<td>
+address some reviewer comments
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/f0221c57754f27ee83db649f39a808895e4c1294/docs/gaussmeanest.html" target="_blank">f0221c5</a>
+</td>
+<td>
+Zhengrong Xing
+</td>
+<td>
+2019-10-27
+</td>
+<td>
+address some reviewer comments
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -637,16 +717,15 @@ Moved around some files and revised TOC in home page.
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>Load the ggplot2 and cowplot packages, and the functions definining the mean and variances used to simulate the data.</p>
-<pre class="r"><code>library(ggplot2)
+<pre class="r"><code>library(smashr)
+library(ggplot2)
 library(cowplot)
 source(&quot;../code/signals.R&quot;)</code></pre>
 </div>
 <div id="load-results" class="section level2">
 <h2>Load results</h2>
 <p>Load the results of the simulation experiments.</p>
-<pre class="r"><code>load(&quot;../output/dscr.RData&quot;)
-# Warning: namespace &#39;dscr&#39; is not available and has been replaced
-# by .GlobalEnv when processing object &#39;dsc_smash&#39;</code></pre>
+<pre class="r"><code>load(&quot;../output/dscr.RData&quot;)</code></pre>
 </div>
 <div id="simulated-data-with-constant-variances" class="section level2">
 <h2>Simulated data with constant variances</h2>
@@ -731,6 +810,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/plot-1-create-1.png" target="_blank">f0221c5</a>
+</td>
+<td>
+Zhengrong Xing
+</td>
+<td>
+2019-10-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/05684ba3b0a6729c632d0127b82d8b563aa8a51c/docs/figure/gaussmeanest.Rmd/plot-1-create-1.png" target="_blank">05684ba</a>
 </td>
 <td>
@@ -750,9 +840,9 @@ Peter Carbonetto
 <div id="simulated-data-with-heteroskedastic-errors-spikes-mean-signal-and-clipped-blocks-variance" class="section level2">
 <h2>Simulated data with heteroskedastic errors: “Spikes” mean signal and “Clipped Blocks” variance</h2>
 <p>In this scenario, the data sets were simulated using the “Spikes” mean function and the “Clipped Blocks” variance function. The next two plots reproduce part of Fig. 3 in the manuscript.</p>
-<p>This plot shows the mean function as a block line, and the +/- 2 standard deviations as orange lines:</p>
+<p>This plot shows the mean function as a black line, and the +/- 2 standard deviations as orange lines:</p>
 <pre class="r"><code>t         &lt;- (1:1024)/1024
-mu        &lt;- spikes.fn(t,&quot;mean&quot;)
+mu        &lt;- spike.fn(t,&quot;mean&quot;)
 sigma.ini &lt;- sqrt(cblocks.fn(t,&quot;var&quot;))
 sd.fn     &lt;- sigma.ini/mean(sigma.ini) * sd(mu)/3
 par(cex.axis = 1,cex.lab = 1.25)
@@ -785,6 +875,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/spikes-signal-1.png" target="_blank">f0221c5</a>
+</td>
+<td>
+Zhengrong Xing
+</td>
+<td>
+2019-10-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/05684ba3b0a6729c632d0127b82d8b563aa8a51c/docs/figure/gaussmeanest.Rmd/spikes-signal-1.png" target="_blank">05684ba</a>
 </td>
 <td>
@@ -798,6 +899,21 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p>Now, we plot the ground-truth signal (the mean function, drawn as a black line) and the signals recovered by TI thresholding (light blue line) and SMASH (the red line) for one simulated dataset as an illustration</p>
+<pre class="r"><code>t         &lt;- (1:1024)/1024
+mu        &lt;- spike.fn(t,&quot;mean&quot;)
+sigma.ini &lt;- sqrt(cblocks.fn(t,&quot;var&quot;))
+sd.fn     &lt;- sigma.ini/mean(sigma.ini) * sd(mu)/3
+x.sim  &lt;- rnorm(1024,mu,sd.fn)
+mu.smash &lt;- smash(x.sim,family = &quot;DaubLeAsymm&quot;,filter.number = 8)
+mu.ti    &lt;- ti.thresh(x.sim,method = &quot;rmad&quot;,family = &quot;DaubLeAsymm&quot;,
+                      filter.number = 8)
+par(cex.axis = 1)
+plot(mu,type = &quot;l&quot;,col = &quot;black&quot;,lwd = 3,xlab = &quot;position&quot;,ylab = &quot;&quot;,
+     ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu.ti,col = &quot;dodgerblue&quot;,lwd = 3)
+lines(mu.smash,col = &quot;orangered&quot;,lwd = 3)</code></pre>
+<p><img src="figure/gaussmeanest.Rmd/spikes-signal-with-estimates-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Extract the results from running the simulations.</p>
 <pre class="r"><code>hetero.data.smash &lt;-
   res[res$.id == &quot;sp.3.v5&quot; &amp; res$method == &quot;smash.s8&quot;,]
@@ -880,6 +996,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/plot-2-create-1.png" target="_blank">f0221c5</a>
+</td>
+<td>
+Zhengrong Xing
+</td>
+<td>
+2019-10-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/05684ba3b0a6729c632d0127b82d8b563aa8a51c/docs/figure/gaussmeanest.Rmd/plot-2-create-1.png" target="_blank">05684ba</a>
 </td>
 <td>
@@ -898,7 +1025,7 @@ Peter Carbonetto
 <div id="simulated-data-with-heteroskedastic-errors-corner-mean-signal-and-doppler-variance" class="section level2">
 <h2>Simulated data with heteroskedastic errors: “Corner” mean signal and “Doppler” variance</h2>
 <p>In this next scenario, the data sets were simulated using the “Corner” mean function and the “Doppler” variance function. These plots were also used in Fig. 3 of the manuscript.</p>
-<p>This plot shows the mean function as a block line, and the +/- 2 standard deviations as orange lines:</p>
+<p>This plot shows the mean function as a black line, and the +/- 2 standard deviations as orange lines:</p>
 <pre class="r"><code>mu        &lt;- cor.fn(t,&quot;mean&quot;) 
 sigma.ini &lt;- sqrt(doppler.fn(t,&quot;var&quot;))
 sd.fn     &lt;- sigma.ini/mean(sigma.ini) * sd(mu)/3
@@ -931,6 +1058,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/corner-signal-1.png" target="_blank">f0221c5</a>
+</td>
+<td>
+Zhengrong Xing
+</td>
+<td>
+2019-10-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/05684ba3b0a6729c632d0127b82d8b563aa8a51c/docs/figure/gaussmeanest.Rmd/corner-signal-1.png" target="_blank">05684ba</a>
 </td>
 <td>
@@ -944,6 +1082,21 @@ Peter Carbonetto
 </table>
 </div>
 </div>
+<p>Now, we plot the ground-truth signal (the mean function, drawn as a black line) and the signals recovered by TI thresholding (light blue line) and SMASH (the red line) for one simulated dataset as an illustration</p>
+<pre class="r"><code>t         &lt;- (1:1024)/1024
+mu        &lt;- cor.fn(t,&quot;mean&quot;) 
+sigma.ini &lt;- sqrt(doppler.fn(t,&quot;var&quot;))
+sd.fn     &lt;- sigma.ini/mean(sigma.ini) * sd(mu)/3
+x.sim  &lt;- rnorm(1024,mu,sd.fn)
+mu.smash &lt;- smash(x.sim,family = &quot;DaubLeAsymm&quot;,filter.number = 8)
+mu.ti    &lt;- ti.thresh(x.sim,method = &quot;rmad&quot;,family = &quot;DaubLeAsymm&quot;,
+                      filter.number = 8)
+par(cex.axis = 1)
+plot(mu,type = &quot;l&quot;,col = &quot;black&quot;,lwd = 3,xlab = &quot;position&quot;,ylab = &quot;&quot;,
+     ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4))
+lines(mu.ti,col = &quot;dodgerblue&quot;,lwd = 3)
+lines(mu.smash,col = &quot;orangered&quot;,lwd = 3)</code></pre>
+<p><img src="figure/gaussmeanest.Rmd/corner-signal-with-estimates-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Extract the results from running these simulations.</p>
 <pre class="r"><code>hetero.data.smash.2 &lt;-
   res[res$.id == &quot;cor.3.v3&quot; &amp; res$method == &quot;smash.s8&quot;,]
@@ -1026,6 +1179,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f0221c57754f27ee83db649f39a808895e4c1294/docs/figure/gaussmeanest.Rmd/plot-3-create-1.png" target="_blank">f0221c5</a>
+</td>
+<td>
+Zhengrong Xing
+</td>
+<td>
+2019-10-27
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/05684ba3b0a6729c632d0127b82d8b563aa8a51c/docs/figure/gaussmeanest.Rmd/plot-3-create-1.png" target="_blank">05684ba</a>
 </td>
 <td>
@@ -1048,39 +1212,45 @@ Peter Carbonetto
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()
-# R version 3.6.1 (2019-07-05)
-# Platform: x86_64-w64-mingw32/x64 (64-bit)
-# Running under: Windows 10 x64 (build 17134)
+# R version 3.4.3 (2017-11-30)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS High Sierra 10.13.6
 # 
 # Matrix products: default
+# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
 # 
-# Random number generation:
-#  RNG:     Mersenne-Twister 
-#  Normal:  Inversion 
-#  Sample:  Rounding 
-#  
 # locale:
-# [1] LC_COLLATE=English_United States.1252 
-# [2] LC_CTYPE=English_United States.1252   
-# [3] LC_MONETARY=English_United States.1252
-# [4] LC_NUMERIC=C                          
-# [5] LC_TIME=English_United States.1252    
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 # 
 # attached base packages:
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] cowplot_1.0.0 ggplot2_3.2.1
+# [1] cowplot_0.9.4 ggplot2_3.2.0 smashr_1.2-5 
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.2       knitr_1.25       whisker_0.4      magrittr_1.5    
-#  [5] workflowr_1.4.0  munsell_0.5.0    colorspace_1.4-1 rlang_0.4.0     
-#  [9] stringr_1.4.0    tools_3.6.1      grid_3.6.1       gtable_0.3.0    
-# [13] xfun_0.10        withr_2.1.2      git2r_0.26.1     htmltools_0.4.0 
-# [17] yaml_2.2.0       lazyeval_0.2.2   rprojroot_1.3-2  digest_0.6.21   
-# [21] tibble_2.1.3     crayon_1.3.4     fs_1.3.1         glue_1.3.1      
-# [25] evaluate_0.14    rmarkdown_1.16   stringi_1.4.3    compiler_3.6.1  
-# [29] pillar_1.4.2     scales_1.0.0     backports_1.1.5  pkgconfig_2.0.3</code></pre>
+#  [1] wavethresh_4.6.8  tidyselect_0.2.5  xfun_0.7         
+#  [4] ashr_2.2-39       purrr_0.2.5       lattice_0.20-35  
+#  [7] colorspace_1.4-0  htmltools_0.3.6   yaml_2.2.0       
+# [10] rlang_0.4.2       mixsqp_0.3-9      later_0.8.0      
+# [13] pillar_1.3.1      glue_1.3.1        withr_2.1.2.9000 
+# [16] dscr_0.1-8        foreach_1.4.4     plyr_1.8.4       
+# [19] stringr_1.4.0     munsell_0.4.3     gtable_0.2.0     
+# [22] workflowr_1.6.0   caTools_1.17.1.2  codetools_0.2-15 
+# [25] evaluate_0.13     knitr_1.23        pscl_1.5.2       
+# [28] doParallel_1.0.14 httpuv_1.5.0      parallel_3.4.3   
+# [31] Rcpp_1.0.1        xtable_1.8-2      promises_1.0.1   
+# [34] backports_1.1.2   scales_0.5.0      truncnorm_1.0-8  
+# [37] mime_0.6          fs_1.2.7          digest_0.6.18    
+# [40] stringi_1.4.3     shiny_1.2.0       dplyr_0.8.0.1    
+# [43] grid_3.4.3        rprojroot_1.3-2   tools_3.4.3      
+# [46] bitops_1.0-6      magrittr_1.5      lazyeval_0.2.1   
+# [49] tibble_2.1.1      crayon_1.3.4      whisker_0.3-2    
+# [52] pkgconfig_2.0.2   MASS_7.3-48       Matrix_1.2-12    
+# [55] SQUAREM_2017.10-1 data.table_1.12.0 assertthat_0.2.1 
+# [58] rmarkdown_2.0     iterators_1.0.10  R6_2.4.0         
+# [61] git2r_0.26.1      compiler_3.4.3</code></pre>
 </div>
 </div>
 
