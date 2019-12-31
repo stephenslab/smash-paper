@@ -328,7 +328,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-12-20
+<strong>Last updated:</strong> 2019-12-31
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -419,10 +419,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree70dedc0f9524a71fa422a4384c6e3a3c0f4c63fdtargetblank70dedc0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/70dedc0f9524a71fa422a4384c6e3a3c0f4c63fd" target="_blank">70dedc0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree703f5a2aead24ec95ec3812e8b741bbbb552aa42targetblank703f5a2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/703f5a2aead24ec95ec3812e8b741bbbb552aa42" target="_blank">703f5a2</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree70dedc0f9524a71fa422a4384c6e3a3c0f4c63fdtargetblank70dedc0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree703f5a2aead24ec95ec3812e8b741bbbb552aa42targetblank703f5a2a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -458,12 +458,7 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
 Untracked files:
-    Untracked:  analysis/temp.R
     Untracked:  files.txt
-
-Unstaged changes:
-    Modified:   analysis/gausfullres.Rmd
-    Modified:   code/gaussmeanest.functions.R
 
 </code></pre>
 <p>
@@ -502,6 +497,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/703f5a2aead24ec95ec3812e8b741bbbb552aa42/analysis/gaussmeanest.Rmd" target="_blank">703f5a2</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-31
+</td>
+<td>
+wflow_publish(“gaussmeanest.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/f780a437094b5f2772a22f04453383675f96c3a6/docs/gaussmeanest.html" target="_blank">f780a43</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+<td>
+Adjusted the bar chart settings.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -894,7 +923,7 @@ Peter Carbonetto
 </div>
 <p>From this plot, we see that the three variants of SMASH all outperformed EbayesThresh and TI thresholding in this setting.</p>
 <p>These plots summarize the results for all 7 simulation scenarios and the two signal-to-noise ratios (1 and 3), including the “Spikes” scenario shown in greater detail in the violin plot above.</p>
-<pre class="r"><code>create.bar.plots(rbind(
+<pre class="r"><code>create.bar.plots.homosked(rbind(
   data.frame(sim = &quot;sp&quot;,  snr = 1,get.results.homosked(res,&quot;sp.1.v1&quot;)),
   data.frame(sim = &quot;bump&quot;,snr = 1,get.results.homosked(res,&quot;bump.1.v1&quot;)),
   data.frame(sim = &quot;blkp&quot;,snr = 1,get.results.homosked(res,&quot;blk.1.v1&quot;)),
@@ -910,6 +939,43 @@ Peter Carbonetto
   data.frame(sim = &quot;blip&quot;,snr = 3,get.results.homosked(res,&quot;blip.3.v1&quot;)),
   data.frame(sim = &quot;cor&quot;, snr = 3,get.results.homosked(res,&quot;cor.3.v1&quot;))))</code></pre>
 <p><img src="figure/gaussmeanest.Rmd/summarize-results-homo-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-summarize-results-homo-1">
+Past versions of summarize-results-homo-1.png
+</button>
+</p>
+<div id="fig-summarize-results-homo-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/f780a437094b5f2772a22f04453383675f96c3a6/docs/figure/gaussmeanest.Rmd/summarize-results-homo-1.png" target="_blank">f780a43</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next, we compare the same methods in simulated data sets with heteroskedastic errors.</p>
 </div>
 <div id="simulated-data-with-heteroskedastic-errors-spikes-mean-signal-and-clipped-blocks-variance" class="section level2">
@@ -1397,6 +1463,71 @@ Peter Carbonetto
 </div>
 </div>
 <p>Similar to the “Spikes” scenario, we see that the SMASH method, when allowing for heteroskedastic variances, outperforms both the TI thresholding and EbayesThresh approaches.</p>
+</div>
+<div id="combined-results-from-simulated-data-sets-with-heteroskedastic-errors" class="section level2">
+<h2>Combined results from simulated data sets with heteroskedastic errors</h2>
+<p>These plots summarize the results from all combinations of test functions and a signal-to-noise ratio of 1.</p>
+<pre class="r"><code>create.bar.plots.heterosked(rbind(
+  data.frame(mean=&quot;sp&quot;,  var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;sp.1.v2&quot;)),
+  data.frame(mean=&quot;sp&quot;,  var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;sp.1.v3&quot;)),
+  data.frame(mean=&quot;sp&quot;,  var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;sp.1.v4&quot;)),
+  data.frame(mean=&quot;sp&quot;,  var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;sp.1.v5&quot;)),
+  data.frame(mean=&quot;bump&quot;,var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;bump.1.v2&quot;)),
+  data.frame(mean=&quot;bump&quot;,var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;bump.1.v3&quot;)),
+  data.frame(mean=&quot;bump&quot;,var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;bump.1.v4&quot;)),
+  data.frame(mean=&quot;bump&quot;,var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;bump.1.v5&quot;)),
+  data.frame(mean=&quot;blk&quot;, var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;blk.1.v2&quot;)),
+  data.frame(mean=&quot;blk&quot;, var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;blk.1.v3&quot;)),
+  data.frame(mean=&quot;blk&quot;, var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;blk.1.v4&quot;)),
+  data.frame(mean=&quot;blk&quot;, var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;blk.1.v5&quot;)),
+  data.frame(mean=&quot;ang&quot;, var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;ang.1.v2&quot;)),
+  data.frame(mean=&quot;ang&quot;, var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;ang.1.v3&quot;)),
+  data.frame(mean=&quot;ang&quot;, var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;ang.1.v4&quot;)),
+  data.frame(mean=&quot;ang&quot;, var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;ang.1.v5&quot;)),
+  data.frame(mean=&quot;dop&quot;, var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;dop.1.v2&quot;)),
+  data.frame(mean=&quot;dop&quot;, var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;dop.1.v3&quot;)),
+  data.frame(mean=&quot;dop&quot;, var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;dop.1.v4&quot;)),
+  data.frame(mean=&quot;dop&quot;, var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;dop.1.v5&quot;)),
+  data.frame(mean=&quot;blip&quot;,var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;blip.1.v2&quot;)),
+  data.frame(mean=&quot;blip&quot;,var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;blip.1.v3&quot;)),
+  data.frame(mean=&quot;blip&quot;,var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;blip.1.v4&quot;)),
+  data.frame(mean=&quot;blip&quot;,var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;blip.1.v5&quot;)),
+  data.frame(mean=&quot;cor&quot;, var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;cor.1.v2&quot;)),
+  data.frame(mean=&quot;cor&quot;, var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;cor.1.v3&quot;)),
+  data.frame(mean=&quot;cor&quot;, var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;cor.1.v4&quot;)),
+  data.frame(mean=&quot;cor&quot;, var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;cor.1.v5&quot;))))</code></pre>
+<p><img src="figure/gaussmeanest.Rmd/summarize-results-heterosked-snr-1-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>These plots summarize the results from data sets simulated using a signal-to-noise ratio of 3.</p>
+<pre class="r"><code>create.bar.plots.heterosked(rbind(
+  data.frame(mean=&quot;sp&quot;,  var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;sp.3.v2&quot;)),
+  data.frame(mean=&quot;sp&quot;,  var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;sp.3.v3&quot;)),
+  data.frame(mean=&quot;sp&quot;,  var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;sp.3.v4&quot;)),
+  data.frame(mean=&quot;sp&quot;,  var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;sp.3.v5&quot;)),
+  data.frame(mean=&quot;bump&quot;,var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;bump.3.v2&quot;)),
+  data.frame(mean=&quot;bump&quot;,var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;bump.3.v3&quot;)),
+  data.frame(mean=&quot;bump&quot;,var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;bump.3.v4&quot;)),
+  data.frame(mean=&quot;bump&quot;,var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;bump.3.v5&quot;)),
+  data.frame(mean=&quot;blk&quot;, var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;blk.3.v2&quot;)),
+  data.frame(mean=&quot;blk&quot;, var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;blk.3.v3&quot;)),
+  data.frame(mean=&quot;blk&quot;, var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;blk.3.v4&quot;)),
+  data.frame(mean=&quot;blk&quot;, var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;blk.3.v5&quot;)),
+  data.frame(mean=&quot;ang&quot;, var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;ang.3.v2&quot;)),
+  data.frame(mean=&quot;ang&quot;, var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;ang.3.v3&quot;)),
+  data.frame(mean=&quot;ang&quot;, var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;ang.3.v4&quot;)),
+  data.frame(mean=&quot;ang&quot;, var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;ang.3.v5&quot;)),
+  data.frame(mean=&quot;dop&quot;, var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;dop.3.v2&quot;)),
+  data.frame(mean=&quot;dop&quot;, var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;dop.3.v3&quot;)),
+  data.frame(mean=&quot;dop&quot;, var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;dop.3.v4&quot;)),
+  data.frame(mean=&quot;dop&quot;, var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;dop.3.v5&quot;)),
+  data.frame(mean=&quot;blip&quot;,var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;blip.3.v2&quot;)),
+  data.frame(mean=&quot;blip&quot;,var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;blip.3.v3&quot;)),
+  data.frame(mean=&quot;blip&quot;,var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;blip.3.v4&quot;)),
+  data.frame(mean=&quot;blip&quot;,var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;blip.3.v5&quot;)),
+  data.frame(mean=&quot;cor&quot;, var=&quot;v2&quot;,snr=1,get.results.heterosked(res,&quot;cor.3.v2&quot;)),
+  data.frame(mean=&quot;cor&quot;, var=&quot;v3&quot;,snr=1,get.results.heterosked(res,&quot;cor.3.v3&quot;)),
+  data.frame(mean=&quot;cor&quot;, var=&quot;v4&quot;,snr=1,get.results.heterosked(res,&quot;cor.3.v4&quot;)),
+  data.frame(mean=&quot;cor&quot;, var=&quot;v5&quot;,snr=1,get.results.heterosked(res,&quot;cor.3.v5&quot;))))</code></pre>
+<p><img src="figure/gaussmeanest.Rmd/summarize-results-heterosked-snr-3-1.png" width="864" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1434,16 +1565,16 @@ Peter Carbonetto
 # [25] evaluate_0.13     labeling_0.3      knitr_1.23       
 # [28] pscl_1.5.2        doParallel_1.0.14 httpuv_1.5.0     
 # [31] parallel_3.4.3    Rcpp_1.0.1        xtable_1.8-2     
-# [34] promises_1.0.1    backports_1.1.2   scales_0.5.0     
-# [37] truncnorm_1.0-8   mime_0.6          fs_1.2.7         
-# [40] digest_0.6.18     stringi_1.4.3     dplyr_0.8.0.1    
+# [34] promises_1.0.1    backports_1.1.5   scales_0.5.0     
+# [37] truncnorm_1.0-8   mime_0.6          fs_1.3.1         
+# [40] digest_0.6.23     stringi_1.4.3     dplyr_0.8.0.1    
 # [43] shiny_1.2.0       grid_3.4.3        rprojroot_1.3-2  
 # [46] tools_3.4.3       bitops_1.0-6      magrittr_1.5     
 # [49] lazyeval_0.2.1    tibble_2.1.1      crayon_1.3.4     
-# [52] whisker_0.3-2     pkgconfig_2.0.2   MASS_7.3-48      
-# [55] Matrix_1.2-12     SQUAREM_2017.10-1 data.table_1.12.0
+# [52] whisker_0.3-2     pkgconfig_2.0.3   MASS_7.3-48      
+# [55] Matrix_1.2-12     SQUAREM_2017.10-1 data.table_1.12.8
 # [58] assertthat_0.2.1  rmarkdown_2.0     iterators_1.0.10 
-# [61] R6_2.4.0          git2r_0.26.1      compiler_3.4.3</code></pre>
+# [61] R6_2.4.1          git2r_0.26.1      compiler_3.4.3</code></pre>
 </div>
 </div>
 
