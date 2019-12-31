@@ -89,7 +89,7 @@ the two signal-to-noise ratios (1 and 3), including the "Spikes"
 scenario shown in greater detail in the violin plot above.
 
 ```{r summarize-results-homo, fig.height=4, fig.width=8}
-create.bar.plots(rbind(
+create.bar.plots.homosked(rbind(
   data.frame(sim = "sp",  snr = 1,get.results.homosked(res,"sp.1.v1")),
   data.frame(sim = "bump",snr = 1,get.results.homosked(res,"bump.1.v1")),
   data.frame(sim = "blkp",snr = 1,get.results.homosked(res,"blk.1.v1")),
@@ -245,8 +245,6 @@ lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
 lines(mu - 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
 ```
 
-
-
 Now, we plot the ground-truth signal (the mean function, drawn as
 a black line) and the signals recovered by TI thresholding (light blue
 line) and SMASH (the red line) for one simulated dataset as an illustration
@@ -339,3 +337,76 @@ print(p)
 Similar to the "Spikes" scenario, we see that the SMASH method, when
 allowing for heteroskedastic variances, outperforms both the TI
 thresholding and EbayesThresh approaches.
+
+Combined results from simulated data sets with heteroskedastic errors
+---------------------------------------------------------------------
+
+These plots summarize the results from all combinations of test
+functions and a signal-to-noise ratio of 1.
+
+```{r summarize-results-heterosked-snr-1, fig.height=4.5, fig.width=9}
+create.bar.plots.heterosked(rbind(
+  data.frame(mean="sp",  var="v2",snr=1,get.results.heterosked(res,"sp.1.v2")),
+  data.frame(mean="sp",  var="v3",snr=1,get.results.heterosked(res,"sp.1.v3")),
+  data.frame(mean="sp",  var="v4",snr=1,get.results.heterosked(res,"sp.1.v4")),
+  data.frame(mean="sp",  var="v5",snr=1,get.results.heterosked(res,"sp.1.v5")),
+  data.frame(mean="bump",var="v2",snr=1,get.results.heterosked(res,"bump.1.v2")),
+  data.frame(mean="bump",var="v3",snr=1,get.results.heterosked(res,"bump.1.v3")),
+  data.frame(mean="bump",var="v4",snr=1,get.results.heterosked(res,"bump.1.v4")),
+  data.frame(mean="bump",var="v5",snr=1,get.results.heterosked(res,"bump.1.v5")),
+  data.frame(mean="blk", var="v2",snr=1,get.results.heterosked(res,"blk.1.v2")),
+  data.frame(mean="blk", var="v3",snr=1,get.results.heterosked(res,"blk.1.v3")),
+  data.frame(mean="blk", var="v4",snr=1,get.results.heterosked(res,"blk.1.v4")),
+  data.frame(mean="blk", var="v5",snr=1,get.results.heterosked(res,"blk.1.v5")),
+  data.frame(mean="ang", var="v2",snr=1,get.results.heterosked(res,"ang.1.v2")),
+  data.frame(mean="ang", var="v3",snr=1,get.results.heterosked(res,"ang.1.v3")),
+  data.frame(mean="ang", var="v4",snr=1,get.results.heterosked(res,"ang.1.v4")),
+  data.frame(mean="ang", var="v5",snr=1,get.results.heterosked(res,"ang.1.v5")),
+  data.frame(mean="dop", var="v2",snr=1,get.results.heterosked(res,"dop.1.v2")),
+  data.frame(mean="dop", var="v3",snr=1,get.results.heterosked(res,"dop.1.v3")),
+  data.frame(mean="dop", var="v4",snr=1,get.results.heterosked(res,"dop.1.v4")),
+  data.frame(mean="dop", var="v5",snr=1,get.results.heterosked(res,"dop.1.v5")),
+  data.frame(mean="blip",var="v2",snr=1,get.results.heterosked(res,"blip.1.v2")),
+  data.frame(mean="blip",var="v3",snr=1,get.results.heterosked(res,"blip.1.v3")),
+  data.frame(mean="blip",var="v4",snr=1,get.results.heterosked(res,"blip.1.v4")),
+  data.frame(mean="blip",var="v5",snr=1,get.results.heterosked(res,"blip.1.v5")),
+  data.frame(mean="cor", var="v2",snr=1,get.results.heterosked(res,"cor.1.v2")),
+  data.frame(mean="cor", var="v3",snr=1,get.results.heterosked(res,"cor.1.v3")),
+  data.frame(mean="cor", var="v4",snr=1,get.results.heterosked(res,"cor.1.v4")),
+  data.frame(mean="cor", var="v5",snr=1,get.results.heterosked(res,"cor.1.v5"))))
+```
+  
+These plots summarize the results from data sets simulated using a
+signal-to-noise ratio of 3.
+
+```{r summarize-results-heterosked-snr-3, fig.height=4.5, fig.width=9}
+create.bar.plots.heterosked(rbind(
+  data.frame(mean="sp",  var="v2",snr=1,get.results.heterosked(res,"sp.3.v2")),
+  data.frame(mean="sp",  var="v3",snr=1,get.results.heterosked(res,"sp.3.v3")),
+  data.frame(mean="sp",  var="v4",snr=1,get.results.heterosked(res,"sp.3.v4")),
+  data.frame(mean="sp",  var="v5",snr=1,get.results.heterosked(res,"sp.3.v5")),
+  data.frame(mean="bump",var="v2",snr=1,get.results.heterosked(res,"bump.3.v2")),
+  data.frame(mean="bump",var="v3",snr=1,get.results.heterosked(res,"bump.3.v3")),
+  data.frame(mean="bump",var="v4",snr=1,get.results.heterosked(res,"bump.3.v4")),
+  data.frame(mean="bump",var="v5",snr=1,get.results.heterosked(res,"bump.3.v5")),
+  data.frame(mean="blk", var="v2",snr=1,get.results.heterosked(res,"blk.3.v2")),
+  data.frame(mean="blk", var="v3",snr=1,get.results.heterosked(res,"blk.3.v3")),
+  data.frame(mean="blk", var="v4",snr=1,get.results.heterosked(res,"blk.3.v4")),
+  data.frame(mean="blk", var="v5",snr=1,get.results.heterosked(res,"blk.3.v5")),
+  data.frame(mean="ang", var="v2",snr=1,get.results.heterosked(res,"ang.3.v2")),
+  data.frame(mean="ang", var="v3",snr=1,get.results.heterosked(res,"ang.3.v3")),
+  data.frame(mean="ang", var="v4",snr=1,get.results.heterosked(res,"ang.3.v4")),
+  data.frame(mean="ang", var="v5",snr=1,get.results.heterosked(res,"ang.3.v5")),
+  data.frame(mean="dop", var="v2",snr=1,get.results.heterosked(res,"dop.3.v2")),
+  data.frame(mean="dop", var="v3",snr=1,get.results.heterosked(res,"dop.3.v3")),
+  data.frame(mean="dop", var="v4",snr=1,get.results.heterosked(res,"dop.3.v4")),
+  data.frame(mean="dop", var="v5",snr=1,get.results.heterosked(res,"dop.3.v5")),
+  data.frame(mean="blip",var="v2",snr=1,get.results.heterosked(res,"blip.3.v2")),
+  data.frame(mean="blip",var="v3",snr=1,get.results.heterosked(res,"blip.3.v3")),
+  data.frame(mean="blip",var="v4",snr=1,get.results.heterosked(res,"blip.3.v4")),
+  data.frame(mean="blip",var="v5",snr=1,get.results.heterosked(res,"blip.3.v5")),
+  data.frame(mean="cor", var="v2",snr=1,get.results.heterosked(res,"cor.3.v2")),
+  data.frame(mean="cor", var="v3",snr=1,get.results.heterosked(res,"cor.3.v3")),
+  data.frame(mean="cor", var="v4",snr=1,get.results.heterosked(res,"cor.3.v4")),
+  data.frame(mean="cor", var="v5",snr=1,get.results.heterosked(res,"cor.3.v5"))))
+```
