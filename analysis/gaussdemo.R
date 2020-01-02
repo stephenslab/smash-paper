@@ -1,4 +1,5 @@
-# TO DO: Explain here what this script does.
+# Illustrate SMASH, TI thresholding and EbayesThresh on a Gaussian
+# data set simulated with heteroskedastic noise.
 
 # Load the packages and function definitions used in the analysis below.
 library(smashr)
@@ -7,6 +8,10 @@ library(wavethresh)
 source("../code/signals.R")
 source("../dsc/code/methods/ebayesthresh.wrapper.R")
 
+# Script parameters.
+mean.fn <- cor.fn      # spike.fn    
+var.fn  <- doppler.fn  # cblocks.fn
+
 # Initialize the sequence of pseudorandom numbers.
 set.seed(2)
 
@@ -14,8 +19,8 @@ set.seed(2)
 # "Clipped Blocks" variance function.
 n     <- 1024
 t     <- (1:n)/n
-mu    <- spike.fn(t,"mean")
-sigma <- sqrt(cblocks.fn(t,"var"))
+mu    <- mean.fn(t,"mean")
+sigma <- sqrt(var.fn(t,"var"))
 sd    <- sigma/mean(sigma) * sd(mu)/3
 x     <- rnorm(n,mu,sd)
 
@@ -41,8 +46,8 @@ par(cex.axis = 1,cex.lab = 1.25)
 plot(x,type = "p", ylim = c(-0.05,1),xlab = "position",ylab = "",
      col = "gray",pch = 1,cex = 0.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
 lines(mu,lwd = 1.5,col = "black")
-lines(mu + 2*sd,col = "black",lty = "dotted",lwd = 1.5)
-lines(mu - 2*sd,col = "black",lty = "dotted",lwd = 1.5)
+lines(mu + 2*sd,col = "black",lty = "dashed",lwd = 1.5)
+lines(mu - 2*sd,col = "black",lty = "dashed",lwd = 1.5)
 lines(mu.ti.rmad,col = "royalblue",lwd = 1.5)
 lines(mu.ebayes,col = "limegreen",lwd = 1.5)
 lines(mu.smash,col = "gold",lwd = 1.5)
