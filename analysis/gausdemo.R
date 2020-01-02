@@ -8,7 +8,7 @@ source("../code/signals.R")
 source("../dsc/code/methods/ebayesthresh.wrapper.R")
 
 # Initialize the sequence of pseudorandom numbers.
-set.seed(1)
+set.seed(2)
 
 # Simulate the data set using the "Spikes" mean function and the
 # "Clipped Blocks" variance function.
@@ -19,10 +19,17 @@ sigma <- sqrt(cblocks.fn(t,"var"))
 sd    <- sigma/mean(sigma) * sd(mu)/3
 x     <- rnorm(n,mu,sd)
 
+# Estimate the mean signal using SMASH, TI Thresholding and EbayesThresh.
 sd1 <- sqrt(2/(3*(n - 2)) * sum((x[1:(n - 2)]/2 - x[2:(n - 1)] + x[3:n])^2/2))
 mu.smash      <- smash(x,family = "DaubLeAsymm",filter.number = 8)
 mu.smash.true <- smash(x,sigma = sd,family = "DaubLeAsymm",filter.number = 8)
 mu.smash.homo <- smash(x,sigma = sd1,family = "DaubLeAsymm",filter.number = 8)
+mu.ti.rmad    <- ti.thresh(x,method = "rmad",family = "DaubLeAsymm",
+                           filter.number = 8)
+mu.ti.smash   <- ti.thresh(x,method = "smash",family = "DaubLeAsymm",
+                           filter.number = 8)
+mu.ti.true    <- ti.thresh(x,sigma = sd,method = "rmad",family = "DaubLeAsymm",
+                           filter.number = 8)
 mu.ebayes     <- ebayesthresh.wrapper(list(x = x,sig.est = sd1),
                                       list(family = "DaubLeAsymm",
                                            filter.number = 8))
@@ -36,7 +43,6 @@ plot(x,type = "p", ylim = c(-0.05,1),xlab = "position",ylab = "",
 lines(mu,lwd = 1.5,col = "black")
 lines(mu + 2*sd,col = "black",lty = "dotted",lwd = 1.5)
 lines(mu - 2*sd,col = "black",lty = "dotted",lwd = 1.5)
-lines(mu.ebayes,lwd = 1,col = "limegreen")
-lines(mu.smash.homo,lwd = 1,col = "darkorange")
-lines(mu.smash.true,lwd = 1,col = "magenta")
-lines(mu.smash,lwd = 1,col = "gold")
+lines(mu.ti.rmad,col = "royalblue",lwd = 1.5)
+lines(mu.ebayes,col = "limegreen",lwd = 1.5)
+lines(mu.smash,col = "gold",lwd = 1.5)
