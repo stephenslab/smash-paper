@@ -68,7 +68,7 @@ create.bar.plots.homosked <- function (pdat) {
   # Compute the mean, upper and lower quantiles, which will be used to
   # plot the barchart bars and the error bars.
   pdat <- with(pdat,tapply(mise,list(sim,snr,method),
-                         function (x) c(mean(x),quantile(x,c(0.1,0.9)))))
+                           function (x) c(mean(x),quantile(x,c(0.1,0.9)))))
   pdat <- adply(pdat,1:3)
   names(pdat) <- c("simulation","snr","method","mean","low","high")
 

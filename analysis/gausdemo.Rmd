@@ -72,6 +72,5 @@ for (i in 1:dim(design)[1]) {
   lines(mu.ti,col = "dodgerblue",lwd = 3)
   lines(mu.smash,col = "orangered",lwd = 3)
   legend(650, 1.05, c("ground-truth signal", "TI-thresholding (RMAD)", "SMASH"), col = c("black", "dodgerblue", "orangered"), bty = "n", lwd = 1, pt.cex = 1, cex = 0.75)
->>>>>>> 2f53017fc9239ac5e8c87c0e957cdf323e02d33f
 }
 ```
