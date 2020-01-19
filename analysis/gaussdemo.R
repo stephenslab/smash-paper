@@ -8,6 +8,12 @@ library(wavethresh)
 source("../code/signals.R")
 source("../dsc/code/methods/ebayesthresh.wrapper.R")
 
+# function to compute MISE
+
+mise <- function(mu, est) {
+  return(10000 * sum((est - mu)^2)/sum(mu^2))
+}
+
 # Script parameters.
 mean.fn <- cor.fn      # spike.fn    
 var.fn  <- doppler.fn  # cblocks.fn
@@ -52,3 +58,21 @@ lines(mu.ti.rmad,col = "royalblue",lwd = 1.5)
 lines(mu.ebayes,col = "limegreen",lwd = 1.5)
 lines(mu.smash.homo,col = "darkorange",lwd = 1.5)
 lines(mu.smash,col = "gold",lwd = 1.5)
+
+
+# Compute MISEs
+mise.smash = mise(mu.smash, mu)
+mise.smash.true = mise(mu.smash.true, mu)
+mise.smash.homo = mise(mu.smash.homo, mu)
+mise.ti.rmad = mise(mu.ti.rmad, mu)
+mise.ti.smash = mise(mu.ti.smash, mu)
+mise.ti.true = mise(mu.ti.true, mu)
+mise.ebayes = mise(mu.ebayes, mu)
+
+print(paste0('SMASH: ', round(mise.smash, 4)))
+print(paste0('SMASH, true variance: ', round(mise.smash.true, 4)))
+print(paste0('SMASH, homoskedastic variance: ', round(mise.smash.homo, 4)))
+print(paste0('TI, RMAD variance: ', round(mise.ti.rmad, 4)))
+print(paste0('TI, SMASH-estimated variance: ', round(mise.ti.smash, 4)))
+print(paste0('TI, true variance: ', round(mise.ti.true, 4)))
+print(paste0('Ebayesthresh: ', round(mise.ebayes, 4)))
