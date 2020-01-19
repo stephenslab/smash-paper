@@ -21,8 +21,8 @@ var.fn  <- doppler.fn  # cblocks.fn
 # Initialize the sequence of pseudorandom numbers.
 set.seed(2)
 
-# Simulate the data set using the "Spikes" mean function and the
-# "Clipped Blocks" variance function.
+# Simulate the data set using the "Corners" mean function and the
+# "Doppler" variance function.
 n     <- 1024
 t     <- (1:n)/n
 mu    <- mean.fn(t,"mean")
