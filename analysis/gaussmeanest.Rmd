@@ -34,6 +34,7 @@ library(ggplot2)
 library(cowplot)
 source("../code/signals.R")
 source("../code/gaussmeanest.functions.R")
+theme_set(theme_cowplot())
 ```
 
 Load results
