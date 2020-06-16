@@ -116,33 +116,33 @@ In this scenario, the data sets were simulated using the "Spikes" mean
 function and the "Clipped Blocks" variance function. The next two
 plots reproduce part of Fig. 3 in the manuscript.
 
-This plot shows the mean function as a black line, and the +/- 2
-standard deviations as orange lines:
+This plot shows the mean function as an orange line, the +/- 2
+standard deviations as dashed, light blue lines, and an example
+simulated data set (black circles):
 
-```{r spikes-signal, fig.height=4, fig.width=6}
-t         <- (1:1024)/1024
-mu        <- spike.fn(t,"mean")
-sigma.ini <- sqrt(cblocks.fn(t,"var"))
-sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
-par(cex.axis = 1,cex.lab = 1.25)
-plot(mu,type = "l", ylim = c(-0.05,1),xlab = "position",ylab = "",
-     lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
-lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
-lines(mu - 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
-```
-Now, we plot the ground-truth signal (the mean function, drawn as
-a black line) and the signals recovered by TI thresholding (light blue
-line) and SMASH (the red line) for one simulated dataset as an illustration
-
-```{r spikes-signal-with-estimates, fig.height=4, fig.width=6}
+```{r spikes-signal-with-data, fig.height=4, fig.width=6}
 t         <- (1:1024)/1024
 mu        <- spike.fn(t,"mean")
 sigma.ini <- sqrt(cblocks.fn(t,"var"))
 sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
 x.sim     <- rnorm(1024,mu,sd.fn)
-mu.smash  <- smash(x.sim,family = "DaubLeAsymm",filter.number = 8)
-mu.ti     <- ti.thresh(x.sim,method = "rmad",family = "DaubLeAsymm",
-                       filter.number = 8)
+par(cex.axis = 1,cex.lab = 1.25)
+plot(mu,type = "l", ylim = c(-0.05,1),col = "darkorange",
+     xlab = "position",ylab = "",lwd = 1.75,xaxp = c(0,1024,4),
+     yaxp = c(0,1,4))
+lines(mu + 2*sd.fn,col = "dodgerblue",lty = "dashed",lwd = 1.75)
+lines(mu - 2*sd.fn,col = "dodgerblue",lty = "dashed",lwd = 1.75)
+points(x.sim,cex = 0.7,pch = 1,col = "black")
+```
+
+Next, we plot the ground-truth signal (the mean function, drawn as a
+black line), and the signals recovered by TI thresholding (light blue
+line) and SMASH (the red line) for the example simulated data set.
+
+```{r spikes-signal-with-estimates, fig.height=4, fig.width=6}
+mu.smash <- smash(x.sim,family = "DaubLeAsymm",filter.number = 8)
+mu.ti    <- ti.thresh(x.sim,method = "rmad",family = "DaubLeAsymm",
+                      filter.number = 8)
 par(cex.axis = 1)
 plot(mu,type = "l",col = "black",lwd = 3,xlab = "position",ylab = "",
      ylim = c(-0.05,1),xaxp = c(0,1024,4),yaxp = c(0,1,4))
