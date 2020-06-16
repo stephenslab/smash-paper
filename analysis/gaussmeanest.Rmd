@@ -230,19 +230,24 @@ Simulated data with heteroskedastic errors: "Corner" mean signal and "Doppler" v
 
 In this next scenario, the data sets were simulated using the "Corner"
 mean function and the "Doppler" variance function. These plots were
-also used in Fig. 3 of the manuscript.
+also used in Figure 3 of the manuscript.
 
-This plot shows the mean function as a black line, and the +/- 2
-standard deviations as orange lines:
+This plot shows the mean function as an orange line, the +/- 2
+standard deviations as dashed, light blue lines, and an example
+simulated data set (black circles):
 
 ```{r corner-signal, fig.height=4, fig.width=6}
+t         <- (1:1024)/1024
 mu        <- cor.fn(t,"mean") 
 sigma.ini <- sqrt(doppler.fn(t,"var"))
 sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
-plot(mu,type = "l", ylim = c(-0.05,1),xlab = "position",ylab = "",
-     lwd = 1.75,xaxp = c(0,1024,4),yaxp = c(0,1,4))
-lines(mu + 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
-lines(mu - 2*sd.fn,col = "darkorange",lty = 5,lwd = 1.75)
+x.sim     <- rnorm(1024,mu,sd.fn)
+plot(mu,type = "l",col = "darkorange",ylim = c(-0.05,1),
+     xlab = "position",ylab = "",lwd = 1.75,xaxp = c(0,1024,4),
+     yaxp = c(0,1,4))
+lines(mu + 2*sd.fn,col = "dodgerblue",lty = "dashed",lwd = 1.75)
+lines(mu - 2*sd.fn,col = "dodgerblue",lty = "dashed",lwd = 1.75)
+points(x.sim,cex = 0.7,pch = 1,col = "black")
 ```
 
 Now, we plot the ground-truth signal (the mean function, drawn as
@@ -250,11 +255,6 @@ a black line) and the signals recovered by TI thresholding (light blue
 line) and SMASH (the red line) for one simulated dataset as an illustration
 
 ```{r corner-signal-with-estimates, fig.height=4, fig.width=6}
-t         <- (1:1024)/1024
-mu        <- cor.fn(t,"mean") 
-sigma.ini <- sqrt(doppler.fn(t,"var"))
-sd.fn     <- sigma.ini/mean(sigma.ini) * sd(mu)/3
-x.sim  <- rnorm(1024,mu,sd.fn)
 mu.smash <- smash(x.sim,family = "DaubLeAsymm",filter.number = 8)
 mu.ti    <- ti.thresh(x.sim,method = "rmad",family = "DaubLeAsymm",
                       filter.number = 8)
