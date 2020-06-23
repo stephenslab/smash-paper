@@ -251,9 +251,10 @@ lines(mu - 2*sd.fn,col = "dodgerblue",lty = "dashed",lwd = 1.75)
 points(x.sim,cex = 0.7,pch = 1,col = "black")
 ```
 
-Now, we plot the ground-truth signal (the mean function, drawn as
-a black line) and the signals recovered by TI thresholding (light blue
-line) and SMASH (the red line) for one simulated dataset as an illustration
+Now, we plot the ground-truth signal (the mean function, drawn as a
+black line) and the signals recovered by TI thresholding (light blue
+line) and SMASH (the red line) for one simulated dataset as an
+illustration.
 
 ```{r corner-signal-with-estimates, fig.height=4, fig.width=6}
 mu.smash <- smash(x.sim,family = "DaubLeAsymm",filter.number = 8)

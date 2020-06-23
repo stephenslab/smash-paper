@@ -60,6 +60,7 @@ library(knitr)
 library(kableExtra)
 library(ggplot2)
 library(cowplot)
+theme_set(theme_cowplot())
 ```
 
 Some of the test functions are defined in `signals.R`, so we load them
@@ -94,8 +95,9 @@ at the $(1/100, 3)$ intensity range, along with an example data set
 
 ```{r plot-spikes-function, fig.height=2.5, fig.width=8}
 mu.s <- 0.01 + spike.f(t)
-x    <- rpois(n,mu.s)
-create.signal.plot(t,x,mu.s)
+x <- rpois(n,mu.s)
+p1 <- create.signal.plot(t,x,mu.s)
+print(p1)
 ```
 
 This table summarizes the results from the Spikes simulations:
@@ -148,8 +150,9 @@ different ranges of intensities:
 
 ```{r plot-angles-function, fig.height=2.5, fig.width=8}
 mu.ang <- 0.01 + angles.f(t)
-x      <- rpois(n,mu.ang)
-create.signal.plot(t,x,mu.ang)
+x <- rpois(n,mu.ang)
+p2 <- create.signal.plot(t,x,mu.ang)
+print(p2)
 ```
 
 This table summarizes the results from the Angles simulations:
@@ -202,8 +205,9 @@ different ranges of intensities:
 
 ```{r plot-heavisine-function, fig.height=2.5, fig.width=8}
 mu.hs <- 0.01 + heavi.f(t)
-x     <- rpois(n,mu.hs)
-create.signal.plot(t,x,mu.hs)
+x <- rpois(n,mu.hs)
+p3 <- create.signal.plot(t,x,mu.hs)
+print(p3)
 ```
 
 This table summarizes the results from the Heavisine simulations:
@@ -256,8 +260,9 @@ different ranges of intensities:
 
 ```{r plot-bursts-function, fig.height=2.5, fig.width=8}
 mu.bur <- 0.01 + bursts.f(t)
-x      <- rpois(n,mu.bur)
-create.signal.plot(t,x,mu.bur)
+x <- rpois(n,mu.bur)
+p4 <- create.signal.plot(t,x,mu.bur)
+print(p4)
 ```
 
 This table summarizes the results from the Bursts simulations:
@@ -310,8 +315,9 @@ different ranges of intensities:
 
 ```{r plot-cb-function, fig.height=2.5, fig.width=8}
 mu.cb <- 0.01 + cblocks.f(t)
-x     <- rpois(n,mu.cb)
-create.signal.plot(t,x,mu.cb)
+x <- rpois(n,mu.cb)
+p5 <- create.signal.plot(t,x,mu.cb)
+print(p5)
 ```
 
 This table summarizes the results from the Clipped Blocks simulations:
@@ -364,8 +370,9 @@ different ranges of intensities:
 
 ```{r plot-bumps-function, fig.height=2.5, fig.width=8}
 mu.b <- 0.01 + bumps.f(t)
-x    <- rpois(n,mu.b)
-create.signal.plot(t,x,mu.b)
+x <- rpois(n,mu.b)
+p6 <- create.signal.plot(t,x,mu.b)
+print(p6)
 ```
 	 
 This table summarizes the results from the Bumps simulations:
@@ -463,8 +470,8 @@ pdat <- rbind(pdat.s1,pdat.s8,pdat.s128,
               pdat.hs1,pdat.hs8,pdat.hs128,
               pdat.bur1,pdat.bur8,pdat.bur128,
               pdat.cb1,pdat.cb8,pdat.cb128)
-p1   <- create.bar.plots(pdat,show.legend = FALSE)
+pA   <- create.bar.plots(pdat,show.legend = FALSE)
 pdat <- rbind(pdat.b1,pdat.b8,pdat.b128)
-p2   <- create.bar.plots(pdat)
-plot_grid(p1,p2,nrow = 1,rel_widths = c(7,4))
+pB   <- create.bar.plots(pdat)
+plot_grid(pA,pB,nrow = 1,rel_widths = c(7,4))
 ```
