@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -24,6 +23,14 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -233,6 +240,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -291,13 +299,6 @@ div.section {
 }
 </style>
 
-<!-- Add a small amount of space between sections. -->
-<style type="text/css">
-div.section {
-  padding-top: 12px;
-}
-</style>
-
 <div class="fluid-row" id="header">
 
 
@@ -328,7 +329,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-12-18
+<strong>Last updated:</strong> 2020-06-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -338,7 +339,7 @@ div.section {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.5.0.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -419,13 +420,19 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree766304566d45eb7352416486c7a7f912a6175f0btargetblank7663045a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/766304566d45eb7352416486c7a7f912a6175f0b" target="_blank">7663045</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreecf9ef3656172214e3849eda7c694e0ebd7651c9etargetblankcf9ef36a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/cf9ef3656172214e3849eda7c694e0ebd7651c9e" target="_blank">cf9ef36</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree766304566d45eb7352416486c7a7f912a6175f0btargetblank7663045a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreecf9ef3656172214e3849eda7c694e0ebd7651c9etargetblankcf9ef36a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/smash-paper/tree/cf9ef3656172214e3849eda7c694e0ebd7651c9e" target="_blank">cf9ef36</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
@@ -457,9 +464,6 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
-Untracked files:
-    Untracked:  files.txt
-
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -473,7 +477,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/motorcycle.Rmd</code>) and HTML (<code>docs/motorcycle.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -497,6 +501,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/cf9ef3656172214e3849eda7c694e0ebd7651c9e/analysis/motorcycle.Rmd" target="_blank">cf9ef36</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-24
+</td>
+<td>
+wflow_publish(“motorcycle.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/99385ecd4c7478ff1490f1a794420ef52be75fd2/docs/motorcycle.html" target="_blank">99385ec</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-12-18
+</td>
+<td>
+Slightly revised the text in the motorcycle example.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -576,7 +614,7 @@ Rmd
 Zhengrong Xing
 </td>
 <td>
-2019-10-28
+2019-10-27
 </td>
 <td>
 move gausdemo; add HF for chipseq
@@ -593,7 +631,7 @@ html
 Zhengrong Xing
 </td>
 <td>
-2019-10-28
+2019-10-27
 </td>
 <td>
 move gausdemo; add HF for chipseq
@@ -610,7 +648,7 @@ html
 Zhengrong Xing
 </td>
 <td>
-2019-10-28
+2019-10-27
 </td>
 <td>
 address some reviewer comments
@@ -929,7 +967,7 @@ Working on motorcycle .Rmd example.
 </div>
 </div>
 </div>
-<p>This is an illustration of “smoothing via adaptive shrinkage” (SMASH) applied to the Motorcycle Accident data. This implements the “illustrative application” presented in Sec. 5.1 of the manuscript.</p>
+<p>This is an illustration of “smoothing via adaptive shrinkage” (SMASH) applied to the Motorcycle Acceleration data. This implements the “illustrative application” presented in Sec. 5.1 of the manuscript.</p>
 <div id="initial-setup-instructions" class="section level2">
 <h2>Initial setup instructions</h2>
 <p>To run this example on your own computer, please follow these setup instructions. These instructions assume you already have R and/or RStudio installed on your computer.</p>
@@ -943,7 +981,7 @@ Working on motorcycle .Rmd example.
 </div>
 <div id="set-up-r-environment" class="section level2">
 <h2>Set up R environment</h2>
-<p>Load the MASS, lattice wavethresh, EbayesThresh and smashr packages. The MASS package is loaded only for the Motorcycle Accident data. Some additional functions are defined in file <code>motorcycle.functions.R</code>.</p>
+<p>Load the MASS, lattice wavethresh, EbayesThresh and smashr packages. The MASS package is loaded only for the Motorcycle Acceleration data. Some additional functions are defined in file <code>motorcycle.functions.R</code>.</p>
 <pre class="r"><code>library(MASS)
 library(lattice)
 library(smashr)
@@ -961,12 +999,12 @@ y.ini.mc &lt;- mcycle$accel[order(mcycle$times)]</code></pre>
 </div>
 <div id="run-smash" class="section level2">
 <h2>Run SMASH</h2>
-<p>Apply SMASH to the Motorcycle Accident data set.</p>
+<p>Apply SMASH to the Motorcycle Acceleration data set.</p>
 <pre class="r"><code>res.mc &lt;- smash.wrapper(x.ini.mc,y.ini.mc)</code></pre>
 </div>
 <div id="summarize-results-of-smash-analysis" class="section level2">
 <h2>Summarize results of SMASH analysis</h2>
-<p>Create a plot showing the Motorcycle Accident data and the smash estimates (with the dashed red lines showing the confidence intervals).</p>
+<p>Create a plot showing the Motorcycle Acceleration data and the smash estimates (with the dashed red lines showing the confidence intervals).</p>
 <pre class="r"><code>plot(res.mc$x,res.mc$mu.est,type = &quot;l&quot;,
      ylim = c(min(res.mc$y - 2 * sqrt(res.mc$var.est)),
               max(res.mc$y + 2 * sqrt(res.mc$var.est))),
@@ -1019,7 +1057,7 @@ Peter Carbonetto
 Zhengrong Xing
 </td>
 <td>
-2019-10-28
+2019-10-27
 </td>
 </tr>
 <tr>
@@ -1040,7 +1078,7 @@ Peter Carbonetto
 </div>
 <div id="smash-homoskedastic-vs.heteroskedastic" class="section level2">
 <h2>SMASH, homoskedastic vs. heteroskedastic</h2>
-<p>Apply SMASH, this time assuming equal variances, to the Motorcycle Accident data set:</p>
+<p>Apply SMASH, this time assuming equal variances, to the Motorcycle Acceleration data set:</p>
 <pre class="r"><code>res.cons.mc &lt;- smash.cons.wrapper(x.ini.mc,y.ini.mc)</code></pre>
 <p>In this second plot, we compare the mean estimate provided by SMASH (with heteroskedastic variances; orange line) against homoskedastic SMASH (dotted, light blue line).</p>
 <pre class="r"><code>plot(res.mc$x,res.mc$mu.est,type = &quot;l&quot;,
@@ -1093,7 +1131,7 @@ Peter Carbonetto
 Zhengrong Xing
 </td>
 <td>
-2019-10-28
+2019-10-27
 </td>
 </tr>
 <tr>
@@ -1124,13 +1162,13 @@ Peter Carbonetto
 </div>
 <p>While the estimates are similar, heteroskedastic SMASH yields a noticeably smoother curve.</p>
 </div>
-<div id="apply-ti-thresholding-to-the-motorcycle-accident-data" class="section level2">
-<h2>Apply TI thresholding to the Motorcycle Accident data</h2>
-<p>Apply TI thresholding to the Motorcycle Accident data set. In this first run, the variance is assumed to be constant.</p>
+<div id="apply-ti-thresholding-to-the-motorcycle-acceleration-data" class="section level2">
+<h2>Apply TI thresholding to the Motorcycle Acceleration data</h2>
+<p>Apply TI thresholding to the Motorcycle Acceleration data set. In this first run, the variance is assumed to be constant.</p>
 <pre class="r"><code>res.ti.cons.mc &lt;- tithresh.cons.wrapper(x.ini.mc,y.ini.mc)</code></pre>
-<p>Apply TI thresholding to the Motorcycle Accident data, this time using the variances estimated using the “median absolute deviation”, or RMAD, method.</p>
+<p>Apply TI thresholding to the Motorcycle Acceleration data, this time using the variances estimated using the “median absolute deviation”, or RMAD, method.</p>
 <pre class="r"><code>res.ti.rmad.mc &lt;- tithresh.rmad.wrapper(x.ini.mc,y.ini.mc)</code></pre>
-<p>Apply TI thresholding to the Motorcycle Accident data, this time using the variances estimated by SMASH.</p>
+<p>Apply TI thresholding to the Motorcycle Acceleration data, this time using the variances estimated by SMASH.</p>
 <pre class="r"><code>res.ti.mc &lt;- tithresh.wrapper(x.ini.mc,y.ini.mc)</code></pre>
 </div>
 <div id="compare-smash-vs.ti-thresholding" class="section level2">
@@ -1189,7 +1227,7 @@ Peter Carbonetto
 Zhengrong Xing
 </td>
 <td>
-2019-10-28
+2019-10-27
 </td>
 </tr>
 <tr>
@@ -1216,13 +1254,13 @@ Peter Carbonetto
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()
-# R version 3.4.3 (2017-11-30)
+# R version 3.6.2 (2019-12-12)
 # Platform: x86_64-apple-darwin15.6.0 (64-bit)
-# Running under: macOS High Sierra 10.13.6
+# Running under: macOS Catalina 10.15.5
 # 
 # Matrix products: default
-# BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-# LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+# BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 # 
 # locale:
 # [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -1231,23 +1269,19 @@ Peter Carbonetto
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] EbayesThresh_1.4-13 wavethresh_4.6.8    smashr_1.2-5       
-# [4] lattice_0.20-35     MASS_7.3-48        
+# [1] EbayesThresh_1.4-12 wavethresh_4.6.8    smashr_1.2-5       
+# [4] lattice_0.20-38     MASS_7.3-51.4      
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.1           compiler_3.4.3       later_0.8.0         
-#  [4] git2r_0.26.1         workflowr_1.5.0.9000 bitops_1.0-6        
-#  [7] iterators_1.0.10     tools_3.4.3          digest_0.6.18       
-# [10] evaluate_0.13        Matrix_1.2-12        foreach_1.4.4       
-# [13] yaml_2.2.0           parallel_3.4.3       xfun_0.7            
-# [16] stringr_1.4.0        knitr_1.23           fs_1.2.7            
-# [19] caTools_1.17.1.2     rprojroot_1.3-2      grid_3.4.3          
-# [22] glue_1.3.1           data.table_1.12.0    R6_2.4.0            
-# [25] rmarkdown_1.17       mixsqp_0.3-6         ashr_2.2-39         
-# [28] magrittr_1.5         whisker_0.3-2        backports_1.1.2     
-# [31] promises_1.0.1       codetools_0.2-15     htmltools_0.3.6     
-# [34] httpuv_1.5.0         stringi_1.4.3        doParallel_1.0.14   
-# [37] pscl_1.5.2           truncnorm_1.0-8      SQUAREM_2017.10-1</code></pre>
+#  [1] Rcpp_1.0.3        knitr_1.26        whisker_0.4       magrittr_1.5     
+#  [5] workflowr_1.6.2   SQUAREM_2017.10-1 R6_2.4.1          rlang_0.4.5      
+#  [9] ashr_2.2-50       stringr_1.4.0     caTools_1.17.1.3  tools_3.6.2      
+# [13] grid_3.6.2        data.table_1.12.8 xfun_0.11         irlba_2.3.3      
+# [17] invgamma_1.1      git2r_0.26.1      htmltools_0.4.0   yaml_2.2.0       
+# [21] digest_0.6.23     rprojroot_1.3-2   mixsqp_0.3-43     Matrix_1.2-18    
+# [25] later_1.0.0       bitops_1.0-6      promises_1.1.0    fs_1.3.1         
+# [29] glue_1.3.1        evaluate_0.14     rmarkdown_2.0     stringi_1.4.3    
+# [33] compiler_3.6.2    backports_1.1.5   truncnorm_1.0-8   httpuv_1.5.2</code></pre>
 </div>
 </div>
 
