@@ -5,7 +5,7 @@ output: workflowr::wflow_html
 ---
 
 This is an illustration of "smoothing via adaptive shrinkage" (SMASH)
-applied to the Motorcycle Accident data. This implements the
+applied to the Motorcycle Acceleration data. This implements the
 "illustrative application" presented in Sec. 5.1 of the manuscript.
 
 ```{r knitr-opts, include=FALSE}
@@ -44,7 +44,7 @@ Set up R environment
 --------------------
 
 Load the MASS, lattice wavethresh, EbayesThresh and smashr
-packages. The MASS package is loaded only for the Motorcycle Accident
+packages. The MASS package is loaded only for the Motorcycle Acceleration
 data. Some additional functions are defined in file
 `motorcycle.functions.R`.
 
@@ -76,7 +76,7 @@ y.ini.mc <- mcycle$accel[order(mcycle$times)]
 Run SMASH
 ---------
 
-Apply SMASH to the Motorcycle Accident data set.
+Apply SMASH to the Motorcycle Acceleration data set.
 
 ```{r run-smash}
 res.mc <- smash.wrapper(x.ini.mc,y.ini.mc)
@@ -85,7 +85,7 @@ res.mc <- smash.wrapper(x.ini.mc,y.ini.mc)
 Summarize results of SMASH analysis
 -----------------------------------
 
-Create a plot showing the Motorcycle Accident data and the smash
+Create a plot showing the Motorcycle Acceleration data and the smash
 estimates (with the dashed red lines showing the confidence
 intervals).
 
@@ -106,7 +106,7 @@ SMASH, homoskedastic vs. heteroskedastic
 ----------------------------------------
 
 Apply SMASH, this time assuming equal variances, to the Motorcycle
-Accident data set:
+Acceleration data set:
 
 ```{r run-smash-homo}
 res.cons.mc <- smash.cons.wrapper(x.ini.mc,y.ini.mc)
@@ -130,17 +130,17 @@ points(res.mc$x,res.mc$y,pch = 1,cex = 0.8,col = "black")
 While the estimates are similar, heteroskedastic SMASH yields a
 noticeably smoother curve.
 
-Apply TI thresholding to the Motorcycle Accident data
+Apply TI thresholding to the Motorcycle Acceleration data
 -----------------------------------------------------
 
-Apply TI thresholding to the Motorcycle Accident data set. In this
+Apply TI thresholding to the Motorcycle Acceleration data set. In this
 first run, the variance is assumed to be constant.
 
 ```{r run-tithresh}
 res.ti.cons.mc <- tithresh.cons.wrapper(x.ini.mc,y.ini.mc)
 ```
 
-Apply TI thresholding to the Motorcycle Accident data, this time using
+Apply TI thresholding to the Motorcycle Acceleration data, this time using
 the variances estimated using the "median absolute deviation", or
 RMAD, method.
 
@@ -148,7 +148,7 @@ RMAD, method.
 res.ti.rmad.mc <- tithresh.rmad.wrapper(x.ini.mc,y.ini.mc)
 ```
 
-Apply TI thresholding to the Motorcycle Accident data, this time using
+Apply TI thresholding to the Motorcycle Acceleration data, this time using
 the variances estimated by SMASH.
 
 ```{r run-tithresh-with-smash-var}
