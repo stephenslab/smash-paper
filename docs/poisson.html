@@ -329,7 +329,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-06-23
+<strong>Last updated:</strong> 2020-06-25
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -420,16 +420,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreebfb662b13a7e20fb6888dc3d9d4251a608fbc645targetblankbfb662ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/bfb662b13a7e20fb6888dc3d9d4251a608fbc645" target="_blank">bfb662b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree24bf5c48803e6699bae2613a3f92ad9457382f8ctargetblank24bf5c4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/24bf5c48803e6699bae2613a3f92ad9457382f8c" target="_blank">24bf5c4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreebfb662b13a7e20fb6888dc3d9d4251a608fbc645targetblankbfb662ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree24bf5c48803e6699bae2613a3f92ad9457382f8ctargetblank24bf5c4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/smash-paper/tree/bfb662b13a7e20fb6888dc3d9d4251a608fbc645" target="_blank">bfb662b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/smash-paper/tree/24bf5c48803e6699bae2613a3f92ad9457382f8c" target="_blank">24bf5c4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -501,6 +501,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/24bf5c48803e6699bae2613a3f92ad9457382f8c/analysis/poisson.Rmd" target="_blank">24bf5c4</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-25
+</td>
+<td>
+Added example run of smash and HF methods to poisson demo.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/poisson.html" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+<td>
+Slight edit to plotting code in “poisson” workflowr analysis.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1594,7 +1628,9 @@ t &lt;- 1:n/n</code></pre>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
 <p>Load the plyr, knitr, kableExtra, ggplot2 and cowplot packages.</p>
-<pre class="r"><code>library(plyr)
+<pre class="r"><code>library(smashr)
+library(haarfisz)
+library(plyr)
 library(knitr)
 library(kableExtra)
 library(ggplot2)
@@ -1613,10 +1649,14 @@ source(&quot;../code/poisson.functions.R&quot;)</code></pre>
 </div>
 <div id="spikes-data" class="section level2">
 <h2>Spikes data</h2>
-<p>This plot shows the function used to simulate the “Spikes” data sets at the <span class="math inline">\((1/100, 3)\)</span> intensity range, along with an example data set (black circles):</p>
-<pre class="r"><code>mu.s &lt;- 0.01 + spike.f(t)
-x &lt;- rpois(n,mu.s)
-p1 &lt;- create.signal.plot(t,x,mu.s)
+<p>This plot shows the function used to simulate the “Spikes” data sets at the <span class="math inline">\((1/100, 3)\)</span> intensity range, along with an example data set (black circles), and example fitted curves produced by the SMASH and Haar-Fisz methods:</p>
+<pre class="r"><code>mu.s      &lt;- 0.01 + spike.f(t)
+x         &lt;- rpois(n,mu.s)
+out.hf    &lt;- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash &lt;- smash.poiss(x,post.var = TRUE)
+p1 &lt;- create.signal.plot(t,x,mu.s) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = &quot;darkorange&quot;) +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = &quot;dodgerblue&quot;)
 print(p1)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-spikes-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
@@ -1641,6 +1681,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-spikes-function-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/00cf92a6ee9b12ba9d4a4cb00bb33985fa5351dd/docs/figure/poisson.Rmd/plot-spikes-function-1.png" target="_blank">00cf92a</a>
@@ -1828,6 +1879,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/spikes-violin-plots-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/187ec0cc26766531f4831847c596959c3632c9a0/docs/figure/poisson.Rmd/spikes-violin-plots-1.png" target="_blank">187ec0c</a>
 </td>
 <td>
@@ -1938,6 +2000,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-angles-function-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/00cf92a6ee9b12ba9d4a4cb00bb33985fa5351dd/docs/figure/poisson.Rmd/plot-angles-function-1.png" target="_blank">00cf92a</a>
@@ -2125,6 +2198,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/angles-violin-plots-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/187ec0cc26766531f4831847c596959c3632c9a0/docs/figure/poisson.Rmd/angles-violin-plots-1.png" target="_blank">187ec0c</a>
 </td>
 <td>
@@ -2235,6 +2319,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-heavisine-function-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/00cf92a6ee9b12ba9d4a4cb00bb33985fa5351dd/docs/figure/poisson.Rmd/plot-heavisine-function-1.png" target="_blank">00cf92a</a>
@@ -2422,6 +2517,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/heavisine-violin-plots-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/187ec0cc26766531f4831847c596959c3632c9a0/docs/figure/poisson.Rmd/heavisine-violin-plots-1.png" target="_blank">187ec0c</a>
 </td>
 <td>
@@ -2521,6 +2627,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-bursts-function-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/ddc42e300f4842f8f6c570ca514e4b9e4e21dbbe/docs/figure/poisson.Rmd/plot-bursts-function-1.png" target="_blank">ddc42e3</a>
@@ -2708,6 +2825,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/bursts-violin-plots-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/187ec0cc26766531f4831847c596959c3632c9a0/docs/figure/poisson.Rmd/bursts-violin-plots-1.png" target="_blank">187ec0c</a>
 </td>
 <td>
@@ -2807,6 +2935,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-cb-function-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/fe1c0ea237c9fd2465f687e5cb369efb267f1f56/docs/figure/poisson.Rmd/plot-cb-function-1.png" target="_blank">fe1c0ea</a>
@@ -3005,6 +3144,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/cb-violin-plots-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/187ec0cc26766531f4831847c596959c3632c9a0/docs/figure/poisson.Rmd/cb-violin-plots-1.png" target="_blank">187ec0c</a>
 </td>
 <td>
@@ -3104,6 +3254,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-bumps-function-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/fe1c0ea237c9fd2465f687e5cb369efb267f1f56/docs/figure/poisson.Rmd/plot-bumps-function-1.png" target="_blank">fe1c0ea</a>
@@ -3302,6 +3463,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/bumps-violin-plots-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/187ec0cc26766531f4831847c596959c3632c9a0/docs/figure/poisson.Rmd/bumps-violin-plots-1.png" target="_blank">187ec0c</a>
 </td>
 <td>
@@ -3461,6 +3633,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/summarize-all-results-1.png" target="_blank">124e2e5</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/stephenslab/smash-paper/blob/b013a9f8cd6bbcba96625d3f4313bd00514f68c6/docs/figure/poisson.Rmd/summarize-all-results-1.png" target="_blank">b013a9f</a>
 </td>
 <td>
@@ -3514,22 +3697,26 @@ Peter Carbonetto
 # 
 # other attached packages:
 # [1] cowplot_1.0.0    ggplot2_3.3.0    kableExtra_1.1.0 knitr_1.26      
-# [5] plyr_1.8.5      
+# [5] plyr_1.8.5       haarfisz_4.5     wavethresh_4.6.8 MASS_7.3-51.4   
+# [9] smashr_1.2-5    
 # 
 # loaded via a namespace (and not attached):
-#  [1] Rcpp_1.0.3        highr_0.8         compiler_3.6.2    pillar_1.4.3     
-#  [5] later_1.0.0       git2r_0.26.1      workflowr_1.6.2   tools_3.6.2      
-#  [9] zeallot_0.1.0     digest_0.6.23     gtable_0.3.0      evaluate_0.14    
-# [13] tibble_2.1.3      lifecycle_0.1.0   viridisLite_0.3.0 pkgconfig_2.0.3  
-# [17] rlang_0.4.5       rstudioapi_0.10   yaml_2.2.0        xfun_0.11        
-# [21] withr_2.1.2       dplyr_0.8.3       stringr_1.4.0     httr_1.4.1       
-# [25] xml2_1.2.2        fs_1.3.1          vctrs_0.2.1       hms_0.5.2        
-# [29] tidyselect_0.2.5  grid_3.6.2        webshot_0.5.2     rprojroot_1.3-2  
-# [33] glue_1.3.1        R6_2.4.1          rmarkdown_2.0     farver_2.0.1     
-# [37] purrr_0.3.3       readr_1.3.1       magrittr_1.5      whisker_0.4      
-# [41] backports_1.1.5   scales_1.1.0      promises_1.1.0    htmltools_0.4.0  
-# [45] assertthat_0.2.1  rvest_0.3.5       colorspace_1.4-1  httpuv_1.5.2     
-# [49] labeling_0.3      stringi_1.4.3     munsell_0.5.0     crayon_1.3.4</code></pre>
+#  [1] Rcpp_1.0.3        invgamma_1.1      lattice_0.20-38   assertthat_0.2.1 
+#  [5] zeallot_0.1.0     rprojroot_1.3-2   digest_0.6.23     truncnorm_1.0-8  
+#  [9] R6_2.4.1          backports_1.1.5   evaluate_0.14     highr_0.8        
+# [13] httr_1.4.1        pillar_1.4.3      rlang_0.4.5       rstudioapi_0.10  
+# [17] data.table_1.12.8 irlba_2.3.3       whisker_0.4       Matrix_1.2-18    
+# [21] rmarkdown_2.0     labeling_0.3      webshot_0.5.2     readr_1.3.1      
+# [25] stringr_1.4.0     munsell_0.5.0     mixsqp_0.3-44     compiler_3.6.2   
+# [29] httpuv_1.5.2      xfun_0.11         pkgconfig_2.0.3   SQUAREM_2017.10-1
+# [33] htmltools_0.4.0   tidyselect_0.2.5  tibble_2.1.3      workflowr_1.6.2  
+# [37] viridisLite_0.3.0 crayon_1.3.4      dplyr_0.8.3       withr_2.1.2      
+# [41] later_1.0.0       bitops_1.0-6      grid_3.6.2        gtable_0.3.0     
+# [45] lifecycle_0.1.0   git2r_0.26.1      magrittr_1.5      scales_1.1.0     
+# [49] stringi_1.4.3     farver_2.0.1      fs_1.3.1          promises_1.1.0   
+# [53] xml2_1.2.2        vctrs_0.2.1       tools_3.6.2       glue_1.3.1       
+# [57] purrr_0.3.3       hms_0.5.2         yaml_2.2.0        colorspace_1.4-1 
+# [61] ashr_2.2-50       caTools_1.17.1.3  rvest_0.3.5</code></pre>
 </div>
 </div>
 
