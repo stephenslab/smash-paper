@@ -420,16 +420,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree24bf5c48803e6699bae2613a3f92ad9457382f8ctargetblank24bf5c4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/24bf5c48803e6699bae2613a3f92ad9457382f8c" target="_blank">24bf5c4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree6fd9dd84dc6ab2ffc6499db06296a77865f79e41targetblank6fd9dd8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/6fd9dd84dc6ab2ffc6499db06296a77865f79e41" target="_blank">6fd9dd8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree24bf5c48803e6699bae2613a3f92ad9457382f8ctargetblank24bf5c4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree6fd9dd84dc6ab2ffc6499db06296a77865f79e41targetblank6fd9dd8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/stephenslab/smash-paper/tree/24bf5c48803e6699bae2613a3f92ad9457382f8c" target="_blank">24bf5c4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/smash-paper/tree/6fd9dd84dc6ab2ffc6499db06296a77865f79e41" target="_blank">6fd9dd8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -501,6 +501,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/6fd9dd84dc6ab2ffc6499db06296a77865f79e41/analysis/poisson.Rmd" target="_blank">6fd9dd8</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-25
+</td>
+<td>
+wflow_publish(“poisson.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/a40b191956acf03efa2dfd8afabd70b4f6445c0d/docs/poisson.html" target="_blank">a40b191</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-25
+</td>
+<td>
+Added fitted curves to Spikes plot in poisson demo.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1649,7 +1683,7 @@ source(&quot;../code/poisson.functions.R&quot;)</code></pre>
 </div>
 <div id="spikes-data" class="section level2">
 <h2>Spikes data</h2>
-<p>This plot shows the function used to simulate the “Spikes” data sets at the <span class="math inline">\((1/100, 3)\)</span> intensity range, along with an example data set (black circles), and example fitted curves produced by the SMASH and Haar-Fisz methods:</p>
+<p>This plot shows the function used to simulate the “Spikes” data sets at the <span class="math inline">\((1/100, 3)\)</span> intensity range. We also show an example data set simulated from the Spikes intensity function (black circles), and the fitted curves obtained by applying SMASH (orange) and the Haar-Fisz method (light blue) to these data:</p>
 <pre class="r"><code>mu.s      &lt;- 0.01 + spike.f(t)
 x         &lt;- rpois(n,mu.s)
 out.hf    &lt;- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
@@ -1681,6 +1715,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a40b191956acf03efa2dfd8afabd70b4f6445c0d/docs/figure/poisson.Rmd/plot-spikes-function-1.png" target="_blank">a40b191</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-spikes-function-1.png" target="_blank">124e2e5</a>
@@ -1972,10 +2017,14 @@ Peter Carbonetto
 </div>
 <div id="angles-data" class="section level2">
 <h2>Angles data</h2>
-<p>This is the function used to simulate the “Angles” data sets at different ranges of intensities:</p>
-<pre class="r"><code>mu.ang &lt;- 0.01 + angles.f(t)
-x &lt;- rpois(n,mu.ang)
-p2 &lt;- create.signal.plot(t,x,mu.ang)
+<p>This is the function used to simulate the “Angles” data sets at different ranges of intensities. We also show an example data set simulated from the Angles intensity function (black circles), and the fitted curves obtained by applying SMASH (orange) and the Haar-Fisz method (light blue) to these data:</p>
+<pre class="r"><code>mu.ang    &lt;- 0.01 + angles.f(t)
+x         &lt;- rpois(n,mu.ang)
+out.hf    &lt;- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash &lt;- smash.poiss(x,post.var = TRUE)
+p2 &lt;- create.signal.plot(t,x,mu.ang) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = &quot;darkorange&quot;) +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = &quot;dodgerblue&quot;)
 print(p2)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-angles-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
@@ -2000,6 +2049,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a40b191956acf03efa2dfd8afabd70b4f6445c0d/docs/figure/poisson.Rmd/plot-angles-function-1.png" target="_blank">a40b191</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-angles-function-1.png" target="_blank">124e2e5</a>
@@ -2291,10 +2351,14 @@ Peter Carbonetto
 </div>
 <div id="heavisine-data" class="section level2">
 <h2>Heavisine data</h2>
-<p>This is the function used to simulate the “Heavisine” data sets at different ranges of intensities:</p>
-<pre class="r"><code>mu.hs &lt;- 0.01 + heavi.f(t)
-x &lt;- rpois(n,mu.hs)
-p3 &lt;- create.signal.plot(t,x,mu.hs)
+<p>This is the function used to simulate the “Heavisine” data sets at different ranges of intensities. We also show an example data set simulated from the Heavisine intensity function (black circles), and the fitted curves obtained by applying SMASH (orange) and the Haar-Fisz method (light blue) to these data:</p>
+<pre class="r"><code>mu.hs     &lt;- 0.01 + heavi.f(t)
+x         &lt;- rpois(n,mu.hs)
+out.hf    &lt;- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash &lt;- smash.poiss(x,post.var = TRUE)
+p3 &lt;- create.signal.plot(t,x,mu.hs) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = &quot;darkorange&quot;) +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = &quot;dodgerblue&quot;)
 print(p3)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-heavisine-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
@@ -2319,6 +2383,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a40b191956acf03efa2dfd8afabd70b4f6445c0d/docs/figure/poisson.Rmd/plot-heavisine-function-1.png" target="_blank">a40b191</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-heavisine-function-1.png" target="_blank">124e2e5</a>
@@ -2599,10 +2674,14 @@ Peter Carbonetto
 </div>
 <div id="bursts-data" class="section level2">
 <h2>Bursts data</h2>
-<p>This is the function used to simulate the “Bursts” data sets at different ranges of intensities:</p>
-<pre class="r"><code>mu.bur &lt;- 0.01 + bursts.f(t)
-x &lt;- rpois(n,mu.bur)
-p4 &lt;- create.signal.plot(t,x,mu.bur)
+<p>This is the function used to simulate the “Bursts” data sets at different ranges of intensities. We also show an example data set simulated from the Bursts intensity function (black circles), and the fitted curves obtained by applying SMASH (orange) and the Haar-Fisz method (light blue) to these data:</p>
+<pre class="r"><code>mu.bur    &lt;- 0.01 + bursts.f(t)
+x         &lt;- rpois(n,mu.bur)
+out.hf    &lt;- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash &lt;- smash.poiss(x,post.var = TRUE)
+p4 &lt;- create.signal.plot(t,x,mu.bur) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = &quot;darkorange&quot;) +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = &quot;dodgerblue&quot;)
 print(p4)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-bursts-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
@@ -2627,6 +2706,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a40b191956acf03efa2dfd8afabd70b4f6445c0d/docs/figure/poisson.Rmd/plot-bursts-function-1.png" target="_blank">a40b191</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-bursts-function-1.png" target="_blank">124e2e5</a>
@@ -2907,10 +2997,14 @@ Peter Carbonetto
 </div>
 <div id="clipped-blocks-data" class="section level2">
 <h2>Clipped Blocks data</h2>
-<p>This is the function used to simulate the “Clipped Blocks” data sets at different ranges of intensities:</p>
-<pre class="r"><code>mu.cb &lt;- 0.01 + cblocks.f(t)
-x &lt;- rpois(n,mu.cb)
-p5 &lt;- create.signal.plot(t,x,mu.cb)
+<p>This is the function used to simulate the “Clipped Blocks” data sets at different ranges of intensities. We also show an example data set simulated from the Clipped Blocks intensity function (black circles), and the fitted curves obtained by applying SMASH (orange) and the Haar-Fisz method (light blue) to these data:</p>
+<pre class="r"><code>mu.cb     &lt;- 0.01 + cblocks.f(t)
+x         &lt;- rpois(n,mu.cb)
+out.hf    &lt;- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash &lt;- smash.poiss(x,post.var = TRUE)
+p5 &lt;- create.signal.plot(t,x,mu.cb) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = &quot;darkorange&quot;) +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = &quot;dodgerblue&quot;)
 print(p5)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-cb-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
@@ -2935,6 +3029,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a40b191956acf03efa2dfd8afabd70b4f6445c0d/docs/figure/poisson.Rmd/plot-cb-function-1.png" target="_blank">a40b191</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-cb-function-1.png" target="_blank">124e2e5</a>
@@ -3226,10 +3331,14 @@ Peter Carbonetto
 </div>
 <div id="bumps-data" class="section level2">
 <h2>Bumps data</h2>
-<p>This is the function used to simulate the “Bumps” data sets at different ranges of intensities:</p>
-<pre class="r"><code>mu.b &lt;- 0.01 + bumps.f(t)
-x &lt;- rpois(n,mu.b)
-p6 &lt;- create.signal.plot(t,x,mu.b)
+<p>This is the function used to simulate the “Bumps” data sets at different ranges of intensities. We also show an example data set simulated from the Bumps intensity function (black circles), and the fitted curves obtained by applying SMASH (orange) and the Haar-Fisz method (light blue) to these data:</p>
+<pre class="r"><code>mu.b      &lt;- 0.01 + bumps.f(t)
+x         &lt;- rpois(n,mu.b)
+out.hf    &lt;- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash &lt;- smash.poiss(x,post.var = TRUE)
+p6 &lt;- create.signal.plot(t,x,mu.b) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = &quot;darkorange&quot;) +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = &quot;dodgerblue&quot;)
 print(p6)</code></pre>
 <p><img src="figure/poisson.Rmd/plot-bumps-function-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
@@ -3254,6 +3363,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/a40b191956acf03efa2dfd8afabd70b4f6445c0d/docs/figure/poisson.Rmd/plot-bumps-function-1.png" target="_blank">a40b191</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2020-06-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/stephenslab/smash-paper/blob/124e2e520a4e35640d01dbdad53bc6d949036c4a/docs/figure/poisson.Rmd/plot-bumps-function-1.png" target="_blank">124e2e5</a>
