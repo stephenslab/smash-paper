@@ -55,6 +55,8 @@ Set up environment
 Load the plyr, knitr, kableExtra, ggplot2 and cowplot packages.
 
 ```{r load-pkgs, message=FALSE, warning=FALSE}
+library(smashr)
+library(haarfisz)
 library(plyr)
 library(knitr)
 library(kableExtra)
@@ -91,12 +93,17 @@ Spikes data
 
 This plot shows the function used to simulate the "Spikes" data sets
 at the $(1/100, 3)$ intensity range, along with an example data set
-(black circles):
+(black circles), and example fitted curves produced by the SMASH and
+Haar-Fisz methods:
 
 ```{r plot-spikes-function, fig.height=2.5, fig.width=8}
-mu.s <- 0.01 + spike.f(t)
-x <- rpois(n,mu.s)
-p1 <- create.signal.plot(t,x,mu.s)
+mu.s      <- 0.01 + spike.f(t)
+x         <- rpois(n,mu.s)
+out.hf    <- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash <- smash.poiss(x,post.var = TRUE)
+p1 <- create.signal.plot(t,x,mu.s) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = "darkorange") +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = "dodgerblue")
 print(p1)
 ```
 

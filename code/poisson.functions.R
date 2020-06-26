@@ -1,11 +1,24 @@
 # This file defines some functions used by the "poisson" analysis.
 
+# This is the Gaussian denoising routine used in the Haar-Fisz method;
+# this specifies the "meth.1" argument in the call to "denoise.poisson"
+# from the haarfisz package.
+hf.la10.ti4 <- function (x) {
+  TT      <- length(x)
+  thresh  <- sqrt(2*log(TT))
+  x.w     <- wd(x,10,"DaubLeAsymm",type = "station")
+  x.w.t   <- threshold(x.w,levels = 4:(x.w$nlevels-1),policy = "manual",
+                       value = thresh,type = "hard")
+  x.w.t.r <- AvBasis(convert(x.w.t))
+  return(x.w.t.r)
+}
+
 # Create a plot showing the test function (mu) and an example data set
 # simulated using that test function (x).
 create.signal.plot <- function (t, x, mu)
   ggplot(data.frame(x = t,y = x),aes_string(x = "x",y = "y")) +
-    geom_point(color = "black",shape = 1) +
-    geom_line(dat = data.frame(x = t,y = mu),color = "darkorange",size = 1) +
+    geom_point(color = "gray",shape = 1) +
+    geom_line(dat = data.frame(x = t,y = mu),color = "black",size = 1) +
     labs(x = "",y = "")
 
 # This function is used to create the tables in the "poisson"
