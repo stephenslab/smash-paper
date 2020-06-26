@@ -92,9 +92,10 @@ Spikes data
 -----------
 
 This plot shows the function used to simulate the "Spikes" data sets
-at the $(1/100, 3)$ intensity range, along with an example data set
-(black circles), and example fitted curves produced by the SMASH and
-Haar-Fisz methods:
+at the $(1/100, 3)$ intensity range. We also show an example data set
+simulated from the Spikes intensity function (black circles), and the
+fitted curves obtained by applying SMASH (orange) and the Haar-Fisz
+method (light blue) to these data:
 
 ```{r plot-spikes-function, fig.height=2.5, fig.width=8}
 mu.s      <- 0.01 + spike.f(t)
@@ -153,12 +154,19 @@ Angles data
 -----------
 
 This is the function used to simulate the "Angles" data sets at
-different ranges of intensities:
+different ranges of intensities. We also show an example data set
+simulated from the Angles intensity function (black circles), and the
+fitted curves obtained by applying SMASH (orange) and the Haar-Fisz
+method (light blue) to these data:
 
 ```{r plot-angles-function, fig.height=2.5, fig.width=8}
-mu.ang <- 0.01 + angles.f(t)
-x <- rpois(n,mu.ang)
-p2 <- create.signal.plot(t,x,mu.ang)
+mu.ang    <- 0.01 + angles.f(t)
+x         <- rpois(n,mu.ang)
+out.hf    <- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash <- smash.poiss(x,post.var = TRUE)
+p2 <- create.signal.plot(t,x,mu.ang) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = "darkorange") +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = "dodgerblue")
 print(p2)
 ```
 
@@ -208,12 +216,19 @@ Heavisine data
 --------------
 
 This is the function used to simulate the "Heavisine" data sets at
-different ranges of intensities:
+different ranges of intensities. We also show an example data set
+simulated from the Heavisine intensity function (black circles), and
+the fitted curves obtained by applying SMASH (orange) and the
+Haar-Fisz method (light blue) to these data:
 
 ```{r plot-heavisine-function, fig.height=2.5, fig.width=8}
-mu.hs <- 0.01 + heavi.f(t)
-x <- rpois(n,mu.hs)
-p3 <- create.signal.plot(t,x,mu.hs)
+mu.hs     <- 0.01 + heavi.f(t)
+x         <- rpois(n,mu.hs)
+out.hf    <- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash <- smash.poiss(x,post.var = TRUE)
+p3 <- create.signal.plot(t,x,mu.hs) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = "darkorange") +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = "dodgerblue")
 print(p3)
 ```
 
@@ -263,12 +278,19 @@ Bursts data
 -----------
 
 This is the function used to simulate the "Bursts" data sets at
-different ranges of intensities:
+different ranges of intensities. We also show an example data set
+simulated from the Bursts intensity function (black circles), and the
+fitted curves obtained by applying SMASH (orange) and the Haar-Fisz
+method (light blue) to these data:
 
 ```{r plot-bursts-function, fig.height=2.5, fig.width=8}
-mu.bur <- 0.01 + bursts.f(t)
-x <- rpois(n,mu.bur)
-p4 <- create.signal.plot(t,x,mu.bur)
+mu.bur    <- 0.01 + bursts.f(t)
+x         <- rpois(n,mu.bur)
+out.hf    <- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash <- smash.poiss(x,post.var = TRUE)
+p4 <- create.signal.plot(t,x,mu.bur) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = "darkorange") +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = "dodgerblue")
 print(p4)
 ```
 
@@ -317,13 +339,20 @@ create.violin.plots(pdat.bur1,pdat.bur8,pdat.bur128)
 Clipped Blocks data
 -------------------
 
-This is the function used to simulate the "Clipped Blocks" data sets at
-different ranges of intensities:
+This is the function used to simulate the "Clipped Blocks" data sets
+at different ranges of intensities. We also show an example data set
+simulated from the Clipped Blocks intensity function (black circles),
+and the fitted curves obtained by applying SMASH (orange) and the
+Haar-Fisz method (light blue) to these data:
 
 ```{r plot-cb-function, fig.height=2.5, fig.width=8}
-mu.cb <- 0.01 + cblocks.f(t)
-x <- rpois(n,mu.cb)
-p5 <- create.signal.plot(t,x,mu.cb)
+mu.cb     <- 0.01 + cblocks.f(t)
+x         <- rpois(n,mu.cb)
+out.hf    <- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash <- smash.poiss(x,post.var = TRUE)
+p5 <- create.signal.plot(t,x,mu.cb) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = "darkorange") +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = "dodgerblue")
 print(p5)
 ```
 
@@ -373,12 +402,19 @@ Bumps data
 ----------
 
 This is the function used to simulate the "Bumps" data sets at
-different ranges of intensities:
+different ranges of intensities. We also show an example data set
+simulated from the Bumps intensity function (black circles), and the
+fitted curves obtained by applying SMASH (orange) and the Haar-Fisz
+method (light blue) to these data:
 
 ```{r plot-bumps-function, fig.height=2.5, fig.width=8}
-mu.b <- 0.01 + bumps.f(t)
-x <- rpois(n,mu.b)
-p6 <- create.signal.plot(t,x,mu.b)
+mu.b      <- 0.01 + bumps.f(t)
+x         <- rpois(n,mu.b)
+out.hf    <- denoise.poisson(x,meth.1 = hf.la10.ti4,cs.1 = 50,hybrid = FALSE)
+out.smash <- smash.poiss(x,post.var = TRUE)
+p6 <- create.signal.plot(t,x,mu.b) +
+  geom_line(dat = data.frame(x = t,y = out.smash$est),col = "darkorange") +
+  geom_line(dat = data.frame(x = t,y = out.hf),col = "dodgerblue")
 print(p6)
 ```
 	 
