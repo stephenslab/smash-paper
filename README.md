@@ -2,7 +2,7 @@
 
 This repository contains source code and data accompanying our manuscript,
 
-> Zhengrong Xing, Peter Carbonetto and Matthew Stephens (2019).
+> Zhengrong Xing, Peter Carbonetto and Matthew Stephens (2020).
 > *Flexible signal denoising via flexible empirical Bayes shrinkage.*
 > [arXiv:1605.07787][smash-preprint].
 
