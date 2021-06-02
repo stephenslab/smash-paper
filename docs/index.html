@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -23,6 +22,14 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -232,6 +239,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -290,13 +298,6 @@ div.section {
 }
 </style>
 
-<!-- Add a small amount of space between sections. -->
-<style type="text/css">
-div.section {
-  padding-top: 12px;
-}
-</style>
-
 <div class="fluid-row" id="header">
 
 
@@ -326,7 +327,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-11-12
+<strong>Last updated:</strong> 2021-06-02
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -336,7 +337,7 @@ div.section {
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.5.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2.9000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -357,13 +358,19 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree35a397ae8ecf07cf8a5b0da3d165ad6729cd39b8targetblank35a397aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/35a397ae8ecf07cf8a5b0da3d165ad6729cd39b8" target="_blank">35a397a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee4a64e07006a0108c076d1dc4e50464349262173targetblanke4a64e0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/stephenslab/smash-paper/tree/e4a64e07006a0108c076d1dc4e50464349262173" target="_blank">e4a64e0</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertree35a397ae8ecf07cf8a5b0da3d165ad6729cd39b8targetblank35a397aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomstephenslabsmashpapertreee4a64e07006a0108c076d1dc4e50464349262173targetblanke4a64e0a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/stephenslab/smash-paper/tree/e4a64e07006a0108c076d1dc4e50464349262173" target="_blank">e4a64e0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
@@ -395,8 +402,9 @@ Ignored files:
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_ii.mexmac
     Ignored:    dsc/code/Wavelab850/MEXSource/dst_iii.mexmac
 
-Untracked files:
-    Untracked:  files.txt
+Unstaged changes:
+    Modified:   LICENSE
+    Modified:   README.md
 
 </code></pre>
 <p>
@@ -411,7 +419,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML (<code>docs/index.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -435,6 +443,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/stephenslab/smash-paper/blob/e4a64e07006a0108c076d1dc4e50464349262173/analysis/index.Rmd" target="_blank">e4a64e0</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2021-06-02
+</td>
+<td>
+workflowr::wflow_publish(“index.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/stephenslab/smash-paper/9e6958acd1195b220eca326ea2267f65bb7f807a/docs/index.html" target="_blank">9e6958a</a>
+</td>
+<td>
+Peter Carbonetto
+</td>
+<td>
+2019-11-12
+</td>
+<td>
+Re-built home page with workflowr 1.5.0.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1379,13 +1421,13 @@ Start workflowr project with wflow_start().
 </div>
 <p>This repository contains data and R source code accompanying our manuscript,</p>
 <blockquote>
-<p>Zhengrong Xing, Peter Carbonetto and Matthew Stephens (2019). <em>Flexible signal denoising via flexible empirical Bayes shrinkage.</em> <a href="https://arxiv.org/abs/1605.07787">arXiv:1605.07787</a>.</p>
+<p>Zhengrong Xing, Peter Carbonetto and Matthew Stephens (2020). <em>Flexible signal denoising via flexible empirical Bayes shrinkage.</em> <a href="https://arxiv.org/abs/1605.07787">arXiv:1605.07787</a>.</p>
 </blockquote>
 <p>If you find any of the source code in this repository useful for your work, please cite our paper.</p>
 <p>The new methods can be found in the <a href="https://github.com/stephenslab/smashr">smashr package</a>.</p>
 <div id="contents" class="section level2">
 <h2>Contents</h2>
-<p>The following analyses generate some of the empirical results presented in <a href="https://arxiv.org/abs/1605.07787">Xing, Carbonetto &amp; Stephens (2019)</a>. If you encounter a problem running any of the R code in these examples, please post an <a href="https://github.com/stephenslab/smash-paper/issues">issue</a>.</p>
+<p>The following analyses generate some of the empirical results presented in <a href="https://arxiv.org/abs/1605.07787">Xing, Carbonetto &amp; Stephens (2020)</a>. If you encounter a problem running any of the R code in these examples, please post an <a href="https://github.com/stephenslab/smash-paper/issues">issue</a>.</p>
 <div id="illustration" class="section level3">
 <h3>Illustration</h3>
 <ul>
@@ -1432,7 +1474,7 @@ Start workflowr project with wflow_start().
 </div>
 <div id="license" class="section level2">
 <h2>License</h2>
-<p>Copyright (c) 2016-2019, Zhengrong Xing, Peter Carbonetto &amp; Matthew Stephens.</p>
+<p>Copyright (c) 2016-2021, Zhengrong Xing, Peter Carbonetto &amp; Matthew Stephens.</p>
 <p>Our numerical comparisons make use of some of the functions from <a href="http://statweb.stanford.edu/~wavelab">WaveLab</a>, so we have included the WaveLab source code in this repository. See the <code>COPYING.m</code> Wavelab850 subdirectory for more information about distributing WaveLab.</p>
 <p>Our numerical comparisons also use of some functions from <a href="http://www-ljk.imag.fr/SMS/software/GaussianWaveDen/down.html">GaussianWaveDen</a>, so we have included the GaussianWaveDen source in this repository. For information about distributing GaussianWaveDen, see the <code>copyright.m</code> in the WavDen subdirectory. Note that we made one small improvement to the code in <code>blockJS.m</code> to prevent an error that occurs when running the code in newer versions of MATLAB.</p>
 <p>All other source code and software in this repository are made available under the terms of the <a href="https://opensource.org/licenses/mit-license.html">MIT license</a>. See the <code>LICENSE</code> file in the git repository for the full text of the license.</p>
