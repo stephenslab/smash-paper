@@ -9,9 +9,9 @@ output:
 This repository contains data and R source code accompanying our
 manuscript,
 
-> Zhengrong Xing, Peter Carbonetto and Matthew Stephens (2020).
-> *Flexible signal denoising via flexible empirical Bayes shrinkage.*
-> [arXiv:1605.07787][smash-preprint].
+> Zhengrong Xing, Peter Carbonetto and Matthew Stephens (2021).
+> [Flexible signal denoising via flexible empirical Bayes shrinkage.][smash-jmlr]
+> *Journal of Machine Learning Research* 22(93), 1-28.
 
 If you find any of the source code in this repository useful for your
 work, please cite our paper.
@@ -118,7 +118,7 @@ University of Chicago, with support and contributions from
 
 [smash-github]: https://github.com/stephenslab/smash-paper
 [smashr]: https://github.com/stephenslab/smashr
-[smash-preprint]: https://arxiv.org/abs/1605.07787
+[smash-jmlr]: https://jmlr.org/papers/v22/19-042.html
 [issues]: https://github.com/stephenslab/smash-paper/issues
 [mit-license]: https://opensource.org/licenses/mit-license.html
 [wavelab]: http://statweb.stanford.edu/~wavelab
