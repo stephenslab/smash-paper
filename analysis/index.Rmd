@@ -21,7 +21,7 @@ The new methods can be found in the [smashr package][smashr].
 ## Contents
 
 The following analyses generate some of the empirical results
-presented in [Xing, Carbonetto & Stephens (2020)][smash-preprint]. If
+presented in [Xing, Carbonetto & Stephens (2020)][smash-jmlr]. If
 you encounter a problem running any of the R code in these examples,
 please post an [issue][issues].
 
